@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>MANAGED DATA</title>
+ <link href="http://nielsberglund.com/atom.xml" rel="self"/>
+ <link href="http://nielsberglund.com/"/>
+ <updated>2016-12-27T10:12:04+02:00</updated>
+ <id>http://nielsberglund.com</id>
+ <author>
+   <name>Niels Berglund</name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>SQL Saturday Presentations</title>
+   <link href="http://nielsberglund.com/2013/10/29/sql-saturday-presentations/"/>
+   <updated>2013-10-29T20:13:56+02:00</updated>
+   <id>http://nielsberglund.com/2013/10/29/sql-saturday-presentations</id>
+   <content type="html">&lt;p&gt;The two first weekends in August I were in Cape Town and Johannesburg respectively presenting at &lt;strong&gt;SQL Saturday&lt;/strong&gt; events. I had a great time, and the audience were terrific. My employer &lt;a href=&quot;/derivco&quot;&gt;&lt;strong&gt;Derivco&lt;/strong&gt;&lt;/a&gt; graciously gave me some &quot;swag&quot; to hand out, and that went down a treat. Thanks Derivco!!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;After the events some people have emailed me and asked for the presentations, so I thought I'd upload them to &lt;a href=&quot;http://www.slideshare.net/nielsb_11/&quot;&gt;&lt;strong&gt;SlideShare&lt;/strong&gt;&lt;/a&gt;, so anyone that are interested can get to them. Seeing that I recently switched to a new &lt;a href=&quot;/2013/10/02/moving-to-a-new-blog-engine/&quot;&gt;blog platform&lt;/a&gt;, &lt;a href=&quot;http://octopress.org/&quot;&gt;&lt;strong&gt;Octopress&lt;/strong&gt;&lt;/a&gt;, and I a couple of days ago came across a &lt;strong&gt;SlideShare&lt;/strong&gt; plugin for Octopress - I decided to test it out by posting the presentations here on my blog.&lt;/p&gt;
+
+&lt;p&gt;The two presentations I did were based about the &quot;weird/wonderful (or not so wonderful)&quot; things we have experienced at Derivco in our live production environments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SQL Real World Error Handling&lt;/strong&gt; - Gotcha's when doing error-handling in SQL Server&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Message Queues in SQL Server&lt;/strong&gt; - Enhance performance by using queues in SQL Server&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Real World Error Handling&lt;/h2&gt;
+
+&lt;p&gt;This presentation talks about strange scenarios that can catch unaware developers out when mixing the new way of handling errors introduced in SQL Server 2005, with what we used to do before:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;New Style SQL Server Error Handling&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some stuff that may cause an error&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--handle error, and perhaps re-raise&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Old Style SQL Server Error Handling&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Some_Proc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ERROR&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--do error &quot;stuff&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;The actual presentation:&lt;/p&gt;
+
+&lt;iframe src=&quot;http://www.slideshare.net/slideshow/embed_code/27662106 &quot; width=&quot;595&quot; height=&quot;446&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2&gt;Message Queues in SQL Server&lt;/h2&gt;
+
+&lt;p&gt;Here I discussed the findings from research at Derivco about the most efficient implementations of queues inside SQL Server.&lt;/p&gt;
+
+&lt;iframe src=&quot;http://www.slideshare.net/slideshow/embed_code/27662272 &quot; width=&quot;595&quot; height=&quot;446&quot; frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;If anyone are interested in discussing this more, please post a comment.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Installing Octopress on Windows</title>
+   <link href="http://nielsberglund.com/2013/10/23/install-octopress-on-windows/"/>
+   <updated>2013-10-23T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2013/10/23/install-octopress-on-windows</id>
+   <content type="html">&lt;p&gt;In an earlier &lt;a href=&quot;/2013/10/02/moving-to-a-new-blog-engine/&quot;&gt;post&lt;/a&gt;, I wrote how I had changed blog-engine from WordPress to &lt;a href=&quot;http://octopress.org/&quot;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt;. At the moment I am running Windows as my main OS (mostly due to work related requirements), and - as OctoPress is very much Ruby and Python based - there are certain things to be aware of when installing this on Windows. Furthermore, my blog is now hosted on &lt;strong&gt;Windows Azure&lt;/strong&gt; - so, with all this in mind, I thought I'd put together a blog post about the set-up of OctoPress on Windows, running on Windows Azure.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Pre-Reqs&lt;/h2&gt;
+
+&lt;p&gt;Before you begin the installation there are some pre-req's:&lt;/p&gt;
+
+&lt;h3&gt;Git and GitHub&lt;/h3&gt;
+
+&lt;p&gt;Octopress is a developers blog engine, and central to everything Octopress is &lt;strong&gt;Git&lt;/strong&gt;. Make sure you have the latest version of &lt;a href=&quot;http://git-scm.com/&quot;&gt;Git&lt;/a&gt; for Windows installed. You also need a &lt;strong&gt;GitHub&lt;/strong&gt; account, so if you don't have a GitHub account, you should &lt;a href=&quot;https://github.com/&quot;&gt;sign up&lt;/a&gt; for one. While you probably will do most of the Octopress Git and GitHub related tasks from command-line, it will not hurt to have the &lt;a href=&quot;http://windows.github.com/&quot;&gt;GitHub for Windows UI application&lt;/a&gt; installed as well.&lt;/p&gt;
+
+&lt;h3&gt;Ruby&lt;/h3&gt;
+
+&lt;p&gt;Octopress is built on Ruby, and when you eventually create blog-posts you will execute Ruby commands, so you need to install &lt;a href=&quot;http://rubyinstaller.org/&quot;&gt;Ruby&lt;/a&gt; and the Ruby Development Kit. Octopress seems somewhat &quot;picky&quot; about what Ruby version to use, personally I am running version 1.9.3-p448, and it works fine.&lt;/p&gt;
+
+&lt;p&gt;You also need to install the Ruby Development Kit (DevKit) so you can use some of the native C/C++ extensions. Which version to download is dependent on the Ruby version, but I am running 4.5.2, &lt;a href=&quot;https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe&quot;&gt;DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After you have downloaded and installed both Ruby as well as the DevKit, you need to run two installation scripts for the DevKit:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;change to the directory where the devkit is installed, and run: &lt;code&gt;ruby dk.rb init&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;then - still in the same directory - run &lt;code&gt;ruby dk.rb install&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;For more information about the installation of Ruby and the DevKit, GitHub has a great &lt;a href=&quot;https://github.com/oneclick/rubyinstaller/wiki/Development-Kit&quot;&gt;wiki page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Python&lt;/h3&gt;
+
+&lt;p&gt;In addition to Ruby you need Python (this mostly for syntax highlighting). When installing Python, the version is &lt;strong&gt;very&lt;/strong&gt; important. Download and install Python 2.7 from &lt;a href=&quot;http://www.python.org/download/releases/2.7.5/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Having installed all the above you should now be set for the actual installation of Octopress!!&lt;/p&gt;
+
+&lt;h2&gt;Install Octopress&lt;/h2&gt;
+
+&lt;p&gt;To install Octopress you need to clone the &quot;original&quot; Octopress repo from GitHub. From command-line you &lt;code&gt;cd&lt;/code&gt; to the directory where you want clone the Octopress repo into, alternatively you create a directory for this and &lt;code&gt;cd&lt;/code&gt; into it.&lt;/p&gt;
+
+&lt;p&gt;In the code below the assumption is that the directory exists and it is named &lt;strong&gt;MyGitHubRepos&lt;/strong&gt;. As you can see from the code, after you have changed into that directory you &lt;code&gt;clone&lt;/code&gt; the original Octopress directory into a new directory with a name of your choice. In the example below, the name is &lt;code&gt;myoctopressblog&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ cd MyGitHubRepos
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ git clone git://github.com/imathis/octopress.git myoctopressblog&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;After having cloned the original GitHub repo, you need to install a Ruby bundler. The Bundler maintains a consistent environment for Ruby applications, and you install it into the directory you cloned Octopress into (in the case above: myoctopressblog). BTW, &lt;code&gt;gem&lt;/code&gt; is like a package installer:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ cd .\myoctopressblog
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ gem install bundler
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ bundle install&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;By now your blog is almost 100% complete. What remains is an Octopress theme. For the initial setup, the default theme will do. To install this you run the equivalent of a &lt;code&gt;MAKE&lt;/code&gt; file, a &lt;code&gt;rake&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ rake install&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Congratulations&lt;/strong&gt; you now have an Octopress blog!! If you are curious what it looks like you can now run &lt;code&gt;rake&lt;/code&gt; commands to generate and preview the blog pages:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ rake generate
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ rake preview&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;After you have executed the &lt;code&gt;rake preview&lt;/code&gt; command you can browse to &lt;code&gt;localhost:4000&lt;/code&gt; and see the blog in all its glory. If you did browse to &lt;code&gt;localhost:4000&lt;/code&gt;, you can see that you have a very basic blog. By now you definitely want to configure the blog, and maybe also write - at least - a &lt;strong&gt;Hello World&lt;/strong&gt; post.&lt;/p&gt;
+
+&lt;h2&gt;Configuring Octopress and writing an initial post&lt;/h2&gt;
+
+&lt;p&gt;The official &lt;a href=&quot;http://octopress.org/&quot;&gt;Octopress&lt;/a&gt; site has very good &lt;a href=&quot;http://octopress.org/docs/&quot;&gt;documentation&lt;/a&gt; about all things Octopress. So, instead of me re-iterating everything about configuration and using Octopress for blogging, I rather point to the official documentation for &lt;a href=&quot;http://octopress.org/docs/configuring/&quot;&gt;configuration&lt;/a&gt; and basics about &lt;a href=&quot;http://octopress.org/docs/blogging/&quot;&gt;blogging&lt;/a&gt; with Octopress.&lt;/p&gt;
+
+&lt;p&gt;Right, by now you should have  fairly good idea how to use Octopress - it's awesome, right?! But ... hang on a second, we are missing something - right; as awesome it is, the blog is still only on your local machine. So what do we do if we want to host the blog somewhere out on the interwebz?&lt;/p&gt;
+
+&lt;h2&gt;Deploying Octopress&lt;/h2&gt;
+
+&lt;p&gt;In order to get a fully functional blog, we need to host it somewhere, and with Octopress there are some nice and easy ways to deploy and host the blog. As with the secion about configuring the blog, I'll let the official documentation do the talking for some of the ways Octopress can be deployed:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://octopress.org/docs/deploying/github/&quot;&gt;GitHub pages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://octopress.org/docs/deploying/heroku/&quot;&gt;Heroku&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://octopress.org/docs/deploying/rsync/&quot;&gt;Rsync&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;In order to publish posts to all of the options above you need to run &lt;code&gt;rake generate&lt;/code&gt; followed by &lt;code&gt;rake deploy&lt;/code&gt; after having written a post(s).&lt;/p&gt;
+
+&lt;p&gt;I mentioned up at the top how I was hosting this blog on Windows Azure, how is that done?&lt;/p&gt;
+
+&lt;h2&gt;Hosting Octopress on Windows Azure&lt;/h2&gt;
+
+&lt;p&gt;I initially thought I would host the blog on GitHub pages, and I did set up the blog to be deployed to my GitHub pages. Then, somehow, I thought that maybe I should check out Windows Azure - seeing that I have - through my work at &lt;a href=&quot;/derivco&quot;&gt;&lt;strong&gt;Derivco&lt;/strong&gt;&lt;/a&gt; - an MSDN subscription (Derivco rocks!), and the subscription gives me Windows Azure credits.&lt;/p&gt;
+
+&lt;p&gt;So, on to the wisdom of all world (Google), and lo and behold - there were quite a few posts / articles how to link a blog to Windows Azure. Seeing that I already published / deployed to GitHub pages it was extremely easy to push this to Windows Azure:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set up a web-site through the Windows Azure portal&lt;/li&gt;
+&lt;li&gt;Configure the &lt;code&gt;deployments&lt;/code&gt; to point to the GitHub pages&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all there is to it. Now after you have run &lt;code&gt;rake generate&lt;/code&gt; and &lt;code&gt;rake deploy&lt;/code&gt;, when you commit, the changes will be published to Windows Azure:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ git add .
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ git commit -m &quot;Some message about the commit&quot;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;$ git push origin source&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh, I almost forgot - I also needed to point a CNAME for my domain to my website on Windows Azure. But, the whole Windows Azure setup took less than 10 minutes!!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Moving to a New Blog Engine</title>
+   <link href="http://nielsberglund.com/2013/10/02/moving-to-a-new-blog-engine/"/>
+   <updated>2013-10-02T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2013/10/02/moving-to-a-new-blog-engine</id>
+   <content type="html">&lt;p&gt;Every so often I get an itch, and I want to try out a new blog-platform. The time has now come to leave my self-hosted WordPress and move on to something &quot;geekier&quot; (I am a geek after all).&lt;/p&gt;
+
+&lt;p&gt;I have just now finished moving my few posts from WordPress to the new engine: &lt;a href=&quot;http://octopress.org&quot;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt;. In a future blog post on the new blog I will try to explain why I made the move, and why OctoPress. The new blog will be hosted on &lt;a href=&quot;http://www.windowsazure.com/en-us&quot;&gt;&lt;strong&gt;Windows Azure&lt;/strong&gt;&lt;/a&gt; - I do get free Azure credits together with my MSDN subscription, so I thought I'd see what all the &quot;fuss&quot; about Windows Azure is.&lt;/p&gt;
+
+&lt;p&gt;As of a couple of minutes ago, I pointed a CNAME record for &lt;strong&gt;www.nielsberglund.com&lt;/strong&gt; to my new Windows Azure host. We'll see after a while if all worked. RSS feeds etc. should be as before - as I use feed-burner.&lt;/p&gt;
+
+&lt;p&gt;So, see you all on the other side!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SqlClrProject on GitHub</title>
+   <link href="http://nielsberglund.com/2012/11/03/sqlclrproject-on-github/"/>
+   <updated>2012-11-03T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2012/11/03/sqlclrproject-on-github</id>
+   <content type="html">&lt;p&gt;As some of you may know, I - once upon a time - developed a project (VS add-in, templates, etc) for automatic deployment of CLR assemblies to SQL Server: &lt;strong&gt;SqlClrProject&lt;/strong&gt;. That project has been dormant now for a couple of years, but I now and then get requests for where it can be downloaded from (I had it on CodePlex, but had to take it down as I didn't publish the source code).&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;A while ago I decided to start to use Git and GitHub as source control (I have been using SVN since forever), and as part of the &quot;getting to grips&quot; with Git, I created a repo for &lt;strong&gt;SqlClrProject&lt;/strong&gt; on GitHub. So the source for the project is now available on &lt;a href=&quot;https://github.com/nberglund/sqlclrproject&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are interested in the  fork it, play with it. The state of it is that it &quot;should&quot; work on VS 2008 / SQL 2008. It most likely will work on VS 2010 as well. And of course the standalone deployment executable will work regardless of VS version.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>First Impressions Microsoft BUILD - Win 8</title>
+   <link href="http://nielsberglund.com/2011/09/13/first-impressions-microsoft-build-win-8/"/>
+   <updated>2011-09-13T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2011/09/13/first-impressions-microsoft-build-win-8</id>
+   <content type="html">&lt;p&gt;I have a while ago just finished watching the live stream of the first keynote (yes there will be one tomorrow as well), at Microsoft BUILD. Having attended / presented, at quite a few of these kind of events - and being somewhat jaded (well OK then, a lot jaded), I must still say that I am impressed.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;As quite a few other developers I have been fairly worried about what will happen when Win 8 comes; .NET/WPF/SilverLight is dead - long live HTML etc., but at least for now it seems that the fears have been un-founded. I.e, the .NET as we know and love is still there, SilverLight as well (come to think about it, nothing much was said about WPF). And it seems pretty straightforward to build the new &quot;Metro&quot; style apps using the tools we know.&lt;/p&gt;
+
+&lt;p&gt;What do I think then: well, Win 8 promises to be really, really slick and cool - but we have been here before (Longhorn anyone?), so let's wait and see until we get to RC stages. However, the whole Win RT, i.e the underlying &quot;goo&quot; of Windows (graphics, networking, etc) being exposed to all different types of programming languages; native, .NET, HTML/JavaScript, etc., seems very, very cool. I can't wait to get my hands on some bits and start playing around with this. Speaking of that; bits will apparently be &lt;a href=&quot;http://bit.ly/nX2K3a&quot;&gt;released later&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So at this stage I am fairly optimistic, and I would not rule out, myself running Win 8 on a couple of machines here at home. I am looking forward to the keynote tomorrow, where they will talk more about the development experience, and hopefully drill deeper into Visual Studio.Next.&lt;/p&gt;
+
+&lt;p&gt;Having finally seen the session-list, there are some really interesting sessions during the week. I really, really hope these ones will be videoed:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:bit.ly/n16Xyu&quot;&gt;&lt;strong&gt;F# 3.0: data, services, Web, cloud, at your fingertips, by Don &quot;Mr F#&quot; Syme&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bit.ly/n7tUKU&quot;&gt;&lt;strong&gt;What's new in .NET Framework 4.5&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bit.ly/pd3XZN&quot;&gt;&lt;strong&gt;Lessons learned designing the Windows Runtime&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bit.ly/nX5czN&quot;&gt;&lt;strong&gt;Deep dive into the kernel of the .NET Framework&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bit.ly/r8Iyq8&quot;&gt;&lt;strong&gt;Using the Windows Runtime from C++&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bit.ly/r4Q1cT&quot;&gt;&lt;strong&gt;Using the Windows Runtime from C# and Visual Basic&lt;/strong&gt;:&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for now &quot;folks&quot;. Will hopefully post more as the week and the conference goes by.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Transactions in SQL Server (take 2956)</title>
+   <link href="http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/"/>
+   <updated>2011-09-11T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956</id>
+   <content type="html">&lt;p&gt;Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a &quot;solution&quot; to the &quot;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&quot; error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h3&gt;Nested Transactions in SQL Server and the Evil @@TRANCOUNT&lt;/h3&gt;
+
+&lt;p&gt;In SQL Server we have the @@TRANCOUNT variable which gives us the number of transactions active in the session - or that's at least what we might believe. Take this  extremely simple code:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;col1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'HELLO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'WORLD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;You should see something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;0
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;2
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;0&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;I.e. it seems like the transaction count is increasing for each BEGIN TRAN, and decrease with COMMIT. And if you were to &lt;code&gt;SELECT * FROM #t&lt;/code&gt; you would see two rows returned. So far so good, so what is wrong with @@TRANCOUNT then? Well, let us change the code slightly (don't forget to drop #t if you copy and paste this code):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;col1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'HELLO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'WORLD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;If you now were to (don't do it immediately) &lt;code&gt;SELECT * FROM #t&lt;/code&gt;, how many rows would you get back - 0, 1, or 2? Seeing how the @@TRANCOUNT is increasing with every BEGIN TRAN and decreasing with COMMIT / ROLLBACK, it is understandable if your answer is 1:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;we start a transaction and insert a row&lt;/li&gt;
+&lt;li&gt;we then start another transaction and insert a second row&lt;/li&gt;
+&lt;li&gt;we call commit after the second insert (the inner transaction)&lt;/li&gt;
+&lt;li&gt;finally we do a rollback, on the &amp;#8220;outer&amp;#8221; transaction&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;As we after the second BEGIN TRAN can see @@TRANCOUNT being 2, we could assume that the commit would commit the second insert. However, we all know what happens when we assume  (now would be a good time to do the SELECT)  &amp;#8230;.&lt;/p&gt;
+
+&lt;p&gt;Right, the SELECT did not return any rows at all, so it is probably fair to say that we did not have multiple transactions, even though @@TRANCOUNT showed us more than one. So, then we might assume (keep in mind what I&amp;#8217;ve said about assume) that the reason we rolled back was because ROLLBACK was the last statement. Let us switch the COMMIT on line 10 with the ROLLBACK on line 12 (we now have ROLLBACK on line 10 and COMMIT on line 12) and execute. WHOA &amp;#8211; we got a big fat exception, what happened here? To answer that, let us look a bit closer at the main parts of transaction control in your code.&lt;/p&gt;
+
+&lt;h3&gt;BEGIN TRAN, COMMIT and ROLLBACK&lt;/h3&gt;
+
+&lt;p&gt;When you execute BEGIN TRAN in T-SQL, SQL will look around in the execution context of your session and see if there already exists a transactional context. If not, SQL will start a new transaction. If there is a transaction already, SQL will enlist in this transaction. However in both cases SQL will increase the @@TRANCOUNT variable.&lt;/p&gt;
+
+&lt;p&gt;Then, when you execute a COMMIT, SQL will not immediately commit the transaction but will decrease the transaction count with 1. If the transaction count has reached 0 due to the commit, a commit will take place. OK, so far so good, but this does not explain the error we received when switching the COMMIT and ROLLBACK statements, if it works as described, then we should have committed?&lt;/p&gt;
+
+&lt;p&gt;Ah, yes &amp;#8211; however, a ROLLBACK not only decrements the transaction count &amp;#8211; it sets it to 0 immediately, and as the transaction count is now 0, a rollback will happen. So in our second example we are seeing something similar to when we &amp;#8211; in stored procs &amp;#8211; are getting the &amp;#8221;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&amp;#8221; error.&lt;/p&gt;
+
+&lt;h3&gt;Stored Procedures and Transactions&lt;/h3&gt;
+
+&lt;p&gt;It is quite common to write procs something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PROC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some stuff&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- then if all is OK we commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ERROR_MESSAGE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--things have gone very wrong&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Then we are having a similar proc, looking almost the same, but it, in addition, calls into sp2:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PROC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some stuff&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some more stuff by calling into sp2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- then if all is OK we commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ERROR_MESSAGE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--things have gone very wrong&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;This is now when we will potentially see the error mentioned before. We call sp1, when sp1 is called there is no transactional context around, so SQL creates a new transaction. Then we go on to call sp2 from sp1. In the BEGIN TRAN call in sp2, there exists a transactional context, so SQL enlists us in that context.&lt;/p&gt;
+
+&lt;p&gt;If all now goes well and we call COMMIT in sp2, the commit causes the transaction count to be decreased to 1 &amp;#8211; but no &amp;#8220;real&amp;#8221; commit happens. So when we subsequently calls COMMIT in sp1, we decrement the transaction count to 0, and we are committed.&lt;/p&gt;
+
+&lt;p&gt;In the case when things go wrong is sp2 and we call rollback, the transaction count is immediately set to 0, and a rollback happens. When we come back to sp1, SQL sees that we had a transaction in sp1, but there are no transactions around, and we will get the error discussed. If we then go on and do a rollback (as in our code) &amp;#8211; we will get additional errors.&lt;/p&gt;
+
+&lt;h3&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;A solution to the problem is to use the &amp;#8220;evil&amp;#8221; @@TRANCOUNT, to see if there are any transactions around. If there aren&amp;#8217;t any, we start a transaction. If there are a transaction already, we don&amp;#8217;t do anything, and we let the existing transaction handle everything:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PROC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--I'm using SQL2008 here&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--no tx's around, we can start a new&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some stuff&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- then if all is OK we commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--if the variable @tranCount is 0,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- we have started the tx ourselves, and can commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_STATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--XACT_STATE - just to be on the safe side&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ERROR_MESSAGE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--if the variable @tranCount is 0,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- we have started the tx ourselves, and can rollback&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_STATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--XACT_STATE - just to be on the safe side&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--tell an eventual calling proc that things have gone wrong&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--and the calling proc should rollback&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Obviously the calling proc would have similar code to decide if to start a tran or not.&lt;/p&gt;
+
+&lt;p&gt;In the above scenario we let the &amp;#8220;outer&amp;#8221; proc handle all the transactional control. Sometimes you are in a situation where &amp;#8211; if things go wrong in the &amp;#8220;inner&amp;#8221; proc (sp2 in our case) &amp;#8211; you do not want to roll back everything done, but only what was done in the inner proc. For such a scenarion, you can use named savepoints:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PROC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRANCOUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--I'm using SQL2008 here&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--no tx's around, we can start a new&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--we are already in a tx, take a savepoint here&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;SAVE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRANSACTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--this is just a name&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- do some stuff&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- then if all is OK we commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--if the variable @tranCount is 0,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- we have started the tx ourselves, and can commit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_STATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--XACT_STATE - just to be on the safe side&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMSg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ERROR_MESSAGE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--if the variable @tranCount is 0,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;-- we have started the tx ourselves, and can rollback&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_STATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--XACT_STATE - just to be on the safe side&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tranCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_STATE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRANSACTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;--we are rolling back to the save-point&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--tell an eventual calling proc that things have gone wrong&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--and let the calling proc decide what to do with its parts&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;RETURN&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Personally, I do not use named save-points that much as they cannot be used together with linked servers, and we &amp;#8211; unfortunately &amp;#8211; are using linked servers a lot.&lt;/p&gt;
+
+&lt;p&gt;A final note about named save-points; they are not the same thing as beginning / committing / rolling back a transaction with a name:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;col1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'HELLO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ROLLBACK&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Beginning a transaction with a name, is for most parts just a convenience. It has no effect on nesting (unless you use named save points), and SQL Server Books OnLine says this about naming of transactions:&lt;br/&gt;
+&amp;#8220;Naming multiple transactions in a series of nested transactions with a transaction name has little effect on the transaction. Only the first (outermost) transaction name is registered with the system. A rollback to any other name (other than a valid savepoint name) generates an error. None of the statements executed before the rollback is, in fact, rolled back at the time this error occurs. The statements are rolled back only when the outer transaction is rolled back&amp;#8221;.&lt;/p&gt;
+
+&lt;p&gt;If you have questions, observations etc., please feel free to leave me a comment, or drop me an email.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>F#, Mono and Mac - Take II</title>
+   <link href="http://nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2/"/>
+   <updated>2010-11-20T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2</id>
+   <content type="html">&lt;p&gt;So yesterday &lt;a href=&quot;/2010/11/19/fsharp-mono-and-mac/&quot;&gt;I wrote&lt;/a&gt; about how I have started using F# and Mono on my MacBook.&lt;/p&gt;
+
+&lt;p&gt;I wrote about how I downloaded the F# bits, unzipped and put them in a specific directory I had created. Today after having browsed around a bit more I realized I had done it the hard way. To install the required bits for F# for Mac, you only have to download a zip file with an install package for Mac from the &lt;a href=&quot;http://fsxplat.codeplex.com/&quot;&gt;F# Cross Platform&lt;/a&gt; site on CodePlex. The actual zip-file for the November 2010 CTP is &lt;a href=&quot;/2010/11/19/fsharp-mono-and-mac/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After you have downloaded the file you unzip it and run the &lt;code&gt;.pkg&lt;/code&gt; file. This takes care of everything; no re-signing with the &lt;code&gt;.snk&lt;/code&gt; file etc. The added benefit of installing from the &lt;code&gt;.pkg&lt;/code&gt; file is that a couple of F# compiler dll's are automatically gac:ed (they are needed if you want to run the F# plugin for MonoDevelop), and aliases are created for the F# compiler and the F# interactive window.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>F#, Mono and Mac</title>
+   <link href="http://nielsberglund.com/2010/11/19/fsharp-mono-and-mac/"/>
+   <updated>2010-11-19T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/19/fsharp-mono-and-mac</id>
+   <content type="html">&lt;p&gt;This is a first post about my experiences with running F# and Mono on a Mac.&lt;/p&gt;
+
+&lt;p&gt;In a &lt;a href=&quot;/2010/11/15/using-fsharp-in-sqlclr/&quot;&gt;previous post&lt;/a&gt; I wrote about how I have started to play with F#. As that post also covered SQLCLR it was obvious I was on Windows. Even though I make my living from development in a Windows environment, my main machine is a MacBook, and I run OSX as my main OS. I have previously also been running Linux (ArchLinux) on this machine as my main OS. Naturally I have heard about Mono (and also installed it a couple of times - and quickly un-installed again, but I have not really done anything with it. I have always run Windows in a VM on my MacBook for development etc. However after the announcement that F# was going &lt;a href=&quot;http://blogs.msdn.com/b/dsyme/archive/2010/11/04/announcing-the-f-compiler-library-source-code-drop.aspx&quot;&gt;Open Source&lt;/a&gt;, and &lt;a href=&quot;http://tomasp.net/blog&quot;&gt;Tomas P&lt;/a&gt; &lt;a href=&quot;http://tomasp.net/blog/fsharp-in-monodevelop.aspx&quot;&gt;posted&lt;/a&gt; about his F# MonoDevelop plug-in&lt;/a&gt;, I decided that I should have a look at what it would be like to do F# &quot;stuff in OSX.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This is what I did:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.go-mono.com/mono-downloads/download.html&quot;&gt;Downloaded Mono&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.microsoft.com/downloads/en/details.aspx?FamilyID=f8c623ae-aef6-4a06-a185-05f59be47d67&amp;amp;displaylang=en&quot;&gt;Downloaded F#&lt;/a&gt;. You want to download the zip file.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Having downloaded what I thought was necessary (I decided to hold off with MonoDevelop until I had everything running), I started the installation process. Installing Mono was straight forward, just mount the &lt;code&gt;.dmg&lt;/code&gt; and then run the &lt;code&gt;.pkg&lt;/code&gt; file. The only slight issue after installation was where it had been installed. Mostly for my own reference for later installations; Mono is located at: &lt;code&gt;/Library/Frameworks/Mono.framework&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After I had installed Mono, I copied the bin directory from the unzipped F# file to a directory I created in the same root folder as where Mono was: &lt;code&gt;/Library/Frameworks/FSharp&lt;/code&gt;. I copied the &lt;code&gt;install-mono.sh&lt;/code&gt; file to the FSharp directory and was ready to start the installation. Fortunately before I executed the &lt;code&gt;install-mono.sh&lt;/code&gt; file, I read the comments in the file. At this stage I realised I had not downloaded everything necessary.&lt;/p&gt;
+
+&lt;p&gt;One of the F# dll's &lt;code&gt;FSharp.Core.dll&lt;/code&gt; needs to be installed in the gac. In order to do that, the dll needs to be re-signed with the &lt;code&gt;mono.snk&lt;/code&gt; key. The installation file mentions how you can download the file using &lt;code&gt;wget&lt;/code&gt;. As I did not have &lt;code&gt;wget&lt;/code&gt; I found a link to it and downloaded it by right-clicking on the link and choose &quot;Save Link As&quot;. Once again mostly for my future reference; the file can be found &lt;a href=&quot;http://github.com/mono/mono/raw/master/mcs/class/mono.snk&quot;&gt;here&lt;/a&gt;, (just right click and choose &quot;Save Link As&quot;). I saved it into the F# root folder (the same folder where the &lt;code&gt;install-mono.sh&lt;/code&gt; is).&lt;/p&gt;
+
+&lt;p&gt;So, now everything should be ready to go. I executed the install file and promptly got an error saying that the &lt;code&gt;FSharp.Core.dll&lt;/code&gt; could not be installed in the gac. Hmm, not good! Fortunately the error message mentioned something about a possible permission error, so I looked at the permissions on the gac folder (&lt;code&gt;../Mono.framework/Versions/2.8/lib/mono/gac&lt;/code&gt;), and sure enough - I did not have write permissions. I gave myself write permissions, and re-ran the installation and everything went OK. Cool!!&lt;/p&gt;
+
+&lt;p&gt;After this it was time to test it out. From the F# bin directory I ran the following from a terminal window to execute the compiler: &lt;code&gt;mono fsc.exe&lt;/code&gt;. It seemed to work as I got this error back:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/fsc.exe.png&quot; width=&quot;658&quot; height=&quot;178&quot;  &gt;&lt;/p&gt;
+
+&lt;p&gt;I then tried the interactive window: &lt;code&gt;mono fsi.exe&lt;/code&gt;. I wrote some simple test code:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/fsi-exec.png&quot; width=&quot;661&quot; height=&quot;330&quot;  &gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, that worked as well!! So I am now well on the way of running (and learning) F# on Mono. Next step is to install MonoDevelop and Tomas P's plugin for F#. Stay tuned...&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>TPL Dataflow, Axum v.NEXT?</title>
+   <link href="http://nielsberglund.com/2010/11/18/tpl-dataflow-axum-v-next/"/>
+   <updated>2010-11-18T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/18/tpl-dataflow-axum-v-next</id>
+   <content type="html">&lt;p&gt;At PDC 2010 Microsoft showed the new &lt;a href=&quot;http://msdn.microsoft.com/en-us/vstudio/async.aspx&quot;&gt;Async&lt;/a&gt; features of coming C# (and VB.NET) versions, and quite a lot has been written about it already. Part of the Async CTP is &lt;strong&gt;TPL Dataflow&lt;/strong&gt;, and this has gone somewhat un-noticed.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;&lt;a href=&quot;http://www.microsoft.com/downloads/en/details.aspx?FamilyID=d5b3e1f8-c672-48e8-baf8-94f05b431f5c&amp;amp;displaylang=en&quot;&gt;TPL Dataflow&lt;/a&gt; is a library for building concurrent applications. It utilises an actor/agent-oriented designs via primitives for in-process message passing, dataflow, and pipelining. It looks and feels a bit like &lt;a href=&quot;http://msdn.microsoft.com/en-us/devlabs/dd795202.aspx&quot;&gt;Axum&lt;/a&gt;, and one can wonder if TPL Dataflow will be the productization (is this a word?) of Axum, especially as Axum's future seems a bit &lt;a href=&quot;http://social.msdn.microsoft.com/Forums/en-US/axum/thread/f86881de-71af-4709-b197-64a6e6dc96dd&quot;&gt;unclear&lt;/a&gt; at the moment.&lt;/p&gt;
+
+&lt;p&gt;I am at the moment writing some test-code for TPL Dataflow, which I will post as soon as I have tidied it up a bit. In the meantime &lt;a href=&quot;http://mdavey.wordpress.com/&quot;&gt;Matt Davey&lt;/a&gt;, has quite a few &lt;a href=&quot;http://en.wordpress.com/tag/tpldataflow/&quot;&gt;posts about TPL Dataflow&lt;/a&gt; on his blog. So if you are interested, go and have a look.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Using F# in SQLCLR</title>
+   <link href="http://nielsberglund.com/2010/11/15/using-fsharp-in-sqlclr/"/>
+   <updated>2010-11-15T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/15/using-fsharp-in-sqlclr</id>
+   <content type="html">&lt;p&gt;Recently I have become very interested in F# and I am at the moment trying to get to grips with it. It is definitely a different beast than C#, but so far I like it - a lot!&lt;/p&gt;
+
+&lt;p&gt;Anyway, I am a SQL nerd, and many moons ago I was very heavily involved in SQLCLR (for you who don't know what that is; it is the ability to run .NET code inside the SQL Server engine. It was first introduced with SQL Server 2005). So I thought it would be a &quot;giggle&quot; to see if I could get some F# code running inside SQL Server.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;I created the simplest of the simple F# dll's. SQLCLR requires you have a public class and your publicly exposed SQLCLR methods to be static, so my F# code looked like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Avesome Stuff&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;namespace ManagedData.Samples.FSharp
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  type SqlClr =
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    static member Adder a b = a + b
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    static member Factorial n =
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      match n with
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      | 0  -&gt;; 1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      | _ -&gt; n * (SqlClr.Factorial( n - 1))&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see my class is extremely advanced (not); it has two methods:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The canonical &lt;code&gt;Adder&lt;/code&gt; method (every SQLCLR dll has to have an &lt;code&gt;Adder&lt;/code&gt; method, it's the law - nah, I'm just kidding), which takes two integers and returns an integer.&lt;/li&gt;
+&lt;li&gt;A factorial method, which takes an integer and calculates the factorial from that.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;By the way, any pointers about how to write efficient F# code are very welcome .&lt;/p&gt;
+
+&lt;p&gt;Having written and compiled the code, it was time to deploy! When running .NET code in SQL Server, you need to deploy your assembly to the database you want to execute your code in, and SQL Server will actually load the assembly from the database. In fact most assemblies are loaded from the database, even quite a few of Microsoft's own system assemblies which normally are loaded from the GAC. There are only about 13 system assemblies that are allowed to be loaded from the GAC these are known as the &quot;blessed list&quot;. You also need to create T-SQL wrapper objects (procedures, functions, triggers, etc.) around the methods you want to publicly expose.&lt;/p&gt;
+
+&lt;p&gt;In my SQL Server 2008R2 instance I created a database in which I wanted my F# assembly to, and then it was time to deploy. You can deploy in several ways, the easiest is something like this (in the database you want to use):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fsasm&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'c:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;F#&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;testcode&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;fssqlclr&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;fslib&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\b&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;fslib.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;permission_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SAFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;The problem with the code above is that F# projects have a dependency on the assembly &lt;code&gt;FSharp.Core.dll&lt;/code&gt;, so when I tried to deploy my assembly as per above, I got an exception. What I had to do was to deploy &lt;code&gt;FSharp.Core.dll&lt;/code&gt; to my database first:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fsasm&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;path to ...&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;FSharp.Core.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;permission_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UNSAFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Notice the use of &lt;code&gt;permission_set = UNSAFE&lt;/code&gt;, this is to tell SQL Server that I know what I am doing and SQL Server should keep from doing a lot if validation. When I had catalogued the &lt;code&gt;FSharp.Core.dll&lt;/code&gt; assembly I had no problems deploying my assembly to the database.&lt;/p&gt;
+
+&lt;p&gt;All there remained to do now was to create the T-SQL wrapper object(s) around my F# methods. This is done with &quot;normal&quot; &lt;code&gt;CREATE ...&lt;/code&gt; syntax. The code for my factorial looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FsFactorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fsasm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ManagedData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Samples&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FSharp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;This also went without problems, so now it is &quot;crunch-time&quot;. Can I execute a F# method in SQLCLR?&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FsFactorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;Lo and behold, it executed and I received 24 back! I had just now executed F# running inside SQL Server!!&lt;/p&gt;
+
+&lt;p&gt;So, what does this prove? Nothing really, it was just an exercise from me to see if it could be done. However, F# is really suitable for quite a few tasks you would want to use SQLCLR for, so it now gives a database developer another tool in his tool-belt.&lt;/p&gt;
+
+&lt;p&gt;If anyone is interested in the full code for this, please drop me a comment and I'll email it to you.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SQL Server Denali CTP 1 SUX</title>
+   <link href="http://nielsberglund.com/2010/11/14/sql-server-denali-ctp-1-sux/"/>
+   <updated>2010-11-14T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/14/sql-server-denali-ctp-1-sux</id>
+   <content type="html">&lt;p&gt;.. from a relational developers perspective!!&lt;/p&gt;
+
+&lt;p&gt;Well, the title may be a bit harsh, but at least it grabbed your attention - did it not?!&lt;/p&gt;
+
+&lt;p&gt;A week ago, or so, I wrote a &lt;a href=&quot;/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/&quot;&gt;wish list&lt;/a&gt; to Santa for Denali from a relational developers perspective. In that wish list I wrote that there has been fairly little love for relational SQL developers in the recent versions of SQL Server, and that I hoped in this version (i.e Denali) Microsoft would &quot;go back to the roots&quot; and give us developers some new stuff.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;So I downloaded the CTP when it became available, and have been playing around with it for a bit, in order to see what new &quot;stuff&quot; I could find and how it stacked up against my wish list:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Autonomous transactions - not a whiff of it.&lt;/li&gt;
+&lt;li&gt;Enhancements to SQLCLR - Denali is still loading version 2.0.50727 of the runtime (i.e. the original &quot;SQL 2005&quot; version). So nothing here either, and they have not even added Microsoft.SqlServer.Types (for the geo and hierarchy types) to the blessed list. This (lack of SQLCLR enhancements) is probably the one thing that saddens me the most - it seems that after all the initial hoopla and fanfare about SQLCLR when it was introduced in SQL Server 2005, Microsoft has decided to not fullfil its potentials.&lt;/li&gt;
+&lt;li&gt;Finally blocks - well, we do not have finally blocks but we now have a proper way of throwing and re-throwing exceptions; the &lt;code&gt;THROW&lt;/code&gt; keyword. I wrote about it &lt;a href=&quot;/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2010/11/12/more-t-sql-error-functionality-in-denali-sql-11/&quot;&gt;here&lt;/a&gt;. So at least this is something.&lt;/li&gt;
+&lt;li&gt;Other T-SQL enhancements &amp;#8211; this is an area where there are at least a couple of new things: &lt;code&gt;SEQUENCE&lt;/code&gt; and &lt;code&gt;OFFSET&lt;/code&gt;. Those are cool and useful and Aaron B wrote about them &lt;a href=&quot;http://sqlblog.com/blogs/aaron_bertrand/archive/2010/11/11/sql-server-11-denali-using-sequence.aspx&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;http://sqlblog.com/blogs/aaron_bertrand/archive/2010/11/10/sql-server-11-denali-using-the-offset-clause.aspx&quot;&gt;here&lt;/a&gt;. But this is still not very much, and no evidence of that Microsoft want to continue to enhance T-SQL as a first class development language (as they have stated in the past).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So, the report card does not look that good and that's the reason for the title of this post. Granted, there are things that are in the cards but not included in this CTP; things like:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Column storage - however, that is more a BI feature, but it will be usable in the OLTP world as well.&lt;/li&gt;
+&lt;li&gt;FileTable - a way of storing files in SQL Server. It looks like FileStream v.NEXT or (do I dare say it) WinFS (now I have most certainly condemned this to death). It looks interesting, but - as I said - not in this CTP.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;As you can gather from the above, I am not that stoked about Denali. I hope later CTP's will bring more things, but somehow I doubt it.&lt;/p&gt;
+
+&lt;p&gt;What are your take on this, are you happy with what Denali gives you (from a relational developers perspective), and if not - what would you like to see included. Answers in the comments please.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Beginners F# Resources</title>
+   <link href="http://nielsberglund.com/2010/11/13/beginners-fsharp-resources/"/>
+   <updated>2010-11-13T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/13/beginners-fsharp-resources</id>
+   <content type="html">&lt;p&gt;This post is more as a reminder to myself where to find online resources when learning F#. If anyone else can find it useful, so much better. And, if anyone out there has other online, resources, please leave a comment and I will include it. So, in no particular order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/magazine/ff714588.aspx&quot;&gt;Introductory article by Luke Hoban in MSDN Magazine.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.ctocorner.com/fsharp/book/&quot;&gt;An online book about F#.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.jelovic.com/weblog/?p=215&quot;&gt;Tutorial, by Dejan Jelovic, about getting started with F# from a C# developers perspective.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lorgonblog.wordpress.com/2009/05/16/brians-favorite-online-content-for-learning-f/&quot;&gt;Brian McNamara has great info and resource list, highly recommended.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Finally, a list like this would be incomplete without the link to &lt;a href=&quot;http://blogs.msdn.com/b/dsyme/&quot;&gt;the Man himself: &lt;strong&gt;Don Syme&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>More T-SQL Error Functionality in Denali / SQL 11</title>
+   <link href="http://nielsberglund.com/2010/11/12/more-t-sql-error-functionality-in-denali-sql-11/"/>
+   <updated>2010-11-12T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/12/more-t-sql-error-functionality-in-denali-sql-11</id>
+   <content type="html">&lt;p&gt;In my previous &lt;a href=&quot;/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/&quot;&gt;post&lt;/a&gt; I wrote about the new &lt;code&gt;THROW&lt;/code&gt; keyword in Denali / SQL 11. Having played around a bit more with Denali, I wanted to write some additional things about &lt;code&gt;THROW&lt;/code&gt; and it's relation to &lt;code&gt;RAISERROR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h3&gt;RAISERROR&lt;/h3&gt;
+
+&lt;p&gt;First some background / overview of RAISERROR:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;RAISERROR&lt;/code&gt; allows you to throw an error based on either an error number or a message, and you can define the severity level and state of that error:&lt;/li&gt;
+&lt;li&gt;If you call &lt;code&gt;RAISERROR&lt;/code&gt; with an error number, that error number has to exist in sys.messages.&lt;/li&gt;
+&lt;li&gt;You can use error numbers between 13001 and 2147483647 (it cannot be 50000) with &lt;code&gt;RAISERROR&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;As I mentioned in my previous &lt;a href=&quot;/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/&quot;&gt;post&lt;/a&gt;, &lt;code&gt;RAISERROR&lt;/code&gt; has been around since forever - and it works fairly well. One of the major drawbacks with &lt;code&gt;RAISERROR&lt;/code&gt; - as I also wrote in my previous post; is that it cannot be used to re-throw an error we might have trapped in a structured error handling block. Or rather, this may not be that much a &lt;code&gt;RAISERROR&lt;/code&gt; issue, as an issue that SQL Server has not previously supported the notion of re-throwing an error. Be as it may with that, there are other drawbacks with &lt;code&gt;RAISERROR&lt;/code&gt; which I will mention later in this post.&lt;/p&gt;
+
+&lt;h3&gt;THROW&lt;/h3&gt;
+
+&lt;p&gt;In Denali / SQL 11 Microsoft introduces the &lt;code&gt;THROW&lt;/code&gt; keyword, which allows us to re-throw an exception caught in an exception handling block. Some characteristics of &lt;code&gt;THROW&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Using &lt;code&gt;THROW&lt;/code&gt; you can throw a specific error number as well as message:&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;THROW&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Ooops'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When using &lt;code&gt;THROW&amp;gt;&lt;/code&gt; you have to define both an error number as well as a message (and state), unless you re-throw an exception.&lt;/li&gt;
+&lt;li&gt;The error number does not have to exist in sys.messages but, it has to be between 50000 and 2147483647.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So, &lt;code&gt;THROW&lt;/code&gt; looks fairly cool, but what are the drawbacks with &lt;code&gt;RAISERROR&lt;/code&gt; I mentioned above? &lt;del&gt;Well, for one - beginning with Denali / SQL 11 RAISERROR is being deprecated, i.e. it will eventually be removed from SQL Server&lt;/del&gt;. Another reason has to do with transactions and error handling.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UPDATE:&lt;/strong&gt; According to &lt;a href=&quot;http://sqlblog.com/blogs/aaron_bertrand/&quot;&gt;Aaron Bertrand&lt;/a&gt;, in his &lt;a href=&quot;http://sqlblog.com/blogs/aaron_bertrand/archive/2010/11/22/sql-server-v-next-denali-using-throw-instead-of-raiserror.aspx&quot;&gt;post&lt;/a&gt;, it is only some very old &lt;code&gt;RAISERROR&lt;/code&gt; syntax that is being deprecated.&lt;/p&gt;
+
+&lt;h3&gt;XACT_ABORT&lt;/h3&gt;
+
+&lt;p&gt;As every T-SQL programmer worth his (or her) salt should know, an exception does not roll back a transaction by default (ok, ok, it does depend on severity level to an extent - but a &quot;normal&quot; exception does not roll back a tran). I.e. the following code would cause two rows to be inserted in the table &lt;code&gt;t1&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--first create a test table which we will use throughout the code samples&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;c1&quot;&gt;--now onto the 'meat'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;c1&quot;&gt;--emulate some error, this will indeed cause an exception to happen,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;c1&quot;&gt;--but the processing will continue&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;We can indicate to SQL Server that we want &quot;automatic&quot; rollback of transactions when an exception happens by setting &lt;code&gt;XACT_ABORT&lt;/code&gt;. This will cause a rollback to happen if a system exception happens. So based on the example above, no rows will be inserted when the code below executes:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_ABORT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row3'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row4'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;However, what happens if the user throws an exception using &lt;code&gt;RAISERROR&lt;/code&gt;? In that case no rollback happens, i.e. &lt;code&gt;RAISERROR&lt;/code&gt; does not honor the &lt;code&gt;XACT_ABORT&lt;/code&gt; setting:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_ABORT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--the user raises an error, but the tx will not roll back&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;RAISERROR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Oooops'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row6'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;This can catch developers out and is in my opinion a fairly severe drawback. So with the introduction of Denali / SQL 11 and the &lt;code&gt;THROW&lt;/code&gt; keyword, Microsoft has tried to fix this by making &lt;code&gt;THROW&lt;/code&gt; honor &lt;code&gt;XACT_ABORT&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XACT_ABORT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRAN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row7'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--the user raises an error, and the tx will roll back&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;THROW&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Ooops'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;VALUES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'row8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;COMMIT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;When you run the code above, you will see that the transaction is indeed rolled back and no rows are inserted.&lt;/p&gt;
+
+&lt;p&gt;So developers, &quot;go forth&quot; and &lt;code&gt;THROW&lt;/code&gt; exceptions in SQL Server Denali / SQL 11.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>New T-SQL Features in SQL 11 / Denali - Error Handling</title>
+   <link href="http://nielsberglund.com/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/"/>
+   <updated>2010-11-10T11:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling</id>
+   <content type="html">&lt;p&gt;A couple of days ago I wrote my &lt;a href=&quot;/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/&quot;&gt;wish-list&lt;/a&gt; to Santa what I wanted to see in next version of SQL Server (SQL 11 / Denali). I was pleasantly surprised that I could find out for myself shortly after; i.e. SQL Server Denali CTP1 was released during the PASS Summit. I have literally finished installing the next version of SQL Server (Denali / SQL 11) on a new VM, like 10 minutes ago, and I have done a quick check of the new features of SQL Server Denali (what I could find at least) against my &lt;a href=&quot;/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/&quot;&gt;wish-list&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;So it seems that my autonomous transactions have not been implemented. That does not necessarily meat that they won’t be there in later releases, but for now it is a downer. In my list I also mentioned finally blocks. From what I can see that has not been implemented either, &lt;strong&gt;BUT&lt;/strong&gt; something else has…&lt;/p&gt;
+
+&lt;h3&gt;RAISERROR&lt;/h3&gt;
+
+&lt;p&gt;No &lt;code&gt;RAISERROR&lt;/code&gt; is not anything new. We have used &lt;code&gt;RAISERROR&lt;/code&gt; since beginning of time to throw an error in SQL Server. When using &lt;code&gt;RAISERROR&lt;/code&gt; we either indicate an error-number, or a message. If we were to raise based on a number, that error number had to exist in sys.messages. If we used a message instead, the error number we received back was 50000, i.e. something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;RAISERROR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'An error happened'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;produced this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Msg&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Level&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;State&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;An&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;happened&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;h3&gt;TRY … CATCH&lt;/h3&gt;
+
+&lt;p&gt;In SQL 2005 &lt;del&gt;proper&lt;/del&gt; structured error handling was introduced using &lt;code&gt;TRY … CATCH&lt;/code&gt; blocks. So instead of having to “litter” our code with &lt;code&gt;SELECT @@ERROR&lt;/code&gt; statements, we could enclose our code in &lt;code&gt;BEGIN TRY END TRY&lt;/code&gt; followed by &lt;code&gt;BEGIN CATCH END CATCH&lt;/code&gt;. Something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'hello'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'world'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--handle the error&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;… and life was good (IMHO the structured exception handling was one of the greatest new features in SQL Server 2005). However, we are never completely satisfied, we always want more. And what we wanted to do, was to be able to handle the error, and then perhaps re-throw the error (like we can do in other modern development languages). Up until SQL Server Denali / SQL 11 the only way to do that was to use &lt;code&gt;RAISERROR&lt;/code&gt;. That would not have been so bad apart from the fact that we are not allowed to raise an error with a system defined error number, i.e. &lt;code&gt;RAISERROR(8134 …)&lt;/code&gt;. So instead we had to resort to various “hack” to achieve what we wanted.&lt;/p&gt;
+
+&lt;h3&gt;THROW&lt;/h3&gt;
+
+&lt;p&gt;This has now been fixed in SQL Server Denali / SQL 11 by the introduction of &lt;strong&gt;&lt;code&gt;THROW&lt;/code&gt;&lt;/strong&gt;. &lt;code&gt;THROW&lt;/code&gt; does not require that an error number being thrown exists in sys.messages, so you can raise an exception like so: &lt;code&gt;THROW 50001, ‘OOPS – something happened’, 1&lt;/code&gt;. Notice how you do not define a severity when using &lt;code&gt;THROW&lt;/code&gt;, all exceptions being raised by &lt;code&gt;THROW&lt;/code&gt; has a severity of 16.&lt;/p&gt;
+
+&lt;p&gt;The really great thing with &lt;code&gt;THROW&lt;/code&gt; however is how you can use it like you would use &lt;code&gt;THROW&lt;/code&gt; in other languages. In other words you use use it to re-throw an exception:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'hello'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'world'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;c1&quot;&gt;--handle the error&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'here we are handling the error'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;THROW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;The above code snippet produces this output:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;here&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;we&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handling&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Msg&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8134&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Level&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;State&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Divide&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zero&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encountered&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;I do not know about you, but I think this is fairly cool. I do still want finally blocks and autonomous transactions, but right now I take what I can get.&lt;/p&gt;
+
+&lt;p&gt;As I mentioned in the beginning of this post; I have just installed SQL Server Denali, and have not had time to do much “spelunking”. Stay tuned for more posts in the coming days. You should also check &lt;a href=&quot;http://sqlblogcasts.com/blogs/simons/&quot;&gt;Simon Sabin’s&lt;/a&gt; blog, where he has quite a lot of &lt;a href=&quot;http://sqlblogcasts.com/blogs/simons/archive/2010/11/07/sql-server-denali-whats-new.aspx&quot;&gt;SQL Server Denali coverage&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>More about new features in SQL 11 / Denali</title>
+   <link href="http://nielsberglund.com/2010/11/08/more-about-new-features-in-sql-11-denali/"/>
+   <updated>2010-11-08T11:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/08/more-about-new-features-in-sql-11-denali</id>
+   <content type="html">&lt;p&gt;So yesterday I &lt;a href=&quot;/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/&quot;&gt;posted&lt;/a&gt; my wish-list for new programmability features in the upcoming release of SQL 11 / Denali.&lt;/p&gt;
+
+&lt;p&gt;Today I see that Simon S has &lt;a href=&quot;http://bit.ly/axonBW&quot;&gt;posted&lt;/a&gt; about a new series of posts he will do, covering what is new in SQL 11. Knowing Simon, it will be really, really good. So if you are interested I suggest you keep your eyes open for his posts.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt;: Ben C commented and said that CTP1 has been released (or something to that effect), and &lt;a href=&quot;http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a04f16f-f6be-4f92-9c92-f7e5677d91f9&quot;&gt;here&lt;/a&gt; is where it can be downloaded from.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>What New Programmability Features Will There Be in SQL 11?</title>
+   <link href="http://nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/"/>
+   <updated>2010-11-07T11:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11</id>
+   <content type="html">&lt;p&gt;There is probably no secret that Microsoft is working hard on next version of SQL Server. The rumour has it that it will be named SQL 11 (it apparently goes under the code name of Denali. Quiz; MS has used the Denali code name previously, what was it for? Answers in the comments ).&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Anyway, the SQL PASS summit is this coming week and another rumour says we might see a CTP being released during the conference. I, for one, cannot wait to see a CTP and see what new features it brings. Which brings me back to this post. If we look at some of the previous releases of SQL we can see that they have had a mixed bag of features for developers:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SQL 2005: HUGE; SQLCLR, Service Broker, DDL Events, PIVOT, CTE's, XML, etc., etc.&lt;/li&gt;
+&lt;li&gt;SQL 2008: Not so much; the table type and TVP's (which are cool), T-SQL enhancements (cool), some new data types, extended events, but not much more (unless you are a BI guy - which I am not).&lt;/li&gt;
+&lt;li&gt;SQL 2008R2: Even less; some enhancements to Service Broker, and StreamInsight, but that is basically it.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So, IMHO, it is now time for relational developers to get some love from Microsoft in this release of SQL Server. Seeing that the Christmas is soon upon us here is my wish list to Santa SQL:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Autonomous Transactions: Nested transactions are independent.&lt;/li&gt;
+&lt;li&gt;Autonomous Transactions: see above (yes, I really, really do want this).&lt;/li&gt;
+&lt;li&gt;Enhancements to SQLCLR: I would love to be able to use TVP's in SQLCLR&lt;/li&gt;
+&lt;li&gt;Finally blocks: we have had &lt;code&gt;try...catch&lt;/code&gt; since 2005, it is now time to finish this and introduce &lt;code&gt;finally&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Other T-SQL enhancements: I would love to see T-SQL get new features that would make it more like a &quot;real&quot; programming language.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is my wish-list, I wonder how much of this we will see, if any. Post your own wish-lists in the comments please.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Stream and Complex Event Processing from a Relational Guy's Eye</title>
+   <link href="http://nielsberglund.com/2010/11/07/stream-and-complex-event-processing-from-a-relational-guys-eye-2/"/>
+   <updated>2010-11-07T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2010/11/07/stream-and-complex-event-processing-from-a-relational-guys-eye-2</id>
+   <content type="html">&lt;p&gt;This is a re-post from my previous blog. However, as that blog has now gone to the big blog repository in the sky (or wherever blogs go to when they are no more), I decided to repost this, seeing how &lt;strong&gt;CEP&lt;/strong&gt; and &lt;strong&gt;StreamInsight&lt;/strong&gt; are becoming more and more popular.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This is the first in (hopefully) a series of blog posts where I will be looking into Microsoft's new technology for &lt;strong&gt;Complex Event Processing&lt;/strong&gt; (CEP); &lt;strong&gt;StreamInsight&lt;/strong&gt; (SI). This post is an overview of the problem domain that Microsoft tries to target SI at. As I am a relational database guy at heart, I look at it from a relational guy's perspective.&lt;/p&gt;
+
+&lt;h3&gt;Relational Database Systems&lt;/h3&gt;
+
+&lt;p&gt;The relational database system (&lt;strong&gt;RDBMS&lt;/strong&gt;) is the backbone from almost any enterprise application today, and the various RDBMS's are highly optimized to deliver the best performance available, for its particular type of applications. The particular type of applications a RDBMS is (mostly) optimized for is an application where updates to the data don't happen that frequently (i.e. not like 100,000's of updates per second) and queries against the database are queries against (from what can be described as) a snapshot of the database.&lt;/p&gt;
+
+&lt;p&gt;The last couple of decades we have seen the emergence of types of applications that has somewhat different requirements and characteristics than a typical RDBMS based application. Examples of these type of applications are OLAP, Data Mining as well as storage and querying new data types such as XML, media and spatial. This has required the RDBMS to add new functionality as well as extending existing functionality.&lt;/p&gt;
+
+&lt;h3&gt;Streaming Data&lt;/h3&gt;
+
+&lt;p&gt;The last few years there has been yet another type of data intensive applications arriving on the scene, but these applications has somewhat different requirement's than &quot;just&quot; being able to query &quot;static&quot; data. These are types of applications where data can potentially arrive with very high frequency and we may need to run queries against this data continuously and / or from the arriving data derive new types of data (change the schema of the original data) - which we also may want to run queries against. I am talking about &lt;strong&gt;Stream Data Processing&lt;/strong&gt; (&lt;strong&gt;SDP&lt;/strong&gt;) and &lt;strong&gt;Complex Event Processing&lt;/strong&gt; (&lt;strong&gt;CEP&lt;/strong&gt;) applications.&lt;/p&gt;
+
+&lt;p&gt;The main differences between a typical RDBMS application and a SDP/CEP application are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The data in a SDP/CEP application can be never ending. I.e. the data continuously arrives.&lt;/li&gt;
+&lt;li&gt;When we query data in a RDBMS app, we do it against a static snapshot of the data at that particular time.  The data is being evaluated once - and output once.&lt;/li&gt;
+&lt;li&gt;Querying against SDP/CEP data however is typically done in a continuous fashion. The data is continuously evaluated and output.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;RDBMS vs. SDP/CEP&lt;/h3&gt;
+
+&lt;p&gt;We can use RDBMS systems for SDP/CEP applications; we load the incoming data into the database and then we run queries continuously against the stored data. This will work OK, but we will run into some issues with it:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;By storing the data before we query it, we are adding latency as per Figure 1 below.&lt;/li&gt;
+&lt;li&gt;We may have to write some convoluted queries in order to be able to querying the data in a continuous manner.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/SI-1.png&quot; width=&quot;325&quot; height=&quot;145&quot;  &gt;
+&lt;strong&gt; Figure 1:&lt;/strong&gt; &lt;em&gt;RDBMS's Handling Stream Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, even if we can use RDBM's for SDP/CEP type applications it is fairly obvious that this may not be the best approach. Hence the rise of another type of management systems for SDP/CEP applications: the &lt;strong&gt;Data Stream Management Systems&lt;/strong&gt; (&lt;strong&gt;DSMS&lt;/strong&gt;).&lt;/p&gt;
+
+&lt;p&gt;The DSMS systems work under the premises that we have some sort of server (running in memory), which serves up application(s) that handles the incoming data. The incoming data is fed to the application(s) by the use of input adapters. In the application(s) there are continuous queries running over the data from the input adapters. The results of the queries are then being fed to output adapters which serve up the data to applications that need the data. Figure 2 tries to illustrate a DSMS system.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/SI-2.png&quot; width=&quot;500&quot; height=&quot;215&quot;  &gt;
+&lt;strong&gt; Figure 2:&lt;/strong&gt; &lt;em&gt;General Overview of DSMS&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Dependent on the DSMS system the language of the query may vary. Quite a few systems are using languages that are fairly similar to SQL, whereas SI is using LINQ. As we can see from Figure 2, the main part of the DSMS runs in a low latency environment, and it is only if we need any sort of look-up data loaded from a RDBMS that we may run into high latency issues.&lt;/p&gt;
+
+&lt;h3&gt;Complex Event Processing&lt;/h3&gt;
+
+&lt;p&gt;So what is the difference between processing the streaming data and doing CEP? In CEP we look at the individual events, try to correlate them and look at the impact on a macro-level. A typical example of this (quite a few DSMS systems, are using this as an example) is where we collect sensor signals from cars, let's say each car sends out a signal every 30:th second. This signal contains information about position, speed, road, lane in the road etc. When analyzing these event signals we say that a car-crash has happened if any given car has during 4 consecutive signals the same position and 0 speed. We have analyzed the individual events and from them derived a new event: a &lt;strong&gt;Complex Event&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This was a very rudimentary explanation. To get a fuller (and much better and in-depth) explanation have a look at a series of &lt;a href=&quot;http://www.thecepblog.com/what-is-complex-event-processing/&quot;&gt;blog posts&lt;/a&gt; by &lt;a href=&quot;http://www.thecepblog.com&quot;&gt;Tim Bass&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Finally&lt;/h3&gt;
+
+&lt;p&gt;As mentioned at the very beginning; this was a repost, and in the original post I said that I would in the next instalment write about the architecture of StreamInsight. The blog disappeared before that, but look out for a post shortly here about the architecture.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SQL Server 2008 R2 August CTP</title>
+   <link href="http://nielsberglund.com/2009/08/11/sql-server-2008-r2-august-ctp/"/>
+   <updated>2009-08-11T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2009/08/11/sql-server-2008-r2-august-ctp</id>
+   <content type="html">&lt;p&gt;Yesterday I downloaded and installed the August CTP of SQL Server 2008 R2, and today I played around with it for a while. So, what are my impressions?&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Well, from a perspective of being a relational dev and internals guy, my immediate response is &quot;yawn - where is the beef?&quot;. I.e., it is not much there, and I doubt we will see much more in coming releases. However, if I were a BI / reporting guy I'd be over the moon, and definitely look forward to future CTP's! Even if I were a (wait for it -) DBA I would be fairly interested.&lt;/p&gt;
+
+&lt;p&gt;I will let you decide for yourself what is interestimg for you, but one thing that is not in the CTP at the moment but is promised (and keeps me interested) is &lt;a href=&quot;http://www.microsoft.com/sqlserver/2008/en/us/R2-complex-event.aspx&quot;&gt;StreamInsight&lt;/a&gt; (based on Complex Event Processing). This will be part of SQL Servr 2008 R2. Coming from the financial industry and dealing with message based applications (that's why I love SQL Server Service Broker), this is something I am really interested in. So, even if you are a T-SQL / internals guy, do not despair - there may be something for us as well.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Twitter</title>
+   <link href="http://nielsberglund.com/2009/08/09/twitter/"/>
+   <updated>2009-08-09T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2009/08/09/twitter</id>
+   <content type="html">&lt;p&gt;As the saying goes; &quot;It is hard to learn an old dog new tricks&quot;, but...  Even though I am a really old dog, I hope I'll be able to learn a bit about &quot;social networking&quot;, and therefore I created an account on Twitter a couple of days ago. Hopefully I'll be able to be more active on Twitter than what I've been here at the blog. Well, that should not be too hard, seeing how infrequent I post here.&lt;/p&gt;
+
+&lt;p&gt;Anyway, my twitter account is &lt;a href=&quot;http://www.twitter.com/nielsberglund&quot;&gt;&lt;strong&gt;@nielsberglund&lt;/strong&gt;&lt;/a&gt;, so if you are interested you know where to go.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Debugging in SQL Server 2008</title>
+   <link href="http://nielsberglund.com/2008/07/16/debugging-in-sql-server-2008/"/>
+   <updated>2008-07-16T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2008/07/16/debugging-in-sql-server-2008</id>
+   <content type="html">&lt;p&gt;As good as SQL 2005 was (well, still are), one disappointment was that you needed Visual Studio if you wanted to debug your stored procedures. Seriously, what was MS thinking when they did that, especially as in SQL 2000, Query Analyzer had debug capabilities?!!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Anyway, today I was &lt;del&gt;playing around&lt;/del&gt;, errm - doing serious stuff in the RC0 release of SQL Server 2008, and just by coincidence noticed that there is a debug menu entry in the toolbar (how blind can one be - I must have been looking at that toolbar quite a few times). So I wrote some T-SQL code, put in a couple of breakpoints and hit Alt + F5, and lo and behold - my bp's were hit and I could step through the code. I then wrote a very basic stored proc, wrote some code that called the proc, put a bp at the call into the proc and executed. When the execution stopped at the bp I hit F11 and I stepped into the proc - WoHoo!!! Call me sad, but stuff like this make me happy!!&lt;/p&gt;
+
+&lt;p&gt;Now, let's hope that MS will keep this feature in and not pull it at the last minute - anyone remember the XQuery designer in one of the very early SQL 2005 beta's?&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SQL Server 2005 and DMV's</title>
+   <link href="http://nielsberglund.com/2006/08/23/sql-server-2005-and-dmvs/"/>
+   <updated>2006-08-23T09:27:56+02:00</updated>
+   <id>http://nielsberglund.com/2006/08/23/sql-server-2005-and-dmvs</id>
+   <content type="html">&lt;p&gt;One of the first thing I usually do after having installed a new version of SQL Server is to snoop around at the system tables to see what new tables there are and what they can give me information about.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;As you may know by now, in SQL Server 2005 the system tables are not longer visible. The information from the system tables are instead exposed as &lt;strong&gt;Dynamic Management Views&lt;/strong&gt; (DMV). These DMV's gives you a lot of information about the state of your SQL Server, the problem is how to interpret the views and what views to look at when you try to solve a specific problem.&lt;/p&gt;
+
+&lt;p&gt;Fortunately &lt;a href=&quot;http://blogs.msdn.com/slavao&quot;&gt;Slava Ok&lt;/a&gt; from Microsoft is planning to post a series of blog entries about DMV's where he emphasizes on what actual problems the DMV's can be used to solve. The first installment is now up, and you can find it &lt;a href=&quot;http://blogs.msdn.com/slavao/archive/2006/08/22/713357.aspx&quot;&gt;here&lt;/a&gt;. Happy reading!!&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>
