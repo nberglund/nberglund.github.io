@@ -4,13 +4,35 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2016-12-28T12:01:17+02:00</updated>
+ <updated>2016-12-28T15:16:18+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Testing, Testing, Anyone Out There?</title>
+   <link href="http://nielsberglund.com/2016/12/28/testing-testing-anyone-out-there/"/>
+   <updated>2016-12-28T14:18:58+02:00</updated>
+   <id>http://nielsberglund.com/2016/12/28/testing-testing-anyone-out-there</id>
+   <content type="html">&lt;p&gt;What can I say, I am crap at this &quot;blogging&quot; thing! Three years ago, I &lt;a href=&quot;/2013/10/02/moving-to-a-new-blog-engine/&quot;&gt;resuscitated my blog&lt;/a&gt;, after a hiatus of one year. I also switched blog engine from WordPress to &lt;a href=&quot;http://octopress.org&quot;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt; (which at that stage was version 2). At the time of the switch, I had had a one year hiatus of blogging (I am not a very prolific blog writer :)), and I remember I was very tempted to write in that &lt;a href=&quot;/2013/10/02/moving-to-a-new-blog-engine/&quot;&gt;post&lt;/a&gt;, that if I cannot keep up blogging I will quit. Boy, am I glad I did not write that!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;So here we are, three years later (what are a couple of months between friends), and I am about to write blog posts again. This time I have not switched blog engine - but I have upgraded from Octopress 2 to &lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;3.0&lt;/a&gt;. So why am I doing this? The easiest answer to that would be that &quot;I have no effing idea why, other than that I must be a masochist&quot;, however there are a couple of other reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao/&quot;&gt;Slava Oks&lt;/a&gt; - for you young &quot;whipper snappers&quot; out there; he was Mr. SQLOS and Mr. SQLCLR back in the day of SQL Server 2005 - what he didn't know about SQLOS was not / is not worth knowing. He has recently come back after a &lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao/2016/12/20/one-two-three-boom/&quot;&gt;10 year blogging hiatus&lt;/a&gt;, so if he can ...&lt;/li&gt;
+&lt;li&gt;I still like &quot;putting pen to paper&quot;, and write about things I enjoy.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Right, so that's it! Let us see what happens going forward!&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>SQL Saturday Presentations</title>
