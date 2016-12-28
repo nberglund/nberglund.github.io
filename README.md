@@ -1,4 +1,2 @@
-# nberglund.github.io
-
-This is the place for my personal blog!
-
+# myblogsource
+As the name implies, this is the source files for my blog
