@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <div class="page">
+  <h1 class="page-title">XACT_ABORT Demo Code</h1>
+  <p>This is demo code for XACT_ABORT.</p>
+
+<h3>Instructions</h3>
+
+<ol>
+<li>run the script 01_create_db.sql</li>
+<li>run the script 02_setup_tables_and_insert_data.sql</li>
+<li>run the script 03_tx_with_fk_exception.sql
+
+<ul>
+<li>notice how an exception happens, but we still have data in the table</li>
+</ul>
+</li>
+<li>run the script 04_tx_with_fk_exception_and_XACT_ABORT_ON.sql which introduces <code>XACT_ABORT</code>
+
+<ul>
+<li>at this stage there won't be any data in the table</li>
+</ul>
+</li>
+<li>run the script 05_create_procedures.sql to create some procedures not using any error handling</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+<li>run the script 06_create__error_handling_procedures.sql to create some procedures using "old" style error handling</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+<li>run the script 07_edit_pr_1_to use XACT_ABORT.sql to let <code>dbo.pr_1</code> use <code>XACT_ABORT</code>.</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+<li>run the script 08_raiserror.sql to edit <code>dbo.pr_3</code> to use <code>RAISERROR</code>.</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+<li>run the script 09_pr_3_with_try_catch.sql to edit <code>dbo.pr_3</code> to use <code>TRY ... CATCH</code>.</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+<li>run the script 10_edit_pr_1_to_use_try_catch_and pr_3_to back_to_original.sql to let <code>dbo.pr_1</code> use <code>try ... catch</code> and edit <code>dbo.pr_3</code> back to original.</li>
+<li>run the script Execute_procedures.sql, and see the output, as well as the result from the <code>SELECT</code> statement</li>
+</ol>
+
+
+</div>
+
+</html>
