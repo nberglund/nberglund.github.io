@@ -1,0 +1,6 @@
+[Blog]: "Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!" http://bit.ly/2j534tj
+#sqlserver #xact_abort #errorhandling #manageddata
+
+New Blogpost: "Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!" http://bit.ly/2j534tj
+Why XACT_ABORT may not be the best thing.
+#sqlserver #xact_abort #errorhandling #manageddata

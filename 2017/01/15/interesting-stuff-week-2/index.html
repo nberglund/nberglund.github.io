@@ -7,6 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
+  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  
+  
+  <meta name="keywords" content="data science, distributed computing, SQL Server, transactions, chaos theory, microservices, kubernetes, R"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -14,7 +18,7 @@
 
   <title>
     
-      F#, Mono and Mac - Take II &middot; MANAGED DATA
+      Interesting Stuff - Week 2 &middot; MANAGED DATA
     
   </title>
 
@@ -147,9 +151,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">F#, Mono and Mac - Take II</h1>
+  <h1 class="post-title">Interesting Stuff - Week 2</h1>
   <div class="post-subheading">
-  <span class="post-date">20 Nov 2010</span>
+  <span class="post-date">15 Jan 2017</span>
 
   <span class="post-tag">
     
@@ -157,9 +161,7 @@
     
 
     
-      NET
-    
-      Mono
+      roundup
     
 
     
@@ -167,36 +169,87 @@
     
 
     
-      F#
+      data science
     
-      Mac
+      distributed computing
     
-      osx
+      SQL Server
+    
+      transactions
+    
+      R
     
 
     
   </span>
 </div>
-  <p>So yesterday <a href="/2010/11/19/fsharp-mono-and-mac/">I wrote</a> about how I have started using F# and Mono on my MacBook.</p>
+  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:</p>
 
-<p>I wrote about how I downloaded the F# bits, unzipped and put them in a specific directory I had created. Today after having browsed around a bit more I realized I had done it the hard way. To install the required bits for F# for Mac, you only have to download a zip file with an install package for Mac from the <a href="http://fsxplat.codeplex.com/">F# Cross Platform</a> site on CodePlex. The actual zip-file for the November 2010 CTP is <a href="/2010/11/19/fsharp-mono-and-mac/">here</a>.</p>
+<ul>
+<li>data science</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other "stuff"</li>
+</ul>
 
-<p>After you have downloaded the file you unzip it and run the <code>.pkg</code> file. This takes care of everything; no re-signing with the <code>.snk</code> file etc. The added benefit of installing from the <code>.pkg</code> file is that a couple of F# compiler dll's are automatically gac:ed (they are needed if you want to run the F# plugin for MonoDevelop), and aliases are created for the F# compiler and the F# interactive window.</p>
+
+<p>This is the "roundup" of the posts that has been most interesting to me. Oh, and if you wonder if you have missed <em>Interesting Stuff - Week #1</em>. seeing that this post is named <em>Interesting Stuff - Week #2</em>, you haven't. They are numbered by calendar week number, and I started the second week of January :).</p>
+
+<!--more-->
+
+
+<h2>Data Science</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/01/10/sql-server-r-services-why-did-we-build-it/">SQL Server R Services</a>. The first in a series of articles why Microsoft why they built R in SQL Server, and how it woks under the covers. I <strong>really</strong> look forward to reading more about this.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/01/stackoverflow-insights.html">What can we learn from StackOverflow data?</a>. A post from Revolution Analytics blog, where they discuss what insights can be had from StackOverflow data. For you who don't know, Revolution Analytics was acquired by Microsoft in 2015, and a lot of what Revolution Analytics dis are now part of Microsoft R Services, etc.</li>
+<li><a href="https://www.nytimes.com/2016/12/14/magazine/the-great-ai-awakening.html">The Great A.I. Awakening</a>. A post from New York Times about how Google used artificial intelligence to enhance Google Translate.</li>
+<li><a href="https://www.r-bloggers.com/why-do-decision-trees-work/">Why do Decision Trees Work?</a>. This post is very informative about how and - more importantly - decision trees work.</li>
+</ul>
+
+
+<h2>Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2017/01/09/apache-hadoop-yarn-yet-another-resource-negotiator/">Apache Hadoop YARN: Yet another resource negotiator</a>. A discussion of the requirements that drove the design of YARN and the high-level approach. This article is from <a href="https://blog.acolyer.org"><strong>the morning paper</strong></a>, where every weekday @adriancolyer dissects a white-paper from the world of Computer Science.</li>
+<li><a href="http://principlesofchaos.org/">Principles of Chaos Engineering</a>. A web-site geared towards chaos engineering of distributed systems.</li>
+<li><a href="https://www.infoq.com/articles/chaos-engineering">Chaos Engineering</a>. More about chaos engineering. This article is from <a href="https://www.infoq.com">InfoQ</a>, covering how Netflix is doing chaos engineering.</li>
+<li><a href="https://www.infoq.com/presentations/microservices-kubernetes">Building a Microservices Platform with Kubernetes</a>. An <a href="https://www.infoq.com">InfoQ</a> presentation by Matthew Mark Miller where he discusses Kubernetes’ primitives and microservices patterns on top of them, including rolling deployments, stateful services and adding behaviors via sidecars.</li>
+</ul>
+
+
+<h2>SQL Server</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/sql_server_team/columnstore-index-performance-sql-server-2016-multiple-aggregates/">Columnstore Index Performance: SQL Server 2016 – Multiple Aggregates</a>. A Microsoft blog post about performance improvements in SQL Server's <strong>Columnstore Index</strong>.</li>
+<li><a href="https://blogs.msdn.microsoft.com/bobsql/2017/01/05/sql-server-on-linux-elf-and-pe-images-just-work/">SQL Server on Linux: ELF and PE Images Just Work</a>. How Micrsoft managed to get SQL Server to boot on Linux.</li>
+</ul>
+
+
+<h2>Transactions</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2017/01/12/the-many-faces-of-consistency/">The many faces of consistency</a>. Another white-paper dissection from <a href="https://blog.acolyer.org">the morning paper</a>. This is about consistency models and isolation levels in distributed systems.</li>
+</ul>
+
+
+<p>That's all for this week. I hope you enjoy what I put together. If you have ideas for what to cover, please comment on this post or ping me.</p>
 
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2/&text=F#, Mono and Mac - Take II&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/15/interesting-stuff-week-2/&text=Interesting Stuff - Week 2&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2010/11/20/fsharp-mono-and-mac-2/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/15/interesting-stuff-week-2/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2/
-         &title=F#, Mono and Mac - Take II
-         &summary=Blog post: 
-         &source=http://www.nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/01/15/interesting-stuff-week-2/
+         &title=Interesting Stuff - Week 2
+         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
+         &source=http://www.nielsberglund.com/2017/01/15/interesting-stuff-week-2/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -204,7 +257,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2010/11/20/fsharp-mono-and-mac-2/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/15/interesting-stuff-week-2/
 
    -->
   <p>
@@ -216,15 +269,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/01/15/interesting-stuff-week-2/">
-            Interesting Stuff - Week 2
-            <small>15 Jan 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -240,6 +284,15 @@ To automatically receive more posts like this, please
           <a href="/2016/12/31/sql-server-error-handling-gotchas/">
             SQL Server Error Handling Gotchas
             <small>31 Dec 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/12/28/testing-testing-anyone-out-there/">
+            Testing, Testing, Anyone Out There?
+            <small>28 Dec 2016</small>
           </a>
         </h3>
       </li>
