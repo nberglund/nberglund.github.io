@@ -1,3 +1,12 @@
+[Blog]: "Interesting Stuff - Week 2" http://bit.ly/2jm2udA
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver
+
+New Blogpost: "Interesting Stuff - Week 2" http://bit.ly/2jm2udA
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver
+
+
 [Blog]: "Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!" http://bit.ly/2j534tj
 #sqlserver #xact_abort #errorhandling #manageddata
 
