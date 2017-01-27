@@ -1,3 +1,11 @@
+[Blog]: "Interesting Stuff - Week 3" http://bit.ly/2kaUVDl
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver
+
+New Blogpost: "Interesting Stuff - Week 3" http://bit.ly/2kaUVDl
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver
+
 [Blog]: "Interesting Stuff - Week 2" http://bit.ly/2jm2udA
 #datascience #distributedcomputing #transactions #manageddata
 #sqlserver
