@@ -4,13 +4,78 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-01-27T19:02:21+02:00</updated>
+ <updated>2017-01-28T08:07:17+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 4</title>
+   <link href="http://nielsberglund.com/2017/01/28/interesting-stuff-week-4/"/>
+   <updated>2017-01-28T07:57:00+02:00</updated>
+   <id>http://nielsberglund.com/2017/01/28/interesting-stuff---week-4</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This week it is mostly data science, so without further ado, let's get cracking:&lt;/p&gt;
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/01/upcoming-r-conferences.html&quot;&gt;Upcoming R Conferences&lt;/a&gt;. A list of upcoming R conferences around the world. Among the conferences it lists the second ever &lt;strong&gt;satRday&lt;/strong&gt;, this year held in Cape Town. I will be speaking there, and I do believe there still are tickets left. Check &lt;a href=&quot;http://capetown2017.satrdays.org/&quot;&gt;here&lt;/a&gt; for more.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/01/25/a-plethora-of-microsoft-training-options-on-ai-machine-learning-data-science-including-moocs/&quot;&gt;Microsoft Training Options on AI, Machine Learning &amp;amp; Data Science&lt;/a&gt;. This post lists a lot of various training options within data science, mostly based on &lt;strong&gt;Microsoft&lt;/strong&gt; technologies&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/01/27/new-year-new-updates-to-the-windows-data-science-virtual-machine/&quot;&gt;New Year &amp;amp; New Updates to the Windows Data Science Virtual Machine&lt;/a&gt;. Microsoft has updated its &lt;strong&gt;Azure&lt;/strong&gt; based &lt;a href=&quot;https://azure.microsoft.com/en-us/marketplace/partners/microsoft-ads/standard-data-science-vm/&quot;&gt;Data Science Virtual Machine&lt;/a&gt;, with some really, really interesting new stuff!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/01/microsoftml-taxi-trips.html&quot;&gt;Building a machine learning model with the MicrosoftML package&lt;/a&gt;. A post about &lt;a href=&quot;https://msdn.microsoft.com/en-us/microsoft-r/microsoftml-introduction&quot;&gt;MicrosoftML&lt;/a&gt;, the new high performant R package included in &lt;a href=&quot;https://www.microsoft.com/en-us/cloud-platform/r-server&quot;&gt;Microsoft R Server 9&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/quora-analytics&quot;&gt;Scaling Counting Infrastructure @Quora&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com&quot;&gt;InfoQ&lt;/a&gt; presentation about &lt;strong&gt;Quanta&lt;/strong&gt;, which is &lt;strong&gt;Quora&lt;/strong&gt;'s counting system powering their high-volume near-real-time analytics.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/making-sense-of-stream-processing-ebook-download/&quot;&gt;Making Sense of Stream Processing&lt;/a&gt;. A download link for an eBook covering how stream processing can make your data processing systems more flexible and less complex. I include it here as the book discusses &lt;strong&gt;Kafka&lt;/strong&gt; (which I think is awesome, Kafka I mean).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=oEpJB87Xg9U&quot;&gt;Introducing SQL Server on Linux&lt;/a&gt;. A YouTube video about SQL Server on Linux, including how you can: download and install SQL Server on a Linux Virtual Machine; run your SQL Server-based apps inside of Docker containers and improve the performance of your applications.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/01/24/sql-server-on-linux-debugging-elf-and-pe-images-dbgbridge/&quot;&gt;SQL Server on Linux: Debugging ELF and PE Images (dbgbridge)&lt;/a&gt;. A very, very interesting post how Microsoft implemented the ability to debug from WinDbg, both SQL Server on Windows as well as on Linux!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
+
+&lt;p&gt;So this is my shameless self promotion part. I have three blog-posts about error handling on SQL Server. Personally I think they are well worth reading :). In chronological order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2016/12/31/sql-server-error-handling-gotchas/&quot;&gt;SQL Server Error Handling Gotchas&lt;/a&gt;. How error handling in SQL Server can trip you up!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/&quot;&gt;Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!&lt;/a&gt;. The dangers of using XACT_ABORT in SQL Server OLTP databases.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/01/27/doomed-we-are-all-doomed/&quot;&gt;Doomed, We are All Doomed I Say!&lt;/a&gt;. A blog-post about doomed transactions in SQL Server and XACT_STATE().&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Doomed, We are All Doomed I Say!</title>

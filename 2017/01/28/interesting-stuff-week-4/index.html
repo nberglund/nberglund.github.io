@@ -10,7 +10,7 @@
   <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
   
   
-  <meta name="keywords" content="data science, distributed computing, SQL Server, transactions, chaos theory, microservices, kubernetes, R"/>
+  <meta name="keywords" content="data science, distributed computing, SQL Server, XACT_STATE, XACT_ABORT, Kafka, R, Microsoft R Server, managed data"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -18,7 +18,7 @@
 
   <title>
     
-      Interesting Stuff - Week 2 &middot; MANAGED DATA
+      Interesting Stuff - Week 4 &middot; MANAGED DATA
     
   </title>
 
@@ -155,9 +155,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Interesting Stuff - Week 2</h1>
+  <h1 class="post-title">Interesting Stuff - Week 4</h1>
   <div class="post-subheading">
-  <span class="post-date">15 Jan 2017</span>
+  <span class="post-date">28 Jan 2017</span>
 
   <span class="post-tag">
     
@@ -179,18 +179,27 @@
     
       SQL Server
     
-      transactions
+      XACT_STATE
+    
+      XACT_ABORT
+    
+      Kafka
     
       R
+    
+      Microsoft R Server
+    
+      managed data
     
 
     
   </span>
 </div>
-  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:</p>
+  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me</p>
 
 <ul>
 <li>data science</li>
+<li>data in general</li>
 <li>distributed computing</li>
 <li>SQL Server</li>
 <li>transactions (both db as well as non db)</li>
@@ -198,62 +207,66 @@
 </ul>
 
 
-<p>This is the "roundup" of the posts that has been most interesting to me. Oh, and if you wonder if you have missed <em>Interesting Stuff - Week #1</em>. seeing that this post is named <em>Interesting Stuff - Week #2</em>, you haven't. They are numbered by calendar week number, and I started the second week of January :).</p>
+<p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
 
 <!--more-->
 
 
+<p>This week it is mostly data science, so without further ado, let's get cracking:</p>
+
 <h2>Data Science</h2>
 
 <ul>
-<li><a href="https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/01/10/sql-server-r-services-why-did-we-build-it/">SQL Server R Services</a>. The first in a series of articles why Microsoft why they built R in SQL Server, and how it woks under the covers. I <strong>really</strong> look forward to reading more about this.</li>
-<li><a href="http://blog.revolutionanalytics.com/2017/01/stackoverflow-insights.html">What can we learn from StackOverflow data?</a>. A post from Revolution Analytics blog, where they discuss what insights can be had from StackOverflow data. For you who don't know, Revolution Analytics was acquired by Microsoft in 2015, and a lot of what Revolution Analytics dis are now part of Microsoft R Services, etc.</li>
-<li><a href="https://www.nytimes.com/2016/12/14/magazine/the-great-ai-awakening.html">The Great A.I. Awakening</a>. A post from New York Times about how Google used artificial intelligence to enhance Google Translate.</li>
-<li><a href="https://www.r-bloggers.com/why-do-decision-trees-work/">Why do Decision Trees Work?</a>. This post is very informative about how and - more importantly - decision trees work.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/01/upcoming-r-conferences.html">Upcoming R Conferences</a>. A list of upcoming R conferences around the world. Among the conferences it lists the second ever <strong>satRday</strong>, this year held in Cape Town. I will be speaking there, and I do believe there still are tickets left. Check <a href="http://capetown2017.satrdays.org/">here</a> for more.</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2017/01/25/a-plethora-of-microsoft-training-options-on-ai-machine-learning-data-science-including-moocs/">Microsoft Training Options on AI, Machine Learning &amp; Data Science</a>. This post lists a lot of various training options within data science, mostly based on <strong>Microsoft</strong> technologies</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2017/01/27/new-year-new-updates-to-the-windows-data-science-virtual-machine/">New Year &amp; New Updates to the Windows Data Science Virtual Machine</a>. Microsoft has updated its <strong>Azure</strong> based <a href="https://azure.microsoft.com/en-us/marketplace/partners/microsoft-ads/standard-data-science-vm/">Data Science Virtual Machine</a>, with some really, really interesting new stuff!</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/01/microsoftml-taxi-trips.html">Building a machine learning model with the MicrosoftML package</a>. A post about <a href="https://msdn.microsoft.com/en-us/microsoft-r/microsoftml-introduction">MicrosoftML</a>, the new high performant R package included in <a href="https://www.microsoft.com/en-us/cloud-platform/r-server">Microsoft R Server 9</a>.</li>
 </ul>
 
 
 <h2>Distributed Computing</h2>
 
 <ul>
-<li><a href="https://blog.acolyer.org/2017/01/09/apache-hadoop-yarn-yet-another-resource-negotiator/">Apache Hadoop YARN: Yet another resource negotiator</a>. A discussion of the requirements that drove the design of YARN and the high-level approach. This article is from <a href="https://blog.acolyer.org"><strong>the morning paper</strong></a>, where every weekday @adriancolyer dissects a white-paper from the world of Computer Science.</li>
-<li><a href="http://principlesofchaos.org/">Principles of Chaos Engineering</a>. A web-site geared towards chaos engineering of distributed systems.</li>
-<li><a href="https://www.infoq.com/articles/chaos-engineering">Chaos Engineering</a>. More about chaos engineering. This article is from <a href="https://www.infoq.com">InfoQ</a>, covering how Netflix is doing chaos engineering.</li>
-<li><a href="https://www.infoq.com/presentations/microservices-kubernetes">Building a Microservices Platform with Kubernetes</a>. An <a href="https://www.infoq.com">InfoQ</a> presentation by Matthew Mark Miller where he discusses Kubernetes’ primitives and microservices patterns on top of them, including rolling deployments, stateful services and adding behaviors via sidecars.</li>
+<li><a href="https://www.infoq.com/presentations/quora-analytics">Scaling Counting Infrastructure @Quora</a>. An <a href="https://www.infoq.com">InfoQ</a> presentation about <strong>Quanta</strong>, which is <strong>Quora</strong>'s counting system powering their high-volume near-real-time analytics.</li>
+<li><a href="https://www.confluent.io/making-sense-of-stream-processing-ebook-download/">Making Sense of Stream Processing</a>. A download link for an eBook covering how stream processing can make your data processing systems more flexible and less complex. I include it here as the book discusses <strong>Kafka</strong> (which I think is awesome, Kafka I mean).</li>
 </ul>
 
 
 <h2>SQL Server</h2>
 
 <ul>
-<li><a href="https://blogs.msdn.microsoft.com/sql_server_team/columnstore-index-performance-sql-server-2016-multiple-aggregates/">Columnstore Index Performance: SQL Server 2016 – Multiple Aggregates</a>. A Microsoft blog post about performance improvements in SQL Server's <strong>Columnstore Index</strong>.</li>
-<li><a href="https://blogs.msdn.microsoft.com/bobsql/2017/01/05/sql-server-on-linux-elf-and-pe-images-just-work/">SQL Server on Linux: ELF and PE Images Just Work</a>. How Micrsoft managed to get SQL Server to boot on Linux.</li>
+<li><a href="https://www.youtube.com/watch?v=oEpJB87Xg9U">Introducing SQL Server on Linux</a>. A YouTube video about SQL Server on Linux, including how you can: download and install SQL Server on a Linux Virtual Machine; run your SQL Server-based apps inside of Docker containers and improve the performance of your applications.</li>
+<li><a href="https://blogs.msdn.microsoft.com/bobsql/2017/01/24/sql-server-on-linux-debugging-elf-and-pe-images-dbgbridge/">SQL Server on Linux: Debugging ELF and PE Images (dbgbridge)</a>. A very, very interesting post how Microsoft implemented the ability to debug from WinDbg, both SQL Server on Windows as well as on Linux!</li>
 </ul>
 
 
-<h2>Transactions</h2>
+<h2>Shameless Self Promotion</h2>
+
+<p>So this is my shameless self promotion part. I have three blog-posts about error handling on SQL Server. Personally I think they are well worth reading :). In chronological order:</p>
 
 <ul>
-<li><a href="https://blog.acolyer.org/2017/01/12/the-many-faces-of-consistency/">The many faces of consistency</a>. Another white-paper dissection from <a href="https://blog.acolyer.org">the morning paper</a>. This is about consistency models and isolation levels in distributed systems.</li>
+<li><a href="/2016/12/31/sql-server-error-handling-gotchas/">SQL Server Error Handling Gotchas</a>. How error handling in SQL Server can trip you up!</li>
+<li><a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!</a>. The dangers of using XACT_ABORT in SQL Server OLTP databases.</li>
+<li><a href="/2017/01/27/doomed-we-are-all-doomed/">Doomed, We are All Doomed I Say!</a>. A blog-post about doomed transactions in SQL Server and XACT_STATE().</li>
 </ul>
 
 
-<p>That's all for this week. I hope you enjoy what I put together. If you have ideas for what to cover, please comment on this post or ping me.</p>
+<p>That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/15/interesting-stuff-week-2/&text=Interesting Stuff - Week 2&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/28/interesting-stuff-week-4/&text=Interesting Stuff - Week 4&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/15/interesting-stuff-week-2/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/28/interesting-stuff-week-4/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2017/01/15/interesting-stuff-week-2/
-         &title=Interesting Stuff - Week 2
+         &url=http://www.nielsberglund.com/2017/01/28/interesting-stuff-week-4/
+         &title=Interesting Stuff - Week 4
          &summary=Blog post: Weekly roundup of what interesting stuff I have found.
-         &source=http://www.nielsberglund.com/2017/01/15/interesting-stuff-week-2/"> | LinkedIn</a> 
+         &source=http://www.nielsberglund.com/2017/01/28/interesting-stuff-week-4/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -261,7 +274,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/15/interesting-stuff-week-2/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/28/interesting-stuff-week-4/
 
    -->
   <p>
@@ -273,15 +286,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/01/28/interesting-stuff-week-4/">
-            Interesting Stuff - Week 4
-            <small>28 Jan 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -297,6 +301,15 @@ To automatically receive more posts like this, please
           <a href="/2017/01/21/interesting-stuff-week-3/">
             Interesting Stuff - Week 3
             <small>21 Jan 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/01/15/interesting-stuff-week-2/">
+            Interesting Stuff - Week 2
+            <small>15 Jan 2017</small>
           </a>
         </h3>
       </li>
