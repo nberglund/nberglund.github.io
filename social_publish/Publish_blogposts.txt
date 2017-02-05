@@ -1,3 +1,11 @@
+[Blog]: "Interesting Stuff - Week 4" http://bit.ly/2k2zoxV
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver #MachineLearning #DSVM #RStats
+
+New Blogpost: "Interesting Stuff - Week 4". Things I find interesting this week. http://bit.ly/2k2zoxV
+#datascience #distributedcomputing #transactions #manageddata
+#sqlserver #MachineLearning #DSVM #RStats
+
 [Blog]: "Doomed, We are All Doomed I Say!" http://bit.ly/2k0G5R6
 #sqlserver #errorhandling #doomedtx #transactions
 #manageddata

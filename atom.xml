@@ -4,13 +4,89 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-01-28T08:07:17+02:00</updated>
+ <updated>2017-02-05T10:13:30+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 5</title>
+   <link href="http://nielsberglund.com/2017/02/05/interesting-stuff-week-5/"/>
+   <updated>2017-02-05T09:58:12+02:00</updated>
+   <id>http://nielsberglund.com/2017/02/05/interesting-stuff---week-5</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://queue.acm.org/detail.cfm?id=3025012&quot;&gt;Life Beyond Distributed Transactions&lt;/a&gt;. An excellent piece about distributed transactions in large scale systems. As a side note; the &lt;a href=&quot;http://queue.acm.org/&quot;&gt;queue.acm.org&lt;/a&gt; is a goldmine if you are interested in enterprise computing related papers.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://highscalability.com/blog/2016/9/28/how-uber-manages-a-million-writes-per-second-using-mesos-and.html&quot;&gt;How Uber Manages a Million Writes Per Second Using Mesos and Cassandra Across Multiple Datacenter&lt;/a&gt;. Very interesting post about how Uber has designed their systems.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/01/scaling-twitter-infrastructure&quot;&gt;The Infrastructure Behind Twitter: Scaling Networking, Storage and Provisioning&lt;/a&gt;. Similar to the post above, but this time about Twitter. Some interesting takeaways:
+
+&lt;ul&gt;
+&lt;li&gt;There is no such a thing as a “temporary change or workaround”. In most cases, workarounds are technical debt.&lt;/li&gt;
+&lt;li&gt;Architect beyond the original specifications and requirements.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mapr.com/blog/real-time-credit-card-fraud-detection-apache-spark-and-event-streaming&quot;&gt;Real Time Credit Card Fraud Detection with Apache Spark and Event Streaming&lt;/a&gt;. A post how you how to build a real time solution for credit card fraud detection.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/ml-intro-python&quot;&gt;Introduction to Machine Learning with Python&lt;/a&gt;. First part in a series about &lt;a href=&quot;https://www.infoq.com/introduction-machine-learning&quot;&gt;machine learning&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://thomaswdinsmore.com/2017/02/01/year-in-sql-engines/&quot;&gt;THE YEAR IN SQL ENGINES&lt;/a&gt;. So this is not about relational databases, but a roundup of various sql engines for data science and big data.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/02/fst-fast-serialization-of-r-data-frames.html&quot;&gt;fst: Fast serialization of R data frames&lt;/a&gt;. A new R package for serialization of data.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/02/the-year-in-r.html&quot;&gt;A look back at the year in R and Microsoft&lt;/a&gt;. Looking at what happened in 2016 in R and Microsoft (related to machine learning).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/streaming-hadoop&quot;&gt;Streaming Live Data and the Hadoop Ecosystem&lt;/a&gt;. A very interesting presentation about Hadoop and streaming of data in Hadoop.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/new-in-azure-stream-analytics-geospatial-functions-custom-code-and-lots-more/&quot;&gt;New in Azure Stream Analytics: Geospatial functions, Custom code and lots more!&lt;/a&gt;. Microsoft has just released new features and functionality for &lt;a href=&quot;https://azure.microsoft.com/en-us/services/stream-analytics/&quot;&gt;Azure Stream Analytics&lt;/a&gt; (ASA). I have played around with the Visual Studio tools for ASA, and it rocks!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/02/json-data-in-clustered-column-store-indexes/&quot;&gt;JSON data in clustered column store indexes&lt;/a&gt;. Jovan has written a really nice post how Clustered Column Store indexes can give you compression and query performance benefits for JSON data store in SQL Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.sqlskills.com/blogs/paul/determine-causes-particular-wait-type/&quot;&gt;How to determine what causes a particular wait type&lt;/a&gt;. A post by Paul Randal from 2014 about how to find out when and why &lt;strong&gt;wait types&lt;/strong&gt; occur.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Finally two more posts by Bob Dorr about SQL Server and Linux:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/01/29/sql-server-on-linux-an-lldb-debugging-tale/&quot;&gt;SQL Server on Linux: An LLDB Debugging Tale&lt;/a&gt;. What Microsoft did in order to be able to debug SQL Server running on Linux.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/01/31/sql-server-on-linux-scattergather-vectored-io/&quot;&gt;SQL Server on Linux: Scatter/Gather == Vectored I/O&lt;/a&gt;. How scatter/gather are done on Linux.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 4</title>
