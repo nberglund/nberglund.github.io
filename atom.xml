@@ -4,13 +4,92 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-02-11T12:47:04+02:00</updated>
+ <updated>2017-02-12T06:34:29+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 6</title>
+   <link href="http://nielsberglund.com/2017/02/12/interesting-stuff-week-6/"/>
+   <updated>2017-02-12T06:32:10+02:00</updated>
+   <id>http://nielsberglund.com/2017/02/12/interesting-stuff---week-6</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that have been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This week has been somewhat hectic work-wise, so I have not read as much as I have wanted, but this is what I found.&lt;/p&gt;
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://data-artisans.com/apache-flink-1-2-0/&quot;&gt;Apache Flink Community Announces 1.2.0 Release&lt;/a&gt;. &lt;strong&gt;Flink&lt;/strong&gt; is a high-performing stream processing framework. They have now released version 1.2, which adds really exciting new functionality to the engine.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/02/HazlecastJetOSS&quot;&gt;Hazelcast Release Jet, Open-Source Stream Processing Engine&lt;/a&gt;. While we are on the subject of stream processing engines, this article is about a new stream processing engine that has some new innovative thinking in the way it works.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/microservices-in-practice&quot;&gt;Virtual Panel: Microservices in Practice&lt;/a&gt;. Panel discussion about the state of art of Microservices, and how they are likely to evolve.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/09/extreme-25x-compression-of-json-data-using-clustered-columnstore-indexes/&quot;&gt;Extreme 25x compression of JSON data using CLUSTERED COLUMNSTORE INDEXES&lt;/a&gt;. In &lt;a href=&quot;/2017/02/05/interesting-stuff-week-5/&quot;&gt;last weeks roundup&lt;/a&gt;, I pointed out a &lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/02/json-data-in-clustered-column-store-indexes/&quot;&gt;post&lt;/a&gt; by Jovan Popovic about JSON data and Clustered Column Store Indexes. This weeks post drills further into it and shows how you can get really impressive compression of the data.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/09/exporting-tables-from-sql-server-in-json-line-delimited-format-using-bcp-exe/&quot;&gt;Exporting tables from SQL Server in json line-delimited format using BCP.exe&lt;/a&gt;. More by Jovan. This time how SQL Server can be used to export content of tables into line-delimited JSON format.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit&quot;&gt;SQL Server First Responder Kit&lt;/a&gt;. Through an &lt;a href=&quot;https://www.infoq.com/news/2017/02/SQL-First-Responder&quot;&gt;article&lt;/a&gt; in &lt;a href=&quot;https://www.infoq.com/news/&quot;&gt;InfoQ&lt;/a&gt;, I came across this very handy tool for anyone that has to do any kind of work with SQL Server.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/sql-server/developer-get-started/r&quot;&gt;Build an intelligent app with SQL Server and R&lt;/a&gt;. By now it should be pretty clear that SQL Server 2016, has some very impressive capabilities when it comes to Data Science. This post outlines how to get started and building a predictive model, using SQL Server 2016 and &lt;strong&gt;R&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/02/retail-applications-with-microsoft-r.html&quot;&gt;Retail customer analytics with SQL Server R Services&lt;/a&gt;. More about SQL Server and R. This time about analytics of retail customers.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/machine-learning-api-response&quot;&gt;Machine Learning Your Way to Smarter API Error Responses&lt;/a&gt;. Presentation about how Machine Learning can be used to help you understand malformed API requests and to be able to respond with a best fit response, as well as capturing the user errors for future responses.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/big-data-spark-python-r&quot;&gt;Machine Learning and End-to-End Data Analysis Processes in Spark Using Python and R&lt;/a&gt;. Presentation by Debraj GuhaThakurta from the Microsoft Azure Machine Learning group, where he talks about machine learning and data analysis processes in Spark using Python and R.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data and Data Lakes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/02/09/load-data-from-azure-data-lake-into-azure-sql-data-warehouse-at-3tbhour/&quot;&gt;Load Data from Azure Data Lake into Azure SQL Data Warehouse at 3TB/Hour&lt;/a&gt;. Post about how to use SQL Server Data Warehouse PolyBase support to load data from Azure Data Lake Storage into SQL Server Data Warehouse.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
+
+&lt;p&gt;So this is my shameless self promotion part, where I point out posts I have written etc.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/02/11/rabbitmq-sql-server/&quot;&gt;RabbitMQ - SQL Server&lt;/a&gt;. Post about how to send data from SQL Server to RabbitMQ.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://capetown2017.satrdays.org/&quot;&gt;satRday - Cape Town&lt;/a&gt;. This is the second satRday conference ever - worldwide! My talk is about Microsoft R Server, and how it compares to CRAN R. I do believe there are still available seats, so come by and say Hi!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>RabbitMQ - SQL Server</title>
