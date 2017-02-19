@@ -7,6 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
+  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  
+  
+  <meta name="keywords" content="data science, distributed computing, SQL Server, Streaming, Kafka, rstats"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -14,7 +18,7 @@
 
   <title>
     
-      What New Programmability Features Will There Be in SQL 11? &middot; MANAGED DATA
+      Interesting Stuff - Week 7 &middot; MANAGED DATA
     
   </title>
 
@@ -155,9 +159,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">What New Programmability Features Will There Be in SQL 11?</h1>
+  <h1 class="post-title">Interesting Stuff - Week 7</h1>
   <div class="post-subheading">
-  <span class="post-date">07 Nov 2010</span>
+  <span class="post-date">19 Feb 2017</span>
 
   <span class="post-tag">
     
@@ -165,7 +169,7 @@
     
 
     
-      SQL Server
+      roundup
     
 
     
@@ -173,57 +177,86 @@
     
 
     
-      SQL 11
+      data science
+    
+      distributed computing
     
       SQL Server
     
-      SQLCLR
+      Streaming
+    
+      Kafka
+    
+      rstats
     
 
     
   </span>
 </div>
-  <p>There is probably no secret that Microsoft is working hard on next version of SQL Server. The rumour has it that it will be named SQL 11 (it apparently goes under the code name of Denali. Quiz; MS has used the Denali code name previously, what was it for? Answers in the comments ).</p>
+  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other "stuff"</li>
+</ul>
+
+
+<p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
 
 <!--more-->
 
 
-<p>Anyway, the SQL PASS summit is this coming week and another rumour says we might see a CTP being released during the conference. I, for one, cannot wait to see a CTP and see what new features it brings. Which brings me back to this post. If we look at some of the previous releases of SQL we can see that they have had a mixed bag of features for developers:</p>
+<p>This post is little late as I was in Cape Town during the weekend and gave a talk at <a href="http://capetown2017.satrdays.org/">satRday</a>. The conference was really good, great job by Andrew Collier for arranging this. During the week I'll put the code for my talk up on GitHub.</p>
+
+<h2>Data Science</h2>
 
 <ul>
-<li>SQL 2005: HUGE; SQLCLR, Service Broker, DDL Events, PIVOT, CTE's, XML, etc., etc.</li>
-<li>SQL 2008: Not so much; the table type and TVP's (which are cool), T-SQL enhancements (cool), some new data types, extended events, but not much more (unless you are a BI guy - which I am not).</li>
-<li>SQL 2008R2: Even less; some enhancements to Service Broker, and StreamInsight, but that is basically it.</li>
+<li><a href="https://www.analyticsvidhya.com/blog/2017/02/6-deep-learning-applications-beginner-python/">6 Deep Learning Applications a beginner can build in minutes (using Python)</a>. Interesting article trying to de-mystify Deep Learning.</li>
+<li><a href="http://www.rblog.uni-freiburg.de/2017/02/07/deep-learning-in-r/">Deep Learning in R</a>. More about Deep Learning. This talks about various R packages for Deep Learning.</li>
+<li><a href="https://www.infoq.com/articles/ml-algorhitm">Real-World, Man-Machine Algorithms</a>. This article, which is part of the InfoQ series <a href="https://www.infoq.com/introduction-machine-learning">An Introduction To Machine Learning</a>, talks about the end-to-end flow of developing machine learning models: where to get training data, how to pick the ML algorithm, and so forth.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/02/preview-r-340.html">Performance improvements coming to R 3.4.0</a>. Talks about what can be expected in the new R release 3.4, scheduled for March.</li>
+<li><a href="https://blog.acolyer.org/2017/02/15/redqueen-an-online-algorithm-for-smart-broadcasting-in-social-networks/">RedQueen: An online algorithm for smart broadcasting in social networks</a>. From <a href="https://blog.acolyer.org">the morning paper</a>. This is about algorithms can be used to find the optimal time to post on social networks.</li>
 </ul>
 
 
-<p>So, IMHO, it is now time for relational developers to get some love from Microsoft in this release of SQL Server. Seeing that the Christmas is soon upon us here is my wish list to Santa SQL:</p>
+<h2>Streaming</h2>
 
 <ul>
-<li>Autonomous Transactions: Nested transactions are independent.</li>
-<li>Autonomous Transactions: see above (yes, I really, really do want this).</li>
-<li>Enhancements to SQLCLR: I would love to be able to use TVP's in SQLCLR</li>
-<li>Finally blocks: we have had <code>try...catch</code> since 2005, it is now time to finish this and introduce <code>finally</code>.</li>
-<li>Other T-SQL enhancements: I would love to see T-SQL get new features that would make it more like a "real" programming language.</li>
+<li><a href="https://thomaswdinsmore.com/2017/02/14/spark-is-the-future-of-analytics/">Spark is the Future of Analytics</a>. Interesting analysis of Spark.</li>
+<li><a href="https://softwaremill.com/kafka-streams-how-does-it-fit-stream-landscape/">Kafka Streams - how does it fit the stream processing landscape?</a>. Post about Kafka Streams, a library for transforming and combining data streams in Kafka.</li>
+<li><a href="http://engineering.skybettingandgaming.com/2017/01/23/streaming-architectures/">Towards a real-time streaming architecture</a>. How Sky Betting &amp; Gaming went with Kafka for real-time streaming.</li>
+<li><a href="https://www.confluent.io/blog/distributed-real-time-joins-and-aggregations-on-user-activity-events-using-kafka-streams/">User Activity Events using Kafka Streams</a>. More about Kafka and Kafka streams. How to enrich an incoming stream of events with side data, and then compute aggregations based on the enriched stream.</li>
 </ul>
 
 
-<p>This is my wish-list, I wonder how much of this we will see, if any. Post your own wish-lists in the comments please.</p>
+<h2>Big Data &amp; Databases</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/netflix-big-data-infrastructure">Petabytes Scale Analytics Infrastructure @Netflix</a>. About Netflix' overall big data platform architecture, focusing on Storage and Orchestration.</li>
+<li><a href="https://www.wired.com/2017/02/spanner-google-database-harnessed-time-now-open-everyone/">Spanner, the Google Database That Mastered Time, Is Now Open to Everyone</a>. About Google Spanner, a database that can span multiple geo-locations and still be seen as one instance.</li>
+</ul>
+
+
+<p>That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/&text=What New Programmability Features Will There Be in SQL 11?&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/&text=Interesting Stuff - Week 7&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/02/19/interesting-stuff-week-7/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/
-         &title=What New Programmability Features Will There Be in SQL 11?
-         &summary=Blog post: 
-         &source=http://www.nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/
+         &title=Interesting Stuff - Week 7
+         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
+         &source=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -231,7 +264,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2010/11/07/what-new-programmability-features-will-there-be-in-sql-11/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/
 
    -->
   <p>
@@ -243,15 +276,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/02/19/interesting-stuff-week-7/">
-            Interesting Stuff - Week 7
-            <small>19 Feb 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -267,6 +291,15 @@ To automatically receive more posts like this, please
           <a href="/2017/02/11/rabbitmq-sql-server/">
             RabbitMQ - SQL Server
             <small>11 Feb 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/02/05/interesting-stuff-week-5/">
+            Interesting Stuff - Week 5
+            <small>05 Feb 2017</small>
           </a>
         </h3>
       </li>

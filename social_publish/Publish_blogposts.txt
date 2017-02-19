@@ -1,3 +1,12 @@
+[Blog]: "Interesting Stuff - Week 6" http://bit.ly/2lBUoLM
+#datascience #distributedcomputing #manageddata
+#sqlserver #MachineLearning #RStats
+
+New Blogpost: "Interesting Stuff - Week 6". Things I have read and found interesting this week. http://bit.ly/2lBUoLM
+#datascience #distributedcomputing #manageddata
+#sqlserver #MachineLearning #RStats
+
+
 [Blog]: "Interesting Stuff - Week 4" http://bit.ly/2k2zoxV
 #datascience #distributedcomputing #transactions #manageddata
 #sqlserver #MachineLearning #DSVM #RStats

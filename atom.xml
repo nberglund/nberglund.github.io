@@ -4,13 +4,70 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-02-12T06:34:29+02:00</updated>
+ <updated>2017-02-19T18:49:12+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 7</title>
+   <link href="http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/"/>
+   <updated>2017-02-19T18:48:02+02:00</updated>
+   <id>http://nielsberglund.com/2017/02/19/interesting-stuff---week-7</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This post is little late as I was in Cape Town during the weekend and gave a talk at &lt;a href=&quot;http://capetown2017.satrdays.org/&quot;&gt;satRday&lt;/a&gt;. The conference was really good, great job by Andrew Collier for arranging this. During the week I'll put the code for my talk up on GitHub.&lt;/p&gt;
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.analyticsvidhya.com/blog/2017/02/6-deep-learning-applications-beginner-python/&quot;&gt;6 Deep Learning Applications a beginner can build in minutes (using Python)&lt;/a&gt;. Interesting article trying to de-mystify Deep Learning.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.rblog.uni-freiburg.de/2017/02/07/deep-learning-in-r/&quot;&gt;Deep Learning in R&lt;/a&gt;. More about Deep Learning. This talks about various R packages for Deep Learning.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/ml-algorhitm&quot;&gt;Real-World, Man-Machine Algorithms&lt;/a&gt;. This article, which is part of the InfoQ series &lt;a href=&quot;https://www.infoq.com/introduction-machine-learning&quot;&gt;An Introduction To Machine Learning&lt;/a&gt;, talks about the end-to-end flow of developing machine learning models: where to get training data, how to pick the ML algorithm, and so forth.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/02/preview-r-340.html&quot;&gt;Performance improvements coming to R 3.4.0&lt;/a&gt;. Talks about what can be expected in the new R release 3.4, scheduled for March.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/02/15/redqueen-an-online-algorithm-for-smart-broadcasting-in-social-networks/&quot;&gt;RedQueen: An online algorithm for smart broadcasting in social networks&lt;/a&gt;. From &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt;. This is about algorithms can be used to find the optimal time to post on social networks.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://thomaswdinsmore.com/2017/02/14/spark-is-the-future-of-analytics/&quot;&gt;Spark is the Future of Analytics&lt;/a&gt;. Interesting analysis of Spark.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://softwaremill.com/kafka-streams-how-does-it-fit-stream-landscape/&quot;&gt;Kafka Streams - how does it fit the stream processing landscape?&lt;/a&gt;. Post about Kafka Streams, a library for transforming and combining data streams in Kafka.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://engineering.skybettingandgaming.com/2017/01/23/streaming-architectures/&quot;&gt;Towards a real-time streaming architecture&lt;/a&gt;. How Sky Betting &amp;amp; Gaming went with Kafka for real-time streaming.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/distributed-real-time-joins-and-aggregations-on-user-activity-events-using-kafka-streams/&quot;&gt;User Activity Events using Kafka Streams&lt;/a&gt;. More about Kafka and Kafka streams. How to enrich an incoming stream of events with side data, and then compute aggregations based on the enriched stream.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data &amp;amp; Databases&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/netflix-big-data-infrastructure&quot;&gt;Petabytes Scale Analytics Infrastructure @Netflix&lt;/a&gt;. About Netflix' overall big data platform architecture, focusing on Storage and Orchestration.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.wired.com/2017/02/spanner-google-database-harnessed-time-now-open-everyone/&quot;&gt;Spanner, the Google Database That Mastered Time, Is Now Open to Everyone&lt;/a&gt;. About Google Spanner, a database that can span multiple geo-locations and still be seen as one instance.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 6</title>
