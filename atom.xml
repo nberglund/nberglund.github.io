@@ -4,13 +4,261 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-02-19T18:49:12+02:00</updated>
+ <updated>2017-02-25T08:36:13+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft R Server</title>
+   <link href="http://nielsberglund.com/2017/02/25/microsoft-r-server/"/>
+   <updated>2017-02-25T06:28:25+02:00</updated>
+   <id>http://nielsberglund.com/2017/02/25/microsoft-r-server</id>
+   <content type="html">&lt;p&gt;Last Saturday (February 18) I was in Cape Town at the second world-wide &lt;a href=&quot;http://capetown2017.satrdays.org/&quot;&gt;satRday conference&lt;/a&gt; ever, where I gave a talk named: &quot;Microsoft, Open Source, R: You gotta be kidding me!&quot;. The talk was about Microsoft's R Server offering, and how it in some cases offered a better performance than Open R. Seeing the session lengths were only 20 minutes, I could not show any code, so in a &quot;weak&quot; moment I promised to put the code up on my web-site together with an accompanying blog-post. This is it :).&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Demo Code - Scenario, Installation and Data&lt;/h2&gt;
+
+&lt;p&gt;This blog-post has some accompanying demo code, which we will use in order to compare R with Microsoft R Server. The code can be downloaded from &lt;a href=&quot;/downloads/code/microsoft_r_server.zip&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Scenario&lt;/h3&gt;
+
+&lt;p&gt;We are using simulated mortgage data for a 10 year period where the data contains information about mortgages and if they were defaulted or not. All in all it is 10 million records, originally stored in &lt;code&gt;.csv&lt;/code&gt; files, but the installation process inserts the data into a SQL Server table.&lt;/p&gt;
+
+&lt;p&gt;What we want to do is to retrieve the data from the database, and then create a model based on the data.&lt;/p&gt;
+
+&lt;h3&gt;Installation&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Unzip the downloaded &lt;code&gt;microsoft_r_server.zip&lt;/code&gt; file to some location on your hard-drive.&lt;/li&gt;
+&lt;li&gt;Follow the install instructions in the &lt;code&gt;index.html&lt;/code&gt; file.&lt;/li&gt;
+&lt;li&gt;Please remember to close the @path variable with a &quot;\&quot;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;At this point you should now have a database, &lt;code&gt;MortgageDb&lt;/code&gt;, with a table, &lt;code&gt;dbo.tb_MortgageData&lt;/code&gt; containing 10 million records.&lt;/p&gt;
+
+&lt;h3&gt;Data&lt;/h3&gt;
+
+&lt;p&gt;To see what the data looks like, execute: &lt;code&gt;SELECT TOP(5) * FROM dbo.tb_MortgageData&lt;/code&gt;, and you'll see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/top_5_mortgage_data.png&quot; width=&quot;440&quot; height=&quot;145&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Mortgage Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The data contains 6 variables (columns):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;CreditScore&lt;/em&gt; - credit rating for the holder of the mortgage&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;HouseAge&lt;/em&gt; - how old the house is (years)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;YearsEmp&lt;/em&gt; - number of years the mortgage holder has been employed at their current job&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;CreditCardDebt&lt;/em&gt; - how much debt the mortgage holder has on his (or hers) credit card&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Year&lt;/em&gt; - the year the data was collected&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;DidDefault&lt;/em&gt; - binary variable indicating whether the mortgage holder defaulted (0 - no, 1 - yes)&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The variables above are what we will use to create a model.&lt;/p&gt;
+
+&lt;h2&gt;R&lt;/h2&gt;
+
+&lt;p&gt;So onto R. R is awesome! It is no doubt about it, and it has become a defacto standard for advanced analytics. &lt;em&gt;Figure 2&lt;/em&gt; below is from &lt;a href=&quot;http://spectrum.ieee.org/computing/software/the-2016-top-programming-languages&quot;&gt;IEEE Spectrum’s third interactive ranking&lt;/a&gt; of the most popular programming languages:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/top-10-prog-lanf-2016.png&quot; width=&quot;620&quot; height=&quot;373&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Language Popularity&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;During the last few years R has steadily climbed and is now in 5:th place, pushing C# down to 6:th! A lot of R's popularity can probably be attributed to its packages, where there seems to be packages for anything you want to do, plus some more. At the moment (late February 2017) the &lt;a href=&quot;https://cran.r-project.org/web/packages/&quot;&gt;CRAN package repository&lt;/a&gt; features ~10,120 available packages (it increases by the day). To put the number of packages in perspective; in March 2016, there were ~8,000 packages available.&lt;/p&gt;
+
+&lt;h3&gt;Issues&lt;/h3&gt;
+
+&lt;p&gt;As great as R is, there are some shortcomings:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Data movement&lt;/li&gt;
+&lt;li&gt;Operationalization&lt;/li&gt;
+&lt;li&gt;Scale / performance&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h4&gt;Data Movement&lt;/h4&gt;
+
+&lt;p&gt;When you use R, you have to move data from the source to R (most likely your machine). Moving large data volumes over the network may not be ideal, and the security department may not be too happy either.&lt;/p&gt;
+
+&lt;h4&gt;Operationalization&lt;/h4&gt;
+
+&lt;p&gt;The data scientist has created the best model - ever! How do you now put this into production; do you have the data science guy retrieve data to predict upon to his (or hers) machine and run the model against live data, or what do you do?&lt;/p&gt;
+
+&lt;h4&gt;Scale / Performance&lt;/h4&gt;
+
+&lt;p&gt;A problem with R is that it is single threaded. Furthermore when working with data, all data has to be in memory. In todays world when we more and more want to analyze &lt;em&gt;big data&lt;/em&gt;, this can become an issue.&lt;/p&gt;
+
+&lt;h3&gt;Demo Code R&lt;/h3&gt;
+
+&lt;p&gt;To showcase some issues with Open R, let us to create a model against our data in &lt;code&gt;dbo.tb_MortgageData&lt;/code&gt;. So in our favorite R editor we probably write some code like:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Get Mortgage Data&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# load in the ODBC library for R&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RODBC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set up a connection&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;conn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odbcDriverConnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Driver=&amp;#x7b;SQL Server native Client 11.0&amp;#x7d;;server=server_name;database=MortgageDb;uid=user_id;pwd=secret_password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# read the data into a dataframe - mydata - this will take a while&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SELECT CreditScore, HouseAge, YearsEmp, CreditCardDebt, Year, DidDefault FROM dbo.tb_MortgageData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# treat HouseAge and Year as a categorical variable&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HouseAge&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HouseAge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Year&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Load Mortgage Data into R&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;em&gt;Code Snippet 1&lt;/em&gt; above you can see how we load all the 10 million rows of data into a data-frame. If you run this code yourself, you will notice it will take a while - but all 10 millions row will eventually be in memory.&lt;/p&gt;
+
+&lt;p&gt;After having read the data, we want to treat &lt;code&gt;Year&lt;/code&gt; and &lt;code&gt;HouseAge&lt;/code&gt; as a categorical/factor variables, so we use the  &lt;code&gt;factor&lt;/code&gt; function for that. At this stage we are now ready to create a model.&lt;/p&gt;
+
+&lt;p&gt;We do believe that a logistic regression model would be useful, where &lt;code&gt;DidDefault&lt;/code&gt; is the dependent variable with &lt;code&gt;CreditScore&lt;/code&gt;, &lt;code&gt;YearsEmp&lt;/code&gt;, &lt;code&gt;CreditCardDebt&lt;/code&gt; and the &lt;code&gt;factor&lt;/code&gt;:ized &lt;code&gt;HouseAge&lt;/code&gt; and &lt;code&gt;Year&lt;/code&gt; as independent variables:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Logistic Regression&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# this comes after the factoring of HouseAge and Year&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;logit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;glm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DidDefault&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HouseAge&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Year&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreditScore&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;YearsEmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreditCardDebt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;family&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;binomial&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Logistic Regression with glm()&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Before you execute the above, have a look at task manager for how much memory you are consuming. On my development PC it looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/memory_before_logreg.png&quot; width=&quot;540&quot; height=&quot;179&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Memory After Loaded Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The memory consumption is very small, 25% overall. Let us see what happens when we execute the logistic regression as in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you run this yourself, have a very close eye at the memory consumption, and be prepared to kill RStudio, when memory reaches 98 - 99%.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;After a while, the logistic regression is still running and the memory is like below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/memory_during_logreg.png&quot; width=&quot;540&quot; height=&quot;179&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Memory During Logistic Regression&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;My development PC has 24 Gb of Ram and a couple of times when I have tested this, the PC has blue-screened, due to running out of memory. Other times the regression has, run and run and run - and I have finally killed the R Studio session after 10 - 15 minutes.&lt;/p&gt;
+
+&lt;p&gt;We have just seen an example where some of R's limitations are causing problems. In an enterprise scenario the above may cause issues, especially when we - in the enterprise - more and more are analyzing &lt;em&gt;Big Data&lt;/em&gt;. In the example above it was 10 million rows of data, not really &lt;em&gt;Big Data&lt;/em&gt; - but what do we do in these scenarios? Well, there are enterprise software vendors who have their own offering of &lt;em&gt;enterprise R&lt;/em&gt; (obviously for a price), among them are Oracle, Tibco and up until early 2015 Revolution Analytics.&lt;/p&gt;
+
+&lt;h2&gt;Revolution Analytics&lt;/h2&gt;
+
+&lt;p&gt;Revolution Analytics is a statistical software company focusing on developing big data, large scale multiprocessor computing, and multi-core functionality version of R: &lt;strong&gt; Revolution R Enterprise&lt;/strong&gt;. Both &lt;a href=&quot;http://www.teradata.com/Resources/White-Papers/Teradata-and-Revolution-Analytics-For-the-Big-Data-Era-An-Analytics-Revolution/&quot;&gt;Teradata&lt;/a&gt; and &lt;a href=&quot;http://www-01.ibm.com/common/ssi/cgi-bin/ssialias?infotype=an&amp;amp;subtype=ca&amp;amp;appname=gpateam&amp;amp;supplier=897&amp;amp;letternum=ENUS212-455&quot;&gt;IBM&lt;/a&gt; partnered with Revolution Analytics to provide analytical platforms for the enterprise.&lt;/p&gt;
+
+&lt;p&gt;In January 2015 Microsoft purchased Revolution Analytics and re-branded Revolution R Enterprise as &lt;strong&gt;Microsoft R Server&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Microsoft R Server&lt;/h2&gt;
+
+&lt;p&gt;Microsoft R Server is next generation of Revolution R Enterprise server, and offers an enterprise class server for hosting and managing parallel and distributed workloads of R processes on servers (Linux and Windows) and clusters (Hadoop and Apache Spark). It extends open source R with support for high-performance analytics, statistical analysis, machine learning scenarios, and massively large datasets.&lt;/p&gt;
+
+&lt;p&gt;As mentioned above Microsoft R Server can run on both Windows as well as Linux, and in the Windows world, SQL Server is the delivery mechanism for Microsoft R Server.&lt;/p&gt;
+
+&lt;p&gt;Some of the key components of Microsoft R Server are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;DeployR - An integration technology for deploying R analytics inside web, desktop, mobile, and dashboard applications as well as backend systems.&lt;/li&gt;
+&lt;li&gt;ConnectR - High speed connectors to any data source ranging from simple workstation file systems to complex distributed file systems and MPP databases.&lt;/li&gt;
+&lt;li&gt;DistributedR - An adaptable parallel execution framework that includes services for communications, storage integration and memory management.&lt;/li&gt;
+&lt;li&gt;R Tools for Visual Studio - Turns Visual Studio into a powerful R development environment, including things like &lt;em&gt;Intellisense&lt;/em&gt;!&lt;/li&gt;
+&lt;li&gt;ScaleR - Provides algorithms optimized for parallel execution on big data. These algorithms are optimized for transparent distributed execution, eliminate memory limitations and scale from laptops to servers to large clustered systems. Foundation for &lt;strong&gt;RevoScaleR&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h3&gt;RevoScaleR&lt;/h3&gt;
+
+&lt;p&gt;RevoScaleR, is an R package providing both High Performance Computing (HPC) and High Performance Analytics (HPA) capabilities for R.  HPC capabilities allow you to distribute the execution of essentially any R function across cores and nodes, and deliver the results back to the user. HPA adds big data to the challenge.&lt;/p&gt;
+
+&lt;p&gt;The data manipulation and analysis functions in RevoScaleR are appropriate for small and large datasets, but are particularly useful in three common situations:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;To analyze data sets that are too big to fit in memory.&lt;/li&gt;
+&lt;li&gt;To perform computations distributed over several cores, processors, or nodes in a cluster,&lt;/li&gt;
+&lt;li&gt;To create scalable data analysis routines that can be developed locally with smaller data sets, then deployed to larger data and/or a cluster of computers.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;In the demo code that follows we'll see how RevoScaleR is doing with our mortgage data from above.&lt;/p&gt;
+
+&lt;h3&gt;Demo Code RevoScaleR&lt;/h3&gt;
+
+&lt;p&gt;It is worth noting that in the RevoScaleR code, the editor I used is Visual Studio and R Tools for Visual Studio. To use Microsoft R Server and RevoScaleR you do not need to use Visual Studio, you can use any editor you want. Just make sure the editor uses the Microsoft R Server engine.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; To change engine in RStudio, go to &lt;em&gt;Tools | Global Options&lt;/em&gt;, and under the &lt;em&gt;R General&lt;/em&gt; tab, you change the &lt;em&gt;R version&lt;/em&gt; as in &lt;em&gt;Figure 5&lt;/em&gt; below.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/r_engine_r_studio.png&quot; width=&quot;577&quot; height=&quot;450&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Changing R Version in RStudio&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want to follow along in the code, and you are using Visual Studio (with R Tools for Visual Studio), you can open the solution file in the &lt;code&gt;VS\VSMortgage&lt;/code&gt; folder from the unzipped file above. If you use RStudio or some other editor then just open the &lt;code&gt;script.R&lt;/code&gt; file from the &lt;code&gt;VS\VSMortgage&lt;/code&gt; folder,  in your preferred editor. Once again, just make sure that your R engine is Microsoft R Server.&lt;/p&gt;
+
+&lt;p&gt;So, what does the code look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;RevoScaleR Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set up a connection string&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlServerConnString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Driver=SQL Server;server=server_name;database=MortgageDb;uid=user_id;pwd=secret_password&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# generate a data frame - notice the data won't be read into the frame until it is needed&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxSqlServerData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlQuery&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SELECT CreditScore, HouseAge, YearsEmp, CreditCardDebt, Year, DidDefault FROM dbo.tb_MortgageData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connectionString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlServerConnString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rowsPerRead&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# create a histogram&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;rxHistogram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreditScore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# get some info about the data&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;rxGetInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numRows&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Using RevoScaleR Package&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The code does not differ that much from the original code. We start with defining a connection string to the database. Then we create a data frame using the &lt;code&gt;RxSqlServerData&lt;/code&gt; function. A difference from using &lt;code&gt;sqlQuery&lt;/code&gt; in the previous demo is that the data won't be read into the data frame until it is needed.&lt;/p&gt;
+
+&lt;p&gt;We then go on to create a histogram by using the &lt;code&gt;rxHistogram&lt;/code&gt; function. You will find that most &lt;code&gt;RevoScaleR&lt;/code&gt; specific functions are named with a starting &lt;code&gt;rx&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Microsoft R Server also contains the CRAN R packages you know and love (at least most of them).&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When we have our histogram we decide we need some information of the data so we call &lt;code&gt;rxGetInfo&lt;/code&gt;, which is more or less the equivalent of CRAN R &lt;code&gt;summary()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Having come this far, it is time to create a model:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Logistic Regression&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# do the logistic regression&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;system.time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rxLogit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DidDefault&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HouseAge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreditScore&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;YearsEmp&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreditCardDebt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mydata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blocksPerRead&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reportProgress&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Logistic Regression using rxLogit&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Instead of using &lt;code&gt;glm()&lt;/code&gt; we use the specialized &lt;code&gt;rxLogit&lt;/code&gt; function which is optimized for performance. We factorize &lt;code&gt;HouseAge&lt;/code&gt; and &lt;code&gt;Year&lt;/code&gt; by using the &lt;code&gt;F&lt;/code&gt; function. So, what happens now when we execute it? If you run this yourself, please keep a close eye on the memory consumption in Task Manager.&lt;/p&gt;
+
+&lt;p&gt;Nothing much seems to happen with memory:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/rxLogit_memory.png&quot; width=&quot;670&quot; height=&quot;293&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Memory Consumption using rxLogit&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The memory more or less stayed the same during execution, and after 155 seconds (or so) we were done!&lt;/p&gt;
+
+&lt;p&gt;So we have seen how Microsoft R Server can help us when analyzing large data sets.&lt;/p&gt;
+
+&lt;h2&gt;R and SQL Server&lt;/h2&gt;
+
+&lt;p&gt;I mentioned above how SQL Server were the delivery mechanism of Microsoft R Server on Windows. SQL Server is not only that, but it also has R embedded, so you can in SQL Server execute R code - somewhat like extended stored procedures. In a future blog-post (or posts), I'll look at how R in SQL Server works, and what you can do with it.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;At the beginning of this post I mentioned how CRAN R have some issues. Through Microsoft R Server some of these issues can be addressed:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Data movement - execute on SQL Server&lt;/li&gt;
+&lt;li&gt;Operationalization - execute your R code by using SQL Server stored procedures (once again, more about this in another post)&lt;/li&gt;
+&lt;li&gt;Scale / performance - RevoScaleR is offers both High Performance Computing (HPC) and High Performance Analytics (HPA).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 7</title>
