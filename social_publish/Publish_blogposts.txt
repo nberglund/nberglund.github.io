@@ -1,3 +1,13 @@
+[Blog]: "Microsoft R Server" http://bit.ly/2kVPz3X
+#datascience #manageddata
+#sqlserver #MachineLearning #RStats
+
+
+New Blogpost: "Microsoft R Server". How Microsoft R Server can have better performance than CRAN R. http://bit.ly/2kVPz3X
+#datascience #manageddata
+#sqlserver #MachineLearning #RStats
+
+
 [Blog]: "Interesting Stuff - Week 6" http://bit.ly/2lBUoLM
 #datascience #distributedcomputing #manageddata
 #sqlserver #MachineLearning #RStats

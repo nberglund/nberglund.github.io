@@ -7,6 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
+  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  
+  
+  <meta name="keywords" content="data science, distributed computing, SQL Server, streaming, R Tools for Visual Studio"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -14,7 +18,7 @@
 
   <title>
     
-      SqlClrProject on GitHub &middot; MANAGED DATA
+      Interesting Stuff - Week 8 &middot; MANAGED DATA
     
   </title>
 
@@ -159,9 +163,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">SqlClrProject on GitHub</h1>
+  <h1 class="post-title">Interesting Stuff - Week 8</h1>
   <div class="post-subheading">
-  <span class="post-date">03 Nov 2012</span>
+  <span class="post-date">26 Feb 2017</span>
 
   <span class="post-tag">
     
@@ -169,7 +173,7 @@
     
 
     
-      SQL Server
+      roundup
     
 
     
@@ -177,39 +181,83 @@
     
 
     
+      data science
+    
+      distributed computing
+    
       SQL Server
     
-      SQLCLR
+      streaming
     
-      SQLCLRProject
+      R Tools for Visual Studio
     
 
     
   </span>
 </div>
-  <p>As some of you may know, I - once upon a time - developed a project (VS add-in, templates, etc) for automatic deployment of CLR assemblies to SQL Server: <strong>SqlClrProject</strong>. That project has been dormant now for a couple of years, but I now and then get requests for where it can be downloaded from (I had it on CodePlex, but had to take it down as I didn't publish the source code).</p>
+  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other "stuff"</li>
+</ul>
+
+
+<p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
 
 <!--more-->
 
 
-<p>A while ago I decided to start to use Git and GitHub as source control (I have been using SVN since forever), and as part of the "getting to grips" with Git, I created a repo for <strong>SqlClrProject</strong> on GitHub. So the source for the project is now available on <a href="https://github.com/nberglund/sqlclrproject">GitHub</a>.</p>
+<h2>SQL Server</h2>
 
-<p>If you are interested in the  fork it, play with it. The state of it is that it "should" work on VS 2008 / SQL 2008. It most likely will work on VS 2010 as well. And of course the standalone deployment executable will work regardless of VS version.</p>
+<ul>
+<li><a href="https://seancremer.github.io/ChoosingAPrimaryKey.html">Choosing a Primary Key</a>. Another post in <a href="https://seancremer.github.io">Sean Cremer's</a> series about database design. Full disclosure, he is a colleague of mine - but still a very good guy :). His SQL knowledge is immense!</li>
+<li><a href="https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/21/sql-server-2016-developer-edition-in-windows-containers/">SQL Server 2016 Developer Edition in Windows Containers</a>. Announcement and introduction to the availability of SQL Server 2016 Developer Edition in Windows containers. This is a "biggie" for me who often want to spin up a new SQL Server instance. Now I can just have a container with the instance on it and spin it up!</li>
+<li><a href="https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-stored-procedures/">SQLskills SQL101: Stored Procedures</a>. First in a series of "back to the basics" by <a href="https://www.sqlskills.com/">Kimberly and Paul</a>. This covers my absolutely favorite feature in SQL Server: Stored Procedures! All you who are saying they are no good - I have a word for you: Heathens! :)</li>
+<li><a href="https://www.infoq.com/podcasts/slava-oks-linux-sql-server">Architecting SQL Server on Linux: Slava Oks on Drawbridge, LibOS, &amp; Addressing Between Windows/Linux</a>. A podcast with Slava Oks, where Slava talks the implementation of SQL Server on Linux.</li>
+</ul>
+
+
+<h2>Streaming</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/news/2017/02/apache-beam-top-level">Beam Graduates to Top-Level Apache Project</a>. <a href="https://beam.apache.org/">Beam</a> is an Apache project seeking to create a unified programming model for streaming and batch processing jobs, and to produce artifacts that can be consumed by a number of supported data processing engines.</li>
+<li><a href="https://www.infoq.com/presentations/stream-apache-beam">Fundamentals of Stream Processing with Apache Beam</a>. More about Beam. This is a presentation about Beam's out-of-order stream processing as well as Beam tries to simplify complex tasks.</li>
+<li><a href="https://kafka-summit.org/events/kafka-summit-ny/">Kafka Summit New York</a>. If you are doing streaming, then you most likely are interested in or, at least, have heard about Kafka. The yearly Kafka conference are coming up, so go ahead and register.</li>
+</ul>
+
+
+<h2>Data Science</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/stitchfix-cloud">Data Science in the Cloud @StitchFix</a>. A conference presentation about how the cloud enables over 80 data scientists to be productive at <a href="https://www.stitchfix.com/">StichFix</a>.</li>
+<li><a href="https://www.infoq.com/presentations/datadog-cloud">Elastic Data Analytics Platform @Datadog</a>. Conference presentation about <a href="https://www.datadoghq.com/">DataDog's</a> cloud-based analytics platform and how it differs from a traditional datacenter-based analytics stack.</li>
+<li><a href="http://microsoft.github.io/RTVS-docs/">R Tools for Visual Studio</a>. <strong>R Tools for Visual Studio</strong> are getting closer and closer to a version 1.0 release.</li>
+<li><a href="https://facebookincubator.github.io/prophet/">Prophet - Forecasting at Scale</a>. Prophet is an open-source package for R and Python that implements the time-series methodology that Facebook uses in production for forecasting at scale. Looks very, very interesting.</li>
+<li><a href="http://www.nielsberglund.com/2017/02/25/microsoft-r-server/">Microsoft R Server</a>. I have to do some shameless self-promotion :). This is a blogpost by me comparing how CRAN R handles large datasets compared to Microsoft R Server.</li>
+</ul>
+
+
+<p>That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2012/11/03/sqlclrproject-on-github/&text=SqlClrProject on GitHub&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/02/26/interesting-stuff-week-8/&text=Interesting Stuff - Week 8&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2012/11/03/sqlclrproject-on-github/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/02/26/interesting-stuff-week-8/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2012/11/03/sqlclrproject-on-github/
-         &title=SqlClrProject on GitHub
-         &summary=Blog post: 
-         &source=http://www.nielsberglund.com/2012/11/03/sqlclrproject-on-github/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/02/26/interesting-stuff-week-8/
+         &title=Interesting Stuff - Week 8
+         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
+         &source=http://www.nielsberglund.com/2017/02/26/interesting-stuff-week-8/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -217,7 +265,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2012/11/03/sqlclrproject-on-github/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/02/26/interesting-stuff-week-8/
 
    -->
   <p>
@@ -229,15 +277,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/02/26/interesting-stuff-week-8/">
-            Interesting Stuff - Week 8
-            <small>26 Feb 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -253,6 +292,15 @@ To automatically receive more posts like this, please
           <a href="/2017/02/19/interesting-stuff-week-7/">
             Interesting Stuff - Week 7
             <small>19 Feb 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/02/12/interesting-stuff-week-6/">
+            Interesting Stuff - Week 6
+            <small>12 Feb 2017</small>
           </a>
         </h3>
       </li>
