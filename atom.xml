@@ -4,13 +4,184 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-02-26T07:17:27+02:00</updated>
+ <updated>2017-03-04T10:45:16+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server 2016 R Services Installation</title>
+   <link href="http://nielsberglund.com/2017/03/04/microsoft-sql-server-2016-r-services-installation/"/>
+   <updated>2017-03-04T10:19:22+02:00</updated>
+   <id>http://nielsberglund.com/2017/03/04/microsoft-sql-server-2016-r-services-installation</id>
+   <content type="html">&lt;p&gt;A couple of weeks beck I wrote a &lt;a href=&quot;/2017/02/25/microsoft-r-server/&quot;&gt;blog-post where I compared CRAN R with Microsoft R Server&lt;/a&gt;. The comparison was basically how large data sets are handled. In the post I mentioned that SQL Server 2016 (and later) is the delivery mechanism for Microsoft R Server on the Windows platform. In this post we will look at how to install and enable SQL Server R Services.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;In the &quot;Microsoft R Server&quot; post I wrote that CRAN R, as good as it is, in certain scenarios it is less then ideal:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Data movement - the data you work with has to be moved from source to your machine.&lt;/li&gt;
+&lt;li&gt;Operationalization - having created an awesome model, how do you put it in production.&lt;/li&gt;
+&lt;li&gt;Scale / performance - R is single threaded and all data has to be in memory.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;SQL Server R Services addresses these issues, which we will see later. For now let us see what SQL Server R Services is.&lt;/p&gt;
+
+&lt;h2&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Back in 2015 Microsoft bought Revolution Analytics. Revolution Analytics is a company who developed a big data, large scale multiprocessor computing, and multi-core functionality version of R: &lt;strong&gt;Revolution R Enterprise&lt;/strong&gt;, which Microsoft re-branded to Microsoft R Server. At the heart of Microsoft R Server is RevoscaleR; an R package providing both High Performance Computing (HPC) and High Performance Analytics (HPA) capabilities for R.  HPC allows distribution of the execution of essentially any R function across cores and nodes, and deliver the results back to the user, whereas HPA adds the ability to handle very large datasets (Big Data).&lt;/p&gt;
+
+&lt;p&gt;SQL Server R Services is the conduit between SQL Server and Microsoft R Server, and allows the execution of R code from inside SQL Server. Hmm, execution of R code from inside SQL Server, let's think about the implications of being able to do that, and put that in relation to the CRAN R issues above:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A data scientist can theoretically create his model(s) from inside the database. If the source of the data is the database, there are no movement of data.&lt;/li&gt;
+&lt;li&gt;The model(s) can be stored in the database and subsequently be used to analyze/predict new data. For example, a stored procedure can be created to output predictions. All of a sudden the issue of operationalization has been solved.&lt;/li&gt;
+&lt;li&gt;SQL Server is multi-threaded and supports parallelism, which should take care of the scale and performance issues in R. Furthermore the various RevoScaleR functions are optimized for multi-threading as well as large data volumes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are executing R code from an IDE (and not from inside SQL Server), you can still have your code execute on SQL Server by using an RevoScaleR feature; the &lt;em&gt;compute context&lt;/em&gt;. The &lt;em&gt;compute context&lt;/em&gt; is not &quot;in scope&quot; for this blog-post, but you can read more about it &lt;a href=&quot;https://msdn.microsoft.com/microsoft-r/scaler/rxcomputecontext&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;The SQL Server R Services has to be explicitly installed in SQL Server, it is not like SQLCLR - which just needs to be enabled. Installing SQL Server R Service can be done when installing a new SQL Server instance or it can be added afterwards as a new feature. Here we'll see how we install the R Services together with a new instance of SQL Server:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_installation_type.png&quot; width=&quot;650&quot; height=&quot;260&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;SQL Server Installation Type&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we are choosing to do a new installation of SQL Server. We then choose what features we want installed:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_in_db.png&quot; width=&quot;650&quot; height=&quot;249&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Features to Install&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When you install SQL Server 2016, you find a new feature under the &lt;em&gt;Database Engine Services&lt;/em&gt;: &lt;em&gt;R Services (In-Database)&lt;/em&gt;, as in Figure 2. This is the install option when you want to integrate with R from within SQL Server. In the &lt;em&gt;Feature Selection&lt;/em&gt; dialog, under &lt;em&gt;Shared Features&lt;/em&gt; you also have &lt;em&gt;R Server (Standalone)&lt;/em&gt;, what is that all about:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_windows_r_server.png&quot; width=&quot;650&quot; height=&quot;297&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Windows R Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;SQL Server 2016 acts as the delivery mechanism for Microsoft R Server on Windows, and the &lt;em&gt;R Server&lt;/em&gt; feature allows you to install Microsoft R Server independent of SQL Server. For example, if a data scientist want to run R on his or her own machine.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may wonder why, in &lt;em&gt;Figure 3&lt;/em&gt;, the check box for R Server is checked, but &quot;dimmed&quot; out? This is because, on this particular machine, I have already installed the standalone R Server once.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Go ahead and install after you have chosen the various features to install on your new instance. After successful installation we should check and make sure everything works, but before that let's talk about a couple of very important pieces of the SQL Server R Services &quot;puzzle&quot;.&lt;/p&gt;
+
+&lt;h2&gt;SQL Server Launchpad&lt;/h2&gt;
+
+&lt;p&gt;Let us start with the launchpad service. After installation, if you go to &lt;em&gt;Services&lt;/em&gt;, you will see your newly installed SQL Server instance &lt;em&gt;SQL Server (InstanceName)&lt;/em&gt;, but also a new service which hasn't been in earlier versions of SQL Server; the Launchpad service. You can see it in &lt;em&gt;Figure 4&lt;/em&gt; below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_launchpad.png&quot; width=&quot;650&quot; height=&quot;167&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Windows R Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the &lt;em&gt;Introduction&lt;/em&gt; section I wrote how SQL Server R Services is the conduit between SQL Server and Microsoft R Server, and the launchpad service plays a big part of this. The service acts as a &quot;routing&quot; mechanism between SQL Server and external languages/runtimes. The responsibility of the launchpad service is to &quot;spin up&quot; and calling into the correct runtime when calling from inside SQL Server.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Right now, the only &quot;runtime&quot;/language supported by the launchpad service is R.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Another piece of the &quot;puzzle&quot; is the the extended stored procedure: &lt;code&gt;sp_execute_external_script&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2&gt;sp_execute_external_script&lt;/h2&gt;
+
+&lt;p&gt;This is the procedure that will be used when executing R code inside SQL Server. The procedure will call into the launchpad service, and have the launchpad service &quot;route&quot; the call to the correct runtime.&lt;/p&gt;
+
+&lt;p&gt;The syntax for the procedure as copied from &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/mt604368.aspx&quot;&gt;MSDN&lt;/a&gt;, looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;sp_execute_external_script&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'language'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'script'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'input_data_1'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'input_data_1_name'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_data_1_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'output_data_1_name'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'@parameter_name data_type [ OUT | OUTPUT ] [ ,...n ]'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameter1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'value1'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OUT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OUTPUT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,...&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execute_option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execute_option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UNDEFINED&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NONE&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_sets_definition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_sets_definition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;column_name&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;data_type&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COLLATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;collation_name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;p&quot;&gt;[,...&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OBJECT&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;schema_name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;schema_name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table_valued_function_name&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TYPE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;schema_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table_type_name&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Syntax of sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you look at the syntax and thinks it looks convoluted, you are right. But do not worry, in a future blog-post we will look more in detail at what &lt;code&gt;sp_execute_external_script&lt;/code&gt; does, and further down in this post we will see a very simple example of it. One thing to notice though is the first parameter in the proc: &lt;code&gt;@language&lt;/code&gt;. This parameter defines the language/runtime, and as mentioned a couple of times before, right now the only language/runtime supported is R. There are rumors that &lt;a href=&quot;https://www.python.org/&quot;&gt;Python&lt;/a&gt; will be supported in the future, as well as &lt;a href=&quot;http://julialang.org/&quot;&gt;Julia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Making Sure it Works&lt;/h2&gt;
+
+&lt;p&gt;Now when we have installed the SQL Server R Services, and also have had a (very) short introduction to some of the &quot;moving parts&quot;, let's enable SQL Server R Services, and execute something to actually see it works.&lt;/p&gt;
+
+&lt;h3&gt;Enable SQL Server R Services&lt;/h3&gt;
+
+&lt;p&gt;Enable, what do you mean enable? I have just installed it, isn't that enough? No it is not, after installation you need to enable the services. This is a bit like what you do with SQLCLR, you are enabling the execution of SQLCLR on the instance. Here you enable the execution of external scripts. To enable external scripts you change the configuration of the SQL Server instance you are on:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Enable External Scripts&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_configure&lt;/span&gt;  &lt;span class=&quot;s1&quot;&gt;'external scripts enabled'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;RECONFIGURE&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OVERRIDE&lt;/span&gt;  &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Execute sp_configure&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When you have executed the code as in &lt;em&gt;Code Snippet 2&lt;/em&gt;, you might think all is good. Unfortunately it is not, you now have to restart the instance of SQL Server! However, after the restart you can test and see that it works.&lt;/p&gt;
+
+&lt;h3&gt;Executing R Script&lt;/h3&gt;
+
+&lt;p&gt;To test it out we will execute a very simple R script:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execution of R Script&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Test That R Installation Works&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Let's look at the various parts of the code in &lt;em&gt;Code Snippet 3&lt;/em&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We start with the &lt;code&gt;@language&lt;/code&gt; parameter. We now know that it should be R.&lt;/li&gt;
+&lt;li&gt;Then we define the &lt;code&gt;@script&lt;/code&gt; parameter. This is where our R code will go. In the code we are saying that output data (&lt;code&gt;OutputDataSet&lt;/code&gt;) is whatever coming in (&lt;code&gt;InputDataSet&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;In &lt;code&gt;@inout_data_1&lt;/code&gt; we define the input dataset&lt;/li&gt;
+&lt;li&gt;We finally &quot;formats&quot; the output in the &lt;code&gt;WITH RESULT SETS ...&lt;/code&gt; part.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;When you execute the code, the output should be like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/r_result_set.png&quot; width=&quot;160&quot; height=&quot;80&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Result of Execution of R Script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Congratulations, you have now executed R code inside SQL Server. How cool is that?!&lt;/p&gt;
+
+&lt;p&gt;In future blog-posts we will look at:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;How things work under the cover&lt;/li&gt;
+&lt;li&gt;What exactly is &lt;code&gt;sp_execute_external_script&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Some real world examples&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 8</title>

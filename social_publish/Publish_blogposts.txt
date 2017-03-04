@@ -1,3 +1,11 @@
+[Blog]: "Interesting Stuff - Week 8" http://bit.ly/2kYHQ51
+#datascience #manageddata
+#sqlserver #RStats #rtvs
+
+New Blogpost: "Interesting Stuff - Week 8". Things I have read and found interesting this past week. http://bit.ly/2kYHQ51
+#datascience #manageddata #streaming #kafka
+#sqlserver #RStats #rtvs
+
 [Blog]: "Microsoft R Server" http://bit.ly/2kVPz3X
 #datascience #manageddata
 #sqlserver #MachineLearning #RStats
