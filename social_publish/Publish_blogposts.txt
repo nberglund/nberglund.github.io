@@ -1,3 +1,13 @@
+[Blog]: "Microsoft SQL Server R Services Installation" http://bit.ly/2lH9ZsP
+#datascience #manageddata
+#sqlserver #RStats
+
+
+New Blogpost: "Microsoft SQL Server R Services Installation". How to install and enable SQL Server 2016 R Services http://bit.ly/2lH9ZsP
+#datascience #manageddata
+#sqlserver #RStats
+
+
 [Blog]: "Interesting Stuff - Week 8" http://bit.ly/2kYHQ51
 #datascience #manageddata
 #sqlserver #RStats #rtvs
