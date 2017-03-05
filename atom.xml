@@ -4,7 +4,7 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-03-05T07:04:23+02:00</updated>
+ <updated>2017-03-05T07:08:54+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -45,7 +45,7 @@
 &lt;li&gt;&lt;a href=&quot;https://github.com/terryum/awesome-deep-learning-papers&quot;&gt;Awesome - Most Cited Deep Learning Papers&lt;/a&gt;. A curated list of the most cited deep learning papers since 2012. A lot of really interesting papers in there.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471#.jeyqbephu&quot;&gt;Machine Learning is Fun!&lt;/a&gt;. A multi part guide to machine learning. It provides you with a high-level explanation of what machine learning is, and doing it in an easily understandable manner.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/03/01/optimisation-and-training-techniques-for-deep-learning/&quot;&gt;Optimisation and training techniques for deep learning&lt;/a&gt;. Adrian Colyer from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; has waded through the &lt;a href=&quot;https://github.com/terryum/awesome-deep-learning-papers&quot;&gt;papers mentioned above&lt;/a&gt; pertaining to &quot;optimisation and training techniques&quot;. I believe I have mentioned it before, but I'll do it again: &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; is an excellent source for data science related &quot;stuff&quot;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;. A post from yours truly. The post is the second in a series of posts about Microsoft SQL Server R Services. In this post I cover installation and enabling of SQL Server R Services.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;. A post from yours truly. The post is the first in a series of posts about Microsoft SQL Server R Services. In this post I cover installation and enabling of SQL Server R Services.&lt;/li&gt;
 &lt;/ul&gt;
 
 
