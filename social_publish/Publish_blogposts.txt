@@ -1,3 +1,23 @@
+[Blog]: "Interesting Stuff - Week 10" 
+#datascience #manageddata
+#sqlserver #RStats
+@fwaris7 ‎@tomaz_tsql @MSAdvAnalytics @MicrosoftR @revodavid @john_lam @adriancolyer @paulrandal @slava_oks @sqlonice
+
+New Blogpost: "Interesting Stuff - Week 9". Things I have read and found interesting this past week. http://bit.ly/2ma7e73
+#datascience #manageddata 
+#sqlserver #RStats
+
+
+
+
+[Blog]: "Interesting Stuff - Week 9" http://bit.ly/2ma7e73
+#datascience #manageddata
+#sqlserver #RStats
+
+New Blogpost: "Interesting Stuff - Week 9". Things I have read and found interesting this past week. http://bit.ly/2ma7e73
+#datascience #manageddata 
+#sqlserver #RStats
+
 [Blog]: "Microsoft SQL Server R Services Installation" http://bit.ly/2lH9ZsP
 #datascience #manageddata
 #sqlserver #RStats

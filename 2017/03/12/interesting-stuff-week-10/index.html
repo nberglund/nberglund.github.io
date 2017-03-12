@@ -7,10 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
-  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  <meta name="description" content="Weekly roundup of what interesting stuff I have read in blogs etc.">
   
   
-  <meta name="keywords" content="data science, distributed computing, SQL Server, Streaming, Kafka, rstats"/>
+  <meta name="keywords" content="data science, distributed computing, SQL Server, R, SQL Server R Services, Microsoft R Server, R Tools for Visual Studio, SQL Server 2016"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -18,7 +18,7 @@
 
   <title>
     
-      Interesting Stuff - Week 7 &middot; MANAGED DATA
+      Interesting Stuff - Week 10 &middot; MANAGED DATA
     
   </title>
 
@@ -167,9 +167,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Interesting Stuff - Week 7</h1>
+  <h1 class="post-title">Interesting Stuff - Week 10</h1>
   <div class="post-subheading">
-  <span class="post-date">19 Feb 2017</span>
+  <span class="post-date">12 Mar 2017</span>
 
   <span class="post-tag">
     
@@ -191,11 +191,15 @@
     
       SQL Server
     
-      Streaming
+      R
     
-      Kafka
+      SQL Server R Services
     
-      rstats
+      Microsoft R Server
+    
+      R Tools for Visual Studio
+    
+      SQL Server 2016
     
 
     
@@ -218,34 +222,32 @@
 <!--more-->
 
 
-<p>This post is little late as I was in Cape Town during the weekend and gave a talk at <a href="http://capetown2017.satrdays.org/">satRday</a>. The conference was really good, great job by Andrew Collier for arranging this. During the week I'll put the code for my talk up on GitHub.</p>
-
 <h2>Data Science</h2>
 
 <ul>
-<li><a href="https://www.analyticsvidhya.com/blog/2017/02/6-deep-learning-applications-beginner-python/">6 Deep Learning Applications a beginner can build in minutes (using Python)</a>. Interesting article trying to de-mystify Deep Learning.</li>
-<li><a href="http://www.rblog.uni-freiburg.de/2017/02/07/deep-learning-in-r/">Deep Learning in R</a>. More about Deep Learning. This talks about various R packages for Deep Learning.</li>
-<li><a href="https://www.infoq.com/articles/ml-algorhitm">Real-World, Man-Machine Algorithms</a>. This article, which is part of the InfoQ series <a href="https://www.infoq.com/introduction-machine-learning">An Introduction To Machine Learning</a>, talks about the end-to-end flow of developing machine learning models: where to get training data, how to pick the ML algorithm, and so forth.</li>
-<li><a href="http://blog.revolutionanalytics.com/2017/02/preview-r-340.html">Performance improvements coming to R 3.4.0</a>. Talks about what can be expected in the new R release 3.4, scheduled for March.</li>
-<li><a href="https://blog.acolyer.org/2017/02/15/redqueen-an-online-algorithm-for-smart-broadcasting-in-social-networks/">RedQueen: An online algorithm for smart broadcasting in social networks</a>. From <a href="https://blog.acolyer.org">the morning paper</a>. This is about algorithms can be used to find the optimal time to post on social networks.</li>
+<li><a href="https://fwaris.wordpress.com/2017/03/04/deep-learning-for-sensor-fusion-and-sequence-classification/">Deep Learning for Sensor Fusion and Sequence Classification</a>. Faisal discusses how the <a href="https://github.com/Microsoft/CNTK/wiki">Microsoft Cognitive Toolkit</a> can be used for sequence classification.</li>
+<li><a href="https://www.infoq.com/articles/ml-data-processing">Data Preprocessing vs. Data Wrangling in Machine Learning Projects</a>. Article from <a href="https://www.infoq.com/">InfoQ</a>, which compares different alternative techniques to prepare data for machine learning. Techniques include extract-transform-load (ETL) batch processing, streaming ingestion and data wrangling.</li>
+<li><a href="https://www.infoq.com/news/2017/03/TensorFlow-Release-1">TensorFlow 1.0 Released</a>. Another article from <a href="https://www.infoq.com/">InfoQ</a>. This article is about the release of Google's <a href="https://en.wikipedia.org/wiki/TensorFlow">TensorFlow</a>.</li>
+<li><a href="https://tomaztsql.wordpress.com/2017/02/20/rxneuralnet-vs-xgboost-vs-h2o/">rxNeuralNet vs. xgBoost vs. H2O</a>. In version 9.0.3 of <a href="https://msdn.microsoft.com/en-us/microsoft-r/microsoft-r-getting-started">Microsoft R Server</a>, Microsoft has introduced a new package for Microsoft R Server; <a href="https://msdn.microsoft.com/microsoft-r/microsoftml-introduction">MicrosoftML</a>. The package brings new machine learning functionality with improvements in speed, performance and scalability. In Tomaz blog-post he puts the new functionality to test.</li>
+<li><a href="https://info.microsoft.com/advanced-analytics-data-science-newsletter.html">Microsoft Data Science Newsletter</a>. If you are interested in what Microsoft is doing in data science you should definitely subscribe to the monthly newsletter.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/03/employee-retention.html">Employee Retention with R Based Data Science Accelerator</a>. Cool "stuff from" <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> about how to use R to analyze employee retention.</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2016/03/09/announcing-r-tools-for-visual-studio-2/">Announcing R Tools for Visual Studio</a>. R Tools for Visual Studio has been released!</li>
 </ul>
 
 
-<h2>Streaming</h2>
+<h1>Distributed Computing</h1>
 
 <ul>
-<li><a href="https://thomaswdinsmore.com/2017/02/14/spark-is-the-future-of-analytics/">Spark is the Future of Analytics</a>. Interesting analysis of Spark.</li>
-<li><a href="https://softwaremill.com/kafka-streams-how-does-it-fit-stream-landscape/">Kafka Streams - how does it fit the stream processing landscape?</a>. Post about Kafka Streams, a library for transforming and combining data streams in Kafka.</li>
-<li><a href="http://engineering.skybettingandgaming.com/2017/01/23/streaming-architectures/">Towards a real-time streaming architecture</a>. How Sky Betting &amp; Gaming went with Kafka for real-time streaming.</li>
-<li><a href="https://www.confluent.io/blog/distributed-real-time-joins-and-aggregations-on-user-activity-events-using-kafka-streams/">User Activity Events using Kafka Streams</a>. More about Kafka and Kafka streams. How to enrich an incoming stream of events with side data, and then compute aggregations based on the enriched stream.</li>
+<li><a href="https://blog.acolyer.org/2017/03/08/redundancy-does-not-imply-fault-tolerance-analysis-of-distributed-storage-reactions-to-single-errors-and-corruptions/">Redundancy does not imply fault tolerance: analysis of distributed storage reactions to single errors and corruptions</a>. <a href="https://blog.acolyer.org">Adrian</a> dissects a white-paper pertaining to how distributed storage reacts to errors and corruptions. My conclusion; be afraid, be very afraid!</li>
 </ul>
 
 
-<h2>Big Data &amp; Databases</h2>
+<h2>SQL Server</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/presentations/netflix-big-data-infrastructure">Petabytes Scale Analytics Infrastructure @Netflix</a>. About Netflix' overall big data platform architecture, focusing on Storage and Orchestration.</li>
-<li><a href="https://www.wired.com/2017/02/spanner-google-database-harnessed-time-now-open-everyone/">Spanner, the Google Database That Mastered Time, Is Now Open to Everyone</a>. About Google Spanner, a database that can span multiple geo-locations and still be seen as one instance.</li>
+<li><a href="https://www.sqlskills.com/blogs/paul/why-pfs-pages-cannot-be-repaired/">Why PFS pages cannot be repaired</a>. Paul Randal from <a href="https://www.sqlskills.com">SQLskills</a> fame explains why DBCC CHECKDB cannot repair Page Free Space pages. Very cool "stuff"!</li>
+<li><a href="https://qconlondon.com/system/files/presentation-slides/slavaoks_sqlpal_qconfinal.pdf">SQL  Server  on  Linux, will it perform?</a>. This is the slide deck from <a href="https://blogs.msdn.microsoft.com/slavao">Slava Oks</a> presentation at QCon in London this year about SQL Server on Linux. Amazing! Cannot wait for the video to be published!</li>
+<li><a href="http://sqlonice.com/context-in-perspective-1-what-the-cpu-sees-in-you/">Context in perspective 1: What the CPU sees in you</a>. <a href="http://sqlonice.com">Ewald</a> has a series about context in SQL Server, and this is the first post. So, so interesting! As a side note; you should really follow <a href="http://sqlonice.com">Ewald's blog</a> if you are interested in various and sundry, deeply technical topics of how SQL Server works under the covers! WinDbg FTW!</li>
 </ul>
 
 
@@ -254,17 +256,17 @@
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/&text=Interesting Stuff - Week 7&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/03/12/interesting-stuff-week-10/&text=Interesting Stuff - Week 10&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/02/19/interesting-stuff-week-7/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/03/12/interesting-stuff-week-10/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/
-         &title=Interesting Stuff - Week 7
-         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
-         &source=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/03/12/interesting-stuff-week-10/
+         &title=Interesting Stuff - Week 10
+         &summary=Blog post: Weekly roundup of what interesting stuff I have read in blogs etc.
+         &source=http://www.nielsberglund.com/2017/03/12/interesting-stuff-week-10/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -272,7 +274,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/03/12/interesting-stuff-week-10/
 
    -->
   <p>
@@ -284,15 +286,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/03/12/interesting-stuff-week-10/">
-            Interesting Stuff - Week 10
-            <small>12 Mar 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -308,6 +301,15 @@ To automatically receive more posts like this, please
           <a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">
             Microsoft SQL Server 2016 R Services Installation
             <small>04 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/02/26/interesting-stuff-week-8/">
+            Interesting Stuff - Week 8
+            <small>26 Feb 2017</small>
           </a>
         </h3>
       </li>

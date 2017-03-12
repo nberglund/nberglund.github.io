@@ -4,13 +4,68 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-03-05T07:08:54+02:00</updated>
+ <updated>2017-03-12T07:42:20+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 10</title>
+   <link href="http://nielsberglund.com/2017/03/12/interesting-stuff-week-10/"/>
+   <updated>2017-03-12T07:39:45+02:00</updated>
+   <id>http://nielsberglund.com/2017/03/12/interesting-stuff---week-10</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://fwaris.wordpress.com/2017/03/04/deep-learning-for-sensor-fusion-and-sequence-classification/&quot;&gt;Deep Learning for Sensor Fusion and Sequence Classification&lt;/a&gt;. Faisal discusses how the &lt;a href=&quot;https://github.com/Microsoft/CNTK/wiki&quot;&gt;Microsoft Cognitive Toolkit&lt;/a&gt; can be used for sequence classification.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/ml-data-processing&quot;&gt;Data Preprocessing vs. Data Wrangling in Machine Learning Projects&lt;/a&gt;. Article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;, which compares different alternative techniques to prepare data for machine learning. Techniques include extract-transform-load (ETL) batch processing, streaming ingestion and data wrangling.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/03/TensorFlow-Release-1&quot;&gt;TensorFlow 1.0 Released&lt;/a&gt;. Another article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;. This article is about the release of Google's &lt;a href=&quot;https://en.wikipedia.org/wiki/TensorFlow&quot;&gt;TensorFlow&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/02/20/rxneuralnet-vs-xgboost-vs-h2o/&quot;&gt;rxNeuralNet vs. xgBoost vs. H2O&lt;/a&gt;. In version 9.0.3 of &lt;a href=&quot;https://msdn.microsoft.com/en-us/microsoft-r/microsoft-r-getting-started&quot;&gt;Microsoft R Server&lt;/a&gt;, Microsoft has introduced a new package for Microsoft R Server; &lt;a href=&quot;https://msdn.microsoft.com/microsoft-r/microsoftml-introduction&quot;&gt;MicrosoftML&lt;/a&gt;. The package brings new machine learning functionality with improvements in speed, performance and scalability. In Tomaz blog-post he puts the new functionality to test.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://info.microsoft.com/advanced-analytics-data-science-newsletter.html&quot;&gt;Microsoft Data Science Newsletter&lt;/a&gt;. If you are interested in what Microsoft is doing in data science you should definitely subscribe to the monthly newsletter.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/03/employee-retention.html&quot;&gt;Employee Retention with R Based Data Science Accelerator&lt;/a&gt;. Cool &quot;stuff from&quot; &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; about how to use R to analyze employee retention.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2016/03/09/announcing-r-tools-for-visual-studio-2/&quot;&gt;Announcing R Tools for Visual Studio&lt;/a&gt;. R Tools for Visual Studio has been released!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h1&gt;Distributed Computing&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/03/08/redundancy-does-not-imply-fault-tolerance-analysis-of-distributed-storage-reactions-to-single-errors-and-corruptions/&quot;&gt;Redundancy does not imply fault tolerance: analysis of distributed storage reactions to single errors and corruptions&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Adrian&lt;/a&gt; dissects a white-paper pertaining to how distributed storage reacts to errors and corruptions. My conclusion; be afraid, be very afraid!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/paul/why-pfs-pages-cannot-be-repaired/&quot;&gt;Why PFS pages cannot be repaired&lt;/a&gt;. Paul Randal from &lt;a href=&quot;https://www.sqlskills.com&quot;&gt;SQLskills&lt;/a&gt; fame explains why DBCC CHECKDB cannot repair Page Free Space pages. Very cool &quot;stuff&quot;!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://qconlondon.com/system/files/presentation-slides/slavaoks_sqlpal_qconfinal.pdf&quot;&gt;SQL  Server  on  Linux, will it perform?&lt;/a&gt;. This is the slide deck from &lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao&quot;&gt;Slava Oks&lt;/a&gt; presentation at QCon in London this year about SQL Server on Linux. Amazing! Cannot wait for the video to be published!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/context-in-perspective-1-what-the-cpu-sees-in-you/&quot;&gt;Context in perspective 1: What the CPU sees in you&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com&quot;&gt;Ewald&lt;/a&gt; has a series about context in SQL Server, and this is the first post. So, so interesting! As a side note; you should really follow &lt;a href=&quot;http://sqlonice.com&quot;&gt;Ewald's blog&lt;/a&gt; if you are interested in various and sundry, deeply technical topics of how SQL Server works under the covers! WinDbg FTW!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 9</title>
