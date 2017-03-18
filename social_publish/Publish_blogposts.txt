@@ -1,11 +1,20 @@
-[Blog]: "Interesting Stuff - Week 10" 
-#datascience #manageddata
-#sqlserver #RStats
+[Blog]:"Interesting Stuff - Week 10" http://bit.ly/2mdVZaq
+#datascience #sqlserver #RStats #rtvs @revodavid @john_lam @slava_oks @sqlonice
+
+Interesting stuff week 10 http://bit.ly/2mdVZaq
+#datascience #sqlserver #RStats #rtvs
+@MSAdvAnalytics @adriancolyer
+
+What was interesting Week 10 http://bit.ly/2mdVZaq
+#datascience #sqlserver #RStats #rtvs
+@fwaris7 ‎@tomaz_tsql @MicrosoftR @PaulRandal
+
+[Blog]: "Interesting Stuff - Week 10" http://bit.ly/2mdVZaq
+#datascience #sqlserver #RStats #rtvs
 @fwaris7 ‎@tomaz_tsql @MSAdvAnalytics @MicrosoftR @revodavid @john_lam @adriancolyer @paulrandal @slava_oks @sqlonice
 
-New Blogpost: "Interesting Stuff - Week 9". Things I have read and found interesting this past week. http://bit.ly/2ma7e73
-#datascience #manageddata 
-#sqlserver #RStats
+New Blogpost: "Interesting Stuff - Week 10". Things I have read and found interesting this past week. http://bit.ly/2mdVZaq
+#datascience #sqlserver #RStats #rtvs
 
 
 

@@ -4,13 +4,242 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-03-12T07:42:20+02:00</updated>
+ <updated>2017-03-18T19:47:30+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals I</title>
+   <link href="http://nielsberglund.com/2017/03/18/microsoft-sql-server-r-services-internals-i/"/>
+   <updated>2017-03-18T16:21:21+02:00</updated>
+   <id>http://nielsberglund.com/2017/03/18/microsoft-sql-server-r-services---internals-i</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals I (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;In this post, and one or two more we will look at what goes on under the covers when we execute some R code inside SQL Server. This post looks at quite in detail what happens in the SQL engine when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To try and get an understanding we'll do something that we did quite a lot back in the day when I worked at Developmentor; we'll &lt;a href=&quot;http://queue.acm.org/detail.cfm?id=945136&quot;&gt;&quot;spelunk&quot;&lt;/a&gt; the SQL Server code via &lt;em&gt;WinDbg&lt;/em&gt;. This can be really useful when trying to understand and get to grips with new technology/functionality.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Developmentor were back in the day THE training company to go to if you wanted highly, highly technical training about COM, .NET, SQL Server, etc. &lt;a href=&quot;http://www.javaworld.com/article/2073792/core-java/a-eulogy--developmentor--rip.html&quot;&gt;This article&lt;/a&gt; by my old colleague &lt;a href=&quot;http://blogs.tedneward.com/&quot;&gt;Ted Neward&lt;/a&gt; (@tedneward) sums DM up quite accurately (apart from the fact that DM hadn't closed its doors when the article was written, ooops).&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The first post in the series discussed how to install and enable SQL Server R Services. In there I mentioned how the SQL Server R Services are different from SQLCLR in that the R engine is external to SQL Server, whereas in SQLCLR, CLR is loaded into the same process as the SQL Server engine.&lt;/p&gt;
+
+&lt;p&gt;So in SQL Server R Services, there must be a way to communicate out of the SQL engine, and into the R engine/runtime, and back into the SQL Server process. Before we'll start trying to figure out what is going on, let's make sure WinDbg is set up.&lt;/p&gt;
+
+&lt;h2&gt;WinDbg&lt;/h2&gt;
+
+&lt;p&gt;If you want to follow along with what I did, and you haven't used WinDbg before, this section talks about how to attach to a process etc. If you are used to this, please skip it.&lt;/p&gt;
+
+&lt;p&gt;In order to use WinDbg, we need to ensure we have the symbol file path set. The easiest is to have the symbol path pointing to Microsoft's Symbol Server. To set things up and also get an introduction to debugging SQL Server with WinDbg, go and read &lt;a href=&quot;http://www.sqlpassion.at/archive/2014/05/05/sql-server-debugging-with-windbg-an-introduction/&quot;&gt;Klaus Aschenbrenner's (@Aschenbrenner) excellent introduction&lt;/a&gt; to the subject.&lt;/p&gt;
+
+&lt;p&gt;When you want to debug and having the symbol path set you can attach to the SQL Server process, either by doing it as in Klaus' post, or you can attach from within WinDbg:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_attach_menu.png&quot; width=&quot;327&quot; height=&quot;150&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Attach to Process Menu&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In WinDbg you either choose &lt;em&gt;Attach to a Process&lt;/em&gt; from the File menu as in &lt;em&gt;Figure 1&lt;/em&gt;, or you click F6. You are then presented with the &lt;em&gt;Attach to Process&lt;/em&gt; dialog, where you choose &lt;em&gt;sqlservr.exe&lt;/em&gt; as in &lt;em&gt;Figure 2&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_attach_process.png&quot; width=&quot;372&quot; height=&quot;128&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Attach to Process Dialog&lt;/em&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; &lt;strong&gt;NEVER, EVER&lt;/strong&gt; run WinDbg against a production SQL Server, &lt;strong&gt;NEVER&lt;/strong&gt;!!&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When you have attached to the process it can be prudent to reload the symbols for that process, by executing &lt;code&gt;.reload -f sqlservr.exe&lt;/code&gt; from the WinDbg command line:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_reload_symbols.png&quot; width=&quot;435&quot; height=&quot;179&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Reload Symbols&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You should now be good to go.&lt;/p&gt;
+
+&lt;h2&gt;sp_execute_external_script&lt;/h2&gt;
+
+&lt;p&gt;We'll start with the procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt;. When reading official documentation, it says that the procedure is an extended stored procedure, and, indeed, if we try and do &lt;code&gt;sp_helptext sp_execute_external_script&lt;/code&gt;, the result coming back is like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_ext_proc.png&quot; width=&quot;158&quot; height=&quot;68&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Result of sp_helptext Against sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The result indicates that this is internal to the server. Let us see if we can find out what happens when executing the proc by using WinDbg.&lt;/p&gt;
+
+&lt;p&gt;An assumption we'll make is that when we execute the proc, there will be some symbols with a name something like &lt;code&gt;ExternalScript&lt;/code&gt; among the various SQL Server modules. So, let us see what we can find. We do it by using the &lt;code&gt;x&lt;/code&gt; command from the WinDbg command-line, like so: &lt;code&gt;x *!*ExternalScript*&lt;/code&gt; (the &quot;*&quot; denotes a wild-card, like &quot;%&quot; in T-SQL). Whoops, that returned quite a lot of information:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_extscript_symbols.png&quot; width=&quot;650&quot; height=&quot;171&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Result of Looking for Symbols With ExternalScript in the Name&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;OK, but we are probably onto something here. When skimming the result we see that &lt;code&gt;ExternalScript&lt;/code&gt; occurs in two modules:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sqllang&lt;/code&gt; - Implements things to do with T-SQL as well as the query engine.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sqlmin&lt;/code&gt; - Implements things related to the relational engine.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Seeing that it occurs in &lt;code&gt;sqllang&lt;/code&gt; and &lt;code&gt;sqllang&lt;/code&gt; has to do with T-SQL etc., a fairly solid assumption is that we should look in the &lt;code&gt;sqllang&lt;/code&gt; module for anything that has to do with that procedure. So just for giggles, let us execute on the WinDbg command-line the following: &lt;code&gt;x sqllang!*execute*externalscript*&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_spexecuteextscript.png&quot; width=&quot;580&quot; height=&quot;67&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;sqllang!SpExecuteExternalScript&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Cool, we found something that probably is what we are after: &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To see if our assumption is correct we now set a break-point at &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;: &lt;code&gt;bp sqllang!SpExecuteExternalScript&lt;/code&gt;. After the breakpoint is set, do not forget to click F5 to continue the process. At this stage we can now execute the &lt;code&gt;sp_execute_external_script&lt;/code&gt; procedure and see if the breakpoint was hit:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execution of Procedure&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Execute sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As can be seen in &lt;em&gt;Figure 7&lt;/em&gt; below, the breakpoint is hit. It seems that our assumption is right:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_hitting_breakpoint.png&quot; width=&quot;480&quot; height=&quot;85&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Hitting the Breakpoint&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When we have hit the breakpoint as in &lt;em&gt;Figure 7&lt;/em&gt;, what do we do then? Well, we can always use the &lt;code&gt;k&lt;/code&gt; command to look at the call-stack up until the breakpoint:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_callstack1.png&quot; width=&quot;650&quot; height=&quot;177&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Partial call-stack&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 8&lt;/em&gt; shows part of the call-stack, and we can see what routines were called leading up to &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;. When you have looked at the call-stack you can hit F5, to let the routine complete and you should see a result in the Results tab in SSMS.&lt;/p&gt;
+
+&lt;p&gt;But we are not really anywhere closer to understand what is going on, except that we know what has been called up until the breakpoint. We are interested in what routines &lt;code&gt;SpExecuteExternalScript&lt;/code&gt; calls. To find out about that, there is a command in WinDbg, which allows us to disassemble routines; the &lt;code&gt;uf&lt;/code&gt; command. The command signature looks like so: &lt;code&gt;uf [options] &amp;lt;address&amp;gt;&lt;/code&gt;, where the address is the routine, and the options define how to display the result. One of the options is &lt;code&gt;/c&lt;/code&gt; which displays only the call instructions in a routine. Let's execute &lt;code&gt;uf /c sqllang!SpExecuteExternalScript&lt;/code&gt; and see what is being called. Quite a few calls are made and the figure below shows some of them:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_windbg_calls1.png&quot; width=&quot;640&quot; height=&quot;148&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Calls Being Made by SpExecuteExternalScript&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When looking at the calls, there is nothing really that stands out, apart from the &lt;code&gt;sqllang!CSQLSource::Execute (00007ff9 ee237ec0)&lt;/code&gt; call. We can assume that, that call takes us further down the &quot;rabbit-hole&quot;, and we eventually could figure out what is going on. Tracing down could however take quite a while, so let us try another angle.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; When you have hit a breakpoint in WinDbg you can use a trace command &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx&quot;&gt;&lt;code&gt;wt&lt;/code&gt;&lt;/a&gt; to continue the execution and at the same time print out the calls being made. For a call like &lt;code&gt;SpExecuteExternalScript&lt;/code&gt; the output will get very, very large, and also not completely easy to interpret, so we will not use it for &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;. We will use it a bit later though .&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;What we will do instead is to go back and look at symbols. The assumption is that calls further down the call-chain will have something to do with external scripts, and most likely be executed from within the &lt;code&gt;sqllang&lt;/code&gt; module.&lt;/p&gt;
+
+&lt;p&gt;So let us execute a variant of what we did when finding &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;; we'll execute &lt;code&gt;x sqllang!*ExternalScript*&lt;/code&gt;. Quite a few routines comes back, I have copied some of the ones that might be of interest to us into the code snippet below:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;ExternalScript Related Classes and Routines&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;113&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;em&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&lt;/em&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrepareLauncherInfo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConnectToSatellite&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Result from &lt;code&gt;x sqllang!*ExternalScript*&lt;/code&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want, you can set breakpoints for the routines in &lt;em&gt;Code Snippet 2&lt;/em&gt;, and see if they are hit when executing the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;. In my tests they were hit in the following order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;sqllang!SpExecuteExternalScript&lt;/li&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::Open&lt;/li&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::SetupService&lt;/li&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::PrepareLauncherInfo&lt;/li&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::ConnectToSatellite:&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;No surprise we hit &lt;code&gt;SpExecuteExternalScript&lt;/code&gt; first, and I guess at one stage the script has to &lt;code&gt;Open&lt;/code&gt;. The question is what the other three routines are doing?&lt;/p&gt;
+
+&lt;p&gt;In the &lt;em&gt;Overview&lt;/em&gt; section in the beginning of this post I wrote how we need to communicate out of SQL Server in order to get to the R runtime. In my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;previous post&lt;/a&gt;, I mentioned the &lt;em&gt;Launchpad&lt;/em&gt; service, and how it acts as a &quot;routing&quot; mechanism between SQL Server and external languages/runtimes.&lt;/p&gt;
+
+&lt;p&gt;So, somehow SQL Server calls into the launchpad service in order to have the R engine execute the R code. The routines &lt;code&gt;SetupService&lt;/code&gt; and &lt;code&gt;PrepareLauncherInfo&lt;/code&gt;, has to do with the launchpad service., and we'll shortly have a closer look at what &lt;code&gt;SetupService&lt;/code&gt; does. The &lt;code&gt;ConnectToSatellite&lt;/code&gt; routine is for when results are coming back into SQL Server from the external runtime.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Before we go any further, make sure that you are not sitting at a break-point, e.g. hit F5 to let the debugger run.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;What about &lt;code&gt;SetupService&lt;/code&gt; then, let us start with disassemble the routine to see what code is being called: &lt;code&gt;uf /c sqllang!CUDXR_ExternalScript::SetupService&lt;/code&gt; (all code is not showing, I have copied certain interesting parts):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;SetupService&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xa6&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;77179&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ee6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Init&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7763&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bfc0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x19c&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;77179&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fdc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OpenNpConnection&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7763&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c480&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x3ab&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7717&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a1eb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7763&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b140&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x3b5&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7717&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a1f5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FreePackets&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7763&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bc70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Interesting Calls in SetupService&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When looking at the call in &lt;em&gt;Code Snippet 3&lt;/em&gt; we can see the &lt;code&gt;sqllang!CSQLSatelliteCommunication::Init&lt;/code&gt; call. That is a call to initialize communication with the launchpad service. Then, somewhat later, there is an &lt;code&gt;OpenNpConnection&lt;/code&gt; call. That call opens a named pipe connection to the launchpad service.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;WriteMessage&lt;/code&gt; call finally sends the message packet to the launchpad service, and &lt;code&gt;FreePackets&lt;/code&gt; releases the message packet. To further see what is going on, let's trace what &lt;code&gt;WriteMessage&lt;/code&gt; is doing.&lt;/p&gt;
+
+&lt;p&gt;If you are at a breakpoint right now, F5 out of there and then break into the debugger again, and set a breakpoint at &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;. Execute your T-SQL code again and continue until you hit the breakpoint you just set. When you hit the breakpoint enter the trace command &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx&quot;&gt;&lt;code&gt;wt&lt;/code&gt;&lt;/a&gt;. This will now run through the whole function and display what is being called as well as statistics about how many times etc., routines were called. In the code snippet below I have chosen some of the more interesting calls:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;WriteMessage&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;013&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wt&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Tracing&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00007&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ff8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7717&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a1f0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;109&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;       &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPacketAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Transport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrepareForAsyncCall&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;    &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;       &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPacketAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;KERNEL32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteFile&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteFile&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;           &lt;span class=&quot;n&quot;&gt;ntdll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ZwWriteFile&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;51&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;mi&quot;&gt;34&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;230&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Tracing WriteMessage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 4&lt;/em&gt; we see &lt;code&gt;WriteAsync&lt;/code&gt;, &lt;code&gt;SendPacketAsync&lt;/code&gt; and &lt;code&gt;WriteFile&lt;/code&gt; is being called. At this stage, the packet has now been sent to the launchpad service. Before you let the process continue, disable the &lt;code&gt;WriteMessage&lt;/code&gt; breakpoint, as it will be called when the result returns from R.&lt;/p&gt;
+
+&lt;p&gt;To make really sure that what we think happens actually happens we can do a last test, involving &lt;em&gt;Launchpad.exe&lt;/em&gt;. In the next post in this series we will look at what happens in the launchpad service in more detail, but for now let us just do a simple test:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Open a second instance of WinDbg and attach to the &lt;em&gt;Launchpad.exe&lt;/em&gt; process.&lt;/li&gt;
+&lt;li&gt;Reload the launchpad symbols: &lt;code&gt;.reload -f launchpad.exe&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Set a breakpoint like so: &lt;code&gt;bp launchpad!CLaunchContext::Launch&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In the WinDbg instance for the SQL Server process set breakpoints at:
+
+&lt;ul&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::SetupService&lt;/li&gt;
+&lt;li&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/li&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::ConnectToSatellite&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ensure that all other breakpoints for the SQL Server process are disabled&lt;/li&gt;
+&lt;li&gt;Make sure that both processes are running (i.e. not sitting in break mode).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Execute the T-SQL code and notice what happens (you need to press F5 after hitting each breakpoint):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You hit the breakpoint in the SQL Server process at &lt;code&gt;SetupService&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;You hit the breakpoint in the SQL Server process at &lt;code&gt;WriteMessage&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;You now hit the &lt;code&gt;Launch&lt;/code&gt; breakpoint in the launchpad process.&lt;/li&gt;
+&lt;li&gt;You are back in the SQL Server process at the &lt;code&gt;ConnectToSatellite&lt;/code&gt; breakpoint.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;After you have pressed F5 at the &lt;code&gt;ConnectToSatellite&lt;/code&gt; breakpoint you will hit the &lt;code&gt;WriteMessage&lt;/code&gt; breakpoint quite a few times when the result comes back from R.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Through our &quot;spelunking&quot;, we have seen in somewhat detail what happens in the SQL Server engine when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;. If you have followed along, you can now go off and do your own &quot;spelunking&quot;. In next post in this series we will look at what happens in the launchpad service when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 10</title>
@@ -121,6 +350,15 @@
    <updated>2017-03-04T10:19:22+02:00</updated>
    <id>http://nielsberglund.com/2017/03/04/microsoft-sql-server-2016-r-services-installation</id>
    <content type="html">&lt;p&gt;A couple of weeks beck I wrote a &lt;a href=&quot;/2017/02/25/microsoft-r-server/&quot;&gt;blog-post where I compared CRAN R with Microsoft R Server&lt;/a&gt;. The comparison was basically how large data sets are handled. In the post I mentioned that SQL Server 2016 (and later) is the delivery mechanism for Microsoft R Server on the Windows platform. In this post we will look at how to install and enable SQL Server R Services.&lt;/p&gt;
+
+&lt;p&gt;This post is the first in a series of posts about SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Microsoft SQL Server 2016 R Services Installation (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
 
 &lt;!--more--&gt;
 

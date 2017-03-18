@@ -166,6 +166,67 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">
+        Microsoft SQL Server R Services - Internals I
+      </a>
+    </h1>
+
+    <div class="post-subheading">
+  <span class="post-date">18 Mar 2017</span>
+
+  <span class="post-tag">
+    
+      <span class="post-tagdesc">in categories:</span>
+    
+
+    
+      SQL Server
+    
+      Microsoft R Server
+    
+      Data Science
+    
+
+    
+      <span class="post-tagdesc">tags:</span>
+    
+
+    
+      SQL Server R Services
+    
+      R
+    
+      WinDbg
+    
+
+    
+  </span>
+</div>
+
+    
+      <p>This post is part of a series of blog-posts about Microsoft SQL Server R Services:</p>
+
+<ol>
+<li><a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">Microsoft SQL Server 2016 R Services Installation</a></li>
+<li>Microsoft SQL Server R Services - Internals I (this post)</li>
+<li>More to come (hopefully)</li>
+</ol>
+
+
+<p>In this post, and one or two more we will look at what goes on under the covers when we execute some R code inside SQL Server. This post looks at quite in detail what happens in the SQL engine when we execute <code>sp_execute_external_script</code>.</p>
+
+<p>To try and get an understanding we'll do something that we did quite a lot back in the day when I worked at Developmentor; we'll <a href="http://queue.acm.org/detail.cfm?id=945136">"spelunk"</a> the SQL Server code via <em>WinDbg</em>. This can be really useful when trying to understand and get to grips with new technology/functionality.</p>
+
+<blockquote><p><strong>NOTE:</strong> Developmentor were back in the day THE training company to go to if you wanted highly, highly technical training about COM, .NET, SQL Server, etc. <a href="http://www.javaworld.com/article/2073792/core-java/a-eulogy--developmentor--rip.html">This article</a> by my old colleague <a href="http://blogs.tedneward.com/">Ted Neward</a> (@tedneward) sums DM up quite accurately (apart from the fact that DM hadn't closed its doors when the article was written, ooops).</p></blockquote>
+
+      <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/"><strong>Read More ...</strong></a>
+    
+
+    <hr>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/2017/03/12/interesting-stuff-week-10/">
         Interesting Stuff - Week 10
       </a>
@@ -334,6 +395,15 @@
     
       <p>A couple of weeks beck I wrote a <a href="/2017/02/25/microsoft-r-server/">blog-post where I compared CRAN R with Microsoft R Server</a>. The comparison was basically how large data sets are handled. In the post I mentioned that SQL Server 2016 (and later) is the delivery mechanism for Microsoft R Server on the Windows platform. In this post we will look at how to install and enable SQL Server R Services.</p>
 
+<p>This post is the first in a series of posts about SQL Server R Services:</p>
+
+<ol>
+<li>Microsoft SQL Server 2016 R Services Installation (this post)</li>
+<li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a></li>
+<li>More to come (hopefully)</li>
+</ol>
+
+
       <a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/"><strong>Read More ...</strong></a>
     
 
@@ -395,58 +465,6 @@
 <p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
 
       <a href="/2017/02/26/interesting-stuff-week-8/"><strong>Read More ...</strong></a>
-    
-
-    <hr>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/02/25/microsoft-r-server/">
-        Microsoft R Server
-      </a>
-    </h1>
-
-    <div class="post-subheading">
-  <span class="post-date">25 Feb 2017</span>
-
-  <span class="post-tag">
-    
-      <span class="post-tagdesc">in categories:</span>
-    
-
-    
-      Microsoft R Server
-    
-      R
-    
-      Data Science
-    
-
-    
-      <span class="post-tagdesc">tags:</span>
-    
-
-    
-      Microsoft R Server
-    
-      R
-    
-      Data Science
-    
-      Revolution Analytics
-    
-      RStats
-    
-
-    
-  </span>
-</div>
-
-    
-      <p>Last Saturday (February 18) I was in Cape Town at the second world-wide <a href="http://capetown2017.satrdays.org/">satRday conference</a> ever, where I gave a talk named: "Microsoft, Open Source, R: You gotta be kidding me!". The talk was about Microsoft's R Server offering, and how it in some cases offered a better performance than Open R. Seeing the session lengths were only 20 minutes, I could not show any code, so in a "weak" moment I promised to put the code up on my web-site together with an accompanying blog-post. This is it :).</p>
-
-      <a href="/2017/02/25/microsoft-r-server/"><strong>Read More ...</strong></a>
     
 
     <hr>
