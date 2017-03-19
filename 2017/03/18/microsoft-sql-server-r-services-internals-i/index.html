@@ -417,7 +417,31 @@
 
 <h2>Summary</h2>
 
-<p>Through our "spelunking", we have seen in somewhat detail what happens in the SQL Server engine when we execute <code>sp_execute_external_script</code>. If you have followed along, you can now go off and do your own "spelunking". In next post in this series we will look at what happens in the launchpad service when we execute <code>sp_execute_external_script</code>.</p>
+<p><strong>UPDATE &amp; EDIT:</strong> To make the summary more "readable" I have added <em>Figure 10</em> and rearranged (and added) some text.</p>
+
+<p>Through our "spelunking", we have seen in somewhat detail what happens in the SQL Server engine when we execute <code>sp_execute_external_script</code>. <em>Figure 10</em> below shows from a very high level what goes on in the SQL Server engine:</p>
+
+<p><img class="center" src="/images/posts/sql-launchpad_post.png" width="650" height="241"  >
+<strong>Figure 10:</strong> <em>Call Flow Executing sp_execute_external_script</em></p>
+
+<p>Following the flow in <em>Figure 10</em>, when executing <code>sp_execute_external_script</code>:</p>
+
+<ol>
+<li>EXEC <code>sp_execute_external_script</code>.</li>
+<li>Comes into the SQL Server process, and workers, schedulers, tasks, etc., comes into play.</li>
+<li>Eventually <code>sqllang!CSQLSource::Execute</code> is called (first invocation - not the one shown in <em>Figure 9</em>).</li>
+<li>Our friend <code>sqllang!SpExecuteExternalScript</code> is called.</li>
+<li>The external script is opened in <code>sqllang!CUDXR_ExternalScript::Open</code>.</li>
+<li>Things are hotting up and <code>sqllang!CUDXR_ExternalScript::SetupService</code> is hit.</li>
+<li>A named pipe connection to the launchpad service is opened in <code>sqllang!CSQLSatelliteConnection::OpenNpConnection</code>.</li>
+<li>A message containg the R scrips is written to the launchpad service in <code>sqllang!CSQLSatelliteConnection::WriteMessage</code>.</li>
+<li>That message eventually ends up in the launchpad process in <code>launchpad!CLaunchContext::Launch</code>.</li>
+</ol>
+
+
+<p>In between the calls mentioned, a lot of other calls are also made, but from a high level - this is what happens.</p>
+
+<p>If you have followed along, you can now go off and do your own "spelunking". In next post in this series we will look at what happens in the launchpad service in more detail.</p>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 

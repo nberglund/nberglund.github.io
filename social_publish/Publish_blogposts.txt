@@ -1,3 +1,13 @@
+﻿[Blog]: "Interesting Stuff - Week 11" http://bit.ly/2mEW2w6
+#datascience #sqlserver #RStats #azure
+
+
+New Blogpost: "Interesting Stuff - Week 11". Things I have read and found interesting this past week. http://bit.ly/2mEW2w6
+#datascience #sqlserver #RStats #azure
+
+
+
+
 [Blog]:"Microsoft SQL Server R Services - Internals I" bit.ly/2nDdWku
 #datascience #sqlserver #RStats  @tedneward @Aschenbrenner
 

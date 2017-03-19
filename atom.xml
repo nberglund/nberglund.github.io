@@ -4,7 +4,7 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-03-19T08:05:37+02:00</updated>
+ <updated>2017-03-19T16:28:38+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -300,7 +300,31 @@
 
 &lt;h2&gt;Summary&lt;/h2&gt;
 
-&lt;p&gt;Through our &quot;spelunking&quot;, we have seen in somewhat detail what happens in the SQL Server engine when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;. If you have followed along, you can now go off and do your own &quot;spelunking&quot;. In next post in this series we will look at what happens in the launchpad service when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;UPDATE &amp;amp; EDIT:&lt;/strong&gt; To make the summary more &quot;readable&quot; I have added &lt;em&gt;Figure 10&lt;/em&gt; and rearranged (and added) some text.&lt;/p&gt;
+
+&lt;p&gt;Through our &quot;spelunking&quot;, we have seen in somewhat detail what happens in the SQL Server engine when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;. &lt;em&gt;Figure 10&lt;/em&gt; below shows from a very high level what goes on in the SQL Server engine:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad_post.png&quot; width=&quot;650&quot; height=&quot;241&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Call Flow Executing sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Following the flow in &lt;em&gt;Figure 10&lt;/em&gt;, when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;EXEC &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Comes into the SQL Server process, and workers, schedulers, tasks, etc., comes into play.&lt;/li&gt;
+&lt;li&gt;Eventually &lt;code&gt;sqllang!CSQLSource::Execute&lt;/code&gt; is called (first invocation - not the one shown in &lt;em&gt;Figure 9&lt;/em&gt;).&lt;/li&gt;
+&lt;li&gt;Our friend &lt;code&gt;sqllang!SpExecuteExternalScript&lt;/code&gt; is called.&lt;/li&gt;
+&lt;li&gt;The external script is opened in &lt;code&gt;sqllang!CUDXR_ExternalScript::Open&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Things are hotting up and &lt;code&gt;sqllang!CUDXR_ExternalScript::SetupService&lt;/code&gt; is hit.&lt;/li&gt;
+&lt;li&gt;A named pipe connection to the launchpad service is opened in &lt;code&gt;sqllang!CSQLSatelliteConnection::OpenNpConnection&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;A message containg the R scrips is written to the launchpad service in &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;That message eventually ends up in the launchpad process in &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;In between the calls mentioned, a lot of other calls are also made, but from a high level - this is what happens.&lt;/p&gt;
+
+&lt;p&gt;If you have followed along, you can now go off and do your own &quot;spelunking&quot;. In next post in this series we will look at what happens in the launchpad service in more detail.&lt;/p&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
