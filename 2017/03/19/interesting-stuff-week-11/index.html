@@ -7,10 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
-  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  <meta name="description" content="Weekly roundup of what interesting stuff I have read in blogs etc.">
   
   
-  <meta name="keywords" content="data science, distributed computing, SQL Server, streaming, R Tools for Visual Studio"/>
+  <meta name="keywords" content="data science, distributed computing, SQL Server, R, Azure, SQL Server R Services"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -18,7 +18,7 @@
 
   <title>
     
-      Interesting Stuff - Week 8 &middot; MANAGED DATA
+      Interesting Stuff - Week 11 &middot; MANAGED DATA
     
   </title>
 
@@ -167,9 +167,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Interesting Stuff - Week 8</h1>
+  <h1 class="post-title">Interesting Stuff - Week 11</h1>
   <div class="post-subheading">
-  <span class="post-date">26 Feb 2017</span>
+  <span class="post-date">19 Mar 2017</span>
 
   <span class="post-tag">
     
@@ -191,9 +191,11 @@
     
       SQL Server
     
-      streaming
+      R
     
-      R Tools for Visual Studio
+      Azure
+    
+      SQL Server R Services
     
 
     
@@ -216,33 +218,42 @@
 <!--more-->
 
 
+<h2>Distributed Computing</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/news/2017/03/microliths-microsystems">From Microliths to Microsystems: Jonas Bonér at QCon London</a>. Jonas Boner discusses micro-services and points out that quite a few micro-services are really microliths (mini monoliths). A micro-service needs to be designed as a distributed system.</li>
+<li><a href="https://www.infoq.com/news/2017/03/distributed-programming-qcon">Concurrent and Distributed Programming in the Future</a>. Joe Duffy, who previously was Director of Engineering for Languages and Compilers at Microsoft, gives a keynote at <a href="https://qconlondon.com/">QCon London</a> where he talks about concurrent programming. I am so looking forward to the video and slides of this keynote.</li>
+<li><a href="http://joeduffyblog.com/">Joe Duffy's Blog</a>. So I didn't come across this blog this week, but having mentioned Joe Duffy above, I have to point out his blog which is a goldmine if you are interested in concurrent programming and distributed systems. His series of posts about <a href="http://joeduffyblog.com/2015/11/03/blogging-about-midori/">Midori</a> is a must read.</li>
+<li><a href="https://www.infoq.com/news/2017/03/google-cloud-next">Conference Recap: Google Cloud Next</a>. As the title says; a recap of Google's <a href="https://cloudnext.withgoogle.com/">Cloud Next</a> conference.</li>
+</ul>
+
+
 <h2>SQL Server</h2>
 
 <ul>
-<li><a href="https://seancremer.github.io/ChoosingAPrimaryKey.html">Choosing a Primary Key</a>. Another post in <a href="https://seancremer.github.io">Sean Cremer's</a> series about database design. Full disclosure, he is a colleague of mine - but still a very good guy :). His SQL knowledge is immense!</li>
-<li><a href="https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/02/21/sql-server-2016-developer-edition-in-windows-containers/">SQL Server 2016 Developer Edition in Windows Containers</a>. Announcement and introduction to the availability of SQL Server 2016 Developer Edition in Windows containers. This is a "biggie" for me who often want to spin up a new SQL Server instance. Now I can just have a container with the instance on it and spin it up!</li>
-<li><a href="https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-stored-procedures/">SQLskills SQL101: Stored Procedures</a>. First in a series of "back to the basics" by <a href="https://www.sqlskills.com/">Kimberly and Paul</a>. This covers my absolutely favorite feature in SQL Server: Stored Procedures! All you who are saying they are no good - I have a word for you: Heathens! :)</li>
-<li><a href="https://www.infoq.com/podcasts/slava-oks-linux-sql-server">Architecting SQL Server on Linux: Slava Oks on Drawbridge, LibOS, &amp; Addressing Between Windows/Linux</a>. A podcast with Slava Oks, where Slava talks the implementation of SQL Server on Linux.</li>
+<li><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-temporary-table-misuse/">SQLskills SQL101: Temporary table misuse</a>. A post in the <a href="https://www.sqlskills.com/help/sql101/">SQLSkills SQL101</a> series, by Paul Randal, about temp-tables and how they can be mis-used.</li>
+<li><a href="https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/03/14/comparing-performance-of-data-access-libraries-using-stackexchangedapper-benchmark/">Comparing performance of data access libraries using StackExchange/Dapper benchmark</a>. Disclaimer: I detest <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a>'s with a vengeance. So, some benchmarking by Jovan Popovic, from Microsoft, comparing different data access libraries. I'll let you draw your own conclusions, but I am a happy "bunny".</li>
+<li><a href="http://blogs.tedneward.com/post/the-vietnam-of-computer-science/">The Vietnam of Computer Science</a>. A post I read a long, long time ago - but as it has some touch-points with the post above I thought I'd share it. Ted Neward, an ex colleague of mine, wrote this post back in 2006 where he compared ORM's with the Vietnam war.</li>
+<li><a href="https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-indexing/">SQLskills SQL101: Indexing Basics</a>. Another post from the <a href="https://www.sqlskills.com/help/sql101/">SQLSkills SQL101</a> series. This one is by Kimberly Tripp, and it talks about indexes.</li>
+<li><a href="http://sqlonice.com/tsql2sday-the-string-length-server/">#TSQL2SDAY: The string length server</a>. A tongue in cheek entry for <a href="http://tsqltuesday.com/">T-SQL Tuesday</a> by Ewald. As a side note, as wrote in lasts week <a href="/2017/03/12/interesting-stuff-week-10/">roundup</a>, read his <a href="http://sqlonice.com/">blog</a> if you want to get into the "nitty gritty" of SQL Server internals.</li>
+<li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a>. This post is part 2 of my <a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">series about Microsoft SQL Server R Services</a>. This post is about the internals, more specifically about what happens in the SQL engine when you execute <code>sp_execute_external_script</code>.</li>
 </ul>
 
 
 <h2>Streaming</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/news/2017/02/apache-beam-top-level">Beam Graduates to Top-Level Apache Project</a>. <a href="https://beam.apache.org/">Beam</a> is an Apache project seeking to create a unified programming model for streaming and batch processing jobs, and to produce artifacts that can be consumed by a number of supported data processing engines.</li>
-<li><a href="https://www.infoq.com/presentations/stream-apache-beam">Fundamentals of Stream Processing with Apache Beam</a>. More about Beam. This is a presentation about Beam's out-of-order stream processing as well as Beam tries to simplify complex tasks.</li>
-<li><a href="https://kafka-summit.org/events/kafka-summit-ny/">Kafka Summit New York</a>. If you are doing streaming, then you most likely are interested in or, at least, have heard about Kafka. The yearly Kafka conference are coming up, so go ahead and register.</li>
+<li><a href="https://www.infoq.com/articles/apache-spark-introduction">Big Data Processing with Apache Spark – Part 1: Introduction</a>. This article is the first in a series named "Big Data Processing with Apache Spark". A lot of very useful articles!</li>
 </ul>
 
 
 <h2>Data Science</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/presentations/stitchfix-cloud">Data Science in the Cloud @StitchFix</a>. A conference presentation about how the cloud enables over 80 data scientists to be productive at <a href="https://www.stitchfix.com/">StichFix</a>.</li>
-<li><a href="https://www.infoq.com/presentations/datadog-cloud">Elastic Data Analytics Platform @Datadog</a>. Conference presentation about <a href="https://www.datadoghq.com/">DataDog's</a> cloud-based analytics platform and how it differs from a traditional datacenter-based analytics stack.</li>
-<li><a href="http://microsoft.github.io/RTVS-docs/">R Tools for Visual Studio</a>. <strong>R Tools for Visual Studio</strong> are getting closer and closer to a version 1.0 release.</li>
-<li><a href="https://facebookincubator.github.io/prophet/">Prophet - Forecasting at Scale</a>. Prophet is an open-source package for R and Python that implements the time-series methodology that Facebook uses in production for forecasting at scale. Looks very, very interesting.</li>
-<li><a href="http://www.nielsberglund.com/2017/02/25/microsoft-r-server/">Microsoft R Server</a>. I have to do some shameless self-promotion :). This is a blogpost by me comparing how CRAN R handles large datasets compared to Microsoft R Server.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/03/neural-networks-r.html">Neural Networks: How they work, and how to train them in R</a>. Neural networks are so "in" at the moment in the data science world. This post by <a href="http://blog.revolutionanalytics.com/">Revolution Analytics</a> summarizes various R packages useful for neural networks and points to a video about neural networks.</li>
+<li><a href="https://www.microsoft.com/en-us/sql-server/data-amp">Microsoft Data Amp—where data gets to work</a>. Information and registration for an upcoming Microsoft virtual conference about Microsoft's data platform.</li>
+<li><a href="https://www.infoq.com/articles/monte-carlo-planning">Monte Carlo Planning Improves Decision Making</a>. An article which discusses some innovative uses for Monte Carlo simulation.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/doazureparallel/">doAzureParallel: Take advantage of Azure’s flexible compute directly from your R session</a>. This post introduces <a href="https://github.com/Azure/doAzureParallel">doAzureParallel</a>, an R package which allows R users to scale up their work to take advantage of cloud compute.</li>
 </ul>
 
 
@@ -251,17 +262,17 @@
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/02/26/interesting-stuff-week-8/&text=Interesting Stuff - Week 8&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/03/19/interesting-stuff-week-11/&text=Interesting Stuff - Week 11&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/02/26/interesting-stuff-week-8/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/03/19/interesting-stuff-week-11/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2017/02/26/interesting-stuff-week-8/
-         &title=Interesting Stuff - Week 8
-         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
-         &source=http://www.nielsberglund.com/2017/02/26/interesting-stuff-week-8/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/03/19/interesting-stuff-week-11/
+         &title=Interesting Stuff - Week 11
+         &summary=Blog post: Weekly roundup of what interesting stuff I have read in blogs etc.
+         &source=http://www.nielsberglund.com/2017/03/19/interesting-stuff-week-11/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -269,7 +280,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/02/26/interesting-stuff-week-8/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/03/19/interesting-stuff-week-11/
 
    -->
   <p>
@@ -281,15 +292,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/03/19/interesting-stuff-week-11/">
-            Interesting Stuff - Week 11
-            <small>19 Mar 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -305,6 +307,15 @@ To automatically receive more posts like this, please
           <a href="/2017/03/12/interesting-stuff-week-10/">
             Interesting Stuff - Week 10
             <small>12 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/03/05/interesting-stuff-week-9/">
+            Interesting Stuff - Week 9
+            <small>05 Mar 2017</small>
           </a>
         </h3>
       </li>

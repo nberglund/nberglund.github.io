@@ -1,3 +1,18 @@
+[Blog]:"Microsoft SQL Server R Services - Internals I" bit.ly/2nDdWku
+#datascience #sqlserver #RStats  @tedneward @Aschenbrenner
+
+
+[Blog]:"Microsoft SQL Server R Services - Internals I" http://bit.ly/2nDdWku
+#datascience #sqlserver #RStats @revodavid @MSAdvAnalytics @MicrosoftR @tedneward @Aschenbrenner
+
+New Blogpost: "Microsoft SQL Server R Services - Internals I". What happens under the covers in SQL Server when we execute sp_execute_external_script. http://bit.ly/2nDdWku
+#datascience #sqlserver #RStats
+
+
+[Blog]:"Microsoft SQL Server R Services - Internals I" bit.ly/2nDdWku
+#datascience #sqlserver #RStats  @tedneward @Aschenbrenner
+
+
 [Blog]:"Interesting Stuff - Week 10" http://bit.ly/2mdVZaq
 #datascience #sqlserver #RStats #rtvs @revodavid @john_lam @slava_oks @sqlonice
 
