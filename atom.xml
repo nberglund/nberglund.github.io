@@ -4,13 +4,75 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-03-19T16:28:38+02:00</updated>
+ <updated>2017-03-26T20:02:33+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 12</title>
+   <link href="http://nielsberglund.com/2017/03/26/interesting-stuff-week-12/"/>
+   <updated>2017-03-26T19:59:37+02:00</updated>
+   <id>http://nielsberglund.com/2017/03/26/interesting-stuff---week-12</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Transaction Systems&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/03/17/omid-reloaded-scalable-and-highly-available-transaction-processing/&quot;&gt;Omid reloaded: scalable and highly-available transaction processing&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; looks at &lt;a href=&quot;https://omid.incubator.apache.org/&quot;&gt;Apache Omid&lt;/a&gt;, which is a transactional framework that allowing ACID transactions on top of MVCC key/value NoSQL data-stores.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/context-in-perspective-5-living-next-door-tls/&quot;&gt;Context in perspective 5: Living next door TLS&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; continues his series about context in SQL Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/sql-server-linux&quot;&gt;SQL Server on Linux: Will it Perform or Not?&lt;/a&gt;. In the &lt;a href=&quot;/2017/03/12/interesting-stuff-week-10/&quot;&gt;roundup for week 10&lt;/a&gt;, I pointed to Slava Oks slide deck from QCon in London about SQL Server on Linux. This is the video from the presentation.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://engineering.skybettingandgaming.com/2017/03/22/implementing-the-schema-registry/&quot;&gt;Implementing The Schema Registry&lt;/a&gt;. Interesting article about how &lt;a href=&quot;http://engineering.skybettingandgaming.com/&quot;&gt;Sky Betting &amp;amp; Gaming&lt;/a&gt; use the Confluent Schema Registry to ensure that various teams always encode and decode messages using the same schema.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/queryable-state-use-case-demo/&quot;&gt;Queryable State in Apache Flink® 1.2.0: An Overview &amp;amp; Demo&lt;/a&gt;. A very interesting post about &lt;a href=&quot;https://flink.apache.org/&quot;&gt;Apache Flink&lt;/a&gt; now allows you to query application state from external applications.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/03/20/convolutional-neural-networks-part-1/&quot;&gt;Convolutional neural networks, Part 1&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; dissects some white papers about Convolutional Neural Networks (CNN).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/03/20/is-it-possible-to-use-revoscaler-package-in-power-bi/&quot;&gt;Is it possible to use RevoScaleR package in Power BI?&lt;/a&gt;. &lt;a href=&quot;https://tomaztsql.wordpress.com/&quot;&gt;Tomaz&lt;/a&gt; shows how RevoScaleR can be used from inside Power BI, pretty cool!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/03/alteryx-integrates-with-microsoft-r.html&quot;&gt;Alteryx integrates with Microsoft R&lt;/a&gt;. &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; posts about how Alteryx now supports Microsoft R Server as well as SQL Server R Services. Alteryx is a workflow tool combining data preparation, data blending, and analytics – predictive, statistical and spatial. It looks very interesting!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/03/running-your-r-code-azure.html&quot;&gt;Running your R code on Azure with mrsdeploy&lt;/a&gt;. Another blog-post from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, this explains how to provision and run an Azure virtual machine (VM), using the mrsdeploy library that comes installed with Microsoft’s R Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/03/22/retail-customer-churn-prediction-free-how-to-guide-now-available/&quot;&gt;Retail Customer Churn Prediction: How-To Guide Now Available&lt;/a&gt;. Predicting customer churn is almost the &quot;holy grail&quot; in machine learning. Microsoft has done a lot of research about churn prediction, and have now released their &lt;em&gt;Retail Customer Churn Prediction Solution How-to Guide&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/03/22/end-to-end-data-science-walkthrough-with-spark-2-0-on-azure-hdinsight-hadoop-clusters/&quot;&gt;End-to-End Data Science Walkthrough with Spark 2.0 on Azure HDInsight Hadoop Clusters&lt;/a&gt;. Microsoft has published a tutorial how to use &lt;em&gt;pySpark&lt;/em&gt; and &lt;em&gt;MLlib&lt;/em&gt; for data science on Spark 2.0 clusters.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/03/23/announcing-r-tools-1-0-for-visual-studio-2015/&quot;&gt;Announcing R Tools 1.0 for Visual Studio 2015&lt;/a&gt;. More about R Tools for Visual Studio.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 11</title>
@@ -51,7 +113,7 @@
 &lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/03/14/comparing-performance-of-data-access-libraries-using-stackexchangedapper-benchmark/&quot;&gt;Comparing performance of data access libraries using StackExchange/Dapper benchmark&lt;/a&gt;. Disclaimer: I detest &lt;a href=&quot;https://en.wikipedia.org/wiki/Object-relational_mapping&quot;&gt;ORM&lt;/a&gt;'s with a vengeance. So, some benchmarking by Jovan Popovic, from Microsoft, comparing different data access libraries. I'll let you draw your own conclusions, but I am a happy &quot;bunny&quot;.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.tedneward.com/post/the-vietnam-of-computer-science/&quot;&gt;The Vietnam of Computer Science&lt;/a&gt;. A post I read a long, long time ago - but as it has some touch-points with the post above I thought I'd share it. Ted Neward, an ex colleague of mine, wrote this post back in 2006 where he compared ORM's with the Vietnam war.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-indexing/&quot;&gt;SQLskills SQL101: Indexing Basics&lt;/a&gt;. Another post from the &lt;a href=&quot;https://www.sqlskills.com/help/sql101/&quot;&gt;SQLSkills SQL101&lt;/a&gt; series. This one is by Kimberly Tripp, and it talks about indexes.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/tsql2sday-the-string-length-server/&quot;&gt;#TSQL2SDAY: The string length server&lt;/a&gt;. A tongue in cheek entry for &lt;a href=&quot;http://tsqltuesday.com/&quot;&gt;T-SQL Tuesday&lt;/a&gt; by Ewald. As a side note, as wrote in lasts week &lt;a href=&quot;/2017/03/12/interesting-stuff-week-10/&quot;&gt;roundup&lt;/a&gt;, read his &lt;a href=&quot;http://sqlonice.com/&quot;&gt;blog&lt;/a&gt; if you want to get into the &quot;nitty gritty&quot; of SQL Server internals.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/tsql2sday-the-string-length-server/&quot;&gt;#TSQL2SDAY: The string length server&lt;/a&gt;. A tongue in cheek entry for &lt;a href=&quot;http://tsqltuesday.com/&quot;&gt;T-SQL Tuesday&lt;/a&gt; by Ewald. As a side note, as I wrote in lasts week &lt;a href=&quot;/2017/03/12/interesting-stuff-week-10/&quot;&gt;roundup&lt;/a&gt;, read his &lt;a href=&quot;http://sqlonice.com/&quot;&gt;blog&lt;/a&gt; if you want to get into the &quot;nitty gritty&quot; of SQL Server internals.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;. This post is part 2 of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;series about Microsoft SQL Server R Services&lt;/a&gt;. This post is about the internals, more specifically about what happens in the SQL engine when you execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -317,7 +379,7 @@
 &lt;li&gt;The external script is opened in &lt;code&gt;sqllang!CUDXR_ExternalScript::Open&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Things are hotting up and &lt;code&gt;sqllang!CUDXR_ExternalScript::SetupService&lt;/code&gt; is hit.&lt;/li&gt;
 &lt;li&gt;A named pipe connection to the launchpad service is opened in &lt;code&gt;sqllang!CSQLSatelliteConnection::OpenNpConnection&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;A message containg the R scrips is written to the launchpad service in &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;A message containing the R scrips is written to the launchpad service in &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;That message eventually ends up in the launchpad process in &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 
