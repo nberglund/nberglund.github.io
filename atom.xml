@@ -4,13 +4,67 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-02T10:08:59+02:00</updated>
+ <updated>2017-04-02T16:42:06+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 13</title>
+   <link href="http://nielsberglund.com/2017/04/02/interesting-stuff-week-13/"/>
+   <updated>2017-04-02T16:39:25+02:00</updated>
+   <id>http://nielsberglund.com/2017/04/02/interesting-stuff---week-13</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/uber-flink-stream&quot;&gt;Stream Processing &amp;amp; Analytics with Flink @Uber&lt;/a&gt;. A presentation about how Uber builds its next generation of stream processing system to support real-time analytics as well as complex event processing.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/uber-linkedin-analytics&quot;&gt;Scaling up Near Real-time Analytics @Uber &amp;amp;LinkedIn&lt;/a&gt;. Another presentation involving Uber. This time in combination with LinkedIn, and how they use Apache Samza, Apache Calcite and Pinot.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/netflix-recommendation-spark&quot;&gt;Real-time Recommendations using Spark Streaming&lt;/a&gt;. Presentation about how Netflix uses Kafka, Spark Streaming, and Cassandra for real-time recommendations.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://labs.spotify.com/2016/02/25/spotifys-event-delivery-the-road-to-the-cloud-part-i/&quot;&gt;Spotify’s Event Delivery – The Road to the Cloud (Part I)&lt;/a&gt;. First post in a series about what Spotify is handling event delivery. Really interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/context-in-perspective-6-taking-sessions-to-task/&quot;&gt;Context in perspective 6: Taking Sessions to Task&lt;/a&gt;. The sixth post by &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; about context in SQL Server. As usual it is a treasure trove of SQL Server internals information!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-partitioning/&quot;&gt;SQLskills SQL101: Partitioning&lt;/a&gt;. Kimberly continues &lt;a href=&quot;https://www.sqlskills.com&quot;&gt;SQLskills&lt;/a&gt; SQL101 series with a post about partitioning.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/03/27/sql-server-on-linux-core-minidumps-and-breakpad/&quot;&gt;SQL Server On Linux: Core-minidumps and Breakpad&lt;/a&gt;. An awesome post by Bob Dorr about debugging SQL Server on Linux and core dumps.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;. Earlier today I finished the third post in my series about Microsoft SQL Server R Services. This post being the second about the internals. The post drills down into the launchpad service.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/03/uk-statistics.html&quot;&gt;UK government using R to modernize reporting of official statistics&lt;/a&gt;. A post from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; how the UK government uses R.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/03/scrabblr.html&quot;&gt;Learning Scrabble strategy from robots, using R&lt;/a&gt;. Another post from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, this time about how R has been used to analyze Scrabble games.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals II</title>

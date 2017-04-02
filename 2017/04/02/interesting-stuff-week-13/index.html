@@ -7,10 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
-  <meta name="description" content="Weekly roundup of what interesting stuff I have found.">
+  <meta name="description" content="Weekly roundup of what interesting stuff I have read in blogs etc.">
   
   
-  <meta name="keywords" content="data science, distributed computing, SQL Server, Streaming, Kafka, rstats"/>
+  <meta name="keywords" content="data science, distributed computing, SQL Server, Microsoft SQL Server R Services, R, streaming"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -18,7 +18,7 @@
 
   <title>
     
-      Interesting Stuff - Week 7 &middot; MANAGED DATA
+      Interesting Stuff - Week 13 &middot; MANAGED DATA
     
   </title>
 
@@ -171,9 +171,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Interesting Stuff - Week 7</h1>
+  <h1 class="post-title">Interesting Stuff - Week 13</h1>
   <div class="post-subheading">
-  <span class="post-date">19 Feb 2017</span>
+  <span class="post-date">02 Apr 2017</span>
 
   <span class="post-tag">
     
@@ -195,11 +195,11 @@
     
       SQL Server
     
-      Streaming
+      Microsoft SQL Server R Services
     
-      Kafka
+      R
     
-      rstats
+      streaming
     
 
     
@@ -222,34 +222,31 @@
 <!--more-->
 
 
-<p>This post is little late as I was in Cape Town during the weekend and gave a talk at <a href="http://capetown2017.satrdays.org/">satRday</a>. The conference was really good, great job by Andrew Collier for arranging this. During the week I'll put the code for my talk up on GitHub.</p>
+<h2>Streaming</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/uber-flink-stream">Stream Processing &amp; Analytics with Flink @Uber</a>. A presentation about how Uber builds its next generation of stream processing system to support real-time analytics as well as complex event processing.</li>
+<li><a href="https://www.infoq.com/presentations/uber-linkedin-analytics">Scaling up Near Real-time Analytics @Uber &amp;LinkedIn</a>. Another presentation involving Uber. This time in combination with LinkedIn, and how they use Apache Samza, Apache Calcite and Pinot.</li>
+<li><a href="https://www.infoq.com/presentations/netflix-recommendation-spark">Real-time Recommendations using Spark Streaming</a>. Presentation about how Netflix uses Kafka, Spark Streaming, and Cassandra for real-time recommendations.</li>
+<li><a href="https://labs.spotify.com/2016/02/25/spotifys-event-delivery-the-road-to-the-cloud-part-i/">Spotify’s Event Delivery – The Road to the Cloud (Part I)</a>. First post in a series about what Spotify is handling event delivery. Really interesting!</li>
+</ul>
+
+
+<h2>SQL Server</h2>
+
+<ul>
+<li><a href="http://sqlonice.com/context-in-perspective-6-taking-sessions-to-task/">Context in perspective 6: Taking Sessions to Task</a>. The sixth post by <a href="http://sqlonice.com/">Ewald</a> about context in SQL Server. As usual it is a treasure trove of SQL Server internals information!</li>
+<li><a href="https://www.sqlskills.com/blogs/kimberly/sqlskills-sql101-partitioning/">SQLskills SQL101: Partitioning</a>. Kimberly continues <a href="https://www.sqlskills.com">SQLskills</a> SQL101 series with a post about partitioning.</li>
+<li><a href="https://blogs.msdn.microsoft.com/bobsql/2017/03/27/sql-server-on-linux-core-minidumps-and-breakpad/">SQL Server On Linux: Core-minidumps and Breakpad</a>. An awesome post by Bob Dorr about debugging SQL Server on Linux and core dumps.</li>
+<li><a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">Microsoft SQL Server R Services - Internals II</a>. Earlier today I finished the third post in my series about Microsoft SQL Server R Services. This post being the second about the internals. The post drills down into the launchpad service.</li>
+</ul>
+
 
 <h2>Data Science</h2>
 
 <ul>
-<li><a href="https://www.analyticsvidhya.com/blog/2017/02/6-deep-learning-applications-beginner-python/">6 Deep Learning Applications a beginner can build in minutes (using Python)</a>. Interesting article trying to de-mystify Deep Learning.</li>
-<li><a href="http://www.rblog.uni-freiburg.de/2017/02/07/deep-learning-in-r/">Deep Learning in R</a>. More about Deep Learning. This talks about various R packages for Deep Learning.</li>
-<li><a href="https://www.infoq.com/articles/ml-algorhitm">Real-World, Man-Machine Algorithms</a>. This article, which is part of the InfoQ series <a href="https://www.infoq.com/introduction-machine-learning">An Introduction To Machine Learning</a>, talks about the end-to-end flow of developing machine learning models: where to get training data, how to pick the ML algorithm, and so forth.</li>
-<li><a href="http://blog.revolutionanalytics.com/2017/02/preview-r-340.html">Performance improvements coming to R 3.4.0</a>. Talks about what can be expected in the new R release 3.4, scheduled for March.</li>
-<li><a href="https://blog.acolyer.org/2017/02/15/redqueen-an-online-algorithm-for-smart-broadcasting-in-social-networks/">RedQueen: An online algorithm for smart broadcasting in social networks</a>. From <a href="https://blog.acolyer.org">the morning paper</a>. This is about algorithms can be used to find the optimal time to post on social networks.</li>
-</ul>
-
-
-<h2>Streaming</h2>
-
-<ul>
-<li><a href="https://thomaswdinsmore.com/2017/02/14/spark-is-the-future-of-analytics/">Spark is the Future of Analytics</a>. Interesting analysis of Spark.</li>
-<li><a href="https://softwaremill.com/kafka-streams-how-does-it-fit-stream-landscape/">Kafka Streams - how does it fit the stream processing landscape?</a>. Post about Kafka Streams, a library for transforming and combining data streams in Kafka.</li>
-<li><a href="http://engineering.skybettingandgaming.com/2017/01/23/streaming-architectures/">Towards a real-time streaming architecture</a>. How Sky Betting &amp; Gaming went with Kafka for real-time streaming.</li>
-<li><a href="https://www.confluent.io/blog/distributed-real-time-joins-and-aggregations-on-user-activity-events-using-kafka-streams/">User Activity Events using Kafka Streams</a>. More about Kafka and Kafka streams. How to enrich an incoming stream of events with side data, and then compute aggregations based on the enriched stream.</li>
-</ul>
-
-
-<h2>Big Data &amp; Databases</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/netflix-big-data-infrastructure">Petabytes Scale Analytics Infrastructure @Netflix</a>. About Netflix' overall big data platform architecture, focusing on Storage and Orchestration.</li>
-<li><a href="https://www.wired.com/2017/02/spanner-google-database-harnessed-time-now-open-everyone/">Spanner, the Google Database That Mastered Time, Is Now Open to Everyone</a>. About Google Spanner, a database that can span multiple geo-locations and still be seen as one instance.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/03/uk-statistics.html">UK government using R to modernize reporting of official statistics</a>. A post from <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> how the UK government uses R.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/03/scrabblr.html">Learning Scrabble strategy from robots, using R</a>. Another post from <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a>, this time about how R has been used to analyze Scrabble games.</li>
 </ul>
 
 
@@ -258,17 +255,17 @@
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/&text=Interesting Stuff - Week 7&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/04/02/interesting-stuff-week-13/&text=Interesting Stuff - Week 13&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/02/19/interesting-stuff-week-7/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/04/02/interesting-stuff-week-13/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/
-         &title=Interesting Stuff - Week 7
-         &summary=Blog post: Weekly roundup of what interesting stuff I have found.
-         &source=http://www.nielsberglund.com/2017/02/19/interesting-stuff-week-7/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/04/02/interesting-stuff-week-13/
+         &title=Interesting Stuff - Week 13
+         &summary=Blog post: Weekly roundup of what interesting stuff I have read in blogs etc.
+         &source=http://www.nielsberglund.com/2017/04/02/interesting-stuff-week-13/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -276,7 +273,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/02/19/interesting-stuff-week-7/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/04/02/interesting-stuff-week-13/
 
    -->
   <p>
@@ -288,15 +285,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/04/02/interesting-stuff-week-13/">
-            Interesting Stuff - Week 13
-            <small>02 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -312,6 +300,15 @@ To automatically receive more posts like this, please
           <a href="/2017/03/26/interesting-stuff-week-12/">
             Interesting Stuff - Week 12
             <small>26 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/03/19/interesting-stuff-week-11/">
+            Interesting Stuff - Week 11
+            <small>19 Mar 2017</small>
           </a>
         </h3>
       </li>

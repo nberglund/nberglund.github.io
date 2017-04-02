@@ -1,4 +1,13 @@
-﻿[Blog]: "Interesting Stuff - Week 12" http://bit.ly/2n6eoXf
+﻿
+[Blog]:"Microsoft SQL Server R Services - Internals II" http://bit.ly/2owo9zI
+#datascience #sqlserver #RStats
+
+
+New Blogpost: "Microsoft SQL Server R Services - Internals II". What happens under the covers in when we execute sp_execute_external_script? This post looks at the launchpad service. http://bit.ly/2owo9zI
+#datascience #sqlserver #RStats
+
+
+[Blog]: "Interesting Stuff - Week 12" http://bit.ly/2n6eoXf
 #datascience #sqlserver #RStats #azure #rtvs
 
 New Blogpost: "Interesting Stuff - Week 12". Things I have read and found interesting this past week. http://bit.ly/2n6eoXf

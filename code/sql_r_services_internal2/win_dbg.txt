@@ -176,6 +176,56 @@ launchpad.exe -launcher RLauncher.dll -launcher PythonLauncher.dll -logPath C:\T
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ # Child-SP          RetAddr           Call Site
+00 00000051`7fffeed8 00007ff9`096851cd launchpad!CLaunchContext::LaunchServTask
+01 00000051`7fffeee0 00007ff9`09685925 sqldk!SOS_Task::Param::Execute+0x231
+02 00000051`7ffff4e0 00007ff9`0968557d sqldk!SOS_Scheduler::RunTask+0xaa
+03 00000051`7ffff550 00007ff9`096aa288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+04 00000051`7ffff630 00007ff9`096aa510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+05 00000051`7ffff700 00007ff9`096aa3f7 sqldk!SystemThread::RunWorker+0x8f
+06 00000051`7ffff730 00007ff9`096aaa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+07 00000051`7ffff7e0 00007ff9`384f2774 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+08 00000051`7ffff890 00007ff9`3a620d61 KERNEL32!BaseThreadInitThunk+0x14
+09 00000051`7ffff8c0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+
+
+ # Child-SP          RetAddr           Call Site
+00 00000051`003fedc8 00007ff6`f59b5be3 KERNELBASE!ConnectNamedPipe
+01 00000051`003fedd0 00007ff6`f59b393b launchpad!Np::AsyncAccept+0x143
+02 00000051`003fee50 00007ff6`f599c0a3 launchpad!Np::PrepareForNextAccept+0x9b
+03 00000051`003feec0 00007ff9`096851cd launchpad!SNIAcceptDoneWrapper+0x83
+04 00000051`003fef20 00007ff9`09685925 sqldk!SOS_Task::Param::Execute+0x231
+05 00000051`003ff520 00007ff9`0968557d sqldk!SOS_Scheduler::RunTask+0xaa
+06 00000051`003ff590 00007ff9`096aa288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+07 00000051`003ff670 00007ff9`096aa510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+08 00000051`003ff740 00007ff9`096aa3f7 sqldk!SystemThread::RunWorker+0x8f
+09 00000051`003ff770 00007ff9`096aaa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+0a 00000051`003ff820 00007ff9`384f2774 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+0b 00000051`003ff8d0 00007ff9`3a620d61 KERNEL32!BaseThreadInitThunk+0x14
+0c 00000051`003ff900 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+
+
+
+
+
+
 launchpad!PhysicalUserContext::LaunchProcess+0x9b
 
 launchpad!PhysicalUserContext::LaunchProcess+0xa8
