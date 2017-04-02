@@ -162,3 +162,33 @@ Invalid arguments. The supported arguments are:
         -SqlInstanceName: Define the SqlInstanceName as in MSSQLSERVER or blank for default or an instance name.
 Example:
 launchpad.exe -launcher RLauncher.dll -launcher PythonLauncher.dll -logPath C:\Temp -pipeName mypipename -timeout 60000 -SqlInstanceName MSSQLSERVER
+
+
+
+
+
+[2017-03-30 03:36:48.999][00002BC0][000032D0][Always] User=NT Service\MSSQLLaunchpad
+[2017-03-30 03:36:48.999][00002BC0][000032D0][Always] UserProfile=C:\Users\MSSQLLaunchpad
+[2017-03-30 03:36:48.999][00002BC0][000032D0][Always] Users=0
+[2017-03-30 03:37:47.649][00002BC0][00003048][Error] Session creation failed with: Failed with 5 to get security for C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01
+
+
+
+
+
+launchpad!PhysicalUserContext::LaunchProcess+0x9b
+
+launchpad!PhysicalUserContext::LaunchProcess+0xa8
+
+
+launchpad!PhysicalUserContext::LaunchProcess+0xae
+
+launchpad!PhysicalUserContext::LaunchProcess+0xa8
+
+bp launchpad!CSQLSatelliteConnection::WriteMessage
+
+
+
+launchpad!CreateProcessForSatelliteSession
+
+bp launchpad!_imp_CreateProcessAsUserW

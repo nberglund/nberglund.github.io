@@ -1,4 +1,10 @@
-﻿[Blog]: "Interesting Stuff - Week 11" http://bit.ly/2mEW2w6
+﻿[Blog]: "Interesting Stuff - Week 12" http://bit.ly/2n6eoXf
+#datascience #sqlserver #RStats #azure #rtvs
+
+New Blogpost: "Interesting Stuff - Week 12". Things I have read and found interesting this past week. http://bit.ly/2n6eoXf
+#datascience #sqlserver #RStats #azure #rtvs
+
+[Blog]: "Interesting Stuff - Week 11" http://bit.ly/2mEW2w6
 #datascience #sqlserver #RStats #azure
 
 

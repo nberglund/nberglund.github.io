@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="description" content="In this post we look at how SQL Server R Services work under the covers, more specifically what Launchpad.exe does.">
+  
+  
+  <meta name="keywords" content="SQL Server R Services, R, WinDbg, Launchpad"/>
+  
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Microsoft SQL Server R Services - Internals II &middot; MANAGED DATA
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'>
+</head>
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          MANAGED DATA
+        </a>
+      </h1>
+      <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/archive/">Posts Archive</a>
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+      
+    </nav>
+
+    <section>
+  <h3 style="color:#ffffff">Follow Me:</h3>
+  <ul>
+    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
+    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
+  </ul>
+</section>
+
+    <section>
+  <h3 style="color:#ffffff">Disclaimer</h3>
+  <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
+</section>
+
+    <p>&copy; 2017. All rights reserved.</p>
+
+    <div class="sidebar-social">
+    
+      <div><a href="https://github.com/nberglund">
+        GitHub
+      </a></div>
+    
+      <div><a href="https://twitter.com/nielsberglund">
+        Twitter
+      </a></div>
+    
+      <div><a href="https://za.linkedin.com/in/niels-berglund-0122593">
+        LinkedIn
+      </a></div>
+    
+      <div><a href="https://plus.google.com/u/0/109374849138720664008">
+        Google+
+      </a></div>
+    
+    </div>
+
+
+  </div>
+</div>
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Microsoft SQL Server R Services - Internals II</h1>
+  <div class="post-subheading">
+  <span class="post-date">02 Apr 2017</span>
+
+  <span class="post-tag">
+    
+      <span class="post-tagdesc">in categories:</span>
+    
+
+    
+      SQL Server
+    
+      Microsoft R Server
+    
+      Data Science
+    
+
+    
+      <span class="post-tagdesc">tags:</span>
+    
+
+    
+      SQL Server R Services
+    
+      R
+    
+      WinDbg
+    
+      Launchpad
+    
+
+    
+  </span>
+</div>
+  <p>This post is part of a series of blog-posts about Microsoft SQL Server R Services:</p>
+
+<ol>
+<li><a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">Microsoft SQL Server 2016 R Services Installation</a></li>
+<li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a></li>
+<li>Microsoft SQL Server R Services - Internals II (this post)</li>
+<li>More to come (hopefully)</li>
+</ol>
+
+
+<p>This post is the third post about Microsoft SQL Server R Services, and the second post that drills down into the internal of how it works. In the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">previous internals post</a> we looked at what happens inside the SQL Server engine when  we execute <code>sp_execute_external_script</code>. In that post we wrapped up when we reached the launchpad service (<em>Launchpad.exe</em>). This post will look closer at the launchpad service, and we will do it by some more "spelunking"</p>
+
+<!--more-->
+
+
+<h2>Recap</h2>
+
+<p>In both previous posts about SQL Server R Services I have mentioned that the launchpad service is responsible for launching an external runtime when we execute <code>sp_execute_external_script</code>. In the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Internals I</a> post the following picture showed what happened inside the SQL server engine when executing the procedure:</p>
+
+<p><img class="center" src="/images/posts/sql-launchpad_post.png" width="650" height="241"  >
+<strong>Figure 1:</strong> <em>Call Flow Executing sp_execute_external_script</em></p>
+
+<p>From <em>Figure 1</em> we see how an named pipe connection is opened from the SQL Server engine into the launchpad service, and eventually the routine <code>sqllang!CSQLSatelliteConnection::WriteMessage</code> writes a message to the service. The message will at one stage or another cause the <code>launchpad!CLaunchContext::Launch</code> routine in the launchpad service to be called. In a little while we'll see how we came to that conclusion.</p>
+
+<h2>Launchpad</h2>
+
+<p>Launchpad is a new service installed together with SQL Server 2016, and it is there to support execution of scripts targeting external runtimes/engines. The launchpad service calls into launchers, and it is the launcher's job to launch the correct runtime/engine. How does the launchpad service know what launcher dll to call into? To answer that, cast your mind back to the previous post about <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">internals</a>, in that post we looked at the procedure used to execute external scripts: <code>sp_execute_external_script</code>, and we executed some code like so:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Execution of Procedure</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="o">@</span><span class="k">language</span> <span class="o">=</span><span class="n">N</span><span class="s1">'R'</span><span class="p">,</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="o">@</span><span class="n">script</span><span class="o">=</span><span class="n">N</span><span class="s1">'OutputDataSet&lt;-InputDataSet'</span><span class="p">,</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span><span class="n">N</span><span class="s1">'SELECT 42'</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">WITH</span> <span class="k">RESULT</span> <span class="k">SETS</span> <span class="p">(([</span><span class="n">TheAnswer</span><span class="p">]</span> <span class="n">int</span> <span class="k">not</span> <span class="k">null</span><span class="p">));</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 1:</strong> <em>Execute sp_execute_external_script</em></p>
+
+<p>Looking at the code in <em>Code Snippet 1</em> we see the first parameter being the <code>@language</code> parameter, and it is this parameter that tells the launchpad service to use (in this case) the launcher for R.</p>
+
+<h3>Launchers</h3>
+
+<p>The question still remains though; how does the launchpad service know what specific launcher dll to use? To answer that let us look a little bit more closely at the launchpad service, in the properties dialog:</p>
+
+<p><img class="center" src="/images/posts/sql-launchpad_service.png" width="645" height="367"  >
+<strong>Figure 2:</strong> <em>SQL Server Launchpad Service</em></p>
+
+<p>If we look at the <em>Path to executable</em> setting under the <em>General</em> as in <em>Figure 2</em> tab we may get some more insight:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>launchpad.exe</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>"C:\&lt;path_to_SQL_instance\>\MSSQL\Binn\launchpad.exe"
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> -launcher RLauncher.dll
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> -pipename sqlsatellitelaunch
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> -timeout 600000
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> -logPath "C:\&lt;path_to_SQL_instance>\MSSQL\LOG\ExtensibilityLog"
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> -workingDir "C:\&lt;path_to_SQL_instance>\MSSQL\ExtensibilityData"
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> -satelliteDllPath "C:\&lt;path_to_SQL_instance>\MSSQL\Binn\sqlsatellite.dll"<br/>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div></pre></div></figure>
+ <strong>Code Snippet 2:</strong> <em>Path to Executable for Launchpad.exe</em></p>
+
+<p>After having copied the value in <em>Path to executable</em> we see is shown in <em>Code Snippet 2</em>. And in there we can see a command line argument <code>-launcher</code> with a value of <em>RLauncher.dll</em>. If we search for a file named <em>RLauncher.dll</em> we find it in the <em>Binn</em> directory together with all other SQL Server files:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_rlauncher.png" width="610" height="230"  >
+<strong>Figure 3:</strong> <em>RLauncher</em></p>
+
+<p>So, a theory is that during startup, the launchpad service reads in the value of the -launcher argument, and perhaps even loads the dll. Is there any way we can prove that theory? We can try:</p>
+
+<ol>
+<li>Go to <em>Services</em> and stop the launchpad service</li>
+<li>Delete all files from the directory the <code>-logPath</code> parameter points to.</li>
+<li>Start the launchpad service.</li>
+</ol>
+
+
+<p>You should now see a couple of new files in the log directory, and when you open them you can see how there are log messages about <em>RLauncher.dll</em>. If you have <em>Process Explorer</em> installed you can also verify that <em>RLauncher.dll</em> is loaded by finding the launchpad service process and then look at dll's as in <em>Figure 4</em> below:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_launchpad_rlauncher.png" width="390" height="295"  >
+<strong>Figure 4:</strong> <em>RLauncher Loaded</em></p>
+
+<p>Before we start "spelunking" with WinDbg, let's look at the arguments used by the launchpad service (as seen in <em>Code Snippet 2</em>) and see what they mean:</p>
+
+<ul>
+<li><code>-launcher</code>: Full path to the launcher.</li>
+<li><code>-logPath</code>: The launchpad's base log path.</li>
+<li><code>-satelliteDllPath</code>: The sql satellite dll path for the satellites, we'll talk more about them in subsequent posts.</li>
+<li><code>-workingDir</code>: The launchpad and satellite process base working directory.</li>
+<li><code>-cleanupLog</code>: Whether to cleanup the log directory after every execution [0|1] (not set above).</li>
+<li><code>-cleanupWorkingDir</code>: Whether to cleanup the working directory after every execution [0|1] (not set above).</li>
+<li><code>-pipeName</code>: Define the launchpad's name pipe's name - this is from connection from SQL Server.</li>
+<li><code>-timeout</code>: Define the default timeout in ms.</li>
+<li><code>-SqlInstanceName</code>: Define the SqlInstanceName as in MSSQLSERVER or blank for default or an instance name (not set above).</li>
+</ul>
+
+
+<p>Some of the arguments (most in fact) I found in what I copied from the properties dialog for the service and the field <em>Path to executable</em> mentioned above. However a couple of the arguments were found by, from command prompt, trying to run the launchpad executable like so: <code>C:\&lt;path_to_sql_server_instance&gt;\MSSQL\Binn&gt;launchpad.exe</code> without any arguments. That resulted in an error and some help how to run the launchpad service.</p>
+
+<p>What was interesting in that, was that it - apart from listing the arguments above - also gave an example:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Launchpad Example</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>Example:
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>launchpad.exe
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    -launcher RLauncher.dll
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    -launcher PythonLauncher.dll
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    -logPath C:\Temp
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    -pipeName mypipename
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    -timeout 60000
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    -SqlInstanceName MSSQLSERVER</div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 3:</strong> <em>Example of How to Launch Launchpad Defining Multiple Launchers</em></p>
+
+<p>Notice how in <em>Code Snippet 3</em> above, multiple launchers are defined, and a launcher for Python being one of them. Maybe we'll soon see Python being supported as well!</p>
+
+<h3>WinDbg Investigations</h3>
+
+<p>By now we know (or at least we have a strong hunch) that during startup of the launchpad service, the launchers are loaded. Now it is time to start drilling down in what happens inside the launchpad service when we execute code as in <em>Code Snippet 1</em>. First, let us look at what happens during connection from the SQL Server engine to the launchpad service. In the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Internals - I post</a> I mentioned how SQL Server opens a named pipe connection to the launchpad service in the <code>sqllang!CSQLSatelliteConnection::OpenNPConnection</code> routine.</p>
+
+<p>When named pipes are used, the client connects to a certain named pipe through the <code>ConnectNamedPipe</code> routine. Let's do some "spelunking" in the launchpad service using WinDbg, and see if we can find anything that can have anything to do with named pipes:</p>
+
+<ol>
+<li>Stop the launchpad service if it is running.</li>
+<li>Restart the service.</li>
+<li>Open an instance of WinDbg and attach to the <em>Launchpad.exe</em> process.</li>
+<li>Reload the symbols: <code>.reload /f</code>.</li>
+</ol>
+
+
+<blockquote><p><strong>NOTE:</strong> The <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">internals - I post</a> has more information how to attach to a process, and what commands to use.</p></blockquote>
+
+<p>Now, do a search for routines named like <code>ConnectNamedPipe</code>: <code>x *!*ConnectNamedPipe*</code>:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_windbg_launchpad_connectnamedpipe.png" width="616" height="190"  >
+<strong>Figure 5:</strong> <em>Routines Named ConnectNamedPipe</em></p>
+
+<p><em>Figure 5</em> shows the result after the search, and the <code>KERNELBASE!ConnectNamedPipe</code> routine looks promising. To find out what happens, we'll:</p>
+
+<ol>
+<li>Open a second instance of WinDbg.</li>
+<li>Attach it to the <em>sqlservr.exe</em> process.</li>
+<li>Reload the symbols by: <code>.reload /f</code>.</li>
+<li>Set a breakpoint at the <code>OpenNPConnection</code> routine: <code>bp sqllang!CSQLSatelliteConnection::OpenNPConnection</code>.</li>
+</ol>
+
+
+<p>In the debugger attached to the launchpad service we set a breakpoint at <code>ConnectNamedPipe</code>: <code>bp KERNELBASE!ConnectNamedPipe</code>. We then execute the code in <em>Code Snippet 1</em> and see what happens:</p>
+
+<ol>
+<li>The <code>sqllang!CSQLSatelliteConnection::OpenNpConnection</code> breakpoint is hit.</li>
+<li>After continuing, the <code>KERNELBASE!ConnectNamedPipe</code> breakpoint in the launchpad service is hit.</li>
+</ol>
+
+
+<p>The call-stack at this point looks something like so (call stack output by <code>k c</code>):</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Callstack</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="o">:</span><span class="mo">007</span><span class="o">&gt;</span> <span class="n">k</span> <span class="n">c</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> <span class="cp"># Call Site</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">00</span> <span class="n">KERNELBASE</span><span class="o">!</span><span class="n">ConnectNamedPipe</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">01</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">Np</span><span class="o">::</span><span class="n">AsyncAccept</span><span class="o">+</span><span class="mh">0x143</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">02</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">Np</span><span class="o">::</span><span class="n">PrepareForNextAccept</span><span class="o">+</span><span class="mh">0x9b</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">03</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">SNIAcceptDoneWrapper</span><span class="o">+</span><span class="mh">0x83</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">04</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Task</span><span class="o">::</span><span class="n">Param</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x231</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">05</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Scheduler</span><span class="o">::</span><span class="n">RunTask</span><span class="o">+</span><span class="mh">0xaa</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">06</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Scheduler</span><span class="o">::</span><span class="n">ProcessTasks</span><span class="o">+</span><span class="mh">0x3cd</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">07</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SchedulerManager</span><span class="o">::</span><span class="n">WorkerEntryPoint</span><span class="o">+</span><span class="mh">0x2a1</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">08</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SystemThread</span><span class="o">::</span><span class="n">RunWorker</span><span class="o">+</span><span class="mh">0x8f</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">09</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SystemThreadDispatcher</span><span class="o">::</span><span class="n">ProcessWorker</span><span class="o">+</span><span class="mh">0x2de</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">a</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SchedulerManager</span><span class="o">::</span><span class="n">ThreadEntryPoint</span><span class="o">+</span><span class="mh">0x1d8</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">b</span> <span class="n">KERNEL32</span><span class="o">!</span><span class="n">BaseThreadInitThunk</span><span class="o">+</span><span class="mh">0x14</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">c</span> <span class="n">ntdll</span><span class="o">!</span><span class="n">RtlUserThreadStart</span><span class="o">+</span><span class="mh">0x21</span>
+</div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 4:</strong> <em>Callstack at KERNELBASE!ConnectNamedPipe</em></p>
+
+<p>So that is how SQL Server connects into the launchpad service:</p>
+
+<ol>
+<li>SQL Server calls <code>sqllang!CSQLSatelliteConnection::OpenNpConnection</code>.</li>
+<li>The launchpad service is doing <code>launchpad!SNIAcceptDoneWrapper</code>.</li>
+<li>Followed by <code>KERNELBASE!ConnectNamedPipe</code>, and the named pipe is now open.</li>
+</ol>
+
+
+<blockquote><p><strong>NOTE:</strong> The above is very simplified, in fact a lot of things happen in parallel, and we'll touch upon that a bit later.</p></blockquote>
+
+<p>Let us now go on and have a look what happens after the connection has been made. How do we go about finding out what happens? Well, we can do it the "brute force" way:</p>
+
+<p>We know that the launcher for R will try and load the R runtime, and if we look in the <code>MSSQL\Binn</code> folder where the <code>RLauncher.dll</code> resides we find a config file for the launcher: <code>rlauncher.config</code>. Let's see what it contains:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_rlauncher_config.png" width="617" height="213"  >
+<strong>Figure 5:</strong> <em>RLauncher Configuration</em></p>
+
+<p>In <em>Figure 5</em> we see that the configuration file for the launcher contains the <code>RHOME</code> path. With that in mind we can assume that the launcher will call into there and launch the runtime. What happens if the launcher cannot find the path? An exception would probably be thrown, and if we were debugging we could hopefully catch it and have a look at the stack. To test this theory:</p>
+
+<ol>
+<li>Stop the launchpad service if it is running.</li>
+<li>Remove the <code>R_SERVICES</code> directory and its content and place it somewhere else.</li>
+<li>Delete all files from the directory the <code>-logPath</code> argument in <em>Code Snippet 3</em> points to.</li>
+<li>Restart the launchpad service.</li>
+</ol>
+
+
+<blockquote><p><strong>NOTE:</strong> Please, please, please <strong>DO NOT</strong> do this on a production server!!</p></blockquote>
+
+<p>The restart should just go fine, and you can now attach WinDbg to the launchpad process:</p>
+
+<ul>
+<li>Open an instance of WinDbg and attach to the <em>Launchpad.exe</em> process.</li>
+<li>Reload the symbols: <code>.reload /f</code>.</li>
+<li>Hit F5 to let the debugger run.</li>
+</ul>
+
+
+<p>When the debugger runs, you execute the code in <em>Code Snippet 1</em>, and you get an ugly error in management studio:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_rlauncher_exception.png" width="617" height="213"  >
+<strong>Figure 6:</strong> <em>SQL Exception</em></p>
+
+<p>Yeah, kind of obvious that the runtime for R cannot be launched as it is nowhere to be found. WinDbg also reports some exceptions but the debugger is still running. When looking at the exceptions you see something like so:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>WinDbg Exception</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>(2fcc.34c8): C++ EH exception - code e06d7363 (first chance)
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>(2fcc.35c): C++ EH exception - code e06d7363 (first chance)
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>[2017-04-01 07:14:54.605][Error]
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>ProcessPool::CreateProcess(MSSQLSERVER01-ss-2,
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  78A18DD6-14A7-4BFA-BC1C-664A653A070C) failed with:
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  Failed with (80070003) to start executable
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  C:\&lt;path_to_sql_instance>\R_SERVICES\bin\x64\rterm.exe
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  with args  --slave --no-restore --no-save -e "library(RevoScaleR);</div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 5:</strong> <em>C++ EH Exception</em></p>
+
+<p>In <em>Code Snippet 5</em> we see that the launcher tries and create a process for <code>RTerm.exe</code> which is the entry-point to the R runtime. So the question is what was being called to get to this point. If you break out of the debugger and under the <em>Debug</em> menu choose <em>Event Filters</em>:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_windbg_eventfilters.png" width="430" height="399"  >
+<strong>Figure 7:</strong> <em>Event Filter</em></p>
+
+<p>In there you can choose how certain events are handled. In <em>Code Snippet 5</em> we see that the exception we encounter is a <code>C++ EH</code> exception, so in the <em>Event Filters</em> dialog you can set how that particular exception should be handled. We want it to be enabled, but not handled:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_windbg_eventfilters_enable.png" width="543" height="392"  >
+<strong>Figure 8:</strong> <em>Enable C++ EH Exception</em></p>
+
+<p>When you execute the code again after having enabled the exception as in <em>Figure 8</em>, the debugger will now break at the exception, and you can view the call-stack through the <code>k</code> command. In <em>Code Snippet 6</em> below I show an abbreviated part of the call-stack:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Call-stack</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>0:010> k
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>...
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>06  RLauncher!GetInstance+0x3239f
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>07  RLauncher!GetInstance+0x32a5d
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>08  RLauncher!GetInstance+0x5aeee
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>09  RLauncher!GetInstance+0x3fbca
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>0a  RLauncher!GetInstance+0x1c864
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>0b  RLauncher!SQLSatellite_GetLauncherAPI+0x9dd
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>0c  launchpad!CLaunchContext::Launch+0x160
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>0d  launchpad!CLaunchContext::LaunchInternal+0x2df
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>0e  launchpad!CLaunchContext::LaunchServTask+0x357
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>0f  sqldk!SOS_Task::Param::Execute+0x231</div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 6:</strong> <em>Call Stack at Exception</em></p>
+
+<p>In <em>Code Snippet 6</em> we see the <code>launchpad!CLaunchContext::Launch</code> routine, the same we identified in the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">internals I post</a>. That routine has an important part to play when calling into the launcher. When you look at <em>Code Snippet 5</em> you also see routines from the <code>RLauncher</code> module. Unfortunately we cannot really see what goes on inside the launcher as there is no symbol file for it.</p>
+
+<p>Coming back to <code>launchpad!CLaunchContext::Launch</code>; I said it has an important part to play, and it does. However the <code>launchpad!CLaunchContext::LaunchServTask</code> routine which you also can see in <em>Code Snippet 6</em> is even more important. That routine sets up most of the things that happen when SQL Server calls into the launchpad service. When I talked about the named pipe connection and how things happened in parallel, if you were to set a breakpoint at <code>launchpad!CLaunchContext::Launch</code> and then output the call-stack and compared that call-stack to what is shown in <em>Code Snippet 4</em>, you would see that both call-stacks have the same originating methods and addresses.</p>
+
+<p>Seeing that we don't have symbol files for the RLauncher module we have to "hunt" around in WinDbg as well as making some assumptions of what is happening if we want to go further in the "spelunking". When we, in <em>Code Snippet 5</em> looked at the exception we received in the debugger we saw something about <code>CreateProcess</code>, and we already saw the <code>Launch</code> routine in <em>Code Snippet 6</em>. What if we were to look for something like that in the <code>launchpad</code> module: <code>x launchpad!*Launch*Process*</code>. That reveals:</p>
+
+<ul>
+<li><code>launchpad!SQLSatellite_LaunchProcess</code></li>
+<li><code>launchpad!PhysicalUserContext::LaunchProcess</code></li>
+</ul>
+
+
+<p>Especially the second; <code>launchpad!PhysicalUserContext::LaunchProcess</code>, is interesting - as when launching the R runtime it should be done in the context of a user. So let us set a couple of breakpoints and see what happens. Set one breakpoint at: <code>bp launchpad!CLaunchContext::Launch</code> and the other at: <code>launchpad!PhysicalUserContext::LaunchProcess</code>. Then execute the code again.</p>
+
+<p>When executing we see how we first break at <code>bp launchpad!CLaunchContext::Launch</code>, followed by <code>launchpad!PhysicalUserContext::LaunchProcess</code>, and we still have not had any exceptions. If you now hit F5, you will hit the exceptions immediately. So it seems that the <code>launchpad!PhysicalUserContext::LaunchProcess</code>, is where it happens; where we try and load the R runtime.</p>
+
+<p>To confirm this we can copy back the <code>R_SERVICES</code> directory to where it is supposed to be, and while still having a breakpoint at <code>launchpad!PhysicalUserContext::LaunchProcess</code> execute the code again. When you hit the breakpoint, go to process explorer and have a look at running processes where the process is named something with R. On my machine it looks something like so:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_launchpad_before_launch_process.png" width="246" height="231"  >
+<strong>Figure 9:</strong> <em>Before LaunchProcess</em></p>
+
+<p>After having continued the debugger, it looks like so:</p>
+
+<p><img class="center" src="/images/posts/sql_r_services_launchpad_after_launch_process.png" width="275" height="229"  >
+<strong>Figure 10:</strong> <em>After LaunchProcess</em></p>
+
+<p>In <em>Figure 10</em> we now see how some instances of <code>RTerm.exe</code> has been spun up. In next post we'll look at why there are multiple instances.</p>
+
+<h2>Summary</h2>
+
+<p>We should now have a somewhat better understanding of what happens when the launchpad service is called from SQL Server. In <em>Figure 11</em> below shows some of the significant events/calls when <code>sp_execute_external_script</code> is executed:</p>
+
+<p><img class="center" src="/images/posts/sql-launchpad-r-post.png" width="650" height="325"  >
+<strong>Figure 11:</strong> <em>Launchpad Service Call Flow</em></p>
+
+<p>The flow is something like this:</p>
+
+<ol>
+<li>A call comes in from SQL Server.</li>
+<li>Enters the launchpad process, and workers, schedulers, tasks, etc., comes into play.</li>
+<li>Eventually <code>sqldk!SOS_Scheduler::RunTask</code> is called.</li>
+<li>Named pipe connection is accepted and opened.</li>
+<li>More or less in parallel <code>launchpad!CLaunchContext::LaunchServTask</code> is called.</li>
+<li>We get into <code>launchpad!CLaunchContext::Launch</code>.</li>
+<li>The <code>launchpad!CLaunchContext::Launch</code> routine calls into the launcher.</li>
+<li>Finally <code>launchpad!PhysicalUserContext::LaunchProcess</code> is called and the RTerm process is started.</li>
+</ol>
+
+
+<p>Some of the above are somewhat educated guesswork since I don't have the symbol file for <code>RLauncher.dll</code>. I do however believe it is more or less accurate. In the next internals post we'll look at what happens in the RTerm process.</p>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+
+  <p>
+<h2>Share this Post:</h2> 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/04/02/microsoft-sql-server-r-services-internals-ii/&text=Microsoft SQL Server R Services - Internals II&via=nielsberglund" 
+   target="_blank">Twitter</a>
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/04/02/microsoft-sql-server-r-services-internals-ii/" 
+   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+    | Google+</a>
+<a href="https://www.linkedin.com/shareArticle?
+         mini=true
+         &url=http://www.nielsberglund.com/2017/04/02/microsoft-sql-server-r-services-internals-ii/
+         &title=Microsoft SQL Server R Services - Internals II
+         &summary=Blog post: In this post we look at how SQL Server R Services work under the covers, more specifically what Launchpad.exe does.
+         &source=http://www.nielsberglund.com/2017/04/02/microsoft-sql-server-r-services-internals-ii/"> | LinkedIn</a> 
+
+</p>   
+   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
+
+
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/04/02/microsoft-sql-server-r-services-internals-ii/
+
+   -->
+  <p>
+<h2>Blog Feed:</h2>
+To automatically receive more posts like this, please
+<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2017/03/26/interesting-stuff-week-12/">
+            Interesting Stuff - Week 12
+            <small>26 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/03/19/interesting-stuff-week-11/">
+            Interesting Stuff - Week 11
+            <small>19 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">
+            Microsoft SQL Server R Services - Internals I
+            <small>18 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//manageddata.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-18914734-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
