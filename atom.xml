@@ -4,13 +4,74 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-02T16:42:06+02:00</updated>
+ <updated>2017-04-09T15:12:15+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 14</title>
+   <link href="http://nielsberglund.com/2017/04/09/interesting-stuff-week-14/"/>
+   <updated>2017-04-09T14:51:31+02:00</updated>
+   <id>http://nielsberglund.com/2017/04/09/interesting-stuff---week-14</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/sql-server-doubly-linked-lists-revisited/&quot;&gt;SQL Server doubly linked lists revisited&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; chases bugs in linked lists!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/financial-trading-api&quot;&gt;Reactive &amp;amp; Asynchronous - Adventures with APIs in Financial Trading&lt;/a&gt;. Michael Barker from LMAX and the father of &lt;a href=&quot;https://lmax-exchange.github.io/disruptor/&quot;&gt;Disruptor&lt;/a&gt; gives a presentation about low-latency APIs used for financial trading and how they compare to APIs based on HTTP, REST,JSON etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/flink-table-sql-api-update/&quot;&gt;From Streams to Tables and Back Again: An Update on Apache Flink's Table &amp;amp; SQL API&lt;/a&gt;. In previous weekly roundups (&lt;a href=&quot;/2017/03/26/interesting-stuff-week-12/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2017/04/02/interesting-stuff-week-13/&quot;&gt;here&lt;/a&gt;) I have mentioned Flink and it's new APIs. This is a blog-post discussing the Table API more.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/04/03/microsoft-updates-its-deep-learning-toolkit/&quot;&gt;Microsoft Updates its Deep Learning Toolkit&lt;/a&gt;. A post announcing the update of its &lt;a href=&quot;https://www.microsoft.com/en-us/research/product/cognitive-toolkit/&quot;&gt;&quot;Microsoft Cognetive Toolkit&quot;&lt;/a&gt;. It looks very, very interesting, and when I get some spare time (hah) I'll take it for a spin.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/04/sqlrutils.html&quot;&gt;Publish R functions as stored procedures with the sqlrutils package&lt;/a&gt;. &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; blogs about the &lt;strong&gt;sqlrutils&lt;/strong&gt; package and functions in the package helping you make stord procedures out of your R functions. Very cool!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/04/05/latest-rev-of-utilities-for-microsoft-team-data-science-process-tdsp-now-available/&quot;&gt;Latest Rev of Utilities for Microsoft Team Data Science Process (TDSP) Now Available&lt;/a&gt;. Another update from Microsoft. This time it is the &lt;strong&gt;Team Data Science Process Utilities&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/dsstne-deep-learning&quot;&gt;Deep Learning at Scale&lt;/a&gt;. Presentation about the &lt;strong&gt;Deep Scalable Sparse Tensor Network&lt;/strong&gt; (DSSTNE). This kind of blew my mind.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ravelin-ml-best-practices&quot;&gt;Building Robust Machine Learning Systems&lt;/a&gt;. Another presentation giving food for thought; how to make sure our machine learning systems are robust, well audited and can be inspected.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/04/microsoft-r-open-333-now-available.html&quot;&gt;Microsoft R Open 3.3.3 now available&lt;/a&gt;. &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; reports of the release of Microsoft R Open 3.3.3.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;In other news; I am still working on &lt;strong&gt;Microsoft SQL Server R Services - Internals III&lt;/strong&gt;, I hope the post will be out early this coming week. In the meantime you can always re-read &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;I&lt;/a&gt; and &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;II&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 13</title>
@@ -352,6 +413,56 @@
 
 &lt;p&gt;In &lt;em&gt;Figure 10&lt;/em&gt; we now see how some instances of &lt;code&gt;RTerm.exe&lt;/code&gt; has been spun up. In next post we'll look at why there are multiple instances.&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;UPDATE:&lt;/strong&gt; After &quot;spelunking&quot; for the &lt;strong&gt;Microsoft SQL Server R Services - Internals III&lt;/strong&gt; post (still in the works), I realized that I over-simplified the above, so I have tried to make it somewhat more clearer below.&lt;/p&gt;
+
+&lt;p&gt;Though it is correct to say that the actual launch of R happens in the &lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt;, it is more to it than that. If we were to set a breakpoint at &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;, and when we reach that breakpoint we would do &quot;Watch and Trace&quot; (&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx&quot;&gt;&lt;code&gt;wt&lt;/code&gt;&lt;/a&gt;), we would get a very lengthy trace, containing all calls being made.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Some routines (&lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt; amongst them) may be too long for the WinDbg console, so &lt;code&gt;wt&lt;/code&gt; can also be written to a log-file, using WinDbg menu &lt;em&gt;Edit | Open/Close Log File&lt;/em&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;During my &quot;spelunking&quot; I did a &lt;code&gt;wt&lt;/code&gt; against &lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt;, which resulted in a 7Mb file. When scrolling through the log-file, the following (extremely abbreviated) call-stack could be seen:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Trace Output&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Launch&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loads&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calls&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;RLauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_GetLauncherAPI&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;RLauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetInstance&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loads&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RLauncher&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;routines&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;The&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;process&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;created&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;here&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;somewhere&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;RLauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetInstance&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;RLauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_GetLauncherAPI&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Launch&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Trace output from launchpad!CLaunchContext::Launch&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Setting breakpoints and stepping through the code I saw how the R process (RTerm.exe) was spun up inside the &lt;code&gt;KERNELBASE!CreateProcessInternalW&lt;/code&gt; routine.&lt;/p&gt;
+
+&lt;p&gt;So if that creates the R process, when and how is the actual data being passed over to the R runtime? Remember back from the &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;internals I post&lt;/a&gt;, where we saw how the actual data was written to the launchpad service in the &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; routine. What if there is something similar in the launchpad service? Let us see what we find if we execute &lt;code&gt;x *!*WriteMessage*&lt;/code&gt;. Oh, among the result is &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;; that looks something that would be worth looking into. Let us set a breakpoint at &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;, and execute the code again. We are breaking at out various breakpoints, and we also break at &lt;code&gt;WriteMessage&lt;/code&gt;. If we output the call-stack, it looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Callstack&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendResumeWithLoginInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x239&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;02&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchInternal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x375&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;03&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchServTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x357&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;04&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOS_Task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x231&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;05&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOS_Scheduler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RunTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xaa&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;06&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOS_Scheduler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessTasks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x3cd&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mo&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SchedulerManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WorkerEntryPoint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x2a1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;08&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SystemThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RunWorker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x8f&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;09&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SystemThreadDispatcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessWorker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x2de&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqldk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SchedulerManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ThreadEntryPoint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x1d8&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KERNEL32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseThreadInitThunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x14&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ntdll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RtlUserThreadStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x21&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Callstack for launchpad!CSQLSatelliteConnection::WriteMessage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If we were to step through the routine we'd see it looks quite like the &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; which we looked at in the &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;internals I post&lt;/a&gt;. Having reached this point we can now with somewhat certainty assume that after we have launched the process, the launchpad service sends the actual data packet to the R engine through the &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; routine. And this is where we leave it for now.&lt;/p&gt;
+
 &lt;h2&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;We should now have a somewhat better understanding of what happens when the launchpad service is called from SQL Server. In &lt;em&gt;Figure 11&lt;/em&gt; below shows some of the significant events/calls when &lt;code&gt;sp_execute_external_script&lt;/code&gt; is executed:&lt;/p&gt;
@@ -366,14 +477,19 @@
 &lt;li&gt;Enters the launchpad process, and workers, schedulers, tasks, etc., comes into play.&lt;/li&gt;
 &lt;li&gt;Eventually &lt;code&gt;sqldk!SOS_Scheduler::RunTask&lt;/code&gt; is called.&lt;/li&gt;
 &lt;li&gt;Named pipe connection is accepted and opened.&lt;/li&gt;
-&lt;li&gt;More or less in parallel &lt;code&gt;launchpad!CLaunchContext::LaunchServTask&lt;/code&gt; is called.&lt;/li&gt;
+&lt;li&gt;More or less in parallel, &lt;code&gt;launchpad!CLaunchContext::LaunchServTask&lt;/code&gt; is called.&lt;/li&gt;
 &lt;li&gt;We get into &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt; routine calls into the launcher.&lt;/li&gt;
-&lt;li&gt;Finally &lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt; is called and the RTerm process is started.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt; routine calls RLauncher routines.&lt;/li&gt;
+&lt;li&gt;Multiple RLauncher calls are being made.&lt;/li&gt;
+&lt;li&gt;An RLauncher routine calls &lt;code&gt;launchpad!SQLSatellite_LaunchProcess&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;That call is followed by &lt;code&gt;launchpad!CreateProcessForSatelliteSession&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Which is followed by &lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;KERNELBASE!CreateProcessInternalW&lt;/code&gt; is called and the RTerm processes are started.&lt;/li&gt;
+&lt;li&gt;Finally after the processes have been launched, &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; is called.&lt;/li&gt;
 &lt;/ol&gt;
 
 
-&lt;p&gt;Some of the above are somewhat educated guesswork since I don't have the symbol file for &lt;code&gt;RLauncher.dll&lt;/code&gt;. I do however believe it is more or less accurate. In the next internals post we'll look at what happens in the RTerm process.&lt;/p&gt;
+&lt;p&gt;Some of the above are, somewhat, educated guesswork since I don't have the symbol file for &lt;code&gt;RLauncher.dll&lt;/code&gt;. I do however believe it is more or less accurate. In the next internals post we'll look at what happens in the RTerm process.&lt;/p&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>

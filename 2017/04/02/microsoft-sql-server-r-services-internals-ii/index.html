@@ -486,6 +486,56 @@
 
 <p>In <em>Figure 10</em> we now see how some instances of <code>RTerm.exe</code> has been spun up. In next post we'll look at why there are multiple instances.</p>
 
+<p><strong>UPDATE:</strong> After "spelunking" for the <strong>Microsoft SQL Server R Services - Internals III</strong> post (still in the works), I realized that I over-simplified the above, so I have tried to make it somewhat more clearer below.</p>
+
+<p>Though it is correct to say that the actual launch of R happens in the <code>launchpad!PhysicalUserContext::LaunchProcess</code>, it is more to it than that. If we were to set a breakpoint at <code>launchpad!CLaunchContext::Launch</code>, and when we reach that breakpoint we would do "Watch and Trace" (<a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx"><code>wt</code></a>), we would get a very lengthy trace, containing all calls being made.</p>
+
+<blockquote><p><strong>NOTE:</strong> Some routines (<code>launchpad!PhysicalUserContext::LaunchProcess</code> amongst them) may be too long for the WinDbg console, so <code>wt</code> can also be written to a log-file, using WinDbg menu <em>Edit | Open/Close Log File</em>.</p></blockquote>
+
+<p>During my "spelunking" I did a <code>wt</code> against <code>launchpad!PhysicalUserContext::LaunchProcess</code>, which resulted in a 7Mb file. When scrolling through the log-file, the following (extremely abbreviated) call-stack could be seen:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Trace Output</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">launchpad</span><span class="o">!</span><span class="n">CLaunchContext</span><span class="o">::</span><span class="n">Launch</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">...</span> <span class="n">loads</span> <span class="n">of</span> <span class="n">calls</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RLauncher</span><span class="o">!</span><span class="n">SQLSatellite_GetLauncherAPI</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">RLauncher</span><span class="o">!</span><span class="n">GetInstance</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span> <span class="n">loads</span> <span class="n">of</span> <span class="n">RLauncher</span> <span class="n">routines</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">launchpad</span><span class="o">!</span><span class="n">SQLSatellite_LaunchProcess</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">launchpad</span><span class="o">!</span><span class="n">CreateProcessForSatelliteSession</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>          <span class="n">launchpad</span><span class="o">!</span><span class="n">PhysicalUserContext</span><span class="o">::</span><span class="n">LaunchProcess</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">KERNELBASE</span><span class="o">!</span><span class="n">CreateProcessInternalW</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="p">...</span> <span class="n">The</span> <span class="n">R</span> <span class="n">process</span> <span class="n">is</span> <span class="n">created</span> <span class="n">here</span> <span class="n">somewhere</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">KERNELBASE</span><span class="o">!</span><span class="n">CreateProcessInternalW</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>          <span class="n">launchpad</span><span class="o">!</span><span class="n">PhysicalUserContext</span><span class="o">::</span><span class="n">LaunchProcess</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">launchpad</span><span class="o">!</span><span class="n">CreateProcessForSatelliteSession</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">launchpad</span><span class="o">!</span><span class="n">SQLSatellite_LaunchProcess</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">RLauncher</span><span class="o">!</span><span class="n">GetInstance</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RLauncher</span><span class="o">!</span><span class="n">SQLSatellite_GetLauncherAPI</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">launchpad</span><span class="o">!</span><span class="n">CLaunchContext</span><span class="o">::</span><span class="n">Launch</span></div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 7:</strong> <em>Trace output from launchpad!CLaunchContext::Launch</em></p>
+
+<p>Setting breakpoints and stepping through the code I saw how the R process (RTerm.exe) was spun up inside the <code>KERNELBASE!CreateProcessInternalW</code> routine.</p>
+
+<p>So if that creates the R process, when and how is the actual data being passed over to the R runtime? Remember back from the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">internals I post</a>, where we saw how the actual data was written to the launchpad service in the <code>sqllang!CSQLSatelliteConnection::WriteMessage</code> routine. What if there is something similar in the launchpad service? Let us see what we find if we execute <code>x *!*WriteMessage*</code>. Oh, among the result is <code>launchpad!CSQLSatelliteConnection::WriteMessage</code>; that looks something that would be worth looking into. Let us set a breakpoint at <code>launchpad!CSQLSatelliteConnection::WriteMessage</code>, and execute the code again. We are breaking at out various breakpoints, and we also break at <code>WriteMessage</code>. If we output the call-stack, it looks like so:</p>
+
+<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Callstack</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">00</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">CSQLSatelliteConnection</span><span class="o">::</span><span class="n">WriteMessage</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">01</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">CSQLSatelliteCommunication</span><span class="o">::</span><span class="n">SendResumeWithLoginInfo</span><span class="o">+</span><span class="mh">0x239</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">02</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">CLaunchContext</span><span class="o">::</span><span class="n">LaunchInternal</span><span class="o">+</span><span class="mh">0x375</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">03</span> <span class="n">launchpad</span><span class="o">!</span><span class="n">CLaunchContext</span><span class="o">::</span><span class="n">LaunchServTask</span><span class="o">+</span><span class="mh">0x357</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">04</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Task</span><span class="o">::</span><span class="n">Param</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x231</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">05</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Scheduler</span><span class="o">::</span><span class="n">RunTask</span><span class="o">+</span><span class="mh">0xaa</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">06</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SOS_Scheduler</span><span class="o">::</span><span class="n">ProcessTasks</span><span class="o">+</span><span class="mh">0x3cd</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mo">07</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SchedulerManager</span><span class="o">::</span><span class="n">WorkerEntryPoint</span><span class="o">+</span><span class="mh">0x2a1</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">08</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SystemThread</span><span class="o">::</span><span class="n">RunWorker</span><span class="o">+</span><span class="mh">0x8f</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">09</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SystemThreadDispatcher</span><span class="o">::</span><span class="n">ProcessWorker</span><span class="o">+</span><span class="mh">0x2de</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">a</span> <span class="n">sqldk</span><span class="o">!</span><span class="n">SchedulerManager</span><span class="o">::</span><span class="n">ThreadEntryPoint</span><span class="o">+</span><span class="mh">0x1d8</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">b</span> <span class="n">KERNEL32</span><span class="o">!</span><span class="n">BaseThreadInitThunk</span><span class="o">+</span><span class="mh">0x14</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span><span class="n">c</span> <span class="n">ntdll</span><span class="o">!</span><span class="n">RtlUserThreadStart</span><span class="o">+</span><span class="mh">0x21</span></div></div></pre></div></figure></p>
+
+<p><strong>Code Snippet 7:</strong> <em>Callstack for launchpad!CSQLSatelliteConnection::WriteMessage</em></p>
+
+<p>If we were to step through the routine we'd see it looks quite like the <code>sqllang!CSQLSatelliteConnection::WriteMessage</code> which we looked at in the <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">internals I post</a>. Having reached this point we can now with somewhat certainty assume that after we have launched the process, the launchpad service sends the actual data packet to the R engine through the <code>launchpad!CSQLSatelliteConnection::WriteMessage</code> routine. And this is where we leave it for now.</p>
+
 <h2>Summary</h2>
 
 <p>We should now have a somewhat better understanding of what happens when the launchpad service is called from SQL Server. In <em>Figure 11</em> below shows some of the significant events/calls when <code>sp_execute_external_script</code> is executed:</p>
@@ -500,14 +550,19 @@
 <li>Enters the launchpad process, and workers, schedulers, tasks, etc., comes into play.</li>
 <li>Eventually <code>sqldk!SOS_Scheduler::RunTask</code> is called.</li>
 <li>Named pipe connection is accepted and opened.</li>
-<li>More or less in parallel <code>launchpad!CLaunchContext::LaunchServTask</code> is called.</li>
+<li>More or less in parallel, <code>launchpad!CLaunchContext::LaunchServTask</code> is called.</li>
 <li>We get into <code>launchpad!CLaunchContext::Launch</code>.</li>
-<li>The <code>launchpad!CLaunchContext::Launch</code> routine calls into the launcher.</li>
-<li>Finally <code>launchpad!PhysicalUserContext::LaunchProcess</code> is called and the RTerm process is started.</li>
+<li>The <code>launchpad!CLaunchContext::Launch</code> routine calls RLauncher routines.</li>
+<li>Multiple RLauncher calls are being made.</li>
+<li>An RLauncher routine calls <code>launchpad!SQLSatellite_LaunchProcess</code>.</li>
+<li>That call is followed by <code>launchpad!CreateProcessForSatelliteSession</code></li>
+<li>Which is followed by <code>launchpad!PhysicalUserContext::LaunchProcess</code>.</li>
+<li>The <code>KERNELBASE!CreateProcessInternalW</code> is called and the RTerm processes are started.</li>
+<li>Finally after the processes have been launched, <code>launchpad!CSQLSatelliteConnection::WriteMessage</code> is called.</li>
 </ol>
 
 
-<p>Some of the above are somewhat educated guesswork since I don't have the symbol file for <code>RLauncher.dll</code>. I do however believe it is more or less accurate. In the next internals post we'll look at what happens in the RTerm process.</p>
+<p>Some of the above are, somewhat, educated guesswork since I don't have the symbol file for <code>RLauncher.dll</code>. I do however believe it is more or less accurate. In the next internals post we'll look at what happens in the RTerm process.</p>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
@@ -547,6 +602,15 @@ To automatically receive more posts like this, please
     
       <li>
         <h3>
+          <a href="/2017/04/09/interesting-stuff-week-14/">
+            Interesting Stuff - Week 14
+            <small>09 Apr 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
           <a href="/2017/04/02/interesting-stuff-week-13/">
             Interesting Stuff - Week 13
             <small>02 Apr 2017</small>
@@ -559,15 +623,6 @@ To automatically receive more posts like this, please
           <a href="/2017/03/26/interesting-stuff-week-12/">
             Interesting Stuff - Week 12
             <small>26 Mar 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/03/19/interesting-stuff-week-11/">
-            Interesting Stuff - Week 11
-            <small>19 Mar 2017</small>
           </a>
         </h3>
       </li>

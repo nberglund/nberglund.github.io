@@ -3,7 +3,18 @@ SELECT * FROM sys.databases
 
 
 EXEC sp_execute_external_script  @language =N'R',
-                                 @script=N'OutputDataSet<-InputDataSet',
+                                 @script=N'
+								 a<-42;
+								 b<-a*2;
+								 OutputDataSet<-InputDataSet;
+								 Sys.sleep(120);',
+                                 @input_data_1 =N'SELECT 42'
+WITH RESULT SETS (([TheAnswer] int not null));
+GO
+
+EXEC sp_execute_external_script  @language =N'R',
+                                 @script=N'OutputDataSet<-InputDataSet
+								 ',
                                  @input_data_1 =N'SELECT 42'
       WITH RESULT SETS (([TheAnswer] int not null));
 GO
@@ -11,3 +22,33 @@ GO
 sp_helptext sp_execute_external_script
 
 select * from sys.extended_procedures
+
+SELECT * FROM sys.dm_external_script_requests;
+
+SELECT * FROM sys.dm_external_script_execution_stats
+
+SELECT * FROM sys.dm_exec_sessions
+
+SELECT * FROM sys.dm_os_performance_counters 
+
+SELECT * from sys.dm_os_performance_counters WHERE object_name LIKE '%Extended%'
+
+
+
+
+DECLARE @counter int = 0;
+DECLARE @maxLoops int = 20;
+
+WAITFOR DELAY '00:00:03'
+
+WHILE (@counter < @maxLoops)
+BEGIN
+
+EXEC sp_execute_external_script  @language =N'R',
+                                 @script=N'OutputDataSet<-InputDataSet',
+                                 @input_data_1 =N'SELECT 42'
+WITH RESULT SETS (([TheAnswer] int not null));
+
+
+SET @counter += 1;
+END

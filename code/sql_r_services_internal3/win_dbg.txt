@@ -221,7 +221,7 @@ launchpad.exe -launcher RLauncher.dll -launcher PythonLauncher.dll -logPath C:\T
 0c 00000051`003ff900 00000000`00000000 ntdll!RtlUserThreadStart+0x21
 
 
-
+76690
 
 
 
@@ -244,16 +244,89 @@ launchpad!CreateProcessForSatelliteSession
 bp launchpad!_imp_CreateProcessAsUserW
 
 
-00 000000db`54dfe2d8 00007ff6`146b2479 launchpad!CSQLSatelliteConnection::WriteMessage
-01 000000db`54dfe2e0 00007ff6`1466b795 launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo+0x239
-02 000000db`54dfe360 00007ff6`1466cb77 launchpad!CLaunchContext::LaunchInternal+0x375
-03 000000db`54dfe830 00007ff8`60ae51cd launchpad!CLaunchContext::LaunchServTask+0x357
-04 000000db`54dfefa0 00007ff8`60ae5925 sqldk!SOS_Task::Param::Execute+0x231
-05 000000db`54dff5a0 00007ff8`60ae557d sqldk!SOS_Scheduler::RunTask+0xaa
-06 000000db`54dff610 00007ff8`60b0a288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
-07 000000db`54dff6f0 00007ff8`60b0a510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
-08 000000db`54dff7c0 00007ff8`60b0a3f7 sqldk!SystemThread::RunWorker+0x8f
-09 000000db`54dff7f0 00007ff8`60b0aa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
-0a 000000db`54dff8a0 00007ff8`a82c2774 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
-0b 000000db`54dff950 00007ff8`a8fb0d61 KERNEL32!BaseThreadInitThunk+0x14
-0c 000000db`54dff980 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+advapi32!CreateProcessAsUserWStub
+
+KERNELBASE!CreateProcessInternalW+0x79
+
+KERNELBASE!CreateProcessInternalW+0x323
+
+
+KERNELBASE!CreateProcessInternalW+0x5ab23
+
+KERNELBASE!CreateProcessInternalW+0x1935
+
+
+
+KERNELBASE!CreateProcessInternalW+0xd74
+
+KERNELBASE!CreateProcessInternalW+0xd9e
+
+KERNELBASE!CreateProcessInternalW+0xdbe
+
+
+bp launchpad!PhysicalUserContext::LaunchProcess
+
+bp KERNELBASE!CreateProcessInternalW+0xd1b
+
+ntdll!NtCreateUserProcess+0x8
+
+ntdll!NtCreateUserProcess+0x10
+
+ntdll!NtCreateUserProcess+0x12
+
+ntdll!NtCreateUserProcess+0x14
+
+
+Msg 39012, Level 16, State 1, Line 5
+Unable to communicate with the runtime for 'R' script. Please check the requirements of 'R' runtime.
+STDERR message(s) from external script: 
+Error : .onLoad failed in loadNamespace() for 'RevoScaleR', details:
+  call: inDL(x, as.logical(local), as.logical(now), ...)
+  error: RxClientPipe not initialized
+STDOUT message(s) from external script: 
+Create process failed with error 2 message: The system cannot find the file specified.
+Msg 11536, Level 16, State 1, Line 5
+EXECUTE statement failed because its WITH RESULT SETS clause specified 1 result set(s), but the statement only sent 0 result set(s) at run time.
+
+
+bp launchpad!SatelliteSessionManager::CreateNewSessionObject
+bp launchpad!SatelliteSessionManager::ConstructSatelliteSession
+bp launchpad!SatelliteSessionManager::IterateSessions
+bp launchpad!SatelliteSessionManager::AddSessionObjectToStore
+bp launchpad!SatelliteSessionManager::DestroySatelliteSession
+bp launchpad!SatelliteSessionManager::RemoveSessionObjectFromStore
+
+launchpad!CreateProcessForSatelliteSession
+launchpad!SQLSatellite_LaunchProcess
+
+
+bp launchpad!Satellite_ResourceManager::CreateLaunchpadJobObject
+bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+bp launchpad!Satellite_ResourceManager::InsertSatelliteJobObject
+bp launchpad!SatelliteJobObject::AssociateProcess
+bp launchpad!SatelliteJobObject::CreateSatelliteJobObject
+bp launchpad!Satellite_ResourceManager::RemoveSatelliteJobObject
+
+bp launchpad!SatelliteSessionManager::ConstructSatelliteSession
+bp launchpad!SatelliteJobObject::CreateSatelliteJobObject
+bp launchpad!Satellite_ResourceManager::InsertSatelliteJobObject
+bp launchpad!SatelliteSessionManager::CreateNewSessionObject
+bp launchpad!SatelliteSessionManager::AddSessionObjectToStore
+bp launchpad!SQLSatellite_LaunchProcess
+bp launchpad!CreateProcessForSatelliteSession
+bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+bp launchpad!SatelliteJobObject::AssociateProcess
+bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+bp launchpad!SatelliteJobObject::AssociateProcess
+bp launchpad!CreateProcessForSatelliteSession
+bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+bp launchpad!SatelliteJobObject::AssociateProcess
+bp launchpad!CreateProcessForSatelliteSession
+bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+bp launchpad!SatelliteJobObject::AssociateProcess
+
+bp launchpad!SatelliteSessionManager::DestroySatelliteSession
+bp launchpad!SatelliteSessionManager::RemoveSessionObjectFromStore
+
+launchpad!SQLSatellite_LaunchProcess
+

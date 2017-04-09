@@ -7,6 +7,10 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
   
+  <meta name="description" content="Weekly roundup of what interesting stuff I have read in blogs etc.">
+  
+  
+  <meta name="keywords" content="data science, distributed computing, SQL Server, streaming, Flink, Microsoft R"/>
   
 
   <!-- Enable responsiveness on mobile devices-->
@@ -14,7 +18,7 @@
 
   <title>
     
-      Beginners F# Resources &middot; MANAGED DATA
+      Interesting Stuff - Week 14 &middot; MANAGED DATA
     
   </title>
 
@@ -167,9 +171,9 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Beginners F# Resources</h1>
+  <h1 class="post-title">Interesting Stuff - Week 14</h1>
   <div class="post-subheading">
-  <span class="post-date">13 Nov 2010</span>
+  <span class="post-date">09 Apr 2017</span>
 
   <span class="post-tag">
     
@@ -177,9 +181,7 @@
     
 
     
-      CLR
-    
-      .NET
+      roundup
     
 
     
@@ -187,38 +189,90 @@
     
 
     
-      F#
+      data science
+    
+      distributed computing
+    
+      SQL Server
+    
+      streaming
+    
+      Flink
+    
+      Microsoft R
     
 
     
   </span>
 </div>
-  <p>This post is more as a reminder to myself where to find online resources when learning F#. If anyone else can find it useful, so much better. And, if anyone out there has other online, resources, please leave a comment and I will include it. So, in no particular order:</p>
+  <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me</p>
 
 <ul>
-<li><a href="http://msdn.microsoft.com/en-us/magazine/ff714588.aspx">Introductory article by Luke Hoban in MSDN Magazine.</a></li>
-<li><a href="http://www.ctocorner.com/fsharp/book/">An online book about F#.</a></li>
-<li><a href="http://www.jelovic.com/weblog/?p=215">Tutorial, by Dejan Jelovic, about getting started with F# from a C# developers perspective.</a></li>
-<li><a href="http://lorgonblog.wordpress.com/2009/05/16/brians-favorite-online-content-for-learning-f/">Brian McNamara has great info and resource list, highly recommended.</a></li>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other "stuff"</li>
 </ul>
 
 
-<p>Finally, a list like this would be incomplete without the link to <a href="http://blogs.msdn.com/b/dsyme/">the Man himself: <strong>Don Syme</strong></a></p>
+<p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
+
+<!--more-->
+
+
+<h2>SQL Server</h2>
+
+<ul>
+<li><a href="http://sqlonice.com/sql-server-doubly-linked-lists-revisited/">SQL Server doubly linked lists revisited</a>. <a href="http://sqlonice.com/">Ewald</a> chases bugs in linked lists!</li>
+</ul>
+
+
+<h2>Distributed Computing</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/financial-trading-api">Reactive &amp; Asynchronous - Adventures with APIs in Financial Trading</a>. Michael Barker from LMAX and the father of <a href="https://lmax-exchange.github.io/disruptor/">Disruptor</a> gives a presentation about low-latency APIs used for financial trading and how they compare to APIs based on HTTP, REST,JSON etc.</li>
+</ul>
+
+
+<h2>Streaming</h2>
+
+<ul>
+<li><a href="https://data-artisans.com/flink-table-sql-api-update/">From Streams to Tables and Back Again: An Update on Apache Flink's Table &amp; SQL API</a>. In previous weekly roundups (<a href="/2017/03/26/interesting-stuff-week-12/">here</a> and <a href="/2017/04/02/interesting-stuff-week-13/">here</a>) I have mentioned Flink and it's new APIs. This is a blog-post discussing the Table API more.</li>
+</ul>
+
+
+<h2>Data Science</h2>
+
+<ul>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2017/04/03/microsoft-updates-its-deep-learning-toolkit/">Microsoft Updates its Deep Learning Toolkit</a>. A post announcing the update of its <a href="https://www.microsoft.com/en-us/research/product/cognitive-toolkit/">"Microsoft Cognetive Toolkit"</a>. It looks very, very interesting, and when I get some spare time (hah) I'll take it for a spin.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/04/sqlrutils.html">Publish R functions as stored procedures with the sqlrutils package</a>. <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> blogs about the <strong>sqlrutils</strong> package and functions in the package helping you make stord procedures out of your R functions. Very cool!</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2017/04/05/latest-rev-of-utilities-for-microsoft-team-data-science-process-tdsp-now-available/">Latest Rev of Utilities for Microsoft Team Data Science Process (TDSP) Now Available</a>. Another update from Microsoft. This time it is the <strong>Team Data Science Process Utilities</strong>.</li>
+<li><a href="https://www.infoq.com/presentations/dsstne-deep-learning">Deep Learning at Scale</a>. Presentation about the <strong>Deep Scalable Sparse Tensor Network</strong> (DSSTNE). This kind of blew my mind.</li>
+<li><a href="https://www.infoq.com/presentations/ravelin-ml-best-practices">Building Robust Machine Learning Systems</a>. Another presentation giving food for thought; how to make sure our machine learning systems are robust, well audited and can be inspected.</li>
+<li><a href="http://blog.revolutionanalytics.com/2017/04/microsoft-r-open-333-now-available.html">Microsoft R Open 3.3.3 now available</a>. <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> reports of the release of Microsoft R Open 3.3.3.</li>
+</ul>
+
+
+<p>In other news; I am still working on <strong>Microsoft SQL Server R Services - Internals III</strong>, I hope the post will be out early this coming week. In the meantime you can always re-read <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">I</a> and <a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">II</a>.</p>
+
+<p>That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
 
   <p>
 <h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2010/11/13/beginners-fsharp-resources/&text=Beginners F# Resources&via=nielsberglund" 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/04/09/interesting-stuff-week-14/&text=Interesting Stuff - Week 14&via=nielsberglund" 
    target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2010/11/13/beginners-fsharp-resources/" 
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/04/09/interesting-stuff-week-14/" 
    onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
     | Google+</a>
 <a href="https://www.linkedin.com/shareArticle?
          mini=true
-         &url=http://www.nielsberglund.com/2010/11/13/beginners-fsharp-resources/
-         &title=Beginners F# Resources
-         &summary=Blog post: 
-         &source=http://www.nielsberglund.com/2010/11/13/beginners-fsharp-resources/"> | LinkedIn</a> 
+         &url=http://www.nielsberglund.com/2017/04/09/interesting-stuff-week-14/
+         &title=Interesting Stuff - Week 14
+         &summary=Blog post: Weekly roundup of what interesting stuff I have read in blogs etc.
+         &source=http://www.nielsberglund.com/2017/04/09/interesting-stuff-week-14/"> | LinkedIn</a> 
 
 </p>   
    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -226,7 +280,7 @@
    http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
 
 
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2010/11/13/beginners-fsharp-resources/
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/04/09/interesting-stuff-week-14/
 
    -->
   <p>
@@ -238,15 +292,6 @@ To automatically receive more posts like this, please
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/04/09/interesting-stuff-week-14/">
-            Interesting Stuff - Week 14
-            <small>09 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -262,6 +307,15 @@ To automatically receive more posts like this, please
           <a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">
             Microsoft SQL Server R Services - Internals II
             <small>02 Apr 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/03/26/interesting-stuff-week-12/">
+            Interesting Stuff - Week 12
+            <small>26 Mar 2017</small>
           </a>
         </h3>
       </li>
