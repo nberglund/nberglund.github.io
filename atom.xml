@@ -4,7 +4,7 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-13T06:29:00+02:00</updated>
+ <updated>2017-04-13T06:40:29+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -633,7 +633,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals II (this post)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
