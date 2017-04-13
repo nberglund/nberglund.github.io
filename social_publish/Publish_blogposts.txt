@@ -1,4 +1,11 @@
 ﻿
+[Blog]: "Interesting Stuff - Week 14" http://bit.ly/2oSGiKZ
+#datascience #sqlserver #RStats #streaming
+
+New Blogpost: "Interesting Stuff - Week 14". Things I have read and found interesting this past week. http://bit.ly/2oSGiKZ
+#datascience #sqlserver #RStats #streaming
+
+
 [Blog]: "Interesting Stuff - Week 13" http://bit.ly/2oxfFII
 #datascience #sqlserver #RStats #streaming
 

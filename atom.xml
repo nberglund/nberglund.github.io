@@ -4,13 +4,508 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-09T15:12:15+02:00</updated>
+ <updated>2017-04-13T06:29:00+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals III</title>
+   <link href="http://nielsberglund.com/2017/04/13/microsoft-sql-server-r-services-internals-iii/"/>
+   <updated>2017-04-13T06:13:14+02:00</updated>
+   <id>http://nielsberglund.com/2017/04/13/microsoft-sql-server-r-services---internals-iii</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals III (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the fourth post about Microsoft SQL Server R Services, and the third post that drills down into the internal of how it works. In the previous internals posts &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;here&lt;/a&gt; we have looked at what goes on inside SQL Server when executing an R script, and what happens in the launchpad service when executing.&lt;/p&gt;
+
+&lt;p&gt;This post was initially to be about the R runtime, and what other parts are involved when executing R scripts in SQL Server. However, during my &quot;spelunking&quot; around I realized that I did not really understand what happens when we create the processes for the R runtime from the launchpad service and the launcher (which is what I covered in the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II post&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;So, instead of looking at the R runtime and the other R related components, we'll look at what happens when creating external processes. A subsequent blog-post will cover the R runtime and components.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;To begin with, the code we use in this post to execute R scripts are the same as we have used in the other posts:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execution of Procedure&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Execute sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Code Snippet 1&lt;/em&gt; doesn't do much, but it is quite sufficient for our purposes. Having said that, let us get on with it.&lt;/p&gt;
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;Let us refresh our memories about what the two previous internals posts covered, by looking at some images from those two posts. In &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;internals I&lt;/a&gt; we said that the following happened when executing what &lt;em&gt;Code Snippet 1&lt;/em&gt; shows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad_post.png&quot; width=&quot;650&quot; height=&quot;241&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Call Flow Executing sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we see how an named pipe connection is opened from the SQL Server engine into the launchpad service, and eventually the routine &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; writes a message to the service. The message will at one stage or another cause the &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt; routine in the launchpad service to be called.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt; below, from the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II&lt;/a&gt; shows the flow the call in &lt;em&gt;Figure 1&lt;/em&gt; enters the launchpad service:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-r-post.png&quot; width=&quot;650&quot; height=&quot;325&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Launchpad Service Call Flow&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Various routines are called, and eventually &lt;code&gt;launchpad!PhysicalUserContext::LaunchProcess&lt;/code&gt; is called followed by &lt;code&gt;KERNELBASE!CreateProcessInternalW&lt;/code&gt; which creates the &lt;em&gt;RTerm.exe&lt;/em&gt; process, which you can see in &lt;em&gt;Figure 3&lt;/em&gt;. The script to be executed is sent to the R process in the &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; call.&lt;/p&gt;
+
+&lt;p&gt;In the beginning of this post I mentioned that I had changed what to cover in this post, and what you see in &lt;em&gt;Figure 3&lt;/em&gt; is partly why I did that:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_launchpad_after_launch_process.png&quot; width=&quot;275&quot; height=&quot;229&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;RTerm Process&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We see a number of RTerm processes, why is that? Let us see if we can answer that question as well as see what happens when we create the processes as well as when the R script code executes. To understand how that works we should however first talk about users and user accounts.&lt;/p&gt;
+
+&lt;h2&gt;User Accounts&lt;/h2&gt;
+
+&lt;p&gt;When we execute something in SQL Server we do it in context of a user, either a SQL Server user or Windows user, and SQL Server has the concept of &lt;code&gt;ISOLATION LEVELS&lt;/code&gt; to ensure that the same code can be executed concurrently. When we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; however, we exit SQL Server and the actual execution takes place outside of the SQL Server engine; inside the external runtime. The external engine does not have the notion of &lt;code&gt;ISOLATION LEVELS&lt;/code&gt;, so if multiple users executed the same script concurrently, bad things could potentially happen. How can we ensure isolation between users executing concurrently?&lt;/p&gt;
+
+&lt;p&gt;To ensure isolation, SQL Server R Services creates during installation a pool of Windows accounts in a Windows account group. The group (and accounts) are created per instance of SQL Server R Service. The group for SQL Server R Services installed on the default SQL Server instance is &lt;strong&gt;SQLRUserGroup&lt;/strong&gt; and for non-default instances it is &lt;strong&gt;SQLRUserGroupInstanceName&lt;/strong&gt;. On my machine I have three installations of SQL Server, with SQL Server R Services installed on all of them, and &lt;em&gt;Figure 4&lt;/em&gt; shows the groups that have been created:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_usergroups.png&quot; width=&quot;590&quot; height=&quot;228&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;SQL Server R Services User Groups&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So what does a user group look like then? If we double click on the &lt;strong&gt;SQLRUserGroup&lt;/strong&gt;, we'll see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_usergroup_users.png&quot; width=&quot;389&quot; height=&quot;367&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Members in User Group&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The installation of SQL Server R Services creates by default 20 user accounts, named MSSQLSERVER01...20 for the default instance, and InstanceName01...20 for named instances. When executing external scripts the executing user will be mapped to one of these accounts by the launchpad service.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The number of accounts created can be altered. See this &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r-services/modify-the-user-account-pool-for-sql-server-r-services&quot;&gt;MSDN post&lt;/a&gt; for information about that.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;While executing external scripts, there may be a need to store script objects, intermediate results, etc. For this reason the installation of SQL Server R Services not only creates the user accounts as per above, but it also creates folders for each account where to store the objects, results etc. The folders are created at: &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt;, and are named as the user account. In &lt;em&gt;Figure 6&lt;/em&gt; below you see an example of this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_userfolders.png&quot; width=&quot;620&quot; height=&quot;220&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Folders for User Accounts&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;It is not entirely correct to say that the files, results, etc., are stored directly in the user folder. They are in fact stored in sub-folders of the user folder. Let us do some coding to see an example of the mapping to a user account as well as sub-folders:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service if it is running.&lt;/li&gt;
+&lt;li&gt;Delete any sub folders of the user account folders in the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account folders themselves.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When you have executed go to the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory and check in the various user account folders. If you are the only user on the server, you should now see in the &lt;em&gt;xxx01&lt;/em&gt; folder some sub-folders as in &lt;em&gt;Figure 7&lt;/em&gt; below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_subfolders.png&quot; width=&quot;602&quot; height=&quot;209&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Sub-folders of the User Account Folder&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If two SQL Server users had executed scripts concurrently two of the user folders would have had sub-folders. If you open one of the sub-folder you should see some files and a folder. This comes from what we mentioned above, about storage of files etc.&lt;/p&gt;
+
+&lt;p&gt;The question is why are there more than one sub-folder, since we only executed the code once? The same question can be asked when you look at &lt;em&gt;Figure 3&lt;/em&gt;, the RTerm processes; why do we have more than one RTerm process for one execution? The other question to ask is if the multiple RTerm processes are related to the multiple sub-folders? We can probably guess that is the case, but can we prove it?&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Ina future blog-post I'll look into what the files are that are stored in the sub-folders.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;RTerm Processes&lt;/h2&gt;
+
+&lt;p&gt;The assumption is that there is something in common between the user account's sub-folders and the multiple RTerm processes we saw in &lt;em&gt;Figure 3&lt;/em&gt;. Let us execute some code and see if we can figure out if our assumption is right. For this we should change the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; slightly, to inject an artificial pause in the execution. That way it should be easier for us to see what is going on. The code to execute now looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Script with Pause&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              Sys.Sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Execute with Sys.Sleep&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see in &lt;em&gt;Figure 2&lt;/em&gt;, the code looks almost the same as in &lt;em&gt;Code Snippet 1&lt;/em&gt;, apart from that we have injected a &lt;code&gt;Sys.Sleep(120)&lt;/code&gt;, which will make the execution stop for 2 minutes. That should give us ample time to do some &quot;spelunking&quot;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; For this investigation I use &lt;strong&gt;Sysinternals&lt;/strong&gt; &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processexplorer.aspx&quot;&gt;&lt;em&gt;Process Explorer&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;So:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Delete any sub folders of the user account folders in the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do &lt;strong&gt;NOT&lt;/strong&gt; delete the user account folders themselves. Keep the &lt;em&gt;File Explorer&lt;/em&gt; open at the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Start &lt;em&gt;Process Explorer&lt;/em&gt;, order by Process, and scroll down to where you see process names starting with &quot;RT&quot; (on my box there are none at this stage), or where the processes should be.
+
+&lt;ul&gt;
+&lt;li&gt;If you at this stage see RTerm, restart the launchpad service again and kill those processes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;While the code is running, take a quick look in &lt;em&gt;Process Explorer&lt;/em&gt;, and you should see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-rterm_processes.png&quot; width=&quot;583&quot; height=&quot;100&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;RTerm Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You will see multiple RTerm processes running, quickly right click on each of them and you'll see some properties like in the figure below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-rterm_properties.png&quot; width=&quot;650&quot; height=&quot;125&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;RTerm Process Properties&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When you look in the properties pop-up window, you can see the part highlighted in &lt;em&gt;Figure 9&lt;/em&gt;, is actually the path and folder name of one of the sub-folders of the user account:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_subfolders.png&quot; width=&quot;605&quot; height=&quot;201&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;User Account Sub-folders&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 10&lt;/em&gt; is just to prove that the above is correct. So it seems that our assumption was correct and that there is a one-to-one relationship between the RTerm processes and the sub-folders.&lt;/p&gt;
+
+&lt;p&gt;It looks like we have answered the question above about correlation between the sub-folders and the RTerm processes, but what about the question why? Well, in my opinion it is for performance reasons. By having a pool of processes for a user, it should be quicker to to execute multiple scripts: a new process does not have to be &quot;spun up&quot; for the execution but can be taken from the process pool.&lt;/p&gt;
+
+&lt;p&gt;So how does this work under the covers?&lt;/p&gt;
+
+&lt;h3&gt;Process Pools&lt;/h3&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II post&lt;/a&gt; I covered how an external runtime is launched. However we are not launching a runtime as such, we are launching multiple runtime processes (in this case &lt;code&gt;RTerm.exe&lt;/code&gt;). So even if the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;previous post&lt;/a&gt; is correct, there are more things going on that what was covered there, and that is related to the multiple processes and the process pool I mentioned above. The way I came across this was due to me pondering why there are multiple RTerm processes launched, and if there was any logic behind the number. I quite often saw 5 processes, and 5 or 6 sub-folders.&lt;/p&gt;
+
+&lt;p&gt;My initial thought was that this is stored in some config file, and the obvious file would be for the launcher(s), and we looked at this file in the previous post:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rlauncher_config.png&quot; width=&quot;617&quot; height=&quot;213&quot;  &gt;
+&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;RLauncher Configuration&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;However, the file doesn't contain that much, and nothing that seems to relate to number of processes. There is the &lt;code&gt;USER_POOL_SIZE&lt;/code&gt; setting, but it is set to 0, so I guess it is not that. When looking at the file, I saw the &lt;code&gt;TRACE_LEVEL&lt;/code&gt; setting, and I browsed through the web and came across &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r-services/configure-and-manage-advanced-analytics-extensions&quot;&gt;this post&lt;/a&gt;, which briefly discusses &lt;code&gt;rlauncher.config&lt;/code&gt;, In that post they mention the &lt;code&gt;TRACE_LEVEL&lt;/code&gt; setting which is used to configure the trace verbosity level of the launchpad service, and the traces stored in the log file for the launchers:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1 = Error (default)&lt;/li&gt;
+&lt;li&gt;2 = Performance&lt;/li&gt;
+&lt;li&gt;3 = Warning&lt;/li&gt;
+&lt;li&gt;4 = Information&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Maybe if we change the &lt;code&gt;TRACE_LEVEL&lt;/code&gt; to 4, we'd be able to get more information. I stopped the launchpad service, and opened the config file as an administrator and changed the &lt;code&gt;TRACE_LEVEL&lt;/code&gt; to 4, and saved it. I then deleted all log files in the &lt;code&gt;C:\&amp;lt;path_to_slq_server_instance&amp;gt;\MSSQL\Log\ExtensibilityLog&lt;/code&gt;, and restarted the launchpad service.&lt;/p&gt;
+
+&lt;p&gt;When opening the &lt;code&gt;rlauncher.log&lt;/code&gt; file, there is quite a lot if interesting information, and in the code snippet below I have selected out some of the more interesting bits and pieces:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Log&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;[2017-04-09 05:37:50.253]
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; # &quot;stuff&quot; from config
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; File=C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\Binn\rlauncher.config
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; RHome=C:\&amp;lt;path_to_sql_server_Instance&gt;\R_SERVICES
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; MpiHome=C:\Program Files\Microsoft MPI
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; InstanceName=MSSQLSERVER
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; LogDirectory=
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\LOG\ExtensibilityLog
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; WorkingDirectory=C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; WorkingDirectoryLongPath=
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\ExtensibilityData
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; 1.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; SqlSatellitePath=
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\Binn\sqlsatellite.dll
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; SqlSatelliteRPath=
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\Binn\sqlsatellite.dll
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; SqlSatelliteDirectory=C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\Binn
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; 2.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; ProcessPoolingEnabled=1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; ProcessRecycleEnabled=0
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; StaleProcessTime=300000 msecs
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; StaleProcessPollTime=60000 msecs
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; TelemetryFlushInterval=300000
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; 3.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; ProcessPoolSqlSatelliteGrowth=5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; ProcessPoolRxJobGrowth=3&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Excerpt from rlauncher.log&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, some comments about the above:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;We have some log entries about &lt;strong&gt;SqlSatellite&lt;/strong&gt;. This is an API to support external code and external run times. We will see more about it in later blog-posts.&lt;/li&gt;
+&lt;li&gt;Process pooling, settings if it is enabled and when a process is considered stale. In this case a process is considered stale after 5 minutes of inactivity, and we poll every minute against the processes.&lt;/li&gt;
+&lt;li&gt;Aha, settings about size of the pool.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;From the above we can see that the number of processes are not a random number. I still can't find where the actual number is stored, so my assumption is that it is hard coded into respective launcher.&lt;/p&gt;
+
+&lt;p&gt;If you remember from the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internal II post&lt;/a&gt;, I said that I believe that the launcher(s) are loaded when the launchpad service starts up. At the end of the log-file we see some entries that points to that as well:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Log&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;SQLSatellite_InitLauncher(600000, 1, 1,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\LOG\ExtensibilityLog,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\Binn\sqlsatellite.dll,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:\&amp;lt;path_to_sql_server_Instance&gt;\MSSQL\ExtensibilityData)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    completed: 00000000
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&amp;lt; SQLSatellite_InitLauncher, dllmain.cpp, 157 (4 msecs)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&gt; SQLSatellite_RegisterLaunchContext, dllmain.cpp, 209
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    SQLSatellite_RegisterLaunchContext(000000664E9FF750)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               completed: 00000000
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&amp;lt; SQLSatellite_RegisterLaunchContext, dllmain.cpp, 209 (0 msecs)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&gt; SQLSatellite_GetSupportedScriptTypes, dllmain.cpp, 107
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    SQLSatellite_GetSupportedScriptTypes(1) completed: 00000000
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&amp;lt; SQLSatellite_GetSupportedScriptTypes, dllmain.cpp, 107 (0 msecs)&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Initialization of Launcher(s)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The way I read what is in &lt;em&gt;Code Snippet 4&lt;/em&gt; is that at the very end of the launchpad service startup, launchers are initialized, and information about what script types are supported is retrieved.&lt;/p&gt;
+
+&lt;p&gt;We have now seen what happens when the launchpad service is started, and have drawn some conclusions from that. What will the log-file tell us when we execute some code:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Delete any sub folders of the user account folders in the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do &lt;strong&gt;NOT&lt;/strong&gt; delete the user account folders themselves.&lt;/li&gt;
+&lt;li&gt;Delete all log files in the &lt;code&gt;C:\&amp;lt;path_to_slq_server_instance&amp;gt;\MSSQL\Log\ExtensibilityLog&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; (the code without pause).&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When looking through the log-file, it is a LOT of information logged. I have tried to excerpt the most important bits below:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Log-file&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;1.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session(3291DD7C-4451-48E1-9838-C5A0DF67FA74)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   CleanupOnExit=1, Settings.JobCleanupOnExit=1
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session 3291DD7C-4451-48E1-9838-C5A0DF67FA74
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   assigned to MSSQLSERVER01 user
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;2.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) with minimum processes 5 created
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;3.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:...\MSSQLSERVER01\5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF) created (1)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:...\MSSQLSERVER01\E7AB7781-A8C7-421F-BAA0-074075B41082) created (1)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;4.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(C:...\R_SERVICES\bin\x64\rterm.exe
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    --slave --no-restore --no-save
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR);
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionDirectory &amp;lt;- 'C:\...\5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF';
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- '5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF';
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(C:...\R_SERVICES\bin\x64\rterm.exe
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    --slave --no-restore --no-save
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR);
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionDirectory &amp;lt;- 'C:\...\E7AB7781-A8C7-421F-BAA0-074075B41082';
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- 'E7AB7781-A8C7-421F-BAA0-074075B41082';
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;5.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Assigning PooledProcess(..., ..., 5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    to Job PooledProcess-5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF(0000081C)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Assigning PooledProcess(..., ..., E7AB7781-A8C7-421F-BAA0-074075B41082,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    to Job PooledProcess-E7AB7781-A8C7-421F-BAA0-074075B41082(00000804)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;6.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session[3291DD7C-4451-48E1-9838-C5A0DF67FA74]
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    attached to pooled processes [5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF]
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;7.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='40' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:...\A379EE0B-385A-41A9-86C3-A5C9D1FFDE7F) created (1)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='41' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='42' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='43' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    ...
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='44' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- 'A379EE0B-385A-41A9-86C3-A5C9D1FFDE7F';
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='45' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='46' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;8. This is interleaved with 7
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='47' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;SQLSatellite_LaunchSatellite(1, 3291DD7C-4451-48E1-9838-C5A0DF67FA74,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='48' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    1, 51008, nullptr, 000000CC5ADFE720,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='49' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\ExtensibilityData\MSSQLSERVER01) completed: 00000000  &lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='50' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='51' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;7a. here we continue with creation of processes started at 7
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='52' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Assigning PooledProcess(..., ..., A379EE0B-385A-41A9-86C3-A5C9D1FFDE7F,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='53' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='54' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    to Job PooledProcess-A379EE0B-385A-41A9-86C3-A5C9D1FFDE7F(00000854)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='55' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='56' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;...
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='57' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='58' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;9.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='59' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(..., ...,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='60' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    E7AB7781-A8C7-421F-BAA0-074075B41082,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='61' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='62' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(..., ...,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='63' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    A379EE0B-385A-41A9-86C3-A5C9D1FFDE7F,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='64' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='65' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(..., ...,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='66' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    8CE5541F-3A70-4538-9329-9A74FC0580DE,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='67' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='68' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(..., ...,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='69' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    97608E5B-B70D-4E69-9D6D-56BEC2FC0F81,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='70' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='71' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(..., ...,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='72' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    74E3C23C-56B6-4A16-B1E3-E4C00335FB97,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='73' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:...\R_SERVICES\bin\x64\rterm.exe)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='74' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='75' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;10.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='76' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Job PooledProcess-5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF(0000081C)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='77' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    WaitAll(1, 5000) completed with 0
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='78' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Job PooledProcess-5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF(0000081C)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='79' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    destroyed
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='80' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;~WorkingDirectory
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='81' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    (C:...\MSSQLSERVER01\5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='82' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    deleted (0)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='83' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;11.
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='84' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session 3291DD7C-4451-48E1-9838-C5A0DF67FA74
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='85' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   removed from MSSQLSERVER01 user
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='86' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session(3291DD7C-4451-48E1-9838-C5A0DF67FA74)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='87' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    [SqlSatellite] deleted. Elapsed time: 1222 msecs
+&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Log when Executing Script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Geez, quite a lot of information, and - as I mentioned above - I have tried to just show the log entries that I deem important. The entries themselves are also abbreviated quite a bit. So what do we see:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;We create a session for this request, and assigns the session to the executing user (MSSQLSERVER01).&lt;/li&gt;
+&lt;li&gt;A pool for the processes is created.&lt;/li&gt;
+&lt;li&gt;Two working directories (sub-folders) are created for the user (MSSQLSERVER01).&lt;/li&gt;
+&lt;li&gt;Two physical RTerm process are created and assigned the id of the sub-folders.&lt;/li&gt;
+&lt;li&gt;The processes are added to a job object (which has been created prior to this).&lt;/li&gt;
+&lt;li&gt;The session is attached to one of the two processes. This process will now execute the request.&lt;/li&gt;
+&lt;li&gt;Four new processes and working directories are created. Interleaved with this is point 8 (below). The existing session is not assigned to any of these. At this stage there are 6 processes in total, two from the original process creation and these four new ones. Five of these processes do not have any session attached.&lt;/li&gt;
+&lt;li&gt;From what I can gather, here is where the request is actually executed.&lt;/li&gt;
+&lt;li&gt;The 5 processes without the session are added to the process pool, and are available for new requests from the same user.&lt;/li&gt;
+&lt;li&gt;The process which executed the request finishes and is being destroyed.&lt;/li&gt;
+&lt;li&gt;The session is removed and deleted.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;From the above we can see how processes are created and then being pooled. The processes will eventually be torn down if they are not in use, as per the &lt;code&gt;StaleProcessTime&lt;/code&gt; in &lt;em&gt;Code Snippet 3&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;How does all this now fit into what we covered in the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II post&lt;/a&gt;, and &lt;em&gt;Figure 2&lt;/em&gt; above?&lt;/p&gt;
+
+&lt;h2&gt;WinDbg&lt;/h2&gt;
+
+&lt;p&gt;Well, let us try to find out. For this we use our trusty WinDbg (go back to the &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;internals I post&lt;/a&gt; if you need a re-fresher about WinDbg):&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Delete any sub folders of the user account folders in the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do &lt;strong&gt;NOT&lt;/strong&gt; delete the user account folders themselves.&lt;/li&gt;
+&lt;li&gt;Delete all log files in the &lt;code&gt;C:\&amp;lt;path_to_slq_server_instance&amp;gt;\MSSQL\Log\ExtensibilityLog&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Attach WinDbg to the launchpad process.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;As we did in the &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;internals I post&lt;/a&gt;, let's hunt for routines from the symbols. When looking at the log files above we see some references to &lt;code&gt;SQLSatellite&lt;/code&gt; and in previous posts we have also seen satellite references. So, let us do a very coarse search: &lt;code&gt;x /n launchpad!*Satellite*&lt;/code&gt;. By using the &lt;code&gt;/n&lt;/code&gt; flag you sort everything by name, which can make things a bit more readable. Looking through what was returned, I have below listed some classes that looks interesting as well a couple of independent routines:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Satellite&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;//classes&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteRuntimeContext&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;//independent routines&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_Init&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_InitLaunchContext&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Interesting Output&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Having identified interesting classes and function as in &lt;em&gt;Code Snippet 6&lt;/em&gt;, it is time to fine interesting routines, and through trial and error (setting breakpoints and executing code) finding out what is happening. I eventually arrived at the following (please remember from the previous post that I do not have symbols for the &lt;code&gt;RLauncher.dll&lt;/code&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Chain&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchServTask&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConstructSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateSatelliteJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateNewSessionObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;3.&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Launch&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;5.&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendResumeWithLoginInfo&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;5.&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                 &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='40' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='41' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='42' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='43' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='44' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='45' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='46' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='47' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='48' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='49' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='50' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;7.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DestroySatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='51' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;7.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RemoveSessionObjectFromStore&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;High Level Call Chain&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;em&gt;Code Snippet 7&lt;/em&gt; we see how we:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Call &lt;code&gt;LaunchServTask&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Creating a satellite session, a job object and a session object.&lt;/li&gt;
+&lt;li&gt;We then come into the code path were we launch the launcher and create the RTerm processes: &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;In there we do calls to the launcher dll (&lt;code&gt;Rlauncher!&quot;MiscCalls&quot;&lt;/code&gt;), create the actual processes and assigns that to the job object. We initially create two processes, and one of the processes will be mapped to the session (as we saw from the log-file).&lt;/li&gt;
+&lt;li&gt;The calls &lt;code&gt;launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt; and &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; is where the script is sent to the R process and executed. These calls are interleaved with the create process calls.&lt;/li&gt;
+&lt;li&gt;We continue creating processes until we have six in total.&lt;/li&gt;
+&lt;li&gt;The executing process (and session) is torn down when the execution has finished.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; While the code executes we may see six RTerm processes.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;So, what does all this come to then? We have &lt;em&gt;Figure 2&lt;/em&gt; which originates from the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II post&lt;/a&gt;, where we looked into what is going on in the launchpad service. In this post we have seen the log files in &lt;em&gt;Code Snippet 3, 4, 5&lt;/em&gt; and then we have the WinDbg output in &lt;em&gt;Code Snippet 7&lt;/em&gt;. In &lt;em&gt;Figure 12&lt;/em&gt; I try to summarize what we have discussed in this post:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad_processes_post.png&quot; width=&quot;650&quot; height=&quot;466&quot;  &gt;
+&lt;strong&gt;Figure 12:&lt;/strong&gt; &lt;em&gt;Summary&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 12&lt;/em&gt; we see:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;How there are backing folders in &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; for the group of user accounts that are mapped to SQL Server users when executing code via &lt;code&gt;sp_execute_external_script&lt;/code&gt;. These backing folders will be storage for files etc., when executing.
+
+&lt;ul&gt;
+&lt;li&gt;The files are not placed directly in the account folder but in sub-folders created when the processes are created (see below).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;When executing we, as in &lt;em&gt;Code Snippet 7&lt;/em&gt;, call &lt;code&gt;launchpad!CLaunchContext::LaunchServTask&lt;/code&gt;, and create a satellite session and a session object.&lt;/li&gt;
+&lt;li&gt;We then go on and start creating working directories (the sub-folders mentioned above), and processes. In the figure the working directories are named &lt;code&gt;WorkingDir1&lt;/code&gt; etc., whereas in reality the names are &lt;code&gt;Guid&lt;/code&gt; values. The processes are RTerm processes and are assigned the same &lt;code&gt;Guid&lt;/code&gt; as the working directory name. So a RTerm process always executes &quot;under&quot; one user account sub-folder.&lt;/li&gt;
+&lt;li&gt;After two initial directories and processes have been created, one of the two processes are assigned to the created session.&lt;/li&gt;
+&lt;li&gt;When the process has been assigned to the session, the script is executed via; &lt;code&gt;launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt; and &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;. This normally happens while the third process is created.&lt;/li&gt;
+&lt;li&gt;Processes and working directories 4 - 6 are created. These processes are available for subsequent executions.&lt;/li&gt;
+&lt;li&gt;When the execution has finished the session is torn down together with the process.
+
+&lt;ul&gt;
+&lt;li&gt;At this stage we now have 5 processes running, and 5 working folders.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;As was the case in the &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;internals II post&lt;/a&gt;, some parts of this post is educated guesswork. If anyone have more information I wild be more than happy to correct any inaccuracies. In either case, I hope you have enjoyed this journey in the &quot;bowels&quot; of the launchpad service.&lt;/p&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 14</title>
@@ -138,6 +633,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals II (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -633,6 +1129,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals I (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -992,6 +1489,7 @@
 &lt;li&gt;Microsoft SQL Server 2016 R Services Installation (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 

@@ -170,6 +170,73 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/">
+        Microsoft SQL Server R Services - Internals III
+      </a>
+    </h1>
+
+    <div class="post-subheading">
+  <span class="post-date">13 Apr 2017</span>
+
+  <span class="post-tag">
+    
+      <span class="post-tagdesc">in categories:</span>
+    
+
+    
+      SQL Server
+    
+      Microsoft R Server
+    
+      Data Science
+    
+
+    
+      <span class="post-tagdesc">tags:</span>
+    
+
+    
+      SQL Server R Services
+    
+      R
+    
+      WinDbg
+    
+      Launchpad
+    
+      RTerm.exe
+    
+
+    
+  </span>
+</div>
+
+    
+      <p>This post is part of a series of blog-posts about Microsoft SQL Server R Services:</p>
+
+<ol>
+<li><a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">Microsoft SQL Server 2016 R Services Installation</a></li>
+<li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a></li>
+<li><a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">Microsoft SQL Server R Services - Internals II</a></li>
+<li>Microsoft SQL Server R Services - Internals III (this post)</li>
+<li>More to come (hopefully)</li>
+</ol>
+
+
+<p>This post is the fourth post about Microsoft SQL Server R Services, and the third post that drills down into the internal of how it works. In the previous internals posts <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">here</a> and <a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">here</a> we have looked at what goes on inside SQL Server when executing an R script, and what happens in the launchpad service when executing.</p>
+
+<p>This post was initially to be about the R runtime, and what other parts are involved when executing R scripts in SQL Server. However, during my "spelunking" around I realized that I did not really understand what happens when we create the processes for the R runtime from the launchpad service and the launcher (which is what I covered in the <a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">internals II post</a>).</p>
+
+<p>So, instead of looking at the R runtime and the other R related components, we'll look at what happens when creating external processes. A subsequent blog-post will cover the R runtime and components.</p>
+
+      <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/"><strong>Read More ...</strong></a>
+    
+
+    <hr>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/2017/04/09/interesting-stuff-week-14/">
         Interesting Stuff - Week 14
       </a>
@@ -340,6 +407,7 @@
 <li><a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">Microsoft SQL Server 2016 R Services Installation</a></li>
 <li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a></li>
 <li>Microsoft SQL Server R Services - Internals II (this post)</li>
+<li><a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff561497(v=vs.85).aspx">Microsoft SQL Server R Services - Internals III</a></li>
 <li>More to come (hopefully)</li>
 </ol>
 
@@ -413,68 +481,6 @@
 <p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
 
       <a href="/2017/03/26/interesting-stuff-week-12/"><strong>Read More ...</strong></a>
-    
-
-    <hr>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/03/19/interesting-stuff-week-11/">
-        Interesting Stuff - Week 11
-      </a>
-    </h1>
-
-    <div class="post-subheading">
-  <span class="post-date">19 Mar 2017</span>
-
-  <span class="post-tag">
-    
-      <span class="post-tagdesc">in categories:</span>
-    
-
-    
-      roundup
-    
-
-    
-      <span class="post-tagdesc">tags:</span>
-    
-
-    
-      data science
-    
-      distributed computing
-    
-      SQL Server
-    
-      R
-    
-      Azure
-    
-      SQL Server R Services
-    
-
-    
-  </span>
-</div>
-
-    
-      <p>Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other "stuff"</li>
-</ul>
-
-
-<p>This is the "roundup" of the posts that has been most interesting to me, this week.</p>
-
-      <a href="/2017/03/19/interesting-stuff-week-11/"><strong>Read More ...</strong></a>
     
 
     <hr>

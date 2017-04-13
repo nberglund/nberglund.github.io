@@ -307,6 +307,11 @@ bp launchpad!SatelliteJobObject::AssociateProcess
 bp launchpad!SatelliteJobObject::CreateSatelliteJobObject
 bp launchpad!Satellite_ResourceManager::RemoveSatelliteJobObject
 
+
+
+
+bp launchpad!SatelliteJobObject::CreateSatelliteJobObject
+bp launchpad!SatelliteJobObject::ApplyExternalPoolProperties
 bp launchpad!SatelliteSessionManager::ConstructSatelliteSession
 bp launchpad!SatelliteJobObject::CreateSatelliteJobObject
 bp launchpad!Satellite_ResourceManager::InsertSatelliteJobObject
@@ -330,3 +335,357 @@ bp launchpad!SatelliteSessionManager::RemoveSessionObjectFromStore
 
 launchpad!SQLSatellite_LaunchProcess
 
+
+
+launchpad!CSQLSatelliteCommunication::SendResume
+
+
+launchpad!CSQLSatelliteMessageResumeWithLogin
+
+launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo
+
+bp launchpad!CSQLSatelliteMessageResumeWithLogin::BindBufferForWrite
+
+
+Breakpoint 2 hit
+launchpad!SatelliteJobObject::CreateSatelliteJobObject:
+00007ff6`1ef05a70 488bc4          mov     rax,rsp
+0:010> g
+Breakpoint 4 hit
+launchpad!Satellite_ResourceManager::InsertSatelliteJobObject:
+00007ff6`1ef073b0 4c8bdc          mov     r11,rsp
+0:010> g
+Breakpoint 1 hit
+launchpad!SatelliteJobObject::ApplyExternalPoolProperties:
+00007ff6`1ef06000 4055            push    rbp
+0:010> g
+Breakpoint 5 hit
+launchpad!SatelliteSessionManager::CreateNewSessionObject:
+00007ff6`1ef11a40 488bc4          mov     rax,rsp
+0:010> g
+Breakpoint 6 hit
+launchpad!SatelliteSessionManager::AddSessionObjectToStore:
+00007ff6`1ef11680 4c8bdc          mov     r11,rsp
+0:010> g
+[2017-04-10 04:16:28.046][00001FD8][000033E4][Info] > SQLSatellite_LaunchSatellite, dllmain.cpp, 291
+[2017-04-10 04:16:28.047][00001FD8][000033E4][Perf] Session(F029DF3F-75F0-4663-A9CD-B075B7030D1C) [SqlSatellite] created.
+[2017-04-10 04:16:28.047][00001FD8][000033E4][Info] Session(F029DF3F-75F0-4663-A9CD-B075B7030D1C) CleanupOnExit=1, Settings.JobCleanupOnExit=1
+[2017-04-10 04:16:28.047][00001FD8][000033E4][Info] Session F029DF3F-75F0-4663-A9CD-B075B7030D1C assigned to MSSQLSERVER01 user
+[2017-04-10 04:16:28.048][00001FD8][000033E4][Info] ProcessPool(MSSQLSERVER01-ss-2) with minimum processes 5 created
+[2017-04-10 04:16:28.048][00001FD8][000033E4][Info] ProcessPool(MSSQLSERVER01-ss-2) started GrowAsyncWorker() thread 12932 [00003284].
+[2017-04-10 04:16:28.053][00001FD8][000033E4][Info] WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2) created (1)
+[2017-04-10 04:16:28.054][00001FD8][00003284][Info] WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\8E03F327-CFF1-4DF5-96C2-46AE147F5201) created (1)
+Breakpoint 0 hit
+*** WARNING: Unable to verify checksum for C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\RLauncher.dll
+*** ERROR: Symbol file could not be found.  Defaulted to export symbols for C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn\RLauncher.dll - 
+launchpad!SQLSatellite_LaunchProcess:
+00007ff6`1ef0a9f0 4057            push    rdi
+0:042> g
+Breakpoint 7 hit
+launchpad!CreateProcessForSatelliteSession:
+00007ff6`1ef0a870 48895c2408      mov     qword ptr [rsp+8],rbx ss:00000079`3bfff4b0=000000793bfff750
+0:042> g
+Breakpoint 10 hit
+KERNELBASE!CreateProcessInternalW:
+00007ffe`0c3c3a20 4c8bdc          mov     r11,rsp
+0:042> g
+Breakpoint 0 hit
+launchpad!SQLSatellite_LaunchProcess:
+00007ff6`1ef0a9f0 4057            push    rdi
+0:010> g
+Breakpoint 7 hit
+launchpad!CreateProcessForSatelliteSession:
+00007ff6`1ef0a870 48895c2408      mov     qword ptr [rsp+8],rbx ss:00000079`379fd100=00000079379fd3a0
+0:010> g
+Breakpoint 10 hit
+KERNELBASE!CreateProcessInternalW:
+00007ffe`0c3c3a20 4c8bdc          mov     r11,rsp
+0:010> g
+Breakpoint 8 hit
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject:
+00007ff6`1ef07e40 488bc4          mov     rax,rsp
+0:042> g
+Breakpoint 8 hit
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject:
+00007ff6`1ef07e40 488bc4          mov     rax,rsp
+0:010> g
+Breakpoint 9 hit
+launchpad!SatelliteJobObject::AssociateProcess:
+00007ff6`1ef05fc0 4883ec38        sub     rsp,38h
+0:010> g
+Breakpoint 9 hit
+launchpad!SatelliteJobObject::AssociateProcess:
+00007ff6`1ef05fc0 4883ec38        sub     rsp,38h
+0:042> g
+[2017-04-10 04:16:59.775][00001FD8][000033E4][Info] CreateProces(C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2';sessionId <- '883EFD04-4E7B-4DC1-A85F-68C64E49CEF2';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)") completed with (00000000) for user (MSSQLSERVER01, (null)) with current directory C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2 [redirected:(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2\stdout.0.txt, C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2\stderr.0.txt)]
+[2017-04-10 04:17:00.589][00001FD8][00003284][Info] CreateProces(C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\8E03F327-CFF1-4DF5-96C2-46AE147F5201';sessionId <- '8E03F327-CFF1-4DF5-96C2-46AE147F5201';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)") completed with (00000000) for user (MSSQLSERVER01, (null)) with current directory C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\8E03F327-CFF1-4DF5-96C2-46AE147F5201 [redirected:(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\8E03F327-CFF1-4DF5-96C2-46AE147F5201\stdout.0.txt, C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\8E03F327-CFF1-4DF5-96C2-46AE147F5201\stderr.0.txt)]
+[2017-04-10 04:17:00.590][00001FD8][000033E4][Info] Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828) configured with killOnClose=1, memoryLimit=0, silentBreakAway=0
+[2017-04-10 04:17:00.590][00001FD8][00003284][Info] Job PooledProcess-8E03F327-CFF1-4DF5-96C2-46AE147F5201(000007F8) configured with killOnClose=1, memoryLimit=0, silentBreakAway=0
+[2017-04-10 04:17:00.590][00001FD8][000033E4][Info] Assigning PooledProcess(000005F8, 00000808, 883EFD04-4E7B-4DC1-A85F-68C64E49CEF2, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe) to Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828)
+[2017-04-10 04:17:00.590][00001FD8][00003284][Info] Assigning PooledProcess(00000818, 00000814, 8E03F327-CFF1-4DF5-96C2-46AE147F5201, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe) to Job PooledProcess-8E03F327-CFF1-4DF5-96C2-46AE147F5201(000007F8)
+[2017-04-10 04:17:00.591][00001FD8][000033E4][Info] Resume(PooledProcess(000005F8, 00000808, 883EFD04-4E7B-4DC1-A85F-68C64E49CEF2, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe))
+[2017-04-10 04:17:00.591][00001FD8][00003284][Info] Resume(PooledProcess(00000818, 00000814, 8E03F327-CFF1-4DF5-96C2-46AE147F5201, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe))
+[2017-04-10 04:17:00.592][00001FD8][000033E4][Info] Session[F029DF3F-75F0-4663-A9CD-B075B7030D1C] attached to pooled processes [883EFD04-4E7B-4DC1-A85F-68C64E49CEF2]
+[2017-04-10 04:17:00.593][00001FD8][00003284][Info] WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\A4716CB1-94F6-4034-BAF5-EE204C8FB750) created (1)
+Breakpoint 0 hit
+launchpad!SQLSatellite_LaunchProcess:
+00007ff6`1ef0a9f0 4057            push    rdi
+0:042> g
+Breakpoint 7 hit
+launchpad!CreateProcessForSatelliteSession:
+00007ff6`1ef0a870 48895c2408      mov     qword ptr [rsp+8],rbx ss:00000079`3bfff4b0=000000793bfff750
+0:042> g
+Breakpoint 10 hit
+KERNELBASE!CreateProcessInternalW:
+00007ffe`0c3c3a20 4c8bdc          mov     r11,rsp
+0:042> g
+[2017-04-10 04:17:05.527][00001FD8][000033E4][Info] SQLSatellite_LaunchSatellite(1, F029DF3F-75F0-4663-A9CD-B075B7030D1C, 1, 57344, nullptr, 00000079379FE4B0, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\ExtensibilityData\MSSQLSERVER01) completed: 00000000
+[2017-04-10 04:17:05.527][00001FD8][000033E4][Info] < SQLSatellite_LaunchSatellite, dllmain.cpp, 291 (37481 msecs)
+Breakpoint 11 hit
+launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo:
+00007ff6`1ef52240 4889742410      mov     qword ptr [rsp+10h],rsi ss:00000079`379fe468=00000079379fe560
+0:010> g
+Breakpoint 13 hit
+launchpad!CSQLSatelliteConnection::WriteMessage:
+00007ff6`1ef509e0 4057            push    rdi
+0:010> g
+[2017-04-10 04:17:07.990][00001FD8][000033E4][Info] > SQLSatellite_LauncherCleanUp, dllmain.cpp, 381
+Breakpoint 8 hit
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject:
+00007ff6`1ef07e40 488bc4          mov     rax,rsp
+0:042> g
+Breakpoint 9 hit
+launchpad!SatelliteJobObject::AssociateProcess:
+00007ff6`1ef05fc0 4883ec38        sub     rsp,38h
+0:042> g
+[2017-04-10 04:17:24.647][00001FD8][000033E4][Info] Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828) WaitAll(3, 5000) completed with 258
+[2017-04-10 04:17:25.749][00001FD8][00003284][Info] CreateProces(C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\A4716CB1-94F6-4034-BAF5-EE204C8FB750';sessionId <- 'A4716CB1-94F6-4034-BAF5-EE204C8FB750';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)") completed with (00000000) for user (MSSQLSERVER01, (null)) with current directory C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\A4716CB1-94F6-4034-BAF5-EE204C8FB750 [redirected:(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\A4716CB1-94F6-4034-BAF5-EE204C8FB750\stdout.0.txt, C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\A4716CB1-94F6-4034-BAF5-EE204C8FB750\stderr.0.txt)]
+[2017-04-10 04:17:25.749][00001FD8][000033E4][Warning] Session F029DF3F-75F0-4663-A9CD-B075B7030D1C cleanup wait failed with 258 and error 0
+[2017-04-10 04:17:25.750][00001FD8][00003284][Info] Job PooledProcess-A4716CB1-94F6-4034-BAF5-EE204C8FB750(0000081C) configured with killOnClose=1, memoryLimit=0, silentBreakAway=0
+[2017-04-10 04:17:25.750][00001FD8][00003284][Info] Assigning PooledProcess(00000824, 00000804, A4716CB1-94F6-4034-BAF5-EE204C8FB750, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe) to Job PooledProcess-A4716CB1-94F6-4034-BAF5-EE204C8FB750(0000081C)
+[2017-04-10 04:17:25.750][00001FD8][00003284][Info] Resume(PooledProcess(00000824, 00000804, A4716CB1-94F6-4034-BAF5-EE204C8FB750, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe))
+[2017-04-10 04:17:25.752][00001FD8][00003284][Info] WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\E0EF41F6-C1EF-4801-928D-34CE0AA98D8A) created (1)
+Breakpoint 0 hit
+launchpad!SQLSatellite_LaunchProcess:
+00007ff6`1ef0a9f0 4057            push    rdi
+0:042> g
+Breakpoint 7 hit
+launchpad!CreateProcessForSatelliteSession:
+00007ff6`1ef0a870 48895c2408      mov     qword ptr [rsp+8],rbx ss:00000079`3bfff4b0=000000793bfff750
+0:042> g
+Breakpoint 10 hit
+KERNELBASE!CreateProcessInternalW:
+00007ffe`0c3c3a20 4c8bdc          mov     r11,rsp
+0:042> g
+[2017-04-10 04:17:31.813][00001FD8][000033E4][Info] Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828) WaitAll(3, -1) completed with 0
+[2017-04-10 04:17:31.813][00001FD8][000033E4][Info] Session(F029DF3F-75F0-4663-A9CD-B075B7030D1C) logged 2 output files
+[2017-04-10 04:17:31.813][00001FD8][000033E4][Info] Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828) WaitAll(3, -1) completed with 0
+[2017-04-10 04:17:31.814][00001FD8][000033E4][Info] Job PooledProcess-883EFD04-4E7B-4DC1-A85F-68C64E49CEF2(00000828) destroyed
+Breakpoint 8 hit
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject:
+00007ff6`1ef07e40 488bc4          mov     rax,rsp
+0:042> g
+Breakpoint 9 hit
+launchpad!SatelliteJobObject::AssociateProcess:
+00007ff6`1ef05fc0 4883ec38        sub     rsp,38h
+0:042> g
+[2017-04-10 04:17:33.261][00001FD8][00003284][Info] CreateProces(C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\E0EF41F6-C1EF-4801-928D-34CE0AA98D8A';sessionId <- 'E0EF41F6-C1EF-4801-928D-34CE0AA98D8A';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)") completed with (00000000) for user (MSSQLSERVER01, (null)) with current directory C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\E0EF41F6-C1EF-4801-928D-34CE0AA98D8A [redirected:(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\E0EF41F6-C1EF-4801-928D-34CE0AA98D8A\stdout.0.txt, C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\E0EF41F6-C1EF-4801-928D-34CE0AA98D8A\stderr.0.txt)]
+[2017-04-10 04:17:33.262][00001FD8][00003284][Info] Job PooledProcess-E0EF41F6-C1EF-4801-928D-34CE0AA98D8A(00000848) configured with killOnClose=1, memoryLimit=0, silentBreakAway=0
+[2017-04-10 04:17:33.262][00001FD8][00003284][Info] Assigning PooledProcess(00000828, 00000808, E0EF41F6-C1EF-4801-928D-34CE0AA98D8A, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe) to Job PooledProcess-E0EF41F6-C1EF-4801-928D-34CE0AA98D8A(00000848)
+[2017-04-10 04:17:33.262][00001FD8][00003284][Info] Resume(PooledProcess(00000828, 00000808, E0EF41F6-C1EF-4801-928D-34CE0AA98D8A, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe))
+[2017-04-10 04:17:33.263][00001FD8][00002D18][Info] StaleDirectoryCleaner starting directory deletions...
+[2017-04-10 04:17:33.263][00001FD8][000033E4][Info] ~WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2) deleted (0)
+[2017-04-10 04:17:33.264][00001FD8][000033E4][Info] Session F029DF3F-75F0-4663-A9CD-B075B7030D1C removed from MSSQLSERVER01 user
+[2017-04-10 04:17:33.264][00001FD8][000033E4][Perf] Session(F029DF3F-75F0-4663-A9CD-B075B7030D1C) [SqlSatellite] deleted. Elapsed time: 65217 msecs
+[2017-04-10 04:17:33.264][00001FD8][000033E4][Info] SQLSatellite_LauncherCleanUp(F029DF3F-75F0-4663-A9CD-B075B7030D1C) completed: 00000000
+[2017-04-10 04:17:33.264][00001FD8][000033E4][Info] < SQLSatellite_LauncherCleanUp, dllmain.cpp, 381 (25274 msecs)
+Breakpoint 13 hit
+launchpad!CSQLSatelliteConnection::WriteMessage:
+00007ff6`1ef509e0 4057            push    rdi
+0:010> g
+[2017-04-10 04:17:34.061][00001FD8][00003284][Info] WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D) created (1)
+Breakpoint 0 hit
+launchpad!SQLSatellite_LaunchProcess:
+00007ff6`1ef0a9f0 4057            push    rdi
+0:042> g
+[2017-04-10 04:17:34.805][00001FD8][00003284][Info] CreateProces(C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D';sessionId <- '5EE7BC3D-54E9-4065-B9C9-55936FD59B6D';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)") completed with (80070057) for user (MSSQLSERVER01, (null)) with current directory C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D [redirected:(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D\stdout.0.txt, C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D\stderr.0.txt)]
+(1fd8.3284): C++ EH exception - code e06d7363 (first chance)
+[2017-04-10 04:17:34.806][00001FD8][00002D18][Warning] StaleDirectoryCleaner() failed to delete C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\883EFD04-4E7B-4DC1-A85F-68C64E49CEF2 after 5 retries
+[2017-04-10 04:17:34.807][00001FD8][00002D18][Info] StaleDirectoryCleaner completed directory deletions with 1
+[2017-04-10 04:17:34.807][00001FD8][00002D18][Info] StaleDirectoryCleaner starting directory deletions...
+[2017-04-10 04:17:34.807][00001FD8][00002D18][Info] StaleDirectoryCleaner completed directory deletions with 1
+[2017-04-10 04:17:34.808][00001FD8][00003284][Info] ~WorkingDirectory(C:\PROGRA~1\MICROS~2\MSSQL1~1.MSS\MSSQL\EXTENS~1\MSSQLSERVER01\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D) deleted (1)
+[2017-04-10 04:17:34.808][00001FD8][00003284][Warning] ProcessPool::CreateProcess(MSSQLSERVER01-ss-2, F029DF3F-75F0-4663-A9CD-B075B7030D1C) failed with: Failed with (80070057) to start executable C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe with args  --slave --no-restore --no-save -e "library(RevoScaleR); sessionDirectory <- 'C:\\PROGRA~1\\MICROS~2\\MSSQL1~1.MSS\\MSSQL\\EXTENS~1\\MSSQLSERVER01\\5EE7BC3D-54E9-4065-B9C9-55936FD59B6D';sessionId <- '5EE7BC3D-54E9-4065-B9C9-55936FD59B6D';scriptFile <- file.path(sessionDirectory, paste(sessionId, '.R', sep=''));rxIgnoreCallResult <- .Call('RxSqlSessionStart', list(sessionDirectory=sessionDirectory, sessionId=sessionId, waitTime=-1));source(scriptFile)"
+[2017-04-10 04:17:34.808][00001FD8][00003284][Info] ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(00000818, 00000814, 8E03F327-CFF1-4DF5-96C2-46AE147F5201, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe)
+[2017-04-10 04:17:34.808][00001FD8][00003284][Info] ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(00000824, 00000804, A4716CB1-94F6-4034-BAF5-EE204C8FB750, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe)
+[2017-04-10 04:17:34.809][00001FD8][00003284][Info] ProcessPool(MSSQLSERVER01-ss-2) adding PooledProcess(00000828, 00000808, E0EF41F6-C1EF-4801-928D-34CE0AA98D8A, C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\R_SERVICES\bin\x64\rterm.exe)
+[2017-04-10 04:17:34.809][00001FD8][00003284][Info] ProcessPool(MSSQLSERVER01-ss-2) expanded from 0 to 3
+
+
+
+
+
+
+
+
+launchpad!SatelliteSessionManager::ConstructSatelliteSession:
+launchpad!SatelliteJobObject::ApplyExternalPoolProperties
+launchpad!SatelliteSessionManager::CreateNewSessionObject
+launchpad!SatelliteSessionManager::AddSessionObjectToStore
+launchpad!SQLSatellite_LaunchProcess
+launchpad!CreateProcessForSatelliteSession
+KERNELBASE!CreateProcessInternalW
+launchpad!SQLSatellite_LaunchProcess
+launchpad!CreateProcessForSatelliteSession
+KERNELBASE!CreateProcessInternalW
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+launchpad!SQLSatellite_LaunchProcess
+
+
+
+launchpad!CLaunchContext::ConstructSessionSpecificObjects
+
+
+
+0:034> bp launchpad!Satellite_ResourceManager::CreateLaunchpadJobObject
+0:034> bp launchpad!SatelliteJobObject::CreateSatelliteJobObject 3
+0:034> bp launchpad!SatelliteSessionManager::ConstructSatelliteSession 2
+0:034> bp launchpad!SatelliteSessionManager::CreateNewSessionObject 4
+0:034> bp launchpad!SQLSatellite_LaunchProcess 6 12
+0:034> bp launchpad!CreateProcessForSatelliteSession 7 11 19
+0:034> bp launchpad!Satellite_ResourceManager::AssociateProcessToJobObject 14 16
+0:034> bp launchpad!SatelliteJobObject::AssociateProcess 15 17
+0:034> bp launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo 22
+0:034> bp launchpad!CLaunchContext::LaunchServTask 1
+0:034> bp launchpad!CLaunchContext::Launch 5
+0:034> bp launchpad!PhysicalUserContext::LaunchProcess 8 10 18 20
+0:034> bp launchpad!CSQLSatelliteConnection::WriteMessage 23
+0:034> bp KERNELBASE!CreateProcessInternalW 9 13 21
+0:034> bp launchpad!SatelliteSessionManager::DestroySatelliteSession
+0:034> bp launchpad!SatelliteSessionManager::RemoveSessionObjectFromStore
+
+bp launchpad!CSQLSatelliteCommunication::SendResume
+
+00 00000040`6b7fef28 00007ffd`5e0651cd launchpad!CLaunchContext::LaunchServTask
+01 00000040`6b7fef30 00007ffd`5e065925 sqldk!SOS_Task::Param::Execute+0x231
+02 00000040`6b7ff530 00007ffd`5e06557d sqldk!SOS_Scheduler::RunTask+0xaa
+03 00000040`6b7ff5a0 00007ffd`5e08a288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+04 00000040`6b7ff680 00007ffd`5e08a510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+05 00000040`6b7ff750 00007ffd`5e08a3f7 sqldk!SystemThread::RunWorker+0x8f
+06 00000040`6b7ff780 00007ffd`5e08aa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+*** ERROR: Symbol file could not be found.  Defaulted to export symbols for C:\WINDOWS\System32\KERNEL32.DLL - 
+07 00000040`6b7ff830 00007ffd`b19627f4 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+08 00000040`6b7ff8e0 00007ffd`b3a30941 KERNEL32!BaseThreadInitThunk+0x14
+09 00000040`6b7ff910 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+
+
+
+launchpad!CLaunchContext::LaunchServTask
+  launchpad!SatelliteSessionManager::ConstructSatelliteSession
+    launchpad!SatelliteJobObject::CreateSatelliteJobObject
+      launchpad!SatelliteSessionManager::CreateNewSessionObject
+        launchpad!CLaunchContext::Launch
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+                launchpad!SatelliteJobObject::AssociateProcess
+                launchpad!SatelliteJobObject::AssociateProcess
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+  launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo
+    launchpad!CSQLSatelliteConnection::WriteMessage
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+                launchpad!SatelliteJobObject::AssociateProcess
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+                launchpad!SatelliteJobObject::AssociateProcess
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+                launchpad!SatelliteJobObject::AssociateProcess
+          launchpad!SQLSatellite_LaunchProcess
+            launchpad!CreateProcessForSatelliteSession
+              launchpad!PhysicalUserContext::LaunchProcess
+                KERNELBASE!CreateProcessInternalW
+              launchpad!Satellite_ResourceManager::AssociateProcessToJobObject
+                launchpad!SatelliteJobObject::AssociateProcess
+          launchpad!SatelliteSessionManager::DestroySatelliteSession
+            launchpad!SatelliteSessionManager::RemoveSessionObjectFromStore
+
+
+
+
+    
+00 00000040`6abfe828 00007ff7`3173b795 launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo
+01 00000040`6abfe830 00007ff7`3173cb77 launchpad!CLaunchContext::LaunchInternal+0x375
+02 00000040`6abfed00 00007ffd`5e0651cd launchpad!CLaunchContext::LaunchServTask+0x357
+03 00000040`6abff470 00007ffd`5e065925 sqldk!SOS_Task::Param::Execute+0x231
+04 00000040`6abffa70 00007ffd`5e06557d sqldk!SOS_Scheduler::RunTask+0xaa
+05 00000040`6abffae0 00007ffd`5e08a288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+06 00000040`6abffbc0 00007ffd`5e08a510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+07 00000040`6abffc90 00007ffd`5e08a3f7 sqldk!SystemThread::RunWorker+0x8f
+08 00000040`6abffcc0 00007ffd`5e08aa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+09 00000040`6abffd70 00007ffd`b19627f4 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+0a 00000040`6abffe20 00007ffd`b3a30941 KERNEL32!BaseThreadInitThunk+0x14
+0b 00000040`6abffe50 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+
+00 00000040`6abfe7a8 00007ff7`31782479 launchpad!CSQLSatelliteConnection::WriteMessage
+01 00000040`6abfe7b0 00007ff7`3173b795 launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo+0x239
+02 00000040`6abfe830 00007ff7`3173cb77 launchpad!CLaunchContext::LaunchInternal+0x375
+03 00000040`6abfed00 00007ffd`5e0651cd launchpad!CLaunchContext::LaunchServTask+0x357
+04 00000040`6abff470 00007ffd`5e065925 sqldk!SOS_Task::Param::Execute+0x231
+05 00000040`6abffa70 00007ffd`5e06557d sqldk!SOS_Scheduler::RunTask+0xaa
+06 00000040`6abffae0 00007ffd`5e08a288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+07 00000040`6abffbc0 00007ffd`5e08a510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+08 00000040`6abffc90 00007ffd`5e08a3f7 sqldk!SystemThread::RunWorker+0x8f
+09 00000040`6abffcc0 00007ffd`5e08aa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+0a 00000040`6abffd70 00007ffd`b19627f4 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+0b 00000040`6abffe20 00007ffd`b3a30941 KERNEL32!BaseThreadInitThunk+0x14
+0c 00000040`6abffe50 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+
+00 00000040`6b3fe208 00007ff7`3173b1c8 launchpad!SatelliteSessionManager::ConstructSatelliteSession
+01 00000040`6b3fe210 00007ff7`3173b60a launchpad!CLaunchContext::ConstructSessionSpecificObjects+0xf8
+02 00000040`6b3fe4d0 00007ff7`3173cb77 launchpad!CLaunchContext::LaunchInternal+0x1ea
+03 00000040`6b3fe9a0 00007ffd`5e0651cd launchpad!CLaunchContext::LaunchServTask+0x357
+04 00000040`6b3ff110 00007ffd`5e065925 sqldk!SOS_Task::Param::Execute+0x231
+05 00000040`6b3ff710 00007ffd`5e06557d sqldk!SOS_Scheduler::RunTask+0xaa
+06 00000040`6b3ff780 00007ffd`5e08a288 sqldk!SOS_Scheduler::ProcessTasks+0x3cd
+07 00000040`6b3ff860 00007ffd`5e08a510 sqldk!SchedulerManager::WorkerEntryPoint+0x2a1
+08 00000040`6b3ff930 00007ffd`5e08a3f7 sqldk!SystemThread::RunWorker+0x8f
+09 00000040`6b3ff960 00007ffd`5e08aa28 sqldk!SystemThreadDispatcher::ProcessWorker+0x2de
+0a 00000040`6b3ffa10 00007ffd`b19627f4 sqldk!SchedulerManager::ThreadEntryPoint+0x1d8
+0b 00000040`6b3ffac0 00007ffd`b3a30941 KERNEL32!BaseThreadInitThunk+0x14
+0c 00000040`6b3ffaf0 00000000`00000000 ntdll!RtlUserThreadStart+0x
+
+
+
+
+
+What do we know now:
+
+* There is a group of user accounts (20 by default), which the executing SQL Server user (SQL Security or Windows) will be mapped to when executing code via `sp_execute_external_script`.
+* These user accounts do have backing folders in `C:\<path_to_sql_server_instance>\MSSQL\ExtensibilityData`.
+    * These folders act as storage for files etc., when executing `sp_execute_external_script`. The files are not placed directly in the account folder but in sub-folders created when the processes are created.
+* The launchpad service creates a session and a Windows job object for the particular script execution
+* When executing the launchpad service launches multiple processes together with the sub-folders mentioned above for the user.
+    * 5 processes are launched by default, but the process that executes the external script is not counted towards the 5.
+* One of the processes is assigned to the session, and this is the process that will do the external script execution.
+* When execution has finished, the session is torn down together with the process.   
