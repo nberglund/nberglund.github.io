@@ -3,17 +3,16 @@ SELECT * FROM sys.databases
 
 
 EXEC sp_execute_external_script  @language =N'R',
-                                 @script=N'
-								 a<-42;
+                                 @script=N'a<-42;
 								 b<-a*2;
-								 OutputDataSet<-InputDataSet;
-								 Sys.sleep(120);',
-                                 @input_data_1 =N'SELECT 42'
-WITH RESULT SETS (([TheAnswer] int not null));
+								 OutputDataSet<-InputDataSet;',
+								 @input_data_1 =N'SELECT 42, 666'
+WITH RESULT SETS (([TheAnswer] int not null, TheDevil int));
 GO
 
 EXEC sp_execute_external_script  @language =N'R',
-                                 @script=N'OutputDataSet<-InputDataSet
+                                 @script=N'
+								 OutputDataSet<-InputDataSet
 								 ',
                                  @input_data_1 =N'SELECT 42'
       WITH RESULT SETS (([TheAnswer] int not null));

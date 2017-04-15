@@ -1,4 +1,17 @@
 ﻿
+[Blog]:"Microsoft SQL Server R Services - Internals III" http://bit.ly/2paXrNx
+#datascience #sqlserver #RStats #sqlserverRservices
+
+
+New Blogpost: "Microsoft SQL Server R Services - Internals III". What happens when launchpad spins up RTerm processes? http://bit.ly/2paXrNx
+#datascience #sqlserver #RStats #sqlserverRservices
+
+
+
+http://bit.ly/2paXrNx
+
+
+
 [Blog]: "Interesting Stuff - Week 14" http://bit.ly/2oSGiKZ
 #datascience #sqlserver #RStats #streaming
 

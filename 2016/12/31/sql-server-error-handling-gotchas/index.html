@@ -1,216 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-  <head>
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
-  
-  <meta name="description" content="How error handling in SQL Server can trip you up!">
-  
-  
-  <meta name="keywords" content="SQL Server, t-sql, errorhandling, SQL Server 2005, BEGIN TRY, BEGIN CATCH, RAISERROR"/>
-  
-
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
-  <title>
-    
-      SQL Server Error Handling Gotchas &middot; MANAGED DATA
-    
-  </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/hyde.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/public/favicon.ico">
-
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-  <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'>
-</head>
-
-  <body>
-
-    <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <h1>
-        <a href="/">
-          MANAGED DATA
-        </a>
-      </h1>
-      <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a class="sidebar-nav-item" href="/">Home</a>
-
-      
-
-      
-      
-        
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/about/">About</a>
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/archive/">Posts Archive</a>
-          
-        
-      
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      
-    </nav>
-
-    <section>
-  <h3 style="color:#ffffff">Follow Me:</h3>
-  <ul>
-    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
-    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
-  </ul>
-</section>
-
-    <section>
-  <h3 style="color:#ffffff">Disclaimer</h3>
-  <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
-</section>
-
-    <p>&copy; 2017. All rights reserved.</p>
-
-    <div class="sidebar-social">
-    
-      <div><a href="https://github.com/nberglund">
-        GitHub
-      </a></div>
-    
-      <div><a href="https://twitter.com/nielsberglund">
-        Twitter
-      </a></div>
-    
-      <div><a href="https://za.linkedin.com/in/niels-berglund-0122593">
-        LinkedIn
-      </a></div>
-    
-      <div><a href="https://plus.google.com/u/0/109374849138720664008">
-        Google+
-      </a></div>
-    
-    </div>
-
-
-  </div>
-</div>
-
-    <div class="content container">
-      <div class="post">
-  <h1 class="post-title">SQL Server Error Handling Gotchas</h1>
-  <div class="post-subheading">
-  <span class="post-date">31 Dec 2016</span>
-
-  <span class="post-tag">
-    
-      <span class="post-tagdesc">in categories:</span>
-    
-
-    
-      SQL Server
-    
-
-    
-      <span class="post-tagdesc">tags:</span>
-    
-
-    
-      sqlserver
-    
-      t-sql
-    
-      errorhandling
-    
-
-    
-  </span>
-</div>
-  <p>Way back when (in 2010 as a matter of fact), I wrote a couple of blog-posts (<a href="/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/">here</a> and <a href="/2010/11/12/more-t-sql-error-functionality-in-denali-sql-11/">here</a>) about error handling in the new CTP  releases of SQL Server Denali. Denali was what would become SQL Server 2012.</p>
-
-<p>The new functionality built upon what was introduced in SQL Server 2005 - the notion of structured exception handling through <code>BEGIN TRY END TRY</code> followed by <code>BEGIN CATCH END CATCH</code>. In those blog-posts I was fairly positive, and saw the new functionality as something useful and very well worth implementing. I am still positive, however since then I have used the new functionality introduced in SQL Server 2005 extensively in production and have come across some gotchas that I thought would be worth writing a blog-post about.</p>
-
-<!--more-->
-
-
-<h2>Background</h2>
-
-<p>Before SQL Server 2005 was introduced, and with that structured exception handling as mentioned above, the way we handled error conditions in SQL Server was to write something like so:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>SQL Server Error Handling Pre SQL Server 2005</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- do something where you need to check error condition</span>
+<!DOCTYPE html> <html lang="en-us"> <head> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <meta name="description" content="SQL Server and error handling. How error handling in SQL Server can trip you up!"> <meta name="keywords" content="SQL Server, t-sql, errorhandling, SQL Server 2005, BEGIN TRY, BEGIN CATCH, RAISERROR"/> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> SQL Server Error Handling Gotchas &middot; MANAGED DATA </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.2.0 --> <title>SQL Server Error Handling Gotchas | MANAGED DATA</title> <meta property="og:title" content="SQL Server Error Handling Gotchas" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="SQL Server and error handling. How error handling in SQL Server can trip you up!" /> <meta property="og:description" content="SQL Server and error handling. How error handling in SQL Server can trip you up!" /> <link rel="canonical" href="http://nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/" /> <meta property="og:url" content="http://nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/" /> <meta property="og:site_name" content="MANAGED DATA" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2016-12-31T06:41:55+02:00" /> <script type="application/ld+json"> {"@context": "http://schema.org", "@type": "BlogPosting", "headline": "SQL Server Error Handling Gotchas", "author": {"@type": "Person", "name": "nielsb"}, "datePublished": "2016-12-31T06:41:55+02:00", "description": "SQL Server and error handling. How error handling in SQL Server can trip you up!", "mainEntityOfPage": {"@type": "WebPage", "@id": "http://nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/"}, "url": "http://nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/"}</script> <!-- End Jekyll SEO tag --> </head> <body> <div class="sidebar"> <div class="container sidebar-sticky"> <div class="sidebar-about"> <h1> <a href="/"> MANAGED DATA </a> </h1> <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> </nav> <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <section> <h3 style="color:#ffffff">Disclaimer</h3> <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p> </section> <p>&copy; 2017. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">SQL Server Error Handling Gotchas</h1> <div class="post-subheading"> <span class="post-date">31 Dec 2016</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> SQL Server <span class="post-tagdesc">tags:</span> sqlserver t-sql errorhandling </span> </div> <p>Way back when (in 2010 as a matter of fact), I wrote a couple of blog-posts (<a href="/2010/11/10/new-t-sql-features-in-sql-11-denali-error-handling/">here</a> and <a href="/2010/11/12/more-t-sql-error-functionality-in-denali-sql-11/">here</a>) about error handling in the new CTP releases of SQL Server Denali. Denali was what would become SQL Server 2012.</p> <p>The new functionality built upon what was introduced in SQL Server 2005 - the notion of structured exception handling through <code>BEGIN TRY END TRY</code> followed by <code>BEGIN CATCH END CATCH</code>. In those blog-posts I was fairly positive, and saw the new functionality as something useful and very well worth implementing. I am still positive, however since then I have used the new functionality introduced in SQL Server 2005 extensively in production and have come across some gotchas that I thought would be worth writing a blog-post about.</p> <!--more--> <h2>Background</h2> <p>Before SQL Server 2005 was introduced, and with that structured exception handling as mentioned above, the way we handled error conditions in SQL Server was to write something like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>SQL Server Error Handling Pre SQL Server 2005</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- do something where you need to check error condition</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_SomeTable</span> <span class="c1">--something may go wrong here</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(....)</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="o">@</span><span class="n">err</span> <span class="o">=</span> <span class="o">@@</span><span class="n">ERROR</span> <span class="c1">-- @err has been declared previously</span>
@@ -221,19 +9,7 @@
 </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">-- re-raise to let calling procs know something has gone wrong</span>
 </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'Some descriptive message'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 1:</strong> <em>Old Style Error Handling</em></p>
-
-<p>In your stored procedures, you had to insert code like above after each statement where you wanted to check for errors. Part of the error-handling code quite often would be some logging/auditing and general rewind/cleanup. Typically you would also re-raise the error so that calling procs would be made aware that something has happened, and in the calling procs you would have similar logic to catch the errors being raised.</p>
-
-<p>All in all, quite a lot of code to write. At <a href="/derivco"><strong>Derivco</strong></a> we have a lot of stored procedures, and they can be fairly big (3000 - 4000 loc), so you can imagine the number of error checks we have in them.</p>
-
-<h3>TRY CATCH</h3>
-
-<p>Writing the above mentioned error-handling code feels quite arcane if you compare what you would do in other programming languages. So in SQL Server 2005 <strong>Microsoft</strong> introduced the notion of structured exception handling as I mentioned above, and it was implemented through <code>BEGIN TRY ... END TRY</code> and <code>BEGIN CATCH ... END CATCH</code> blocks. As with other programming languages you can have one or more TRY ... CATCH blocks, and when an error happens inside the TRY block, the code in the CATCH block is immediately hit.</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>SQL Server 2005 TRY CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 1:</strong> <em>Old Style Error Handling</em></p> <p>In your stored procedures, you had to insert code like above after each statement where you wanted to check for errors. Part of the error-handling code quite often would be some logging/auditing and general rewind/cleanup. Typically you would also re-raise the error so that calling procs would be made aware that something has happened, and in the calling procs you would have similar logic to catch the errors being raised.</p> <p>All in all, quite a lot of code to write. At <a href="/derivco"><strong>Derivco</strong></a> we have a lot of stored procedures, and they can be fairly big (3000 - 4000 loc), so you can imagine the number of error checks we have in them.</p> <h3>TRY CATCH</h3> <p>Writing the above mentioned error-handling code feels quite arcane if you compare what you would do in other programming languages. So in SQL Server 2005 <strong>Microsoft</strong> introduced the notion of structured exception handling as I mentioned above, and it was implemented through <code>BEGIN TRY ... END TRY</code> and <code>BEGIN CATCH ... END CATCH</code> blocks. As with other programming languages you can have one or more TRY ... CATCH blocks, and when an error happens inside the TRY block, the code in the CATCH block is immediately hit.</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>SQL Server 2005 TRY CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--lots and lots of code</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">...</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">...</span>
@@ -250,36 +26,7 @@
 </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">-- re-raise to let calling procs know something has gone wrong</span>
 </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'Some descriptive message'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 2:</strong> <em>Error Handling with TRY ... CATCH</em></p>
-
-<p>When the <code>BEGIN TRY ... END TRY</code> block together with <code>BEGIN CATCH ... END CATCH</code> executes, it creates a special error context, so that any errors happening will be caught by the closest CATCH block. In other words, errors "bubble" up to the closest CATCH block, <em>within</em> the same <strong>SPID</strong>. Keep this in mind, as it is important when we discuss some of the "gotcha's".</p>
-
-<h3>THROW</h3>
-
-<p>Ad good as the new error-handling functionality was in SQL Server 2005, there were still some pieces missing when comparing t-sql with other languages error-handling. One big glaring missing piece was how to re-throw a caught exception. What you typically would do if you wanted to re-throw was to capture the error text, either from <code>sys.messages</code> pre SQL Server 2005, or from <code>ERROR_MESSAGE()</code> in SQL SERVER 2005+, and in both cases then use the captured text in <code>RAISERROR</code>.</p>
-
-<p>Note about <code>RAISERROR</code>:</p>
-
-<ul>
-<li>It allows you to throw an error based on either an error number or a message, and you can define the severity level and state of that error.</li>
-<li>If you call <code>RAISERROR</code> with an error number, that error number has to exist in sys.messages.</li>
-<li>You can use error numbers between 13001 and 2147483647 (it cannot be 50000) with <code>RAISERROR</code>.</li>
-</ul>
-
-
-<p><code>RAISERROR</code> has been around "forever", and for SQL Server 2012 Microsoft introduced <strong><code>THROW</code></strong> as new function to be used when raising exceptions. Some of the features of <code>THROW</code>:</p>
-
-<ul>
-<li><code>THROW</code> can be used to re-throw an exception.</li>
-<li>Using <code>THROW</code> you can throw a specific error number together with an accompanying message.</li>
-</ul>
-
-
-<p>Code snippet 3 below shows an example of this:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>TRY CATCH with THROW</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 2:</strong> <em>Error Handling with TRY ... CATCH</em></p> <p>When the <code>BEGIN TRY ... END TRY</code> block together with <code>BEGIN CATCH ... END CATCH</code> executes, it creates a special error context, so that any errors happening will be caught by the closest CATCH block. In other words, errors "bubble" up to the closest CATCH block, <em>within</em> the same <strong>SPID</strong>. Keep this in mind, as it is important when we discuss some of the "gotcha's".</p> <h3>THROW</h3> <p>Ad good as the new error-handling functionality was in SQL Server 2005, there were still some pieces missing when comparing t-sql with other languages error-handling. One big glaring missing piece was how to re-throw a caught exception. What you typically would do if you wanted to re-throw was to capture the error text, either from <code>sys.messages</code> pre SQL Server 2005, or from <code>ERROR_MESSAGE()</code> in SQL SERVER 2005+, and in both cases then use the captured text in <code>RAISERROR</code>.</p> <p>Note about <code>RAISERROR</code>:</p> <ul> <li>It allows you to throw an error based on either an error number or a message, and you can define the severity level and state of that error.</li> <li>If you call <code>RAISERROR</code> with an error number, that error number has to exist in sys.messages.</li> <li>You can use error numbers between 13001 and 2147483647 (it cannot be 50000) with <code>RAISERROR</code>.</li> </ul> <p><code>RAISERROR</code> has been around "forever", and for SQL Server 2012 Microsoft introduced <strong><code>THROW</code></strong> as new function to be used when raising exceptions. Some of the features of <code>THROW</code>:</p> <ul> <li><code>THROW</code> can be used to re-throw an exception.</li> <li>Using <code>THROW</code> you can throw a specific error number together with an accompanying message.</li> </ul> <p>Code snippet 3 below shows an example of this:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>TRY CATCH with THROW</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--some  code</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--here we are doing a check of something</span>
 </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--and realizes that something is wrong</span>
@@ -293,31 +40,7 @@
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">-- re-raise by using THROW</span>
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">THROW</span>
 </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 3:</strong> <em>Error Handling with THROW and TRY ... CATCH</em></p>
-
-<p>If you have managed to stay awake until now, you probably wonder where is the problem with all this, this looks pretty sweet, or as we use to say in the team I work for in <a href="/derivco">Derivco</a>; "What could possibly go wrong?"! Whenever we say that, it seems that quite a few things can go wrong :) and the same thing holds true here, as we will see!</p>
-
-<h2>The Problem</h2>
-
-<p>The problem comes in when you are mixing "old" (pre 2005), with "new" (2005+) error handling. You may ask: "why would you ever want to do that, why not use only the new cool features?". In fact that's what I asked when I visited Derivco back in 2009 and taught a <a href="http://www.develop.com/uk"><strong>Developmentor</strong></a> SQL Server course for the team I eventually would work for. Boy was that a stupid question!</p>
-
-<p>The answer - in Derivco's' case - is <em>complexity</em>. In our main OLTP production database we now have ~5,000 stored procedures, and the call stacks can nest 10 - 15 procedures deep. In addition, our procedures are not simple <em>CRUD</em>, but we do have <strong>LOADS</strong> of business logic in them. So you cherry-pick what procs to edit, most likely some you are changing anyway, and all new procs are written using the new error-handling. What could possibly go wrong with this approach?!</p>
-
-<p>Well, chances are that the new/edited procs are part of a call chain, and not necessarily the last proc in the chain. This is now the situation where issues can happen. Let's look at this a bit closer. In the <a href="/downloads/code/errorhandling.zip">demo code</a> for this post, we have initially four procedures:</p>
-
-<ul>
-<li><code>dbo.pr_Caller</code> which calls into</li>
-<li><code>dbo.pr_1</code> which calls into</li>
-<li><code>dbo.pr_2</code> which calls into</li>
-<li><code>dbo.pr_3</code> which is the last proc in the chain.</li>
-</ul>
-
-
-<p>The three first procs pr_Caller, pr_1 and pr_2 looks almost identical, and I let <code>dbo.pr_Caller</code> be the "showcase":</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Example of the Three First Procs</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 3:</strong> <em>Error Handling with THROW and TRY ... CATCH</em></p> <p>If you have managed to stay awake until now, you probably wonder where is the problem with all this, this looks pretty sweet, or as we use to say in the team I work for in <a href="/derivco">Derivco</a>; "What could possibly go wrong?"! Whenever we say that, it seems that quite a few things can go wrong :) and the same thing holds true here, as we will see!</p> <h2>The Problem</h2> <p>The problem comes in when you are mixing "old" (pre 2005), with "new" (2005+) error handling. You may ask: "why would you ever want to do that, why not use only the new cool features?". In fact that's what I asked when I visited Derivco back in 2009 and taught a <a href="http://www.develop.com/uk"><strong>Developmentor</strong></a> SQL Server course for the team I eventually would work for. Boy was that a stupid question!</p> <p>The answer - in Derivco's' case - is <em>complexity</em>. In our main OLTP production database we now have ~5,000 stored procedures, and the call stacks can nest 10 - 15 procedures deep. In addition, our procedures are not simple <em>CRUD</em>, but we do have <strong>LOADS</strong> of business logic in them. So you cherry-pick what procs to edit, most likely some you are changing anyway, and all new procs are written using the new error-handling. What could possibly go wrong with this approach?!</p> <p>Well, chances are that the new/edited procs are part of a call chain, and not necessarily the last proc in the chain. This is now the situation where issues can happen. Let's look at this a bit closer. In the <a href="/downloads/code/errorhandling.zip">demo code</a> for this post, we have initially four procedures:</p> <ul> <li><code>dbo.pr_Caller</code> which calls into</li> <li><code>dbo.pr_1</code> which calls into</li> <li><code>dbo.pr_2</code> which calls into</li> <li><code>dbo.pr_3</code> which is the last proc in the chain.</li> </ul> <p>The three first procs pr_Caller, pr_1 and pr_2 looks almost identical, and I let <code>dbo.pr_Caller</code> be the "showcase":</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Example of the Three First Procs</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">err</span> <span class="n">int</span><span class="p">;</span>
@@ -333,13 +56,7 @@
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'dbo.pr_Caller: Something went wrong when calling dbo.pr_1'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
 </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_Caller</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 4:</strong> <em>Example of Calling Proc</em></p>
-
-<p>The last proc in the chain - <code>dbo.pr_3</code> - is somewhat different in that it generates an error:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>The Proc that Generates the Error</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_Caller</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 4:</strong> <em>Example of Calling Proc</em></p> <p>The last proc in the chain - <code>dbo.pr_3</code> - is somewhat different in that it generates an error:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>The Proc that Generates the Error</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">err</span> <span class="n">int</span><span class="p">;</span>
@@ -353,29 +70,7 @@
 </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'dbo.pr_3: Something went wrong in dbo.pr_3'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_3</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 5:</strong> <em>Error Proc</em></p>
-
-<p>When you look at the procs you can see that they all use the old style error handling, and are doing clean-ups etc in the <code>IF(@err &lt;&gt; 0)</code> block. If you execute the calling proc: <code>EXEC dbo.pr_Caller</code>, the result in the Message tab in SQL Server Management Studio (SSMS) would look something like:</p>
-
-<p><img class="center" src="/images/posts/sql_error_1.png" width="500" height="215"  >
-<strong> Figure 1:</strong> <em>Output from Error Procs</em></p>
-
-<p>From the figure above we can see:</p>
-
-<ul>
-<li>we are calling into each proc: <em>We are now about to execute</em>.</li>
-<li>the division by 0 error happens: <em>Divide by zero error encountered</em>.</li>
-<li>each proc in the call chain cleaning up, etc.: <em>We are cleaning up ...</em>.</li>
-</ul>
-
-
-<p>This is good (well not good that we are getting an error), but we are handling it and cleaning up after ourselves. We may perhaps write the errors to some logging tables, so that we in case of un-expected behavior can trace and see what has happened.</p>
-
-<p>Let us now assume that we need to change <code>dbo.pr_1</code>, to add some new functionality, whatever. This is now a good time to alter this old proc to use the new "cool" error-handling:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>New Error Handling in dbo_pr1</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_3</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 5:</strong> <em>Error Proc</em></p> <p>When you look at the procs you can see that they all use the old style error handling, and are doing clean-ups etc in the <code>IF(@err &lt;&gt; 0)</code> block. If you execute the calling proc: <code>EXEC dbo.pr_Caller</code>, the result in the Message tab in SQL Server Management Studio (SSMS) would look something like:</p> <p><img class="center" src="/images/posts/sql_error_1.png" width="500" height="215" > <strong> Figure 1:</strong> <em>Output from Error Procs</em></p> <p>From the figure above we can see:</p> <ul> <li>we are calling into each proc: <em>We are now about to execute</em>.</li> <li>the division by 0 error happens: <em>Divide by zero error encountered</em>.</li> <li>each proc in the call chain cleaning up, etc.: <em>We are cleaning up ...</em>.</li> </ul> <p>This is good (well not good that we are getting an error), but we are handling it and cleaning up after ourselves. We may perhaps write the errors to some logging tables, so that we in case of un-expected behavior can trace and see what has happened.</p> <p>Let us now assume that we need to change <code>dbo.pr_1</code>, to add some new functionality, whatever. This is now a good time to alter this old proc to use the new "cool" error-handling:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>New Error Handling in dbo_pr1</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">err</span> <span class="n">int</span><span class="p">;</span>
@@ -392,20 +87,7 @@
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_1: We are cleaning up, rewinding, blah, blah'</span>
 </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'dbo.pr_1: Something went wrong when calling dbo.pr_2'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 6:</strong> <em>Edited Proc</em></p>
-
-<p>No problem with the changes, however when you execute you get following result:</p>
-
-<p><img class="center" src="/images/posts/sql_error_2.png" width="500" height="175"  >
-<strong> Figure 2:</strong> <em>Output from Altered Error Procs</em></p>
-
-<p>Where is the cleanup in <code>dbo.pr_2</code> and <code>dbo.pr_3</code>, as an error clearly has happened as something was caught in <code>dbo.pr_1</code>? Oh, and what happened with the error-handling in <code>dbo.pr_Caller</code>, we did raise an error in <code>dbo.pr_1</code>?</p>
-
-<p>The last question is the easiest to answer, and fix; if you want old style error-handling to be able to catch an error raised from within a CATCH block, the <code>RAISERROR</code> <strong>MUST</strong> be followed by a <code>RETURN</code>, and it has to be a <code>RETURN</code> with no variables! So change the CATCH block in <code>dbo.pr_1</code> to:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Edited Catch Block</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">...</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 6:</strong> <em>Edited Proc</em></p> <p>No problem with the changes, however when you execute you get following result:</p> <p><img class="center" src="/images/posts/sql_error_2.png" width="500" height="175" > <strong> Figure 2:</strong> <em>Output from Altered Error Procs</em></p> <p>Where is the cleanup in <code>dbo.pr_2</code> and <code>dbo.pr_3</code>, as an error clearly has happened as something was caught in <code>dbo.pr_1</code>? Oh, and what happened with the error-handling in <code>dbo.pr_Caller</code>, we did raise an error in <code>dbo.pr_1</code>?</p> <p>The last question is the easiest to answer, and fix; if you want old style error-handling to be able to catch an error raised from within a CATCH block, the <code>RAISERROR</code> <strong>MUST</strong> be followed by a <code>RETURN</code>, and it has to be a <code>RETURN</code> with no variables! So change the CATCH block in <code>dbo.pr_1</code> to:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Edited Catch Block</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">...</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">CATCH</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--clean up and log etc.</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_1: We are cleaning up, rewinding, blah, blah'</span>
@@ -413,23 +95,7 @@
 </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span> <span class="c1">-- this will ensure the old-style error handling will be able</span>
 </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>         <span class="c1">-- to catch the raised exception</span>
 </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p>
-
-<p><strong> Code Snippet 7:</strong> <em>Use RETURN After Raising an Exception</em></p>
-
-<p>If you after the above change were to <code>EXEC dbo.pr_Caller</code> you would see how pr_Caller would handle the error raised in pr_1 as well. The first issue which arguably is more severe is easy to answer; it has to do with that "error context" mentioned in the beginning.</p>
-
-<h3>Error Context (a.k.a "Go Straight to CATCH Without Passing IF(@@ERROR")</h3>
-
-<p>As I mentioned in the beginning, when a stored procedure is executed, and during the execution it comes across <code>BEGIN TRY</code> block(s), a special execution context(s) is created from the point of the first <code>BEGIN TRY</code> . This context "wraps" all code from that point on, and ensures that if an error happens, the execution will stop and the closest <code>BEGIN CATCH</code> block will be hit. That is the reason why the cleanup code in neither <code>dbo.pr_3</code> nor <code>dbo.pr_2</code> was executed.</p>
-
-<p>The answer was easy, but the fix is neither easy nor straightforward. The only way (I am aware of) is that if you edit/create a new proc using the new way of handling errors, you need to ensure that the whole call-stack from that way onward is also using the new way.</p>
-
-<h3>THROW</h3>
-
-<p>Finally (pun intended), let's discuss <code>THROW</code>, as so far we have not seen any traces of it in the code. Let us edit <code>dbo.pr_3</code> to use new error handling as well as using <code>THROW</code> to re-throw an exception:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Using THROW in dbo.pr_3</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p> <p><strong> Code Snippet 7:</strong> <em>Use RETURN After Raising an Exception</em></p> <p>If you after the above change were to <code>EXEC dbo.pr_Caller</code> you would see how pr_Caller would handle the error raised in pr_1 as well. The first issue which arguably is more severe is easy to answer; it has to do with that "error context" mentioned in the beginning.</p> <h3>Error Context (a.k.a "Go Straight to CATCH Without Passing IF(@@ERROR")</h3> <p>As I mentioned in the beginning, when a stored procedure is executed, and during the execution it comes across <code>BEGIN TRY</code> block(s), a special execution context(s) is created from the point of the first <code>BEGIN TRY</code> . This context "wraps" all code from that point on, and ensures that if an error happens, the execution will stop and the closest <code>BEGIN CATCH</code> block will be hit. That is the reason why the cleanup code in neither <code>dbo.pr_3</code> nor <code>dbo.pr_2</code> was executed.</p> <p>The answer was easy, but the fix is neither easy nor straightforward. The only way (I am aware of) is that if you edit/create a new proc using the new way of handling errors, you need to ensure that the whole call-stack from that way onward is also using the new way.</p> <h3>THROW</h3> <p>Finally (pun intended), let's discuss <code>THROW</code>, as so far we have not seen any traces of it in the code. Let us edit <code>dbo.pr_3</code> to use new error handling as well as using <code>THROW</code> to re-throw an exception:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Using THROW in dbo.pr_3</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">err</span> <span class="n">int</span><span class="p">;</span>
@@ -443,16 +109,7 @@
 </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_3: We are cleaning up, rewinding, blah, blah, and let</span><span class="se">''</span><span class="s1">s THROW'</span><span class="p">;</span>
 </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">THROW</span>
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_3</span></div></div></pre></div></figure></p>
-
-<p>At the same time in the error handling code of <code>dbo_pr1</code>, let's select out the error message as well as error number, right before we raise the exception: <code>SELECT ERROR_MESSAGE() AS Msg, ERROR_NUMBER() AS ErrNo</code>, and then <code>EXEC dbo.pr_Caller</code>. All should be as before, and in the Results tab in SSMS you should see:</p>
-
-<p><img class="center" src="/images/posts/sql_error_3.png" width="500" height="100"  >
-<strong> Figure 2:</strong> <em>Correct Error Number and Message</em></p>
-
-<p>By receiving 8134 as error number we can see that <code>THROW</code> actually does what it is supposed to. However what happens if we were to edit <code>dbo.pr_1</code> to also <code>THROW</code>, seeing that <code>dbo.pr_Caller</code> is still doing old style error handling:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_3</span></div></div></pre></div></figure></p> <p>At the same time in the error handling code of <code>dbo_pr1</code>, let's select out the error message as well as error number, right before we raise the exception: <code>SELECT ERROR_MESSAGE() AS Msg, ERROR_NUMBER() AS ErrNo</code>, and then <code>EXEC dbo.pr_Caller</code>. All should be as before, and in the Results tab in SSMS you should see:</p> <p><img class="center" src="/images/posts/sql_error_3.png" width="500" height="100" > <strong> Figure 2:</strong> <em>Correct Error Number and Message</em></p> <p>By receiving 8134 as error number we can see that <code>THROW</code> actually does what it is supposed to. However what happens if we were to edit <code>dbo.pr_1</code> to also <code>THROW</code>, seeing that <code>dbo.pr_Caller</code> is still doing old style error handling:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">err</span> <span class="n">int</span><span class="p">;</span>
@@ -471,116 +128,4 @@
 </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">THROW</span><span class="p">;</span>
 </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span><span class="p">;</span>
 </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p>
-
-<p>Execute the pr_Caller, and notice the output: there is nothing there from dbo.pr_Caller. If <code>THROW</code> is used down in the call chain somewhere, there has to be a calling proc using the new error handling!</p>
-
-<h2>Summary</h2>
-
-<p>So in summary:</p>
-
-<ul>
-<li>TRY CATCH blocks ARE good!</li>
-<li>However, be careful when mixing new TRY CATCH with "old" @@ERROR</li>
-<li>You need to ensure all nested procedures called inside the TRY block is also using TRY CATCH.</li>
-<li>If raising an error in a CATCH block, ALWAYS follow the RAISERROR with a RETURN (no value).</li>
-<li>Unless you can guarantee that your code will always use TRY CATCH, stay away from THROW.</li>
-</ul>
-
-
-<p><a href="/downloads/code/errorhandling.zip">Download the demo code from here</a>!!</p>
-
-
-  <p>
-<h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/&text=SQL Server Error Handling Gotchas&via=nielsberglund" 
-   target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/" 
-   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-    | Google+</a>
-<a href="https://www.linkedin.com/shareArticle?
-         mini=true
-         &url=http://www.nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/
-         &title=SQL Server Error Handling Gotchas
-         &summary=Blog post: How error handling in SQL Server can trip you up!
-         &source=http://www.nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/"> | LinkedIn</a> 
-
-</p>   
-   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
-
-
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/
-
-   -->
-  <p>
-<h2>Blog Feed:</h2>
-To automatically receive more posts like this, please
-<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
-</div>
-
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/">
-            Microsoft SQL Server R Services - Internals III
-            <small>13 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/09/interesting-stuff-week-14/">
-            Interesting Stuff - Week 14
-            <small>09 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/02/interesting-stuff-week-13/">
-            Interesting Stuff - Week 13
-            <small>02 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
-
-
-<div id="disqus_thread"></div>
-<script>
-    var disqus_developer = 1;
-
-    (function() {  // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        
-        s.src = '//manageddata.disqus.com/embed.js';
-        
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-    </div>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-18914734-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-  </body>
-</html>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span> <span class="c1">--end dbo.pr_1</span></div></div></pre></div></figure></p> <p>Execute the pr_Caller, and notice the output: there is nothing there from dbo.pr_Caller. If <code>THROW</code> is used down in the call chain somewhere, there has to be a calling proc using the new error handling!</p> <h2>Summary</h2> <p>So in summary:</p> <ul> <li>TRY CATCH blocks ARE good!</li> <li>However, be careful when mixing new TRY CATCH with "old" @@ERROR</li> <li>You need to ensure all nested procedures called inside the TRY block is also using TRY CATCH.</li> <li>If raising an error in a CATCH block, ALWAYS follow the RAISERROR with a RETURN (no value).</li> <li>Unless you can guarantee that your code will always use TRY CATCH, stay away from THROW.</li> </ul> <p><a href="/downloads/code/errorhandling.zip">Download the demo code from here</a>!!</p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/&text=SQL Server Error Handling Gotchas&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2016/12/31/sql-server-error-handling-gotchas/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/ &title=SQL Server Error Handling Gotchas &summary=Blog post: SQL Server and error handling. How error handling in SQL Server can trip you up! &source=http://www.nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2016/12/31/sql-server-error-handling-gotchas/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> </div> <div class="related"> <h2>Related Posts</h2> <ul class="related-posts"> <li> <h3> <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/"> Microsoft SQL Server R Services - Internals III <small>13 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/09/interesting-stuff-week-14/"> Interesting Stuff - Week 14 <small>09 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/02/interesting-stuff-week-13/"> Interesting Stuff - Week 13 <small>02 Apr 2017</small> </a> </h3> </li> </ul> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { // DON'T EDIT BELOW THIS LINE var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>

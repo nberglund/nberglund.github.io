@@ -1,210 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-  <head>
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
-  
-  
-
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
-  <title>
-    
-      Transactions in SQL Server (take 2956) &middot; MANAGED DATA
-    
-  </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/hyde.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/public/favicon.ico">
-
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-  <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'>
-</head>
-
-  <body>
-
-    <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <h1>
-        <a href="/">
-          MANAGED DATA
-        </a>
-      </h1>
-      <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a class="sidebar-nav-item" href="/">Home</a>
-
-      
-
-      
-      
-        
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/about/">About</a>
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/archive/">Posts Archive</a>
-          
-        
-      
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      
-    </nav>
-
-    <section>
-  <h3 style="color:#ffffff">Follow Me:</h3>
-  <ul>
-    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
-    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
-  </ul>
-</section>
-
-    <section>
-  <h3 style="color:#ffffff">Disclaimer</h3>
-  <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
-</section>
-
-    <p>&copy; 2017. All rights reserved.</p>
-
-    <div class="sidebar-social">
-    
-      <div><a href="https://github.com/nberglund">
-        GitHub
-      </a></div>
-    
-      <div><a href="https://twitter.com/nielsberglund">
-        Twitter
-      </a></div>
-    
-      <div><a href="https://za.linkedin.com/in/niels-berglund-0122593">
-        LinkedIn
-      </a></div>
-    
-      <div><a href="https://plus.google.com/u/0/109374849138720664008">
-        Google+
-      </a></div>
-    
-    </div>
-
-
-  </div>
-</div>
-
-    <div class="content container">
-      <div class="post">
-  <h1 class="post-title">Transactions in SQL Server (take 2956)</h1>
-  <div class="post-subheading">
-  <span class="post-date">11 Sep 2011</span>
-
-  <span class="post-tag">
-    
-      <span class="post-tagdesc">in categories:</span>
-    
-
-    
-      SQL Server
-    
-
-    
-      <span class="post-tagdesc">tags:</span>
-    
-
-    
-      denali
-    
-      SQL Server
-    
-      t-sql
-    
-
-    
-  </span>
-</div>
-  <p>Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a "solution" to the "The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION" error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject.</p>
-
-<!--more-->
-
-
-<h3>Nested Transactions in SQL Server and the Evil @@TRANCOUNT</h3>
-
-<p>In SQL Server we have the @@TRANCOUNT variable which gives us the number of transactions active in the session - or that's at least what we might believe. Take this  extremely simple code:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
+<!DOCTYPE html> <html lang="en-us"> <head> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> Transactions in SQL Server (take 2956) &middot; MANAGED DATA </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.2.0 --> <title>Transactions in SQL Server (take 2956) | MANAGED DATA</title> <meta property="og:title" content="Transactions in SQL Server (take 2956)" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a &quot;solution&quot; to the &quot;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&quot; error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject." /> <meta property="og:description" content="Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a &quot;solution&quot; to the &quot;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&quot; error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject." /> <link rel="canonical" href="http://nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/" /> <meta property="og:url" content="http://nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/" /> <meta property="og:site_name" content="MANAGED DATA" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2011-09-11T09:27:56+02:00" /> <script type="application/ld+json"> {"@context": "http://schema.org", "@type": "BlogPosting", "headline": "Transactions in SQL Server (take 2956)", "author": {"@type": "Person", "name": "nielsb"}, "datePublished": "2011-09-11T09:27:56+02:00", "description": "Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a &quot;solution&quot; to the &quot;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&quot; error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject.", "mainEntityOfPage": {"@type": "WebPage", "@id": "http://nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/"}, "url": "http://nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/"}</script> <!-- End Jekyll SEO tag --> </head> <body> <div class="sidebar"> <div class="container sidebar-sticky"> <div class="sidebar-about"> <h1> <a href="/"> MANAGED DATA </a> </h1> <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> </nav> <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <section> <h3 style="color:#ffffff">Disclaimer</h3> <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p> </section> <p>&copy; 2017. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">Transactions in SQL Server (take 2956)</h1> <div class="post-subheading"> <span class="post-date">11 Sep 2011</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> SQL Server <span class="post-tagdesc">tags:</span> denali SQL Server t-sql </span> </div> <p>Transactions in SQL Server seems to be a difficult topic to grasp. This weekend I came across a blog-post where the poster showed a "solution" to the "The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION" error we sometimes see when various stored procedures call each other. The solution (even though it masked out the error in question) did not get it quite right. So I thought I would make a post about the subject.</p> <!--more--> <h3>Nested Transactions in SQL Server and the Evil @@TRANCOUNT</h3> <p>In SQL Server we have the @@TRANCOUNT variable which gives us the number of transactions active in the session - or that's at least what we might believe. Take this  extremely simple code:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">#</span><span class="n">t</span> <span class="p">(</span><span class="n">col1</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRAN</span>
@@ -216,19 +10,11 @@
 </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">COMMIT</span>
 </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span>
 </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">COMMIT</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span></div></div></pre></div></figure></p>
-
-<p>You should see something like this:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>0
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span></div></div></pre></div></figure></p> <p>You should see something like this:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>0
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>1
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>2
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>1
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>0</div></div></pre></div></figure></p>
-
-<p>I.e. it seems like the transaction count is increasing for each BEGIN TRAN, and decrease with COMMIT. And if you were to <code>SELECT * FROM #t</code> you would see two rows returned. So far so good, so what is wrong with @@TRANCOUNT then? Well, let us change the code slightly (don't forget to drop #t if you copy and paste this code):</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>0</div></div></pre></div></figure></p> <p>I.e. it seems like the transaction count is increasing for each BEGIN TRAN, and decrease with COMMIT. And if you were to <code>SELECT * FROM #t</code> you would see two rows returned. So far so good, so what is wrong with @@TRANCOUNT then? Well, let us change the code slightly (don't forget to drop #t if you copy and paste this code):</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">#</span><span class="n">t</span> <span class="p">(</span><span class="n">col1</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRAN</span>
@@ -240,35 +26,7 @@
 </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">COMMIT</span>
 </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span>
 </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ROLLBACK</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span></div></div></pre></div></figure></p>
-
-<p>If you now were to (don't do it immediately) <code>SELECT * FROM #t</code>, how many rows would you get back - 0, 1, or 2? Seeing how the @@TRANCOUNT is increasing with every BEGIN TRAN and decreasing with COMMIT / ROLLBACK, it is understandable if your answer is 1:</p>
-
-<ul>
-<li>we start a transaction and insert a row</li>
-<li>we then start another transaction and insert a second row</li>
-<li>we call commit after the second insert (the inner transaction)</li>
-<li>finally we do a rollback, on the &#8220;outer&#8221; transaction</li>
-</ul>
-
-
-<p>As we after the second BEGIN TRAN can see @@TRANCOUNT being 2, we could assume that the commit would commit the second insert. However, we all know what happens when we assume  (now would be a good time to do the SELECT)  &#8230;.</p>
-
-<p>Right, the SELECT did not return any rows at all, so it is probably fair to say that we did not have multiple transactions, even though @@TRANCOUNT showed us more than one. So, then we might assume (keep in mind what I&#8217;ve said about assume) that the reason we rolled back was because ROLLBACK was the last statement. Let us switch the COMMIT on line 10 with the ROLLBACK on line 12 (we now have ROLLBACK on line 10 and COMMIT on line 12) and execute. WHOA &#8211; we got a big fat exception, what happened here? To answer that, let us look a bit closer at the main parts of transaction control in your code.</p>
-
-<h3>BEGIN TRAN, COMMIT and ROLLBACK</h3>
-
-<p>When you execute BEGIN TRAN in T-SQL, SQL will look around in the execution context of your session and see if there already exists a transactional context. If not, SQL will start a new transaction. If there is a transaction already, SQL will enlist in this transaction. However in both cases SQL will increase the @@TRANCOUNT variable.</p>
-
-<p>Then, when you execute a COMMIT, SQL will not immediately commit the transaction but will decrease the transaction count with 1. If the transaction count has reached 0 due to the commit, a commit will take place. OK, so far so good, but this does not explain the error we received when switching the COMMIT and ROLLBACK statements, if it works as described, then we should have committed?</p>
-
-<p>Ah, yes &#8211; however, a ROLLBACK not only decrements the transaction count &#8211; it sets it to 0 immediately, and as the transaction count is now 0, a rollback will happen. So in our second example we are seeing something similar to when we &#8211; in stored procs &#8211; are getting the &#8221;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&#8221; error.</p>
-
-<h3>Stored Procedures and Transactions</h3>
-
-<p>It is quite common to write procs something like so:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="o">@@</span><span class="n">TRANCOUNT</span></div></div></pre></div></figure></p> <p>If you now were to (don't do it immediately) <code>SELECT * FROM #t</code>, how many rows would you get back - 0, 1, or 2? Seeing how the @@TRANCOUNT is increasing with every BEGIN TRAN and decreasing with COMMIT / ROLLBACK, it is understandable if your answer is 1:</p> <ul> <li>we start a transaction and insert a row</li> <li>we then start another transaction and insert a second row</li> <li>we call commit after the second insert (the inner transaction)</li> <li>finally we do a rollback, on the &#8220;outer&#8221; transaction</li> </ul> <p>As we after the second BEGIN TRAN can see @@TRANCOUNT being 2, we could assume that the commit would commit the second insert. However, we all know what happens when we assume  (now would be a good time to do the SELECT)  &#8230;.</p> <p>Right, the SELECT did not return any rows at all, so it is probably fair to say that we did not have multiple transactions, even though @@TRANCOUNT showed us more than one. So, then we might assume (keep in mind what I&#8217;ve said about assume) that the reason we rolled back was because ROLLBACK was the last statement. Let us switch the COMMIT on line 10 with the ROLLBACK on line 12 (we now have ROLLBACK on line 10 and COMMIT on line 12) and execute. WHOA &#8211; we got a big fat exception, what happened here? To answer that, let us look a bit closer at the main parts of transaction control in your code.</p> <h3>BEGIN TRAN, COMMIT and ROLLBACK</h3> <p>When you execute BEGIN TRAN in T-SQL, SQL will look around in the execution context of your session and see if there already exists a transactional context. If not, SQL will start a new transaction. If there is a transaction already, SQL will enlist in this transaction. However in both cases SQL will increase the @@TRANCOUNT variable.</p> <p>Then, when you execute a COMMIT, SQL will not immediately commit the transaction but will decrease the transaction count with 1. If the transaction count has reached 0 due to the commit, a commit will take place. OK, so far so good, but this does not explain the error we received when switching the COMMIT and ROLLBACK statements, if it works as described, then we should have committed?</p> <p>Ah, yes &#8211; however, a ROLLBACK not only decrements the transaction count &#8211; it sets it to 0 immediately, and as the transaction count is now 0, a rollback will happen. So in our second example we are seeing something similar to when we &#8211; in stored procs &#8211; are getting the &#8221;The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION&#8221; error.</p> <h3>Stored Procedures and Transactions</h3> <p>It is quite common to write procs something like so:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRAN</span>
@@ -283,11 +41,7 @@
 </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">SELECT</span> <span class="o">@</span><span class="n">errMSg</span> <span class="o">=</span> <span class="n">ERROR_MESSAGE</span><span class="p">()</span>
 </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">ROLLBACK</span> <span class="n">TRAN</span>
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span> <span class="mi">999</span><span class="p">;</span> <span class="c1">--things have gone very wrong</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p>Then we are having a similar proc, looking almost the same, but it, in addition, calls into sp2:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp1</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p>Then we are having a similar proc, looking almost the same, but it, in addition, calls into sp2:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp1</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRAN</span>
@@ -304,19 +58,7 @@
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">SELECT</span> <span class="o">@</span><span class="n">errMSg</span> <span class="o">=</span> <span class="n">ERROR_MESSAGE</span><span class="p">()</span>
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">ROLLBACK</span> <span class="n">TRAN</span>
 </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span> <span class="mi">999</span><span class="p">;</span> <span class="c1">--things have gone very wrong</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p>This is now when we will potentially see the error mentioned before. We call sp1, when sp1 is called there is no transactional context around, so SQL creates a new transaction. Then we go on to call sp2 from sp1. In the BEGIN TRAN call in sp2, there exists a transactional context, so SQL enlists us in that context.</p>
-
-<p>If all now goes well and we call COMMIT in sp2, the commit causes the transaction count to be decreased to 1 &#8211; but no &#8220;real&#8221; commit happens. So when we subsequently calls COMMIT in sp1, we decrement the transaction count to 0, and we are committed.</p>
-
-<p>In the case when things go wrong is sp2 and we call rollback, the transaction count is immediately set to 0, and a rollback happens. When we come back to sp1, SQL sees that we had a transaction in sp1, but there are no transactions around, and we will get the error discussed. If we then go on and do a rollback (as in our code) &#8211; we will get additional errors.</p>
-
-<h3>Solution</h3>
-
-<p>A solution to the problem is to use the &#8220;evil&#8221; @@TRANCOUNT, to see if there are any transactions around. If there aren&#8217;t any, we start a transaction. If there are a transaction already, we don&#8217;t do anything, and we let the existing transaction handle everything:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p>This is now when we will potentially see the error mentioned before. We call sp1, when sp1 is called there is no transactional context around, so SQL creates a new transaction. Then we go on to call sp2 from sp1. In the BEGIN TRAN call in sp2, there exists a transactional context, so SQL enlists us in that context.</p> <p>If all now goes well and we call COMMIT in sp2, the commit causes the transaction count to be decreased to 1 &#8211; but no &#8220;real&#8221; commit happens. So when we subsequently calls COMMIT in sp1, we decrement the transaction count to 0, and we are committed.</p> <p>In the case when things go wrong is sp2 and we call rollback, the transaction count is immediately set to 0, and a rollback happens. When we come back to sp1, SQL sees that we had a transaction in sp1, but there are no transactions around, and we will get the error discussed. If we then go on and do a rollback (as in our code) &#8211; we will get additional errors.</p> <h3>Solution</h3> <p>A solution to the problem is to use the &#8220;evil&#8221; @@TRANCOUNT, to see if there are any transactions around. If there aren&#8217;t any, we start a transaction. If there are a transaction already, we don&#8217;t do anything, and we let the existing transaction handle everything:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">tranCount</span> <span class="n">int</span> <span class="o">=</span> <span class="o">@@</span><span class="n">TRANCOUNT</span><span class="p">;</span> <span class="c1">--I'm using SQL2008 here</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
@@ -341,13 +83,7 @@
 </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--tell an eventual calling proc that things have gone wrong</span>
 </div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--and the calling proc should rollback</span>
 </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span> <span class="mi">999</span><span class="p">;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p>Obviously the calling proc would have similar code to decide if to start a tran or not.</p>
-
-<p>In the above scenario we let the &#8220;outer&#8221; proc handle all the transactional control. Sometimes you are in a situation where &#8211; if things go wrong in the &#8220;inner&#8221; proc (sp2 in our case) &#8211; you do not want to roll back everything done, but only what was done in the inner proc. For such a scenarion, you can use named savepoints:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
+</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p>Obviously the calling proc would have similar code to decide if to start a tran or not.</p> <p>In the above scenario we let the &#8220;outer&#8221; proc handle all the transactional control. Sometimes you are in a situation where &#8211; if things go wrong in the &#8220;inner&#8221; proc (sp2 in our case) &#8211; you do not want to roll back everything done, but only what was done in the inner proc. For such a scenarion, you can use named savepoints:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="n">PROC</span> <span class="n">sp2</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">tranCount</span> <span class="n">int</span> <span class="o">=</span> <span class="o">@@</span><span class="n">TRANCOUNT</span><span class="p">;</span> <span class="c1">--I'm using SQL2008 here</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
@@ -376,114 +112,8 @@
 </div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--tell an eventual calling proc that things have gone wrong</span>
 </div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">--and let the calling proc decide what to do with its parts</span>
 </div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span> <span class="mi">999</span><span class="p">;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p>
-
-<p>Personally, I do not use named save-points that much as they cannot be used together with linked servers, and we &#8211; unfortunately &#8211; are using linked servers a lot.</p>
-
-<p>A final note about named save-points; they are not the same thing as beginning / committing / rolling back a transaction with a name:</p>
-
-<p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
+</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p>Personally, I do not use named save-points that much as they cannot be used together with linked servers, and we &#8211; unfortunately &#8211; are using linked servers a lot.</p> <p>A final note about named save-points; they are not the same thing as beginning / committing / rolling back a transaction with a name:</p> <p><figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">#</span><span class="n">t</span> <span class="p">(</span><span class="n">col1</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRAN</span> <span class="n">t1</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="o">#</span><span class="n">t</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">'HELLO'</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ROLLBACK</span> <span class="n">TRAN</span> <span class="n">t1</span></div></div></pre></div></figure></p>
-
-<p>Beginning a transaction with a name, is for most parts just a convenience. It has no effect on nesting (unless you use named save points), and SQL Server Books OnLine says this about naming of transactions:<br/>
-&#8220;Naming multiple transactions in a series of nested transactions with a transaction name has little effect on the transaction. Only the first (outermost) transaction name is registered with the system. A rollback to any other name (other than a valid savepoint name) generates an error. None of the statements executed before the rollback is, in fact, rolled back at the time this error occurs. The statements are rolled back only when the outer transaction is rolled back&#8221;.</p>
-
-<p>If you have questions, observations etc., please feel free to leave me a comment, or drop me an email.</p>
-
-
-  <p>
-<h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/&text=Transactions in SQL Server (take 2956)&via=nielsberglund" 
-   target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/" 
-   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-    | Google+</a>
-<a href="https://www.linkedin.com/shareArticle?
-         mini=true
-         &url=http://www.nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/
-         &title=Transactions in SQL Server (take 2956)
-         &summary=Blog post: 
-         &source=http://www.nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/"> | LinkedIn</a> 
-
-</p>   
-   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
-
-
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/
-
-   -->
-  <p>
-<h2>Blog Feed:</h2>
-To automatically receive more posts like this, please
-<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
-</div>
-
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/">
-            Microsoft SQL Server R Services - Internals III
-            <small>13 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/09/interesting-stuff-week-14/">
-            Interesting Stuff - Week 14
-            <small>09 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/02/interesting-stuff-week-13/">
-            Interesting Stuff - Week 13
-            <small>02 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
-
-
-<div id="disqus_thread"></div>
-<script>
-    var disqus_developer = 1;
-
-    (function() {  // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        
-        s.src = '//manageddata.disqus.com/embed.js';
-        
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-    </div>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-18914734-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-  </body>
-</html>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ROLLBACK</span> <span class="n">TRAN</span> <span class="n">t1</span></div></div></pre></div></figure></p> <p>Beginning a transaction with a name, is for most parts just a convenience. It has no effect on nesting (unless you use named save points), and SQL Server Books OnLine says this about naming of transactions:<br/> &#8220;Naming multiple transactions in a series of nested transactions with a transaction name has little effect on the transaction. Only the first (outermost) transaction name is registered with the system. A rollback to any other name (other than a valid savepoint name) generates an error. None of the statements executed before the rollback is, in fact, rolled back at the time this error occurs. The statements are rolled back only when the outer transaction is rolled back&#8221;.</p> <p>If you have questions, observations etc., please feel free to leave me a comment, or drop me an email.</p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/&text=Transactions in SQL Server (take 2956)&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2011/09/11/transactions-in-sql-server-take-2956/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/ &title=Transactions in SQL Server (take 2956) &summary=Blog post: &source=http://www.nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2011/09/11/transactions-in-sql-server-take-2956/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> </div> <div class="related"> <h2>Related Posts</h2> <ul class="related-posts"> <li> <h3> <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/"> Microsoft SQL Server R Services - Internals III <small>13 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/09/interesting-stuff-week-14/"> Interesting Stuff - Week 14 <small>09 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/02/interesting-stuff-week-13/"> Interesting Stuff - Week 13 <small>02 Apr 2017</small> </a> </h3> </li> </ul> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { // DON'T EDIT BELOW THIS LINE var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>

@@ -1,222 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-us">
-
-  <head>
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
-  
-  <meta name="description" content="The dangers of using XACT_ABORT in SQL Server OLTP databases">
-  
-  
-  <meta name="keywords" content="SQL Server, errorhandling, XACT_ABORT, t-sql, RAISERROR"/>
-  
-
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
-  <title>
-    
-      Abort, Abort, We Are XACT_ABORT:ing, Or Are We?! &middot; MANAGED DATA
-    
-  </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/hyde.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/public/favicon.ico">
-
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-  <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'>
-</head>
-
-  <body>
-
-    <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <h1>
-        <a href="/">
-          MANAGED DATA
-        </a>
-      </h1>
-      <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
-    </div>
-
-    <nav class="sidebar-nav">
-      <a class="sidebar-nav-item" href="/">Home</a>
-
-      
-
-      
-      
-        
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/about/">About</a>
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/archive/">Posts Archive</a>
-          
-        
-      
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      
-    </nav>
-
-    <section>
-  <h3 style="color:#ffffff">Follow Me:</h3>
-  <ul>
-    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
-    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
-  </ul>
-</section>
-
-    <section>
-  <h3 style="color:#ffffff">Disclaimer</h3>
-  <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p>
-</section>
-
-    <p>&copy; 2017. All rights reserved.</p>
-
-    <div class="sidebar-social">
-    
-      <div><a href="https://github.com/nberglund">
-        GitHub
-      </a></div>
-    
-      <div><a href="https://twitter.com/nielsberglund">
-        Twitter
-      </a></div>
-    
-      <div><a href="https://za.linkedin.com/in/niels-berglund-0122593">
-        LinkedIn
-      </a></div>
-    
-      <div><a href="https://plus.google.com/u/0/109374849138720664008">
-        Google+
-      </a></div>
-    
-    </div>
-
-
-  </div>
-</div>
-
-    <div class="content container">
-      <div class="post">
-  <h1 class="post-title">Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!</h1>
-  <div class="post-subheading">
-  <span class="post-date">08 Jan 2017</span>
-
-  <span class="post-tag">
-    
-      <span class="post-tagdesc">in categories:</span>
-    
-
-    
-      SQL Server
-    
-
-    
-      <span class="post-tagdesc">tags:</span>
-    
-
-    
-      SQL Server
-    
-      errorhandling
-    
-      XACT_ABORT
-    
-      t-sql
-    
-
-    
-  </span>
-</div>
-  <p><code>SET XACT_ABORT</code> defines whether a transaction is automatically rolled back when a T-SQL statement raises a run-time exception, and when you read posts from prominent SQL bloggers you quite often see that they recommend to always have <code>XACT_ABORT</code> set to <code>ON</code>. From the title of this post you may get the impression that I do not necessarily agree, and to an extent you may be right. So, let us see ...</p>
-
-<!--more-->
-
-
-<h2>Background</h2>
-
-<p>First of all; as with a post a while ago about <a href="/2016/12/31/sql-server-error-handling-gotchas/"><strong>SQL Server Error Handling Gotcha's</strong></a>, this post is based on real world experiences based on the production OLTP databases we have here at <a href="/derivco"><strong>Derivco</strong></a>.</p>
-
-<blockquote><p>Derivco's main OLTP production database has around 5,000 stored procedures, where a small procedure has about 600 - 800 LOC, and a big procedure can have 3,000 - 4,000 LOC. The procedures are also quite heavily nested, where it is not uncommon to have a call chain of 10 - 15 procedures. It is not only one team working on the procedures, but multiple teams are maintaining and developing procedures.</p></blockquote>
-
-<p>So, back to the issue at hand, and let's begin looking at why we have <code>XACT_ABORT</code> in the first place? That has to do with transactions and SQL exceptions; remember back before SQL Server 2005 and <code>TRY</code> <code>CATCH</code>, an exception did not normally stop execution of a batch, even though the execution of the statement stopped. Let us look at some code for this, and let's start with creating a couple of tables with a foreign key constraint between them:</p>
-
-<blockquote><p><strong>Note:</strong> Most of the code in this post can be downloaded from <a href="/downloads/code/xact_abort.zip">here</a></p></blockquote>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Table Creation</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- this database must be created before executing this</span>
+<!DOCTYPE html> <html lang="en-us"> <head> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <meta name="description" content="SQL Server and XACT_ABORT(). Here we discuss the dangers of using XACT_ABORT in SQL Server OLTP databases. DO NOT DO IT!!"> <meta name="keywords" content="SQL Server, errorhandling, XACT_ABORT, t-sql, RAISERROR"/> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> Abort, Abort, We Are XACT_ABORT:ing, Or Are We?! &middot; MANAGED DATA </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-4ea1a6dda72a418bf18a844155e0bba5.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.2.0 --> <title>Abort, Abort, We Are XACT_ABORT:ing, Or Are We?! | MANAGED DATA</title> <meta property="og:title" content="Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="SQL Server and XACT_ABORT(). Here we discuss the dangers of using XACT_ABORT in SQL Server OLTP databases. DO NOT DO IT!!" /> <meta property="og:description" content="SQL Server and XACT_ABORT(). Here we discuss the dangers of using XACT_ABORT in SQL Server OLTP databases. DO NOT DO IT!!" /> <link rel="canonical" href="http://nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/" /> <meta property="og:url" content="http://nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/" /> <meta property="og:site_name" content="MANAGED DATA" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2017-01-08T11:41:55+02:00" /> <script type="application/ld+json"> {"@context": "http://schema.org", "@type": "BlogPosting", "headline": "Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!", "author": {"@type": "Person", "name": "nielsb"}, "datePublished": "2017-01-08T11:41:55+02:00", "description": "SQL Server and XACT_ABORT(). Here we discuss the dangers of using XACT_ABORT in SQL Server OLTP databases. DO NOT DO IT!!", "mainEntityOfPage": {"@type": "WebPage", "@id": "http://nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/"}, "url": "http://nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/"}</script> <!-- End Jekyll SEO tag --> </head> <body> <div class="sidebar"> <div class="container sidebar-sticky"> <div class="sidebar-about"> <h1> <a href="/"> MANAGED DATA </a> </h1> <p class="lead">Technology musings about coding and data. Topics covered are - amongst others - .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> </nav> <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <section> <h3 style="color:#ffffff">Disclaimer</h3> <p>This is my personal blog. The views expressed on these pages are mine alone and not those of my employer.</p> </section> <p>&copy; 2017. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!</h1> <div class="post-subheading"> <span class="post-date">08 Jan 2017</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> SQL Server <span class="post-tagdesc">tags:</span> SQL Server errorhandling XACT_ABORT t-sql </span> </div> <p><code>SET XACT_ABORT</code> defines whether a transaction is automatically rolled back when a T-SQL statement raises a run-time exception, and when you read posts from prominent SQL bloggers you quite often see that they recommend to always have <code>XACT_ABORT</code> set to <code>ON</code>. From the title of this post you may get the impression that I do not necessarily agree, and to an extent you may be right. So, let us see ...</p> <!--more--> <h2>Background</h2> <p>First of all; as with a post a while ago about <a href="/2016/12/31/sql-server-error-handling-gotchas/"><strong>SQL Server Error Handling Gotcha's</strong></a>, this post is based on real world experiences based on the production OLTP databases we have here at <a href="/derivco"><strong>Derivco</strong></a>.</p> <blockquote><p>Derivco's main OLTP production database has around 5,000 stored procedures, where a small procedure has about 600 - 800 LOC, and a big procedure can have 3,000 - 4,000 LOC. The procedures are also quite heavily nested, where it is not uncommon to have a call chain of 10 - 15 procedures. It is not only one team working on the procedures, but multiple teams are maintaining and developing procedures.</p></blockquote> <p>So, back to the issue at hand, and let's begin looking at why we have <code>XACT_ABORT</code> in the first place? That has to do with transactions and SQL exceptions; remember back before SQL Server 2005 and <code>TRY</code> <code>CATCH</code>, an exception did not normally stop execution of a batch, even though the execution of the statement stopped. Let us look at some code for this, and let's start with creating a couple of tables with a foreign key constraint between them:</p> <blockquote><p><strong>Note:</strong> Most of the code in this post can be downloaded from <a href="/downloads/code/xact_abort.zip">here</a></p></blockquote> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Table Creation</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- this database must be created before executing this</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">USE</span> <span class="n">ErrTestDB</span><span class="p">;</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
@@ -248,13 +30,7 @@
 </div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">'Order 2'</span><span class="p">),</span>
 </div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="s1">'Order 3'</span><span class="p">);</span>
 </div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 1:</strong> <em>Setup Code</em></p>
-
-<p>As you see, we are creating a couple of tables, and then inserts some data into the primary table <code>dbo.tb_Order</code>. Now, if we write some code inserting data into <code>dbo.tb_OrderDetail</code>, inside a transaction, and we cause an exception to happen - what will the result be:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Transaction With Error</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+</div></div></pre></div></figure></p> <p><strong>Code Snippet 1:</strong> <em>Setup Code</em></p> <p>As you see, we are creating a couple of tables, and then inserts some data into the primary table <code>dbo.tb_Order</code>. Now, if we write some code inserting data into <code>dbo.tb_OrderDetail</code>, inside a transaction, and we cause an exception to happen - what will the result be:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Transaction With Error</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRANSACTION</span>
@@ -267,53 +43,7 @@
 </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">COMMIT</span>
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span>
 </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>  </div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 2:</strong> <em>Error</em></p>
-
-<p>From the code we see how we:</p>
-
-<ul>
-<li>start a transaction</li>
-<li>insert for <code>OrderID</code> 1</li>
-<li>try to insert for <code>OrderID</code> 5
-
-<ul>
-<li>this causes a foreign key exception</li>
-</ul>
-</li>
-<li>insert for <code>OrderID</code> 3</li>
-<li>commit the transaction</li>
-<li><code>SELECT</code> from the table</li>
-</ul>
-
-
-<p>The result from executing the code is that we get an foreign key exception raised, and the <code>INSERT</code> statement terminated as in Figure 1:</p>
-
-<p><img class="center" src="/images/posts/tx_fk_exception.png" width="658" height="109"  >
-<strong> Figure 1:</strong> <em>Foreign Key Exception</em></p>
-
-<p>However, when looking at the result from the <code>SELECT</code> statement, we see how the first and third <code>INSERT</code> succeeded:</p>
-
-<p><img class="center" src="/images/posts/select_after_fk_error.png" width="300" height="100"  >
-<strong> Figure 2:</strong> <em>SELECT After Exception</em></p>
-
-<p>So, as mentioned before, the exception did not affect the transaction, and anything after the exception executed as nothing had happened, plus the transaction was committed. This may not be the behavior you really wanted, e.g. you expected the transaction to roll back when an exception happened.</p>
-
-<p>If that's the behavior you wanted, there are a couple (actually 3) of ways to achieve it:</p>
-
-<ol>
-<li>Check <code>@@ERROR</code> after each <code>INSERT</code>, and then <code>ROLLBACK</code> and <code>RETURN</code>.</li>
-<li>If you are in an environment using SQL Server 2005+, catch the exception with <code>BEGIN TRY ... END TRY</code> and <code>BEGIN CATCH ... END CATCH</code>, and do a <code>ROLLBACK</code>.</li>
-<li>Use <code>XACT_ABORT</code>.</li>
-</ol>
-
-
-<h3>XACT_ABORT</h3>
-
-<p>By using <code>XACT_ABORT</code> we can ensure that the executing batch is terminated as well as any transaction being rolled back if an exception is raised, by setting <code>SET XACT_ABORT ON</code>, and then executing your code:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Transaction Causing FK Exception with XACT ABORT ON</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>  </div></div></pre></div></figure></p> <p><strong>Code Snippet 2:</strong> <em>Error</em></p> <p>From the code we see how we:</p> <ul> <li>start a transaction</li> <li>insert for <code>OrderID</code> 1</li> <li>try to insert for <code>OrderID</code> 5 <ul> <li>this causes a foreign key exception</li> </ul> </li> <li>insert for <code>OrderID</code> 3</li> <li>commit the transaction</li> <li><code>SELECT</code> from the table</li> </ul> <p>The result from executing the code is that we get an foreign key exception raised, and the <code>INSERT</code> statement terminated as in Figure 1:</p> <p><img class="center" src="/images/posts/tx_fk_exception.png" width="658" height="109" > <strong> Figure 1:</strong> <em>Foreign Key Exception</em></p> <p>However, when looking at the result from the <code>SELECT</code> statement, we see how the first and third <code>INSERT</code> succeeded:</p> <p><img class="center" src="/images/posts/select_after_fk_error.png" width="300" height="100" > <strong> Figure 2:</strong> <em>SELECT After Exception</em></p> <p>So, as mentioned before, the exception did not affect the transaction, and anything after the exception executed as nothing had happened, plus the transaction was committed. This may not be the behavior you really wanted, e.g. you expected the transaction to roll back when an exception happened.</p> <p>If that's the behavior you wanted, there are a couple (actually 3) of ways to achieve it:</p> <ol> <li>Check <code>@@ERROR</code> after each <code>INSERT</code>, and then <code>ROLLBACK</code> and <code>RETURN</code>.</li> <li>If you are in an environment using SQL Server 2005+, catch the exception with <code>BEGIN TRY ... END TRY</code> and <code>BEGIN CATCH ... END CATCH</code>, and do a <code>ROLLBACK</code>.</li> <li>Use <code>XACT_ABORT</code>.</li> </ol> <h3>XACT_ABORT</h3> <p>By using <code>XACT_ABORT</code> we can ensure that the executing batch is terminated as well as any transaction being rolled back if an exception is raised, by setting <code>SET XACT_ABORT ON</code>, and then executing your code:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Transaction Causing FK Exception with XACT ABORT ON</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--just clean up so we don't have any "baggage"</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span>
@@ -329,25 +59,7 @@
 </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">COMMIT</span>
 </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span>
 </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 3:</strong> <em>Executing with XACT_ABORT ON</em></p>
-
-<p>The code looks almost like in <em>Code Snippet 2</em>, with the addition that we switch on <code>XACT_ABORT</code> in the beginning of the batch, oh and yes - we are also cleaning up the <code>dbo.tb_OrderDetail</code> table with a <code>TRUNCATE TABLE</code> command. When executing the code you almost get the same output as from <em>Code Snippet 2</em>, except for the fact that the output message does not say anything about statement termination:</p>
-
-<p><img class="center" src="/images/posts/fk_error_XACT_ABORT.png" width="390" height="110"  >
-<strong>Figure 3:</strong> <em>Output Message after Executing with XACT_ABORT ON</em></p>
-
-<p>Also, there is no <em>Result</em> tab in the output, which indicates that the <code>SELECT</code> statement at the end of the batch did not execute, e.g. the exception caused a batch termination, due to <code>XACT_ABORT</code>being <code>ON</code>. So what about the transaction, remember that before we switched <code>XACT_ABORT</code> <code>ON</code>, the first and second <code>INSERT</code> statement succeeded. We can safely assume that in this example the third <code>INSERT</code> did not succeed, as the batch was terminated, but what about the first? Well, let's see; go ahead and execute the <code>SELECT * FROM dbo.tb_OrderDetail</code> and see what the result is. You should get something like in Figure 4:</p>
-
-<p><img class="center" src="/images/posts/SELECT_XACT_ABORT.png" width="250" height="70"  >
-<strong>Figure 4:</strong> <em>Result After XACT_ABORT</em></p>
-
-<p>No rows coming back, <code>XACT_ABORT</code> rolled back the transaction as well as terminating the batch! That is fairly cool! What about something - somewhat (not much) - more realistic than just a batch execution; like <code>XACT_ABORT</code> and stored procedures. Below in <em>Code Snippet 4</em>, is code to create three stored procedures. The top level procedure (<code>dbo.pr_1</code>) switches <code>XACT_ABORT</code> and then goes on to start a transaction, do an insert and call <code>dbo.pr_2</code>, which in turns calls <code>dbo.pr_3</code>. The last procedure - <code>dbo.pr_3</code> - generates a foreign key exception:</p>
-
-<blockquote><p><strong>NOTE:</strong> The transaction handling in all the procs, in all examples, is very much simplified, whereby the procs being called by the top-level proc is not doing anything with transactions, as the transaction should only be committed/rolled back by the proc that started the transaction. See my <a href="/2011/09/11/transactions-in-sql-server-take-2956/">blog post</a> from a couple of years ago about <em>proper</em> transaction handling.</p></blockquote>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Stored Procedures</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- proc 1</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 3:</strong> <em>Executing with XACT_ABORT ON</em></p> <p>The code looks almost like in <em>Code Snippet 2</em>, with the addition that we switch on <code>XACT_ABORT</code> in the beginning of the batch, oh and yes - we are also cleaning up the <code>dbo.tb_OrderDetail</code> table with a <code>TRUNCATE TABLE</code> command. When executing the code you almost get the same output as from <em>Code Snippet 2</em>, except for the fact that the output message does not say anything about statement termination:</p> <p><img class="center" src="/images/posts/fk_error_XACT_ABORT.png" width="390" height="110" > <strong>Figure 3:</strong> <em>Output Message after Executing with XACT_ABORT ON</em></p> <p>Also, there is no <em>Result</em> tab in the output, which indicates that the <code>SELECT</code> statement at the end of the batch did not execute, e.g. the exception caused a batch termination, due to <code>XACT_ABORT</code>being <code>ON</code>. So what about the transaction, remember that before we switched <code>XACT_ABORT</code> <code>ON</code>, the first and second <code>INSERT</code> statement succeeded. We can safely assume that in this example the third <code>INSERT</code> did not succeed, as the batch was terminated, but what about the first? Well, let's see; go ahead and execute the <code>SELECT * FROM dbo.tb_OrderDetail</code> and see what the result is. You should get something like in Figure 4:</p> <p><img class="center" src="/images/posts/SELECT_XACT_ABORT.png" width="250" height="70" > <strong>Figure 4:</strong> <em>Result After XACT_ABORT</em></p> <p>No rows coming back, <code>XACT_ABORT</code> rolled back the transaction as well as terminating the batch! That is fairly cool! What about something - somewhat (not much) - more realistic than just a batch execution; like <code>XACT_ABORT</code> and stored procedures. Below in <em>Code Snippet 4</em>, is code to create three stored procedures. The top level procedure (<code>dbo.pr_1</code>) switches <code>XACT_ABORT</code> and then goes on to start a transaction, do an insert and call <code>dbo.pr_2</code>, which in turns calls <code>dbo.pr_3</code>. The last procedure - <code>dbo.pr_3</code> - generates a foreign key exception:</p> <blockquote><p><strong>NOTE:</strong> The transaction handling in all the procs, in all examples, is very much simplified, whereby the procs being called by the top-level proc is not doing anything with transactions, as the transaction should only be committed/rolled back by the proc that started the transaction. See my <a href="/2011/09/11/transactions-in-sql-server-take-2956/">blog post</a> from a couple of years ago about <em>proper</em> transaction handling.</p></blockquote> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Stored Procedures</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- proc 1</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
@@ -372,38 +84,14 @@
 </div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
 </div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
 </div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Details for Invalid OrderID'</span><span class="p">);</span> <span class="c1">-- this should cause a fk exception</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 4:</strong> <em>Procedures with XACT_ABORT</em></p>
-
-<blockquote><p>If you are copying and pasting the code above, make sure you create the procs in opposite order to what is in the Code Snippet.</p></blockquote>
-
-<p>Let's see what happens when we execute <code>dbo.pr_1</code>:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc Execution</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- code for cleanup</span>
+</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 4:</strong> <em>Procedures with XACT_ABORT</em></p> <blockquote><p>If you are copying and pasting the code above, make sure you create the procs in opposite order to what is in the Code Snippet.</p></blockquote> <p>Let's see what happens when we execute <code>dbo.pr_1</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc Execution</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- code for cleanup</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- TRUNCATE TABLE dbo.tb_OrderDetail</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- execute this SELECT after you have executed the proc above</span>
 </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- SELECT * FROM dbo.tb_OrderDetail</span>
 </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 5:</strong> <em>Execution of the Procedures</em></p>
-
-<p>The result is exactly the same as when we executed the code in <em>Code Snippet 3</em>. So, even when we execute multiple procedures under the same <strong>SPID</strong>, the <code>XACT_ABORT</code> ensures that the batch (call chain) is terminated and the transaction rolls back!</p>
-
-<p>How cool is that, what is there not to like about automatic transaction rollback when an exception happens!</p>
-
-<h2>What Could Possibly Go Wrong?!</h2>
-
-<p>Right let's have a look at a couple of scenarios where <code>XACT_ABORT</code> may not be the answer to your prayers.</p>
-
-<h3>IF(@@ERROR&lt;>0)</h3>
-
-<p>We'll start where we are in a situation where we still are doing SQL Server error-handling the old way, by checking <code>@@ERROR</code> after execution of statements. This could be a scenario where we have quite a few old procedures, which have not been update to <code>TRY ... CATCH</code> yet. The procedures look like so:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Old Style Error Handling</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--proc 1</span>
+</div></div></pre></div></figure></p> <p><strong>Code Snippet 5:</strong> <em>Execution of the Procedures</em></p> <p>The result is exactly the same as when we executed the code in <em>Code Snippet 3</em>. So, even when we execute multiple procedures under the same <strong>SPID</strong>, the <code>XACT_ABORT</code> ensures that the batch (call chain) is terminated and the transaction rolls back!</p> <p>How cool is that, what is there not to like about automatic transaction rollback when an exception happens!</p> <h2>What Could Possibly Go Wrong?!</h2> <p>Right let's have a look at a couple of scenarios where <code>XACT_ABORT</code> may not be the answer to your prayers.</p> <h3>IF(@@ERROR&lt;>0)</h3> <p>We'll start where we are in a situation where we still are doing SQL Server error-handling the old way, by checking <code>@@ERROR</code> after execution of statements. This could be a scenario where we have quite a few old procedures, which have not been update to <code>TRY ... CATCH</code> yet. The procedures look like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Old Style Error Handling</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--proc 1</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
@@ -447,20 +135,7 @@
 </div></div><div data-line='54' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'dbo.pr_3: Error in dbo.pr_3'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
 </div></div><div data-line='55' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
 </div></div><div data-line='56' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 6:</strong> <em>Procedures with Old Style Error Handling</em></p>
-
-<p>They do not look much different than the procedures in my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> a while ago about "gotcha's" in error handling. The procedures are being "good citizens", and check for errors after executing something that could go wrong, and if there is an error, they re-wind, clean up, and raise the exception up the call-chain. When executing <code>dbo.pr_1</code>, as in <em>Code Snippet 5</em>, you would see something like so:</p>
-
-<p><img class="center" src="/images/posts/exec_proc_old_error_handling.png" width="580" height="250"  >
-<strong>Figure 5:</strong> <em>Executing Procs Old Style Error Handling</em></p>
-
-<p>We see how the exception happens and then how each proc is handling the exception, cleaning up, and re-raising. When <code>dbo.pr_1</code> receives the error, it also rolls back the transaction. If everythig had executed successfully, the <code>dbo.pr_1</code> proc would have gone on executing code after the error-handling block. In this case we can see it did not do that. Then, when executing the <code>SELECT</code> statement, no results are coming back - as everything has been rolled back.</p>
-
-<p>What would happen if the <code>dbo.pr_1</code> proc were to be modified to use <code>XACT_ABORT</code>? Let's say a developer has heard about <code>XACT_ABORT</code>, and think it sounds cool, so while he is doing other changes to the proc, he also changes it to use <code>XACT_ABORT</code>:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc Edited to Use XACT_ABORT</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
+</div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 6:</strong> <em>Procedures with Old Style Error Handling</em></p> <p>They do not look much different than the procedures in my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> a while ago about "gotcha's" in error handling. The procedures are being "good citizens", and check for errors after executing something that could go wrong, and if there is an error, they re-wind, clean up, and raise the exception up the call-chain. When executing <code>dbo.pr_1</code>, as in <em>Code Snippet 5</em>, you would see something like so:</p> <p><img class="center" src="/images/posts/exec_proc_old_error_handling.png" width="580" height="250" > <strong>Figure 5:</strong> <em>Executing Procs Old Style Error Handling</em></p> <p>We see how the exception happens and then how each proc is handling the exception, cleaning up, and re-raising. When <code>dbo.pr_1</code> receives the error, it also rolls back the transaction. If everythig had executed successfully, the <code>dbo.pr_1</code> proc would have gone on executing code after the error-handling block. In this case we can see it did not do that. Then, when executing the <code>SELECT</code> statement, no results are coming back - as everything has been rolled back.</p> <p>What would happen if the <code>dbo.pr_1</code> proc were to be modified to use <code>XACT_ABORT</code>? Let's say a developer has heard about <code>XACT_ABORT</code>, and think it sounds cool, so while he is doing other changes to the proc, he also changes it to use <code>XACT_ABORT</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc Edited to Use XACT_ABORT</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
@@ -480,45 +155,7 @@
 </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'Here we are doing something which
 </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>      relies on everything being successful'</span>
 </div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">COMMIT</span> <span class="n">TRAN</span><span class="p">;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 7:</strong> <em>dbo.pr_1 Using XACT_ABORT</em></p>
-
-<p>Not much have changed, the developer:</p>
-
-<ul>
-<li>added <code>SET XACT_ABORT ON</code> before the <code>BEGIN TRANSACTION</code></li>
-<li>took out the <code>ROLLBACK</code> in the error-handling block (as <code>XACT_ABORT</code> is used)
-
-<ul>
-<li>we still need to do cleanup in there though</li>
-</ul>
-</li>
-</ul>
-
-
-<p>What is the result now when executing <code>dbo.pr_1</code>:</p>
-
-<p><img class="center" src="/images/posts/exec_proc_XACT_ABORT.png" width="550" height="105"  >
-<strong>Figure 6:</strong> <em>Executing Procs Using XACT_ABORT</em></p>
-
-<p>Whoa, no clean-up, rewinds, anything! I guess that should be expected seeing that <code>XACT_ABORT</code> terminates the batch, and rolls back the transaction. However this is one of the reasons I do not like <code>XACT_ABORT</code>: you have no control over what happens when an error occur!</p>
-
-<h3>RAISERROR</h3>
-
-<p>So far the errors we have seen are errors from T-SQL statements, what if we were to raise an exception through <code>RAISERROR</code>? The answer to that is that <code>RAISERROR</code> will not cause <code>XACT_ABORT</code> to trigger! This means we can be in a very messed up state transaction wise. So if we use <code>XACT_ABORT</code> we need to be very careful how we handle exceptions, and we cannot solely rely on it to automatically do a <code>ROLLBACK</code>.</p>
-
-<blockquote><p><strong>NOTE:</strong> Using <code>THROW</code> would cause <code>XACT_ABORT</code> to work as intended, however that would require SQL Server 2012, and <code>THROW</code> in itself adds its own issues. See my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> for more around that.</p></blockquote>
-
-<h3>TRY ... CATCH</h3>
-
-<p>What happens if we are in a <code>TRY ... CATCH</code> situation; e.g. using somewhere in the call-chain the exception handling capabilities introduced in SQL Server 2005?</p>
-
-<blockquote><p>See my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> about what issues you can run into with mixing and matching error-handling styles.</p></blockquote>
-
-<p>So let us edit <code>dbo.pr_3</code> to do "new" error-handling, and let the other procs stay the same:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc with TRY ... CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 7:</strong> <em>dbo.pr_1 Using XACT_ABORT</em></p> <p>Not much have changed, the developer:</p> <ul> <li>added <code>SET XACT_ABORT ON</code> before the <code>BEGIN TRANSACTION</code></li> <li>took out the <code>ROLLBACK</code> in the error-handling block (as <code>XACT_ABORT</code> is used) <ul> <li>we still need to do cleanup in there though</li> </ul> </li> </ul> <p>What is the result now when executing <code>dbo.pr_1</code>:</p> <p><img class="center" src="/images/posts/exec_proc_XACT_ABORT.png" width="550" height="105" > <strong>Figure 6:</strong> <em>Executing Procs Using XACT_ABORT</em></p> <p>Whoa, no clean-up, rewinds, anything! I guess that should be expected seeing that <code>XACT_ABORT</code> terminates the batch, and rolls back the transaction. However this is one of the reasons I do not like <code>XACT_ABORT</code>: you have no control over what happens when an error occur!</p> <h3>RAISERROR</h3> <p>So far the errors we have seen are errors from T-SQL statements, what if we were to raise an exception through <code>RAISERROR</code>? The answer to that is that <code>RAISERROR</code> will not cause <code>XACT_ABORT</code> to trigger! This means we can be in a very messed up state transaction wise. So if we use <code>XACT_ABORT</code> we need to be very careful how we handle exceptions, and we cannot solely rely on it to automatically do a <code>ROLLBACK</code>.</p> <blockquote><p><strong>NOTE:</strong> Using <code>THROW</code> would cause <code>XACT_ABORT</code> to work as intended, however that would require SQL Server 2012, and <code>THROW</code> in itself adds its own issues. See my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> for more around that.</p></blockquote> <h3>TRY ... CATCH</h3> <p>What happens if we are in a <code>TRY ... CATCH</code> situation; e.g. using somewhere in the call-chain the exception handling capabilities introduced in SQL Server 2005?</p> <blockquote><p>See my <a href="/2016/12/31/sql-server-error-handling-gotchas/">blog post</a> about what issues you can run into with mixing and matching error-handling styles.</p></blockquote> <p>So let us edit <code>dbo.pr_3</code> to do "new" error-handling, and let the other procs stay the same:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc with TRY ... CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
 </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
@@ -532,18 +169,7 @@
 </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RAISERROR</span><span class="p">(</span><span class="s1">'dbo.pr_3: Error in dbo.pr_3'</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
 </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 8:</strong> <em>TRY ... CATCH in dbo.pr_3</em></p>
-
-<p>Here it is the last proc in the call-chain that are using <code>TRY ... CATCH</code>, and as it is doing proper exception handling it knows that it did not start the transaction, so in the error handling code it just raises the error. The result is the following:</p>
-
-<p><img class="center" src="/images/posts/XACT_ABORT_TRY_CATCH.png" width="585" height="240"  >
-<strong>Figure 7:</strong> <em>XACT_ABORT and TRY ... CATCH</em></p>
-
-<p>Ooops, we really are in a messed up state. I guess that is to be expected seeing what we discovered above regarding <code>RAISERROR</code>. Once again, we need to be very careful what we do when we use <code>XACT_ABORT</code>. Oh, and what would the result be if we only changed <code>dbo.pr_1</code> to use <code>TRY ... CATCH</code>, e.g roll back the change in <code>dbo.pr_3</code>, and add the "new" style exception handling in <code>dbo.pr_1</code>:</p>
-
-<p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Top Level Proc with XACT_ABORT and TRY ... CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 8:</strong> <em>TRY ... CATCH in dbo.pr_3</em></p> <p>Here it is the last proc in the call-chain that are using <code>TRY ... CATCH</code>, and as it is doing proper exception handling it knows that it did not start the transaction, so in the error handling code it just raises the error. The result is the following:</p> <p><img class="center" src="/images/posts/XACT_ABORT_TRY_CATCH.png" width="585" height="240" > <strong>Figure 7:</strong> <em>XACT_ABORT and TRY ... CATCH</em></p> <p>Ooops, we really are in a messed up state. I guess that is to be expected seeing what we discovered above regarding <code>RAISERROR</code>. Once again, we need to be very careful what we do when we use <code>XACT_ABORT</code>. Oh, and what would the result be if we only changed <code>dbo.pr_1</code> to use <code>TRY ... CATCH</code>, e.g roll back the change in <code>dbo.pr_3</code>, and add the "new" style exception handling in <code>dbo.pr_1</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Top Level Proc with XACT_ABORT and TRY ... CATCH</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
 </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
@@ -563,135 +189,4 @@
 </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">RETURN</span>
 </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
 </div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div></pre></div></figure></p>
-
-<p><strong>Code Snippet 8:</strong> <em>TRY ... CATCH in dbo.pr_1</em></p>
-
-<p>Notice that we in the <code>CATCH</code> block we are not doing rolling back the transaction as we rely on <code>XACT_ABORT</code> to handle that. When executing the result is:</p>
-
-<p><img class="center" src="/images/posts/top_level_try_catch.png" width="570" height="160"  >
-<strong>Figure 8:</strong> <em>Top Level TRY ... CATCH and XACT_ABORT</em></p>
-
-<p>From the result we see how we immediately ended up in the <code>TRY ... CATCH</code> block in <code>dbo.pr_1</code>! This indicates that <code>TRY ... CATCH</code> <em>overrides</em> <code>XACT_ABORT</code>! In reality there is no use having <code>XACT_ABORT</code> and <code>TRY ... CATCH</code> in the same proc!</p>
-
-<p>In fact, I would argue that when we have <code>TRY ... CATCH</code> we don't need <code>XACT_ABORT</code>, as we can decide what to do with the transaction in the <code>CATCH</code> block!</p>
-
-<p>We have now seen quite a few examples where <code>XACT_ABORT</code> may not be ideal. My biggest "gripe" with <code>XACT_ABORT</code> is not any of those...</p>
-
-<h3>All Errors are Equal, Some are More Equal then Others</h3>
-
-<p>I am paraphrasing George Orwell above, and that phrase summarizes why I do not like <code>XACT_ABORT</code>. Let me explain...</p>
-
-<p>If we go back to what the code looked like at <em>Code Snippet 6</em>. We had three procs which did proper error handling and all was good. Let us assume these procs were some procs for a financial institution where they were called for deposits. We then realized that we needed some code that did something that were not vital for the actual deposit process, but we still needed it to execute together with the other procs (this may be logging, etc). So we introduce a new proc (call it <code>dbo.pr_Logging</code>) into the call chain, and in that proc we make sure we handle any errors, because we do not want to affect the deposit process. We handle the errors in the "old" way, as we do not want to mix "old" and "new". All is well and good!</p>
-
-<p>However, we now come to the same scenario we saw in <em>Code Snippet 7</em>; the developer who had heard about <code>XACT_ABORT</code>. So the developer introduces the <code>XACT_ABORT</code> as in <em>Code Snippet 7</em>.</p>
-
-<p>What happens now if an exception happens in <code>dbo.pr_Logging</code>? The batch is terminated and the transaction is rolled back. So a non-vital error is now causing the transaction (the deposit) to fail! Ouch!!!!</p>
-
-<h2>Summary</h2>
-
-<p>I am against <code>XACT_ABORT</code> because:</p>
-
-<ul>
-<li>You are losing control of what to do when an exception happens</li>
-<li>It does not play well with <code>TRY ... CATCH</code></li>
-<li><strong>Non-vital exceptions causes the whole transaction to roll back!</strong></li>
-</ul>
-
-
-<p><a href="/downloads/code/xact_abort.zip">Download the demo code from here</a></p>
-
-
-  <p>
-<h2>Share this Post:</h2> 
-<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/&text=Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!&via=nielsberglund" 
-   target="_blank">Twitter</a>
-<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/" 
-   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-    | Google+</a>
-<a href="https://www.linkedin.com/shareArticle?
-         mini=true
-         &url=http://www.nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/
-         &title=Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!
-         &summary=Blog post: The dangers of using XACT_ABORT in SQL Server OLTP databases
-         &source=http://www.nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/"> | LinkedIn</a> 
-
-</p>   
-   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
-
-
-   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/
-
-   -->
-  <p>
-<h2>Blog Feed:</h2>
-To automatically receive more posts like this, please
-<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
-</div>
-
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/">
-            Microsoft SQL Server R Services - Internals III
-            <small>13 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/09/interesting-stuff-week-14/">
-            Interesting Stuff - Week 14
-            <small>09 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2017/04/02/interesting-stuff-week-13/">
-            Interesting Stuff - Week 13
-            <small>02 Apr 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
-
-
-<div id="disqus_thread"></div>
-<script>
-    var disqus_developer = 1;
-
-    (function() {  // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        
-        s.src = '//manageddata.disqus.com/embed.js';
-        
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-    </div>
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-18914734-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-  </body>
-</html>
+</div></div></pre></div></figure></p> <p><strong>Code Snippet 8:</strong> <em>TRY ... CATCH in dbo.pr_1</em></p> <p>Notice that we in the <code>CATCH</code> block we are not doing rolling back the transaction as we rely on <code>XACT_ABORT</code> to handle that. When executing the result is:</p> <p><img class="center" src="/images/posts/top_level_try_catch.png" width="570" height="160" > <strong>Figure 8:</strong> <em>Top Level TRY ... CATCH and XACT_ABORT</em></p> <p>From the result we see how we immediately ended up in the <code>TRY ... CATCH</code> block in <code>dbo.pr_1</code>! This indicates that <code>TRY ... CATCH</code> <em>overrides</em> <code>XACT_ABORT</code>! In reality there is no use having <code>XACT_ABORT</code> and <code>TRY ... CATCH</code> in the same proc!</p> <p>In fact, I would argue that when we have <code>TRY ... CATCH</code> we don't need <code>XACT_ABORT</code>, as we can decide what to do with the transaction in the <code>CATCH</code> block!</p> <p>We have now seen quite a few examples where <code>XACT_ABORT</code> may not be ideal. My biggest "gripe" with <code>XACT_ABORT</code> is not any of those...</p> <h3>All Errors are Equal, Some are More Equal then Others</h3> <p>I am paraphrasing George Orwell above, and that phrase summarizes why I do not like <code>XACT_ABORT</code>. Let me explain...</p> <p>If we go back to what the code looked like at <em>Code Snippet 6</em>. We had three procs which did proper error handling and all was good. Let us assume these procs were some procs for a financial institution where they were called for deposits. We then realized that we needed some code that did something that were not vital for the actual deposit process, but we still needed it to execute together with the other procs (this may be logging, etc). So we introduce a new proc (call it <code>dbo.pr_Logging</code>) into the call chain, and in that proc we make sure we handle any errors, because we do not want to affect the deposit process. We handle the errors in the "old" way, as we do not want to mix "old" and "new". All is well and good!</p> <p>However, we now come to the same scenario we saw in <em>Code Snippet 7</em>; the developer who had heard about <code>XACT_ABORT</code>. So the developer introduces the <code>XACT_ABORT</code> as in <em>Code Snippet 7</em>.</p> <p>What happens now if an exception happens in <code>dbo.pr_Logging</code>? The batch is terminated and the transaction is rolled back. So a non-vital error is now causing the transaction (the deposit) to fail! Ouch!!!!</p> <h2>Summary</h2> <p>I am against <code>XACT_ABORT</code> because:</p> <ul> <li>You are losing control of what to do when an exception happens</li> <li>It does not play well with <code>TRY ... CATCH</code></li> <li><strong>Non-vital exceptions causes the whole transaction to roll back!</strong></li> </ul> <p><a href="/downloads/code/xact_abort.zip">Download the demo code from here</a></p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/&text=Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/ &title=Abort, Abort, We Are XACT_ABORT:ing, Or Are We?! &summary=Blog post: SQL Server and XACT_ABORT(). Here we discuss the dangers of using XACT_ABORT in SQL Server OLTP databases. DO NOT DO IT!! &source=http://www.nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> </div> <div class="related"> <h2>Related Posts</h2> <ul class="related-posts"> <li> <h3> <a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/"> Microsoft SQL Server R Services - Internals III <small>13 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/09/interesting-stuff-week-14/"> Interesting Stuff - Week 14 <small>09 Apr 2017</small> </a> </h3> </li> <li> <h3> <a href="/2017/04/02/interesting-stuff-week-13/"> Interesting Stuff - Week 13 <small>02 Apr 2017</small> </a> </h3> </li> </ul> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { // DON'T EDIT BELOW THIS LINE var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>
