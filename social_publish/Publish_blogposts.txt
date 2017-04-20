@@ -1,8 +1,8 @@
 ﻿
-[Blog]: "Interesting Stuff - Week 14" http://bit.ly/2oSGiKZ
+[Blog]: "Interesting Stuff - Week 15" http://bit.ly/2pqLK5e
 #datascience #sqlserver #RStats #streaming #Azure #CLR
 
-New Blogpost: "Interesting Stuff - Week 14". In this roundup we talk about SQL Server R Services, distributed computing, .NET, Apache Flink and other interesting stuff!
+New Blogpost: "Interesting Stuff - Week 15". In this roundup we talk about SQL Server R Services, distributed computing, .NET, Apache Flink and other interesting stuff! http://bit.ly/2pqLK5e
 #datascience #sqlserver #RStats #streaming #Azure #CLR
 
 
