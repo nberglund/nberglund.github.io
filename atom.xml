@@ -4,13 +4,294 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-20T21:02:48+02:00</updated>
+ <updated>2017-04-23T15:37:19+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals IV</title>
+   <link href="http://nielsberglund.com/2017/04/23/microsoft-sql-server-r-services-internals-iv/"/>
+   <updated>2017-04-23T14:42:01+02:00</updated>
+   <id>http://nielsberglund.com/2017/04/23/microsoft-sql-server-r-services---internals-iv</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals IV (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the fifth post about Microsoft SQL Server R Services, and the fourth post that drills down into the internal of how it works. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, I wrote about how the launchpad service creates multiple processes when executing an external script.&lt;/p&gt;
+
+&lt;p&gt;Seeing that some of the conclusions I came to was somewhat educated guesses, I asked you guys to correct me where I was in-correct and/or add more information. After that post - Bob Albright (&lt;a href=&quot;https://twitter.com/bob_albright&quot;&gt;@bob_albright&lt;/a&gt;) - wrote me an email and pointed me to some resources around process creation, as well as some demo code. Thanks Bob!&lt;/p&gt;
+
+&lt;p&gt;So today we'll drill even further into the creation of processes, and see how they are used.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, we talked about how, during installation of an R enabled SQL Server instance, 20 Windows accounts are created. These accounts are created for the purpose to be able to provide isolation between users when executing external scripts.&lt;/p&gt;
+
+&lt;p&gt;In addition to the Windows user accounts created during installation, folders named as the individual Windows accounts are also created in the &lt;code&gt;c:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; folder. These folders act as storage for files, results, objects, etc., during execution of an external script.&lt;/p&gt;
+
+&lt;p&gt;When a user executes an external script in SQL Server, that account is being mapped to one of the 20 Windows account created, and it is under that Windows account the external part of the script is executed. Subsequently the files, etc., mentioned above, ends up in that folder somewhere. I write somewhere, because it is not entirely correct to say that the files, results, etc., are stored directly in the user folder. They are in fact stored in sub-folders of the user folder.&lt;/p&gt;
+
+&lt;p&gt;During execution the launchpad service creates working directories (the sub-folders above) and processes, and assigns the working directories and processes the same names (&lt;code&gt;Guid&lt;/code&gt; values).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt; below shows the flow when executing a script:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad_processes_post.png&quot; width=&quot;650&quot; height=&quot;466&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Flow when Executing a Script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As per the figure:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We see backing folders in &lt;code&gt;c:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; for the group of user accounts that are mapped to SQL Server users when executing code via &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;When executing, &lt;code&gt;launchpad!CLaunchContext::LaunchServTask&lt;/code&gt; is called, and a satellite session and a session object is created.&lt;/li&gt;
+&lt;li&gt;Then the working directories (the sub-folders mentioned above), and RTerm processes are created. In the figure the working directories are named &lt;code&gt;WorkingDir1&lt;/code&gt; etc., whereas in reality the names are &lt;code&gt;Guid&lt;/code&gt; values. The processes are RTerm processes and are assigned the same &lt;code&gt;Guid&lt;/code&gt; as the working directory name. So a RTerm process always executes &quot;under&quot; one user account sub-folder.&lt;/li&gt;
+&lt;li&gt;After two initial directories and processes have been created, one of the two processes are assigned to the created session.&lt;/li&gt;
+&lt;li&gt;When the process has been assigned to the session, the script is executed via; &lt;code&gt;launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt; and &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;. This normally happens while the third process is created.&lt;/li&gt;
+&lt;li&gt;Processes and working directories 4 - 6 are created. These processes are available for subsequent executions.&lt;/li&gt;
+&lt;li&gt;When the execution has finished the session is torn down together with the process.
+
+&lt;ul&gt;
+&lt;li&gt;At this stage we now have 5 processes running, and 5 working folders.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The above is in essence what &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; covered, and if you want all the &quot;nitty-gritty&quot;, please read that &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Processes&lt;/h2&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, we figured out that, by default, the launchpad service creates 5 processes, plus the process that is used for execution, when executing an external script. In the post I assumed that the reason for creating 5 (well 6 actually), was for performance, and I also wondered where that magic number 5 came from - seeing I couldn't find it in any config files. That's where &lt;a href=&quot;https://twitter.com/bob_albright&quot;&gt;Bob's&lt;/a&gt; email comes in, as he pointed me to a &lt;a href=&quot;https://blogs.msdn.microsoft.com/microsoftrservertigerteam/2016/09/20/tips-sql-r-services-optimization-for-concurrent-execution-of-in-database-analytics-using-sp_execute_external_script/&quot;&gt;blog-post&lt;/a&gt; by the &lt;a href=&quot;https://blogs.msdn.microsoft.com/sql_server_team/&quot;&gt;SQL Server engineering&lt;/a&gt; team, a.k.a TIGER (cool name!).&lt;/p&gt;
+
+&lt;p&gt;So, that particular blog-post mentions that the number of processes spun up can be controlled by a setting in the &lt;code&gt;rlauncher.config&lt;/code&gt; file: &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt;. If not set, it defaults to 5, and in the end, when executing, the setting + 1 processes has been created as per above.&lt;/p&gt;
+
+&lt;p&gt;The post also &quot;kind of&quot; confirms that my assumption about performance being a reason for spinning up multiple processes is correct, considering that a user may execute concurrent requests and it takes around 100 ms to spin up a process. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; I mentioned how the processes that are created are added to a pool of processes. So, the  assumption on my part is that when there are multiple processes available, a new request will not execute on a newly created process, but will use a process from the pool.&lt;/p&gt;
+
+&lt;p&gt;Let us see if we can confirm the points about the config setting as well as performance.&lt;/p&gt;
+
+&lt;h3&gt;Controlling Number of Processes&lt;/h3&gt;
+
+&lt;p&gt;Initially we'll begin with looking into the &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting and see if it has any effect on the number of processes being created. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; we looked at the number of processes having been spun up while the code was executing and we saw something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-rterm_processes.png&quot; width=&quot;583&quot; height=&quot;100&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;RTerm Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So 6 processes alive while the code is executing. After the code has finished, the executing process is torn down, and we have 5 processes in the pool. That was without having changed any settings, so let's change the settings:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Open the &lt;code&gt;rlauncher.config&lt;/code&gt; file with your text editor of choice (you need to run the editor as administrator).&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;The config file looks something like what you see in &lt;em&gt;Figure 3&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rlauncher_config.png&quot; width=&quot;617&quot; height=&quot;213&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;RLauncher Configuration&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As you see, there is no &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting. Let us add the setting with a value of 15: &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH=15&lt;/code&gt; and see what happens.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Save the config file after you have added the setting as per above.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Well, it looks like the launchpad service started, so the setting is not causing any issues (yet). We'll now execute some code and try and figure out if more processes will be created. We use the same code as we did in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, where the code has a pause statement, so we can easier look at what is happening:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Script with Pause&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              Sys.sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Execute with Sys.sleep&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, I use &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processexplorer.aspx&quot;&gt;&lt;em&gt;Process Explorer&lt;/em&gt;&lt;/a&gt; from &lt;strong&gt;Sysinternals&lt;/strong&gt;. So, let's go ahead and see what happens:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Start &lt;em&gt;Process Explorer&lt;/em&gt;, order by Process, and scroll down to where you see process names starting with &quot;RT&quot; (on my box there are none at this stage), or where those processes should be.
+
+&lt;ul&gt;
+&lt;li&gt;If you at this stage see RTerm, restart the launchpad service again and kill those processes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;While the code is running, take a quick look in &lt;em&gt;Process Explorer&lt;/em&gt;, and you should see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processes15.png&quot; width=&quot;469&quot; height=&quot;276&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;RTerm Processes after Setting Change&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 4&lt;/em&gt; you can now see 16 &lt;code&gt;RTerm.exe&lt;/code&gt; processes running. Once again, the reason for 16 instead of 15 is that the launchpad service spins up the number it is supposed to, plus one more. After the execution has finished, you will see 15 RTerm processes.&lt;/p&gt;
+
+&lt;p&gt;So yes, the setting does have impact. If you want, you can now delete the setting from the config file and restart the launchpad service.&lt;/p&gt;
+
+&lt;h3&gt;Process Pool Impact on Executions from the Same Session / Concurrent Executions&lt;/h3&gt;
+
+&lt;p&gt;Above I mentioned that I thought that by spinning up these processes, we'll get a performance benefit when executing concurrently or if we are, under the same &lt;code&gt;SPID&lt;/code&gt;, doing subsequent executions. After all, as mentioned above, the processes are added to a process pool, and they should then be available for usage. A bit like connection pooling in ADO.NET or thread pooling in the .CLR.&lt;/p&gt;
+
+&lt;h4&gt;Same Session Multiple Execs&lt;/h4&gt;
+
+&lt;p&gt;Let us start with looking what happens when doing multiple executions in the same SQL Server session (&lt;code&gt;SPID&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;So the way we will do this is to look at the process id of the RTerm processes, and the process id of the executing code. The process id's of the RTerm process we get from &lt;em&gt;Process Explorer&lt;/em&gt;, and in &lt;em&gt;Figure 5&lt;/em&gt; below you see the process id's in the outlined column furthest to the right:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids.png&quot; width=&quot;406&quot; height=&quot;85&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;RTerm ProcessId's&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 5&lt;/em&gt; tells us how we can see the id's of the RTerm processes, but how can we see the process id under which the code executes? It's not like we have &lt;code&gt;@@SPID&lt;/code&gt; in the external engine. Fortunately R has a function to get the process id of the process in which the code is executing: &lt;code&gt;Sys.getpid()&lt;/code&gt;. So if we change the code to something like in &lt;em&gt;Code Snippet 2&lt;/em&gt;, we should be able to see the process id, and then be able to compare what we see from the RTerm processes:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Process ID&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    pid &amp;lt;- Sys.getpid()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    data&amp;lt;-InputDataSet
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    data$pid &amp;lt;- pid
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    OutputDataSet&amp;lt;-data;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    Sys.sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProcessID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code  Snippet 2:&lt;/strong&gt; &lt;em&gt;Get the Process Id&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Notice how we create and add a new column, &lt;code&gt;pid&lt;/code&gt;, to the R data-frame, &lt;code&gt;data&lt;/code&gt;, by: &lt;code&gt;data$pid&lt;/code&gt; (the names &lt;code&gt;pid&lt;/code&gt; and &lt;code&gt;data&lt;/code&gt;could be anything). Now, the way we will do this is to, in the same session:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Execute the code&lt;/li&gt;
+&lt;li&gt;Capture the process id's of the created RTerm processes, before the code has finished executing.&lt;/li&gt;
+&lt;li&gt;Look at the result from executing the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; and compare the process id which is part of the result with the process id's we captured from the RTerm processes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;When we have done the steps above we repeat it a second time. If my assumption is correct that during a subsequent execution, a process will be used from the pool that was created at first execution; then the process id that comes back from the result of the second execution, should be found in the process id's that were captured during the first execution.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; It is important that the second run of the code is done immediately after the first. If not, some of the pooled processes may have been torn down.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Let's do this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you haven't deleted the &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting from the config file, go ahead and do that.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Navigate to the &lt;code&gt;Launchpad.exe&lt;/code&gt; process in &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;While the code is executing capture the process id's from the &lt;code&gt;RTerm.exe processes&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The capture of the first execution is shown in &lt;em&gt;Figure 6&lt;/em&gt; below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids_executing.png&quot; width=&quot;414&quot; height=&quot;115&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Process Id's from First Run&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The result from the code came back with a process id of 16956. If you were to look at the processes directly after the result came back, you would see 5 processes, as process 16956 (the executing process) has been torn down. Now execute the code a second time. The captured processes are now like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids_executing2.png&quot; width=&quot;401&quot; height=&quot;115&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Process Id's from Second Run&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 7&lt;/em&gt; we indeed see that process 16956 is not there any more. When the result comes back the process id is 19028 as in &lt;em&gt;Figure 8&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids_result2.png&quot; width=&quot;210&quot; height=&quot;75&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Result from 2:nd Run&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, looking back at &lt;em&gt;Figure 6&lt;/em&gt;, we see how process id 19028 is part of the processes initially created, so it seems that the assumptions about how processes are used are correct.&lt;/p&gt;
+
+&lt;p&gt;But wait a second when we look at &lt;em&gt;Figure 8&lt;/em&gt;, we see a new process id - 19192, and if we were to look at the processes right after the code has finished running, it would look something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids_after_executing2.png&quot; width=&quot;400&quot; height=&quot;86&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;After 2:nd Run&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 9&lt;/em&gt; we see that the process that we executed under in the second run is gone as expected, but we have a new process running - 19192. So what happens is that, in parallel with R executing the code, the launchpad service is spinning up a new process.&lt;/p&gt;
+
+&lt;p&gt;The theory that for executions by the same user and &lt;code&gt;SPID&lt;/code&gt; - the launchpad service uses processes from the pool seems to be correct.&lt;/p&gt;
+
+&lt;h4&gt;Concurrent Executions Different Sessions&lt;/h4&gt;
+
+&lt;p&gt;To see what happens for concurrent executions, by the same user but from different &lt;code&gt;SPID&lt;/code&gt;'s, we'll do it in almost the same way as above. Start with restarting the launchpad service, so we don't have any &quot;hangers on-ers&quot; from previous runs. We copy the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; to a new query window in &lt;em&gt;SQL Server Management Studio&lt;/em&gt;, (this ensures a new &lt;code&gt;SPID&lt;/code&gt;), and then we:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Execute the code in query window 1.&lt;/li&gt;
+&lt;li&gt;Capture the RTerm process id's.&lt;/li&gt;
+&lt;li&gt;Execute the code in query window 2, while the code in query window 1 still executes.&lt;/li&gt;
+&lt;li&gt;Capture the RTerm process id's.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;After both queries have finished executing, you will see that executing concurrently from the same user but different sessions will behave the same was as executing multiple times from the same session:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;A process will be picked up from the pool and the code will execute under that session.&lt;/li&gt;
+&lt;li&gt;The launchpad service creates a new process, and adds it to the pool.&lt;/li&gt;
+&lt;li&gt;When the code has finished executing, the process which it executed under is being torn down,&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;So the theory holds true here as well.&lt;/p&gt;
+
+&lt;h4&gt;Concurrent Executions Different Sessions Different Users&lt;/h4&gt;
+
+&lt;p&gt;So what happens then if there are multiple users executing code concurrently? In this scenario nothing is different from when a single user executes for the first time:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The second user will be mapped to another user account,&lt;/li&gt;
+&lt;li&gt;The launchpad service creates it's normal 5 processes, plus one.&lt;/li&gt;
+&lt;li&gt;The code is executed.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_rterm_processids_mult_users.png&quot; width=&quot;407&quot; height=&quot;212&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Two Users Executing Concurrently&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 10&lt;/em&gt; shows what it looks like in &lt;em&gt;Process Explorer&lt;/em&gt; when two different users executes concurrently. I either of these users would then execute another statement, it would be exactly as above where we looked at the single user scenario.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; When looking in &lt;em&gt;Process Explorer&lt;/em&gt; at the RTerm processes you can actually see what process is active. The active process has a value in the &lt;em&gt;CPU&lt;/em&gt; column.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this blog-post I set out to prove/disprove two things:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;That the setting &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; can be used to control the number of processes being created by the launchpad service.&lt;/li&gt;
+&lt;li&gt;Processes that are added to the pool is being picked up and used for subsequent executions for a user.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;What we saw was:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; is absent from the &lt;code&gt;rlauncher.config&lt;/code&gt; file, the launchpad service creates 5 processes plus 1 by default, and after execution the executing process is torn down. The others are added to the pool.&lt;/li&gt;
+&lt;li&gt;When a value has been set for &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt;, the launchpad service creates that number of processes plus one, and after execution the executing process is torn down. The others are added to the pool.&lt;/li&gt;
+&lt;li&gt;When a user executes subsequent requests, or concurrent requests from different sessions, processes are picked up and used from the pool.
+
+&lt;ul&gt;
+&lt;li&gt;The launchpad service simultaneously creates a new process.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So, thanks &lt;a href=&quot;https://twitter.com/bob_albright&quot;&gt;Bob&lt;/a&gt; for sending me the mail with the link the the &lt;a href=&quot;https://blogs.msdn.microsoft.com/microsoftrservertigerteam/2016/09/20/tips-sql-r-services-optimization-for-concurrent-execution-of-in-database-analytics-using-sp_execute_external_script/&quot;&gt;post&lt;/a&gt;. That made me look deeper into how this &quot;stuff&quot; works! In that email Bob also sent some code, which will be used as a topic for another internals blog-post. That post will be about parallelism and the RTerm processes.&lt;/p&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>SQL Server 2017 - Python Executing Inside SQL Server</title>
@@ -192,6 +473,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals III (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -292,13 +574,13 @@
 &lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Script with Pause&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              Sys.Sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              Sys.sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Execute with Sys.Sleep&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;As you can see in &lt;em&gt;Figure 2&lt;/em&gt;, the code looks almost the same as in &lt;em&gt;Code Snippet 1&lt;/em&gt;, apart from that we have injected a &lt;code&gt;Sys.Sleep(120)&lt;/code&gt;, which will make the execution stop for 2 minutes. That should give us ample time to do some &quot;spelunking&quot;.&lt;/p&gt;
+&lt;p&gt;As you can see in &lt;em&gt;Figure 2&lt;/em&gt;, the code looks almost the same as in &lt;em&gt;Code Snippet 1&lt;/em&gt;, apart from that we have injected a &lt;code&gt;Sys.sleep(120)&lt;/code&gt;, which will make the execution stop for 2 minutes. That should give us ample time to do some &quot;spelunking&quot;.&lt;/p&gt;
 
 &lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; For this investigation I use &lt;strong&gt;Sysinternals&lt;/strong&gt; &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processexplorer.aspx&quot;&gt;&lt;em&gt;Process Explorer&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
 
@@ -802,6 +1084,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals II (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1298,6 +1581,7 @@
 &lt;li&gt;Microsoft SQL Server R Services - Internals I (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1658,6 +1942,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 

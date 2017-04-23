@@ -51,3 +51,15 @@ WITH RESULT SETS (([TheAnswer] int not null));
 
 SET @counter += 1;
 END
+
+
+
+EXEC sp_execute_external_script  @language =N'R',
+                                 @script=N'
+                                 pid <- Sys.getpid()
+                                 cat(paste0("ProcessId: ", pid))
+                                 cat("\n")
+                                 Sys.Sleep(150)
+                                 d <- getwd()
+                                 OutputDataSet<-data.frame(WorkingDir=d)'
+WITH RESULT SETS (([WorkingDirectory] nvarchar(1024) not null));

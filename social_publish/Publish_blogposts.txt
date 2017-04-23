@@ -1,4 +1,9 @@
-﻿
+﻿[Blog]: "SQL Server 2017 - Python Executing Inside SQL Server" http://bit.ly/2ovAUtf
+#datascience #sqlserver2017 #RStats #python
+
+New Blogpost: "SQL Server 2017 - Python Executing Inside SQL Server". Python in SQL Server 2017. Here we have a brief look at the Python support in SQL Server 2017. http://bit.ly/2ovAUtf
+#datascience #sqlserver2017 #RStats #python
+
 [Blog]: "Interesting Stuff - Week 15" http://bit.ly/2pqLK5e
 #datascience #sqlserver #RStats #streaming #Azure #CLR
 
