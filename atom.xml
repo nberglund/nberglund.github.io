@@ -4,13 +4,96 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-23T15:37:19+02:00</updated>
+ <updated>2017-04-23T20:27:03+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 16</title>
+   <link href="http://nielsberglund.com/2017/04/23/interesting-stuff-week-16/"/>
+   <updated>2017-04-23T20:22:38+02:00</updated>
+   <id>http://nielsberglund.com/2017/04/23/interesting-stuff---week-16</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, this week.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Wow! Wow is all I can say! Sure, of course I knew that &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt; would take place this week, but I had no idea that there would be so much interesting stuff coming out of it!! So instead of pointing to each and every really cool announcement (RCA), I'll try to keep it contained somewhat, and point to the &lt;a href=&quot;https://channel9.msdn.com&quot;&gt;Channel 9&lt;/a&gt; site for all the videos, plus a couple of the Really, Really Cool Announcements (RRCA).&lt;/p&gt;
+
+&lt;h2&gt;Microsoft Data Amp&lt;/h2&gt;
+
+&lt;p&gt;This section will be SQL Server heavy, but still a x-section of various interesting things from &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017&quot;&gt;Microsoft Data Amp 2017&lt;/a&gt;. The central site for all videos from &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt;. If you only can watch two videos, please, please do yourself a favor and watch the keynotes: &lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/Keynote-Scott-Guthrie&quot;&gt;Scott &quot;Red-Shirt&quot; Guthrie&lt;/a&gt;, and &lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/Keynote-Joseph-Sirosh&quot;&gt;Joseph Siro&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/SQL-Server-2017-Building-applications-using-graph-data&quot;&gt;SQL Server 2017: Building applications using graph data&lt;/a&gt;. &lt;strong&gt;SQL Server 2017&lt;/strong&gt; (the &quot;artist&quot; formerly known as SQL v.Next) has support for graph data. Shreya Verma presents about what you can do with it.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/SQL-Server-2017-Advanced-Analytics-with-Python&quot;&gt;SQL Server 2017: Advanced Analytics with Python&lt;/a&gt;. Oh, ah - &lt;strong&gt;SQL Server 2017&lt;/strong&gt; supports Python in addition to R for analysis tasks!! See more below.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/Whats-new-in-R-Server-91-and-SQL-Server-R-Services&quot;&gt;What's new in R Server 9.1 and SQL Server R Services&lt;/a&gt;. So let's not let Python run away with all the &quot;glory&quot; in &lt;strong&gt;SQL Server 2017&lt;/strong&gt;. The release of &lt;strong&gt;R Server 9.1&lt;/strong&gt; in &lt;strong&gt;SQL Server R Services&lt;/strong&gt; does have some cool stuff up its sleeve!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/Data-Science/Microsoft-Data-Amp-2017/SQL-Server-2017-Adaptive-Query-Processing&quot;&gt;SQL Server 2017: Adaptive Query Processing&lt;/a&gt;. Let's not forget my roots; T-SQL, OLTP, the &quot;black art&quot; of query processing. Microsoft in &lt;strong&gt;SQL Server 2017&lt;/strong&gt; introduces a new family of adaptive query processing improvements that will enhance the performance of workloads that have historically been difficult to tune through classic methodologies. How cool is that?!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;OK, so let us &lt;em&gt;somewhat&lt;/em&gt; return to the &quot;normal&quot; program.&lt;/p&gt;
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/04/CSharp-Nullable&quot;&gt;C# Futures: Nullable Reference Types&lt;/a&gt;. Well, well, well - it looks like Microsoft is moving towards an &lt;strong&gt;F#&lt;/strong&gt; / &lt;strong&gt;Haskell&lt;/strong&gt; model where types, reference or value, are non-nullable by default. It will be very interesting to see how the community reacts to this.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;p&gt;Admittedly , there was a lot of SQL Server new (almost all?) coming from &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt;, but there is still some &quot;other&quot; noteworthy SQL Server topics.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/04/17/saving-input-and-output-with-sp_execute_external_script-using-temporal-table-and-file-table-part-2/&quot;&gt;Saving input and output with sp_execute_external_script using temporal table and file table (part #2)&lt;/a&gt;. In last week's &lt;a href=&quot;/2017/04/16/interesting-stuff-week-15/&quot;&gt;roundup&lt;/a&gt;, I mentioned how &lt;a href=&quot;https://tomaztsql.wordpress.com&quot;&gt;Tomaz&lt;/a&gt; tries to figure out how to see what statements have been executed from &lt;code&gt;sp_execute_external_script&lt;/code&gt;. This is part two of the &quot;saga&quot;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/sql-agent-and-the-hairiest-dateadd-in-town/&quot;&gt;SQL Agent and the hairiest Dateadd in town&lt;/a&gt;. Another &quot;epic&quot; drill down in the bowels of SQL Server by &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt;, this time trying to find about weird &lt;code&gt;DATEADD&lt;/code&gt; behavior.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/04/21/sql-server-mysteries-the-case-of-the-not-100-restore/&quot;&gt;SQL Server Mysteries: The Case of the Not 100% RESTORE…&lt;/a&gt;. Awesome &quot;spelunking&quot; by &lt;a href=&quot;https://twitter.com/bobwardms&quot;&gt;Bob Ward&lt;/a&gt;, where he tries to figure out why &lt;code&gt;RESTORE&lt;/code&gt; doesn't work as expected!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/04/19/sql-server-2017-community-technology-preview-2-0-now-available/&quot;&gt;SQL Server 2017 Community Technology Preview 2.0 now available&lt;/a&gt;. &lt;strong&gt;READ ALL ABOUT IT&lt;/strong&gt;, and then go and download the bits. &lt;strong&gt;SQL Server 2017&lt;/strong&gt; CTP 2.0 is available for download.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/04/stirman-data-preparation&quot;&gt;Data Preparation Pipelines: Strategy, Options and Tools&lt;/a&gt;. Article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about how data preparation is an important aspect of data processing and analytics use cases, and how business analysts and data scientists spend about 80% of their time gathering and preparing the data rather than analyzing it or developing machine learning models.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/04/microsoft-r-server-91-now-available.html&quot;&gt;Microsoft R Server 9.1 now available&lt;/a&gt;. My friends over at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, also watched (or attended) &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt; and blogs about how &lt;strong&gt;Microsoft R Server 9.1&lt;/strong&gt; is now available, and some of the new interesting features in it.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/04/18/deep-learning-on-the-new-ubuntu-based-data-science-virtual-machine-for-linux/&quot;&gt;Deep Learning on the New Ubuntu-Based Data Science Virtual Machine for Linux&lt;/a&gt;. Microsoft’s Data Science Virtual Machine (DSVM) is a family of popular VM images published on the Azure marketplace with a broad choice of machine learning and data science tools. Microsoft is extending it with the introduction of a brand-new offering in this family – the Data Science Virtual Machine for Linux, based on Ubuntu 16.04LTS – that also includes a comprehensive set of popular deep learning frameworks.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/04/18/deep-learning-with-caffe2-on-the-azure-data-science-virtual-machine/&quot;&gt;Deep Learning with Caffe2 on the Azure Data Science Virtual Machine&lt;/a&gt;. Caffe has been one such early and popular open source deep learning framework. It has now been rewritten and greatly improved in the latest iteration, named Caffe2. Microsoft and Facebook have worked together to bring Caffe2 to Azure on the Data Science Virtual Machine (DSVM) which can run on either GPU or CPU based virtual machines on the cloud.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/04/19/delivering-ai-with-data-the-next-generation-of-microsofts-data-platform/&quot;&gt;Delivering AI with data: the next generation of Microsoft’s data platform&lt;/a&gt;. An overview of Microsoft's offerings in he data and AI space.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
+
+&lt;p&gt;Some &quot;plugs&quot; about a couple of recent blog-posts by yours truly.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/20/sql-server-2017-python-executing-from-sql/&quot;&gt;SQL Server 2017 - Python Executing Inside SQL Server&lt;/a&gt;. Straight after the &lt;strong&gt;Microsoft Data Amp&lt;/strong&gt; event I downloaded &lt;strong&gt;SQL Server 2017&lt;/strong&gt; and started &lt;del&gt;playing around&lt;/del&gt;, (erm, I mean) researching. This post is a &quot;Hello World&quot; Python running in &lt;strong&gt;SQL Server 2017&lt;/strong&gt;. There will be more posts coming about Python in &lt;strong&gt;SQL Server 2017&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;. The fourth post in the &lt;strong&gt;Microsoft SQL Server R Services - Internals&lt;/strong&gt; &quot;saga&quot;. In this episode, the fearless hero (me) looks more into process creation, process pools and other cool stuff!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals IV</title>

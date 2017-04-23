@@ -1,4 +1,12 @@
-﻿[Blog]: "SQL Server 2017 - Python Executing Inside SQL Server" http://bit.ly/2ovAUtf
+﻿
+[Blog]:"Microsoft SQL Server R Services - Internals IV" http://bit.ly/2oBj7kf
+#datascience #sqlserver #RStats #sqlserverRservices
+
+New Blogpost: "Microsoft SQL Server R Services - Internals IV". More about process creation in the launchpad service; number of processes, process pool, etc. http://bit.ly/2oBj7kf
+#datascience #sqlserver #RStats #sqlserverRservices
+
+
+[Blog]: "SQL Server 2017 - Python Executing Inside SQL Server" http://bit.ly/2ovAUtf
 #datascience #sqlserver2017 #RStats #python
 
 New Blogpost: "SQL Server 2017 - Python Executing Inside SQL Server". Python in SQL Server 2017. Here we have a brief look at the Python support in SQL Server 2017. http://bit.ly/2ovAUtf
