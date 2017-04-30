@@ -1,4 +1,11 @@
 ﻿
+[Blog]: "Interesting Stuff - Week 16" http://bit.ly/2oW5mjA
+#datascience #sqlserver #RStats #CLR #sqlserver2017 #python
+
+New Blogpost: "Interesting Stuff - Week 16". In this roundup we talk about Microsoft Data Amp, SQL Server 2017, Python in SQL Server, SQL Server R Services, .NET, and other interesting stuff! http://bit.ly/2oW5mjA
+#datascience #sqlserver #RStats #CLR #sqlserver2017 #python
+
+
 [Blog]:"Microsoft SQL Server R Services - Internals IV" http://bit.ly/2oBj7kf
 #datascience #sqlserver #RStats #sqlserverRservices
 
