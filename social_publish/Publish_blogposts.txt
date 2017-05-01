@@ -1,4 +1,12 @@
 ﻿
+[Blog]: "Interesting Stuff - Week 17"http://bit.ly/2pxByuo
+#datascience #sqlserver #RStats
+
+New Blogpost: "Interesting Stuff - Week 17". In this roundup we talk about SQL Server R Services, SQL Server, R and other interesting stuff! http://bit.ly/2pxByuo
+#datascience #sqlserver #RStats 
+
+
+
 [Blog]: "Interesting Stuff - Week 16" http://bit.ly/2oW5mjA
 #datascience #sqlserver #RStats #CLR #sqlserver2017 #python
 

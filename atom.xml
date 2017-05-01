@@ -4,13 +4,320 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-04-30T20:33:50+02:00</updated>
+ <updated>2017-05-01T19:33:25+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals V</title>
+   <link href="http://nielsberglund.com/2017/05/01/microsoft-sql-server-r-services-internals-v/"/>
+   <updated>2017-05-01T15:04:31+02:00</updated>
+   <id>http://nielsberglund.com/2017/05/01/microsoft-sql-server-r-services---internals-v</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals V (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the sixth post about Microsoft SQL Server R Services, and the fifth post that drills down into the internal of how it works. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; and &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt;, we looked at how the launchpad service creates &lt;strong&gt;RTerm&lt;/strong&gt; processes when we execute an external script.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt; post came about due to an email from Bob Albright (&lt;a href=&quot;https://twitter.com/bob_albright&quot;&gt;@bob_albright&lt;/a&gt;), pointing me to some resources (a blog-post) regarding the processes the launchpad service creates.&lt;/p&gt;
+
+&lt;p&gt;In his email Bob also, kindly enough, attached some code. The code highlighted some behavior when creating the RTerm processes, especially around parallelism. In this blog-post we'll follow up on that and look into the effect parallelism has on process creation.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt;, we saw how:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The launchpad service creates by default 6 RTerm processes when an external script is executed by a user. One of the processes will be used for the execution of the script and torn down afterwards. The other 5 is added to the process pool. In essence the launchpad service creates 5 + 1.&lt;/li&gt;
+&lt;li&gt;If more (or less) processes than 5 is needed, a setting &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; can be set in &lt;code&gt;rlauncher.config&lt;/code&gt;. The value of the setting defines number of processes to create (as with default it will be setting value + 1).&lt;/li&gt;
+&lt;li&gt;When a user executes subsequent requests, or concurrent requests from different sessions, processes are picked up and used from the pool.
+
+&lt;ul&gt;
+&lt;li&gt;The launchpad service simultaneously creates a new process.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Previously I had the assumption that &quot;somehow&quot; the number of processes created had to be configurable, and that the reason for creating multiple processes has to do with performance.&lt;/p&gt;
+
+&lt;p&gt;In the post we verified that, and this was much due to the &lt;a href=&quot;https://blogs.msdn.microsoft.com/microsoftrservertigerteam/2016/09/20/tips-sql-r-services-optimization-for-concurrent-execution-of-in-database-analytics-using-sp_execute_external_script/&quot;&gt;blog-post&lt;/a&gt; Bob pointed to in his - previously mentioned - email. That particular post also briefly mentioned &lt;code&gt;MAXDOP&lt;/code&gt;, and what to think about in terms of pool size. That and Bob's code lead to this blog-post.&lt;/p&gt;
+
+&lt;h2&gt;Code&lt;/h2&gt;
+
+&lt;p&gt;Before diving into the &quot;stuff&quot;, let's look at the code we'll use. The code we have used in previous posts has been very, very minimal. Today we'll be &quot;very advanced&quot; and select data from a table in a database - talk about cutting edge!! What we want to do is to execute some linear regression functions against data, and see what happens in different scenarios.&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 1&lt;/em&gt; below, we set up the database and a table with some data we can use, all in all 30 million records:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Setup&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RowID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TOP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Setup of Database, Table and Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The data is completely &quot;useless&quot;, but it can at least be used for analysis work, it looks something like so (just a few rows):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_random_data.png&quot; width=&quot;340&quot; height=&quot;240&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;10 Rows Random Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What we want to do with the data is to create a linear regression model over it, where - ultimately - we want to predict the value of &lt;code&gt;y&lt;/code&gt;, and we believe &lt;code&gt;y&lt;/code&gt; is related to &lt;code&gt;rand1&lt;/code&gt;, &lt;code&gt;rand2&lt;/code&gt;, &lt;code&gt;rand3&lt;/code&gt;,  &lt;code&gt;rand4&lt;/code&gt; and &lt;code&gt;rand5&lt;/code&gt;. In our examples we are not really interested in &lt;code&gt;y&lt;/code&gt;, but we want to see what the &lt;strong&gt;intercept&lt;/strong&gt; value(s) is. If we used open source R (CRAN R), the code for this would look something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Linear Regression&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;some&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# get the coefficients&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;coef&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coefficients&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# the intercept value is first value in the coefficients vector&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;icept&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coef&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# return the data&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;out_data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;icept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Linear Regression Using CRAN R&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Seeing that this is about SQL Server R Services, we should be using the equivalent RevoScaleR function: &lt;code&gt;rxLinMod&lt;/code&gt;: &lt;code&gt;r &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5, data=&amp;lt;some input data&amp;gt;);&lt;/code&gt;, and we would execute it from &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execute from SQL Server&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             #Sys.sleep(30)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             pid &amp;lt;- Sys.getpid()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             r &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                           data=InputDataSet)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             coef &amp;lt;- r$coefficients
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             icept &amp;lt;- coef&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              OutputDataSet &amp;lt;- data.frame(pid=pid, nRows=r$nValidObs,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                          intercept=icept)'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT  y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_30M'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FLOAT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DATEDIFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ElapsedTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Linear Regression in SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; is what we will &quot;play&quot; around with in this post. Some comments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First line of the script (the &lt;code&gt;@script&lt;/code&gt; parameter) is commented out; &lt;code&gt;Sys.sleep(30)&lt;/code&gt;. We'll use it at one stage to be able to look a little bit closer at what is happening.&lt;/li&gt;
+&lt;li&gt;As we did in &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt; we grab the process id of the RTerm process the code executes under.&lt;/li&gt;
+&lt;li&gt;In the &lt;code&gt;OutputDataSet&lt;/code&gt; variable we output a data-frame consisting of the process id, how many rows we processed and the intercept value.&lt;/li&gt;
+&lt;li&gt;The output data is being presented as a result set, by the &lt;code&gt;WITH RESULT SETS ...&lt;/code&gt; statement.&lt;/li&gt;
+&lt;li&gt;Oh, and for &quot;giggles&quot; we check how long the execution takes (first line and last line).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;In addition to the code above, we'll also use &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processexplorer.aspx&quot;&gt;&lt;strong&gt;Process Explorer&lt;/strong&gt;&lt;/a&gt;, to see how many processes are created as well as memory consumption etc. If you have read &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; and &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt;, you should be comfortable with &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Parallel Execution&lt;/h2&gt;
+
+&lt;p&gt;So the blog-post is about what impact parallel processing will have on the process creation, but before we go down that &quot;rabbit&quot; hole, let's see what it looks like during non-parallel execution:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Restart the launchpad service (this is to clean-up any RTerm processes).&lt;/li&gt;
+&lt;li&gt;Navigate to the &lt;code&gt;Launchpad.exe&lt;/code&gt; process in &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;While the code is executing, look in &lt;em&gt;Process Explorer&lt;/em&gt; for RTerm processes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;In &lt;em&gt;Process Explorer&lt;/em&gt; you should see something similar to this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg1.png&quot; width=&quot;414&quot; height=&quot;115&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Processes from Code Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What you see in &lt;em&gt;Figure 1&lt;/em&gt; matches pretty good with what we discussed in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; and &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Internals - IV&lt;/a&gt;; while a single user executes &lt;code&gt;sp_execute_external_script&lt;/code&gt; 6 RTerm processes are alive, and one of the processes is the process where the script executes under. In this case it was process id 10120, and we determined that from the CPU value (.32) as well as Private Bytes: 1,023,376 K and Working Set 189,268 K respectively.  We can further confirm the process the code executed under by looking at the result coming back:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg1_result.png&quot; width=&quot;270&quot; height=&quot;133&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Result from Code Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;From &lt;em&gt;Figure 2&lt;/em&gt; we can indeed see that the process id was 10120, and that we ran the regression model over 30 million rows. The time it took to execute the code was ~16 seconds. The query plan looks like in &lt;em&gt;Figure 3&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg1_result_udx.png&quot; width=&quot;520&quot; height=&quot;145&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Actual Query Plan&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 3&lt;/em&gt; we see how we do clustered index scan for our rows and then hand it over to the UDX operator. The UDX operator comes normally in play when we do XML related processes, but - as we can see - it also comes into the picture for external scripts. It kind of makes sense as it is an &lt;strong&gt;Extended Operator&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is all well and good, but it is not really anything new from what we discussed in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; and &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;IV&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So what about parallel execution? When you read documentation about &lt;strong&gt;SQL Server R Services&lt;/strong&gt; it always mentions how efficient it is to execute external scripts as one can utilize SQL's parallelism. How does this work then? In &quot;normal&quot; SQL Server parallelism, SQL Server decides whether to execute a statement in parallel or not, and the &lt;code&gt;MAXDOP&lt;/code&gt; setting defines the number of processors the statement will execute on.&lt;/p&gt;
+
+&lt;p&gt;For &lt;strong&gt;SQL Server R Services&lt;/strong&gt; it works in a similar way, except that you have to explicitly say that you want to execute in parallel. To specify parallel execution you use a parameter on the &lt;code&gt;sp_execute_external_script&lt;/code&gt; procedure: &lt;code&gt;@parallel&lt;/code&gt;. The parameter can either be either 0, no parallelism which is default, or 1.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Even if you specify that you want to execute in parallel, SQL may choose not to do it.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;So in order to enable parallelism, we need to add the parameter to the stored procedure, and in &lt;em&gt;Code Snippet 4&lt;/em&gt; below we have inserted the parameter right after &lt;code&gt;@input_data1&lt;/code&gt; parameter:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Enable Parallelism&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;-- preceding code not shown&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT  y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_30M'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FLOAT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DATEDIFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ElapsedTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Using the @parallel Parameter&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So let's see what impact the change we did in &lt;em&gt;Code Snippet 4&lt;/em&gt; has. For now we will not look at the RTerm processes, so you can just execute the code with the &lt;code&gt;@parallel = 1&lt;/code&gt; parameter set. On my machine which is a 4 core machine with hyper threading (i.e. 8 processors) and &lt;code&gt;MAXDOP&lt;/code&gt; is set to 0 (use all processors), I get the following result when I execute:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg2_result.png&quot; width=&quot;260&quot; height=&quot;270&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Result from Parallel Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 4&lt;/em&gt; we see how the results are returned from 8 RTerm process id's. This is to be expected when SQL uses parallelism and &lt;code&gt;MAXDOP&lt;/code&gt; is 0. Oh, and BTW - according to people &quot;in the know&quot; you should not have &lt;code&gt;MAXDOP&lt;/code&gt; set to 0 if you run on an HT box. &lt;a href=&quot;https://www.mssqltips.com/sqlservertip/2650/what-maxdop-setting-should-be-used-for-sql-server/&quot;&gt;Here&lt;/a&gt; is an article about &lt;code&gt;MAXDOP&lt;/code&gt; settings.&lt;/p&gt;
+
+&lt;p&gt;We also see from &lt;em&gt;Figure 4&lt;/em&gt; that we executed in ~8.7 seconds, roughly half the time it took when we didn't use parallelism.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; There is no guarantee that you will improve performance by using parallelism, so it is a good idea to always test against the workloads you are using.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;The query plan from the execution also shows parallelism:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg2_qp.png&quot; width=&quot;650&quot; height=&quot;144&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Query Plan With Parallelism&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The interesting part with the query plan, as Bob pointed out to me, is that the UDX operator gets pushed &lt;strong&gt;before&lt;/strong&gt; the &lt;em&gt;Parallelism&lt;/em&gt; operator.&lt;/p&gt;
+
+&lt;p&gt;Let us now get back to what we started this with; how parallelism affects process creation. From what we have seen above, we can be fairly certain that 8 processes have been created, but let's make sure that it really happens:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Un-comment the line in the R script saying &lt;code&gt;Sys.sleep(30)&lt;/code&gt;. We'll use this pause to be able to closer see what happens.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Navigate to the &lt;code&gt;Launchpad.exe&lt;/code&gt; process in &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Execute the code.&lt;/li&gt;
+&lt;li&gt;While the code executes look closely at the RTerm processes under the launchpad process in &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;On my box the RTerm processes looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg2_processes.png&quot; width=&quot;414&quot; height=&quot;273&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; RTerm Processes and Parallelism*&lt;/p&gt;
+
+&lt;p&gt;From &lt;em&gt;Figure 6&lt;/em&gt; we can see how there are 8 executing processes (the outlined rows), and 16 processes altogether. So when executing in parallel, the launchpad service creates two processes for each task, where one of the two processes are used for execution of the R code, and the other is being added to the process pool. The processes that are being used to executed on, are torn down after execution - and left are the ones in the process pool.&lt;/p&gt;
+
+&lt;p&gt;However if the level of parallelism (tasks) are less than the number of processes to be created, (5 by default or the value of &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt;), then the launchpad service creates as many process as required so that there always is the required number of processes in the pool.&lt;/p&gt;
+
+&lt;p&gt;An example of this is if &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; has not been set, and we are working with 5 as default; if the level of parallelism is 4, then 9 processes will be created - 4 for execution, and 5 for the pool.&lt;/p&gt;
+
+&lt;p&gt;So why would the level of parallelism be less than the required number of processes? Well, we may execute on a box with few processors, maybe not so likely, or &lt;code&gt;MAXDOP&lt;/code&gt; is set (see below).&lt;/p&gt;
+
+&lt;h3&gt;CRAN R Functions&lt;/h3&gt;
+
+&lt;p&gt;So far we have used RevoScaleR functions in our script code, what happens if we want to use a CRAN R function instead. Something similar to what is in &lt;em&gt;Code Snippet 2&lt;/em&gt;? That works fine as well, multiple RTerm processes will process the data. I will not show the code here, but you can easily try it our yourselves.&lt;/p&gt;
+
+&lt;h2&gt;Max Degree of Parallelism (MAXDOP)&lt;/h2&gt;
+
+&lt;p&gt;So &lt;code&gt;MAXDOP&lt;/code&gt; is a way to indicate to SQL Server how many processors to execute a piece of code on. Or rather, it is a way to limit SQL Server from running a statement over all processors on the box. As this post is not about &lt;code&gt;MAXDOP&lt;/code&gt; as such, I won't go into details about it, but if you want to know more &lt;a href=&quot;https://blogs.msdn.microsoft.com/arali/2009/11/25/sql-server-max-degree-of-parallelism-maxdop/&quot;&gt;here is an MSDN article&lt;/a&gt; covering &lt;code&gt;MAXDOP&lt;/code&gt;. Anyway, &lt;code&gt;MAXDOP&lt;/code&gt; is set on SQL Server instance level, but can also be used as query hint on individual queries.&lt;/p&gt;
+
+&lt;p&gt;Setting &lt;code&gt;MAXDOP&lt;/code&gt; for individual statements also work for the statement used in the &lt;code&gt;@input_data_1&lt;/code&gt; parameter on the &lt;code&gt;sp_execute_external_script&lt;/code&gt; procedure. So in our code example was can change the &lt;code&gt;@input_data_1&lt;/code&gt; parameter to look like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;MAXDOP&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT  y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_30M OPTION(MAXDOP 4)'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Using MAXDOP in SELECT&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Code Snippet 5&lt;/em&gt; will now restrict the parallelism to use 4 processors, and results coming back will show 4 different process id's, and - as I mentioned above - during execution there will be 9 RTerm processes created, and when the execution has finished 5 will be in the process pool.&lt;/p&gt;
+
+&lt;h2&gt;Some Unclear Points&lt;/h2&gt;
+
+&lt;p&gt;All this seems pretty straight forward, however what is unclear for me is how the interaction between SQL Server and the launchpad service works when executing with parallelism. On the SQL Server side we can see how multiple tasks and workers are invoked when parallelism is in play by executing something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Tasks and Workers&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spid_from_script_execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scheduler_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;worker_address&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_os_tasks&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Viewing Tasks and Workers When Executing&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To see this:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Open a second query window and copy the code from &lt;em&gt;Code Snippet 6&lt;/em&gt; into that window.&lt;/li&gt;
+&lt;li&gt;Replace the &lt;code&gt;&amp;lt;spid_from_script_execute&amp;gt;&lt;/code&gt; with the session id (&lt;code&gt;@@SPID&lt;/code&gt;) from where you execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Highlight the &lt;em&gt;Code Snippet 6&lt;/em&gt; code in the query window.&lt;/li&gt;
+&lt;li&gt;Execute the &lt;code&gt;sp_execute_external_script&lt;/code&gt; code, where &lt;code&gt;@parallel&lt;/code&gt; is set to 1.&lt;/li&gt;
+&lt;li&gt;Quickly change over to the other query window and execute the code.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;The result from the query window where you execute the code from &lt;em&gt;Code Snippet 6&lt;/em&gt; looks something like what you see in &lt;em&gt;Figure 7&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_lin_reg2_tasks.png&quot; width=&quot;440&quot; height=&quot;220&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; Tasks, Workers and Schedulers*&lt;/p&gt;
+
+&lt;p&gt;Ok, we see multiple schedulers, tasks and workers being active when we execute our code, and there is nothing strange in that. Seeing that, I would then have expected that there would be a one-to-one relationship between the tasks and the calls into the launchpad service, but that is not the case.&lt;/p&gt;
+
+&lt;p&gt;I verified that by &quot;firing up&quot; my trusted debugger &lt;strong&gt;WinDbg&lt;/strong&gt; and attached it to the launchpad process, similar to what we did in &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Internals - II&lt;/a&gt;. I then set a breakpoint at &lt;code&gt;launchpad!CLaunchContext::LaunchServTask&lt;/code&gt;, and executed the code. My expectation was that I would see how the breakpoint was hit multiple times when I executed with parallelism.&lt;/p&gt;
+
+&lt;p&gt;That did not happen, the breakpoint was hit once, and that was it. That leaves me with the question how SQL Server interacts with the launchpad service when executing with parallelism. My guess is that when SQL Server calls into the launchpad service, (which we discussed at length in &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals - I&lt;/a&gt; and &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;II&lt;/a&gt;), it tells the launchpad service that this call requires parallelism, and the level of it. But as I said, this is just a guess. Maybe someone out there can clarify what goes on.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post I wanted to look at how parallelism affects the creation of RTerm processes in &lt;strong&gt;SQL Server R Services&lt;/strong&gt;. The conclusion is that it does:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When executing with no parallelism, the launchpad service creates 6 processes by default (can be altered by &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt;), and the code runs on one, the others are added to the process pool. When the code has finished executing, the executing process is torn down.&lt;/li&gt;
+&lt;li&gt;When executing under parallelism the launchpad service creates two processes per degree of parallelism. One of the two processes are used to execute on, the other is added to the pool.
+
+&lt;ul&gt;
+&lt;li&gt;If the level of parallelism is lower than default number of process to be created (or &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt;) then the launchpad service creates enough processes to satisfy the required level.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Parallelism works with CRAN R functions as well as RevoScaleR.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;MAXDOP&lt;/code&gt; setting has impact on the parallelism.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So that's for now! Thanks once again to &lt;a href=&quot;https://twitter.com/bob_albright&quot;&gt;Bob&lt;/a&gt; for his input and code!! And as I mentioned above, if anyone has input how SQL Server interacts with the launchpad service, when parallelism is in play - I'd be more than happy to hear about it.&lt;/p&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 17</title>
@@ -177,6 +484,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals IV (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -626,6 +934,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals III (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1237,6 +1546,7 @@
 &lt;li&gt;Microsoft SQL Server R Services - Internals II (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1734,6 +2044,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -2095,6 +2406,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
