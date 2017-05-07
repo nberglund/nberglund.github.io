@@ -1,4 +1,11 @@
 ﻿
+[Blog]:"Microsoft SQL Server R Services - Internals V" http://bit.ly/2pAPhjU
+#datascience #sqlserver #RStats #sqlserverRservices
+
+New Blogpost: "Microsoft SQL Server R Services - Internals V". More about process creation in the launchpad service; MAXDOP, number of processes, process pool, etc. http://bit.ly/2pAPhjU
+#datascience #sqlserver #RStats #sqlserverRservices
+
+
 [Blog]: "Interesting Stuff - Week 17"http://bit.ly/2pxByuo
 #datascience #sqlserver #RStats
 
