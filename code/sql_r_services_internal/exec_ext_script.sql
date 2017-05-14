@@ -59,9 +59,10 @@ END
 EXEC sp_execute_external_script  @language =N'R',
                                  @script=N'
                                  pid <- Sys.getpid()
+                                 #Sys.sleep(45)
                                  cat(paste0("ProcessId: ", pid))
                                  cat("\n")
-                                 Sys.Sleep(150)
+                                 #Sys.sleep(150)
                                  d <- getwd()
-                                 OutputDataSet<-data.frame(WorkingDir=d)'
-WITH RESULT SETS (([WorkingDirectory] nvarchar(1024) not null));
+                                 OutputDataSet<-data.frame(ProcessId=pid,WorkingDir=d)'
+WITH RESULT SETS ((ProcessID int, [WorkingDirectory] nvarchar(1024) not null));

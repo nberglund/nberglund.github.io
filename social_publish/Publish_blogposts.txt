@@ -1,4 +1,13 @@
 ﻿
+[Blog]: "Interesting Stuff - Week 18" http://bit.ly/2qQDR9e
+#datascience #sqlserver #RStats #DSVM
+
+New Blogpost: "Interesting Stuff - Week 18". In this roundup we talk about SQL Server R Services, SQL Server, Microsoft R Server, R and other interesting stuff! http://bit.ly/2qQDR9e
+#datascience #sqlserver #RStats #DSVM
+
+http://bit.ly/2qQDR9e
+
+
 [Blog]:"Microsoft SQL Server R Services - Internals V" http://bit.ly/2pAPhjU
 #datascience #sqlserver #RStats #sqlserverRservices
 
