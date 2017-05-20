@@ -4,13 +4,341 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-05-17T04:43:44+02:00</updated>
+ <updated>2017-05-20T11:44:21+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Facebook Prophet and Microsoft R Server</title>
+   <link href="http://nielsberglund.com/2017/05/20/facebook-prophet-and-microsoft-r-server/"/>
+   <updated>2017-05-20T11:31:37+02:00</updated>
+   <id>http://nielsberglund.com/2017/05/20/facebook-prophet-and-microsoft-r-server</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Time_series&quot;&gt;Time series&lt;/a&gt; data is being used more and more in all industries, and of course we want to be able to forecast and predict future values. There are however a variety of challenges that come with producing a large number of forecasts across a variety of time series.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://research.fb.com/category/data-science/&quot;&gt;Facebook's data science team&lt;/a&gt; has worked with time series forecasting for quite a while, and recently they open-sourced an internal tool for this type of forecasting: &lt;a href=&quot;https://facebookincubator.github.io/prophet/&quot;&gt;Facebook Prophet&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Recently there was a post on the Microsoft R Server forum if it was possible to use Prophet with Microsoft R Server, so I thought I'd test it out. This post covers how to use it, both from a standalone Microsoft R Server as well as SQL Server R Services.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Prophet requires an R version of 3.2.3 or greater. Unfortunately an installation of SQL Server 2016 R Services, in-database as well as standalone, uses R 3.2.2. So Prophet cannot be run on SQL Server R Services 2016, unless you upgrade the R version. In this post I am running SQL Server R Services 2017, both in-database and standalone.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;So, in essence Prophet is just an R packet and should be installed as such. However on Windows, Prophet requires a compiler, &lt;a href=&quot;http://mc-stan.org/&quot;&gt;Stan&lt;/a&gt;, which incurs some extra steps when installing Prophet.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The description of Stan from &lt;a href=&quot;https://en.wikipedia.org/wiki/Stan_(software)&quot;&gt;Wikipedia:&lt;/a&gt; &lt;em&gt;Stan is a probabilistic programming language for statistical inference written in C++. The Stan language is used to specify a (Bayesian) statistical model with an imperative program calculating the log probability density function.&lt;/em&gt;. So there!&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Stan &amp;amp; Dependencies&lt;/h2&gt;
+
+&lt;p&gt;If you are on Windows, regardless if you want to use Prophet in a standalone version of Microsoft R Server or in SQL Server R Services, you need to install Stan, or rather the R version (RStan). There is also a Stan version for Python; PyStan. In addition to RStan there are some dependencies that need to be installed.&lt;/p&gt;
+
+&lt;p&gt;There is a very good article about how to install RStan on Windows &lt;a href=&quot;https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows&quot;&gt;here&lt;/a&gt;, and below follows a very short summary of the article.&lt;/p&gt;
+
+&lt;h3&gt;RTools Installation&lt;/h3&gt;
+
+&lt;p&gt;Before you can install RStan you need to install a tool-chain that works with R, and - for this - RTools is an excellent choice.&lt;/p&gt;
+
+&lt;p&gt;RTools can be downloaded form &lt;a href=&quot;https://cran.r-project.org/bin/windows/Rtools/&quot;&gt;here&lt;/a&gt;, and you download the version that matches your Microsoft R Server's / SQL Server R Services version. The table below is a map between various Microsoft R Servers and the corresponding R version. I have not included SQL Server 2016 R Services as the R version is not compatible with Prophet:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt; &lt;strong&gt;R Server&lt;/strong&gt;                  &lt;/th&gt;
+&lt;th&gt; &lt;strong&gt;R Version&lt;/strong&gt; &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt; Microsoft R Server 8.x - 9.01 &lt;/td&gt;
+&lt;td&gt; 3.3.2     &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-------------------------------&lt;/td&gt;
+&lt;td&gt;-----------&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt; Microsoft R Server 9.1        &lt;/td&gt;
+&lt;td&gt; 3.3.3     &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-------------------------------&lt;/td&gt;
+&lt;td&gt;-----------&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt; SQL Server 2017 R Services    &lt;/td&gt;
+&lt;td&gt; 3.3.3     &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-------------------------------&lt;/td&gt;
+&lt;td&gt;-----------&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;p&gt;On the machine I test this on, I have the in-database as well as the standalone R Services from SQL Server 2017, so I downloaded the &lt;code&gt;Rtools34.exe&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you have installed the stand-alone version of Microsoft R that comes with SQL Server R Services, the version of R is the same as for SQL Server R Services.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;To install RTools double click the executable you just downloaded. What you need to ensure is that the &lt;code&gt;PATH&lt;/code&gt; is set properly. So during the installation process, when it comes to the dialog &lt;strong&gt;Select Additional Tasks&lt;/strong&gt; ensure that you check the check-box for &lt;em&gt;Edit the system PATH&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_rtool_install.png&quot; width=&quot;496&quot; height=&quot;384&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Edit the System Path&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After having checked the box for editing the PATH, just click through and let the install finish. After installation check that the PATH has been set. You do this by running &lt;code&gt;RTerm.exe&lt;/code&gt; and executing &lt;code&gt;Sys.getenv('PATH')&lt;/code&gt; from command prompt.&lt;/p&gt;
+
+&lt;p&gt;Dependent on if you want to run RTools on a standalone Microsoft Windows R Server installation or in-database, you find &lt;code&gt;RTerm.exe&lt;/code&gt; at different locations. On my box the locations are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Standalone Microsoft R Server: &lt;code&gt;C:\Program Files\Microsoft SQL Server\140\R_SERVER\bin\x64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;SQL Server R Services: &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL14.INST2K17CTP20\R_SERVICES\bin\x64&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;After executing &lt;code&gt;Sys.getenv('PATH')&lt;/code&gt;, you should see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_rtool_install_path.png&quot; width=&quot;393&quot; height=&quot;47&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;RTools Path&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also check that &lt;code&gt;g++&lt;/code&gt; (C++ compiler) can be called: &lt;code&gt;system('g++ -v')&lt;/code&gt;. That should result in something like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_rtool_install_g++.png&quot; width=&quot;554&quot; height=&quot;241&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Checking for g++&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3&gt;RStan Installation&lt;/h3&gt;
+
+&lt;p&gt;OK, so after all the above is OK - we can finally install RStan. RStan is just another package, and it should be installed as any other package (like Prophet, which we will see in a bit). Whereas RTools is just installed to a shared directory on the box where R resides, RStan needs to be installed for each R instance specifically.&lt;/p&gt;
+
+&lt;h4&gt;Standalone Microsoft R Server&lt;/h4&gt;
+
+&lt;p&gt;To install R packages you use the function &lt;code&gt;install.packages()&lt;/code&gt;. For a standalone Microsoft R Server instance there is not much more you need to do, apart from saying where to install the package from and what to do about dependencies:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Open &lt;code&gt;RTerm.exe&lt;/code&gt; as admin from the location for the standalone instance (in my case: &lt;code&gt;C:\Program Files\Microsoft SQL Server\140\R_SERVER\bin\x64&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Execute the following code: &lt;code&gt;install.packages(&quot;rstan&quot;, repos = &quot;https://cloud.r-project.org/&quot;, dependencies=TRUE)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;This will run for a while, click yes for any questions during installation.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When the installation has finished you can test that it has succeeded and that the tool chain works:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Close down the &lt;code&gt;RTerm.exe&lt;/code&gt; terminal and re-open it (as admin).&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; below.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Toolchain Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# create an inline function fx&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cxxfunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;signature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;integer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;numeric&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'return ScalarReal( INTEGER(x)[0] * REAL(y)[0] ) ;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2L&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;the&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;should&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Test of RStan Installation&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When executing the above, the result from &lt;code&gt;fx(2L,5)&lt;/code&gt; should be 10.&lt;/p&gt;
+
+&lt;h4&gt;SQL Server R Services Installation&lt;/h4&gt;
+
+&lt;p&gt;The way to install a package in SQL Server R Services is similar to the standalone installation. However you cannot install a package to any directory, it has to be installed to the default package directory for the instance, as only only one package library is allowed.&lt;/p&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Code Snippet 2&lt;/em&gt; below shows how to retrieve the default package library:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Default Package Directory&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;         &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet &amp;lt;- data.frame(.libPaths());'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DefaultLibraryName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VARCHAR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;MAX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Retrieving Default Package Directory&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;On my machine the directory is: &lt;code&gt;C:/Program Files/Microsoft SQL Server/MSSQL14.INST2K17CTP20/R_SERVICES/library&lt;/code&gt;. So to install RStan:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Open &lt;code&gt;RTerm.exe&lt;/code&gt; as admin from the location for the SQL Server R Services instance (in my case: &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL14.INST2K17CTP20\R_SERVICES\bin\x64&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; at command prompt.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;title &quot;Package Install&quot;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;pkg.dir&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;C:\Program Files\Microsoft SQL Server\MSSQL14.INST2K17CTP20\R_SERVICES\library&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;install.packages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;rstan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://cloud.r-project.org/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pkg.dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Installing RStan on SQL Server R Services&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When I ran the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; on my box it ran OK, but it did not install all the dependencies as the install for the standalone installation did. I then tested the installation like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Toolchain Test SQlServer R Services&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;         &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              library(&quot;rstan&quot;)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              fx &amp;lt;- inline::cxxfunction
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                ( signature(x = &quot;integer&quot;, y = &quot;numeric&quot; ) ,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;return ScalarReal( INTEGER(x)[0] * REAL(y)[0] ) ;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            res &amp;lt;-fx(2L, 5)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            cat(paste0(&quot;Result: &quot;, res))
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4&lt;/strong&gt; &lt;em&gt;Test of RStan Installation SQL Server R Services&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Initially, straight after installation, I received an error that &lt;code&gt;ggplot2&lt;/code&gt; was missing. I resorted to copying all the packages from the package library for the standalone installation (&lt;code&gt;W:\Documents\R\win-library\3.3&lt;/code&gt;) to the package library for the SQL Server R Services, and that sorted it the issue. When executing the code in &lt;em&gt;Code Snippet 4&lt;/em&gt; a second time, all was OK:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_rstan_sql_server.png&quot; width=&quot;648&quot; height=&quot;191&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Result from SQl Server R Services&lt;/em&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; My assumption is that when installing RStan the second time, the installation saw that I had the dependent packages installed already. However for SQL Server R Services all packages need to be installed in the default package library directory. For now it all works though.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;OK, now when we we have the various pre-requisites installed we can install Prophet.&lt;/p&gt;
+
+&lt;h2&gt;Prophet Installation&lt;/h2&gt;
+
+&lt;p&gt;Compared to the installation of RStan (and its dependencies), the installation of Prophet is really straight forward. Let us start installing Prophet on a standalone Microsoft R Server instance.&lt;/p&gt;
+
+&lt;h3&gt;Install Prophet on Microsoft R Server&lt;/h3&gt;
+
+&lt;p&gt;As you did with RStan you:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Open &lt;code&gt;RTerm.exe&lt;/code&gt; as admin from the location for the standalone instance (in my case: &lt;code&gt;C:\Program Files\Microsoft SQL Server\140\R_SERVER\bin\x64&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Set the package library where to install Prophet to: &lt;code&gt;lib.dir &amp;lt;- &quot;C:\\Program Files\\Microsoft SQL Server\\140\\R_SERVER\\library&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Execute the actual installation: install.packages(&quot;prophet&quot;, lib = lib.dir, repos = &quot;https://cloud.r-project.org/&quot;, dependencies = TRUE)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The reason why I explicitly state where to get the package from in the code above is that I had problems with the Prophet package installing from Microsoft's R repo.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;The output from the code above will be something like so (heavily redacted):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_install_standalone.png&quot; width=&quot;650&quot; height=&quot;184&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Install Prophet Microsoft R Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Prophet should now be installed and ready to use. Further below we'll see some examples how to use it.&lt;/p&gt;
+
+&lt;h3&gt;Install Prophet on SQL Server 2017 R Services&lt;/h3&gt;
+
+&lt;p&gt;The install of Prophet on SQL Server R Services does not differ much from the install on a standalone server:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Open &lt;code&gt;RTerm.exe&lt;/code&gt; as admin from the location for the SQL Server R Services instance (in my case: &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL14.INST2K17CTP20\R_SERVICES\bin\x64&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 5&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Prophet Install&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Program Files&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Microsoft SQL Server&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;MSSQL14.INST2K17CTP20&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;R_SERVICES&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;library&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;install&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;prophet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;repos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;https://cloud.r-project.org/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Installation of Prophet on SQL Server 2017 R Services&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The output from the execution is the same as you see in &lt;em&gt;Figure 5&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Use Prophet&lt;/h2&gt;
+
+&lt;p&gt;Now everything should be ready, and we should be able to use Prophet. To test it out I am &quot;shamelessly&quot; &quot;borrowing&quot; the examples from &lt;a href=&quot;https://facebookincubator.github.io/prophet/docs/quick_start.html#r-api&quot;&gt;here&lt;/a&gt; (but I will just do the bare minimum to see that it works - no plotting etc.). The data I use is also the same; the log number of views to &lt;a href=&quot;https://en.wikipedia.org/wiki/Peyton_Manning&quot;&gt;Petyon Manning’s Wikipedia page&lt;/a&gt;. The &lt;code&gt;csv&lt;/code&gt; file can be downloaded from &lt;a href=&quot;https://github.com/facebookincubator/prophet/blob/master/examples/example_wp_peyton_manning.csv&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After you have downloaded the &lt;code&gt;csv&lt;/code&gt; file you can see it has two columns: &lt;code&gt;ds&lt;/code&gt; which are dates, and &lt;code&gt;y&lt;/code&gt; which shows the number of views of his page. This is now the data we'll use to predict future hits of his page. We'll start with the standalone Microsoft R Server installation.&lt;/p&gt;
+
+&lt;h3&gt;Test Code Microsoft R Server&lt;/h3&gt;
+
+&lt;p&gt;For this test you can use any IDE you want, I'm using R Tools for Visual Studio 2017. So following the &lt;a href=&quot;https://facebookincubator.github.io/prophet/docs/quick_start.html#r-api&quot;&gt;example&lt;/a&gt;, this is what the code will look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# load prophet&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prophet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# load dplyr, needed for mutate()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dplyr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# read in the csv data into a data frame&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read.csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'W:/nielsb-work/GitHub-Repos/prophet/
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  examples/example_wp_peyton_manning.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# convert the y variable to a natural logarithm&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mutate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# create the model&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prophet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# create a dataframe to fit a forecast into&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;future&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make_future_dataframe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periods&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;365&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# do the forecast&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;future&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# print out some data&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'ds'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat_lower'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat_upper'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Forecasting With Prophet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want to know what the code does, look at the comments in the code block. You can also look at the &lt;a href=&quot;https://facebookincubator.github.io/prophet/docs/quick_start.html#r-api&quot;&gt;Prophet Quick Start page&lt;/a&gt; mentioned above, there they explain it quite well.&lt;/p&gt;
+
+&lt;p&gt;Below you see the output from running the code, from the point where &lt;code&gt;forecast &amp;lt;- predict(m, future)&lt;/code&gt; was called:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Result&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;future&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'ds'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat_lower'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'yhat_upper'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;     &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yhat&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yhat_lower&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yhat_upper&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3265&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-14&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.832611&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.133318&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.577273&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3266&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-15&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.214427&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.507750&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.924990&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3267&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-16&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.539490&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.824840&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;9.325312&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3268&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-17&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.326945&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.660892&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;9.099628&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3269&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-18&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.159623&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.447501&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.897813&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;m&quot;&gt;3270&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2017-01-19&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.171545&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;7.473959&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;8.911978&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Result from Forecasting with Prophet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;forecast&lt;/code&gt; object is a data frame with a column &lt;code&gt;yhat&lt;/code&gt; containing the forecast. It has additional columns for uncertainty intervals and seasonal components.&lt;/p&gt;
+
+&lt;h3&gt;Test Code SQL Server R Services&lt;/h3&gt;
+
+&lt;p&gt;Having done the Microsoft R Server test, let us do the test against SQL Server R Services. I want upfront say that there is an issue with running this on SQL Server R Services, whereby dates returned in the model are shown incorrectly. At the moment I am not sure why this is the case - if someone reading this knows the reason, please let me know. I do believe it may be due to some incorrect package in the SQL Server R Services installation, but I am not sure.&lt;/p&gt;
+
+&lt;p&gt;Anyway, let's just see what it would look like running more or less the same code as in &lt;em&gt;Code Snippet 6&lt;/em&gt;, inside SQL Server R Services. Let's take the code in &lt;em&gt;Code Snippet 6&lt;/em&gt;, and enable it to run in SQL Server. You do that by encapsulation the R code inside the &lt;code&gt;@script&lt;/code&gt; parameter in &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Prophet in SQL Server&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;&lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # load prophet
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      library(prophet)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # load dplyr, needed for mutate()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      library(dplyr)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # read in the csv data into a data frame
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      df &amp;lt;- read.csv(&quot;W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;nielsb-work&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;GitHub-Repos&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;prophet&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;examples&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;example_wp_peyton_manning.csv&quot;)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # convert the y variable to a natural logarithm
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      df &amp;lt;- mutate(df, y = log(y))
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # create the model
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      m &amp;lt;- prophet(df)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # create a dataframe to fit a forecast into
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      future &amp;lt;- make_future_dataframe(m, periods = 365)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # do the forecast
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      forecast &amp;lt;- predict(m, future)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      # output the result of the forecast
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      OutputDataSet &amp;lt;- data.frame(forecast[c(&quot;ds&quot;, &quot;yhat&quot;, &quot;yhat_lower&quot;, &quot;yhat_upper&quot;)])'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ds&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yhat&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yhat_lower&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yhat_upper&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Executing Prophet in SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The only difference from what we see in &lt;em&gt;Code Snippet 6&lt;/em&gt;, is that we output the result as a result set. When you execute the code you will get 3270 rows back: 2905 historical, and 365 predicted. However as I said above, there seems to be something not quite right when running it in SQL Server as the dates are completely wrong, and the values are also a bit off. In &lt;em&gt;Figure 6&lt;/em&gt; below, you see the last 6 rows returned from SQL Server, compare that with the same in &lt;em&gt;Code Snippet 7&lt;/em&gt;, and you will see some differences (apart from the dates).&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/prophet_result_sql_server.png&quot; width=&quot;480&quot; height=&quot;135&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Result from SQL Server Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Anyway, this post was more about if you can, and if so how, run Prophet in Microsoft R Server and SQL Server R Services, which we now see we can.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Prophet can be run in both Microsoft R Server as well as SQL Server R Services.&lt;/li&gt;
+&lt;li&gt;Prophet requires R 3.2.3 or above, so a standard SQL Server 2016 R installation is not going to work.&lt;/li&gt;
+&lt;li&gt;There seems to be an issue when executing Prophet inside SQL Server, as dates come out completely wrong, and values are somewhat off. I'll try and find out why this is the case.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals VI</title>
