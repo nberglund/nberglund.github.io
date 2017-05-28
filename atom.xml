@@ -4,13 +4,66 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-05-21T20:11:17+02:00</updated>
+ <updated>2017-05-28T20:13:14+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 21</title>
+   <link href="http://nielsberglund.com/2017/05/28/interesting-stuff-week-21/"/>
+   <updated>2017-05-28T20:00:13+02:00</updated>
+   <id>http://nielsberglund.com/2017/05/28/interesting-stuff---week-21</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This week I do not have much at all. Mostly due to me not having had time to read that much, as work has &quot;reared its ugly head&quot;. I have also been (still am) &quot;prepping&quot; for the &lt;a href=&quot;https://www.microsoft.com/middleeast/azure/cloud-society/engage-data-science-roadshow.aspx&quot;&gt;Microsoft Cloud Society - Data Science Roadshow&lt;/a&gt;, where I will be speaking in Johannesburg June 6, about Microsoft Azure Machine Learning.&lt;/p&gt;
+
+&lt;p&gt;Having said that, let's see what we have in store for this week.&lt;/p&gt;
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2017/05/23/how-it-works-sql-server-deadlock-trace-flag-1222-output/&quot;&gt;How It Works: SQL Server Deadlock Trace Flag 1222 Output&lt;/a&gt;. Bob Dorr posts about deadlocks, and how trace flag 1222, can trip you up!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/scheduler-stories-oledb-the-external-wait-that-isnt-preemptive/&quot;&gt;Scheduler stories: OLEDB, the external wait that isn’t preemptive&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; continues his deep-dive into SQL Server' internals &quot;murky water&quot;, and looks at preemptive waits.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/05/23/serving-ai-with-data-recap-of-the-microsoft-ai-immersion-workshop/&quot;&gt;“Serving AI with Data” – Recap of the Microsoft AI Immersion Workshop&lt;/a&gt;. &lt;strong&gt;AI&lt;/strong&gt; is becoming the new buzz-word in the data science space, and in the beginning of May, Microsoft held an *AI Immersion Workshop. The post is a short summary of the workshop, and in it you can find key resources from the workshop.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/05/facebook-machine-translation&quot;&gt;Facebook Publishes New Neural Machine Translation Algorithm&lt;/a&gt;. A very interesting article in &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about a new approach for neural machine translation (NMT) introduced by Facebook. Very, very interesting!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/05/microsoft-r-open-340-now-available.html&quot;&gt;Microsoft R Open 3.4.0 now available&lt;/a&gt;. My buddies over at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; posts about the release of Microsoft R Open 3.4.0.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;Due to my workload at the moment, I am struggling with getting out the next installation of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series. It is slow going but I hope to have something out within the next two weeks.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 20</title>
