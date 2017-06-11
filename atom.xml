@@ -4,13 +4,74 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-06-04T20:23:09+02:00</updated>
+ <updated>2017-06-11T19:58:39+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 23</title>
+   <link href="http://nielsberglund.com/2017/06/11/interesting-stuff-week-23/"/>
+   <updated>2017-06-11T19:49:02+02:00</updated>
+   <id>http://nielsberglund.com/2017/06/11/interesting-stuff---week-23</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;For one reason or another I have not found that much interesting articles/posts this week. A reason for this can be that I have done some traveling the last week and not had time to read that much. Tuesday I was at the &lt;a href=&quot;https://www.microsoft.com/middleeast/azure/cloud-society/engage-data-science-roadshow.aspx&quot;&gt;Microsoft Cloud Society - Data Science Roadshow&lt;/a&gt; where I did a talk about Azure Machine Learning. It was fun doing some conference talks again, and I may do some more if there is anything interesting coming up.&lt;/p&gt;
+
+&lt;p&gt;Anyway, a couple of things caught my eye the week past, so let's get to it.&lt;/p&gt;
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sql-sasquatch.blogspot.co.za/2017/06/oledb-waits-in-sqlserver-checktable.html&quot;&gt;OLEDB waits in #SQLServer checktable Part I - Disappearing Act&lt;/a&gt;. This is the first &quot;episode&quot; in a series of blogposts by &lt;a href=&quot;https://twitter.com/sqL_handLe&quot;&gt;Lonny Niederstadt&lt;/a&gt; about the OLEDB wait type during checktable operations. The posts are really, really worth reading if you are interested in deep level SQL Server &quot;stuff&quot;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/paul/increased-sos_scheduler_yield-waits-on-virtual-machines/&quot;&gt;Increased SOS_SCHEDULER_YIELD waits on virtual machines&lt;/a&gt;. More about waits. This time by Paul Randal from &lt;a href=&quot;https://www.sqlskills.com&quot;&gt;SQLskills&lt;/a&gt;, and wait stats when SQL Server is running in a virtual machine.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/distributed-systems-theory&quot;&gt;Distributed Systems Theory for Practical Engineers&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Alvaro Videla. In this presentation Alvaro discusses asynchronous vs. synchronous distributed systems, message passing vs shared memory communication, failure detectors and leader election problems, etc. Very Cool!!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/twitter-notifications&quot;&gt;Real-time &amp;amp; Personalized Notifications @Twitter&lt;/a&gt;. Another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about the hybrid push/pull-based architecture adopted by the Twitter Notification platform.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/06/introducing-the-new-data-science-virtual-machine-on-windows-server-2016/&quot;&gt;Introducing the new Data Science Virtual Machine on Windows Server 2016&lt;/a&gt;. A blog-post introducing the Microsoft Azure Data Science Virtual Machine for Windows server 2016. There are quite a fee new interesting features in this release; Docker container support, unified support for Deep Learning on GPU or CPU-only based virtual machines, etc. Quite a lot of new exciting things to play with.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://101.datascience.community/2017/06/06/deep-learning-research-paper-lists-for-summer-2017&quot;&gt;DEEP LEARNING RESEARCH PAPER LISTS FOR SUMMER 2017&lt;/a&gt;. In the &lt;a href=&quot;http://101.datascience.community/2017/06/06/deep-learning-research-paper-lists-for-summer-2017&quot;&gt;roundup last week&lt;/a&gt; I covered a post with a list of Data Science research papers. This post is similar, but for papers about deep learning.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/tsmatsuz/2017/06/08/azure-data-lake-r-extension/&quot;&gt;Analyze your data in Azure Data Lake with R (R extension)&lt;/a&gt;. A blog-post about how you can run R code on Azure Data Lake Analytics in the cloud, so you don't have to move the data to somewhere locally.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I can see the light in the end of the tunnel and I hope to have the next installation of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series ready to be published soon:ish.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 22</title>
