@@ -4,13 +4,63 @@
  <title>MANAGED DATA</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2017-06-17T09:59:15+02:00</updated>
+ <updated>2017-06-18T09:29:55+02:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 24</title>
+   <link href="http://localhost:4000/2017/06/18/interesting-stuff-week-24/"/>
+   <updated>2017-06-18T09:26:42+02:00</updated>
+   <id>http://localhost:4000/2017/06/18/interesting-stuff---week-24</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlblog.com/blogs/adam_machanic/archive/2017/06/14/the-sql-hall-of-shame.aspx&quot;&gt;The SQL Hall of Shame&lt;/a&gt;. My old friend Adam Machanic asked for input from the SQL Server community, of &quot;useless&quot; features of SQL Server. This blog-post is the result. Some of the &quot;features&quot; submitted, I agree wholeheartedly with, others not so much. Among the ones I question are SQLCLR, as well as in-memory (Adam is on my side with those two).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Shows/Data-Exposed/TPC-H-Benchmarking-with-SQL-Server-on-Linux&quot;&gt;TPC-H Benchmarking with SQL Server on Linux&lt;/a&gt;. A Channel 9 presentation, where &lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao&quot;&gt;Slava Oks&lt;/a&gt; and my compatriot Tobias Ternstrom talks about how they have managed to get awesome performance out of SQL Server on Linux.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/15/data-science-walkthrough-with-sql-server-2017-and-microsoft-machine-learning-services/&quot;&gt;Data Science Walkthrough with SQL Server 2017 and Microsoft Machine Learning Services&lt;/a&gt;. Back in late April (this year - 2017), when SQL Server 2017 CTP 2.0 was introduced, I wrote a &lt;a href=&quot;/2017/04/20/sql-server-2017-python-executing-from-sql/&quot;&gt;short post&lt;/a&gt; about running Python in SQL Server 2017. This post, is a complete walk through, how Python can be used in SQL Server 2017.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/06/syberia.html&quot;&gt;Syberia: A development framework for R code in production&lt;/a&gt;. The guys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; posts about a development framework for R: &lt;strong&gt;&lt;a href=&quot;http://syberia.io/&quot;&gt;Syberia&lt;/a&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/06/14/installing-r-packages-with-rxinstallpackages-in-microsoft-r-server/&quot;&gt;Installing R packages with rxInstallPackages in Microsoft R Server&lt;/a&gt;. &lt;a href=&quot;https://tomaztsql.wordpress.com&quot;&gt;Tomaz&lt;/a&gt; blogs about new functionality in &lt;a href=&quot;https://msdn.microsoft.com/en-us/microsoft-r/microsoftml-introduction&quot;&gt;MicrosoftML&lt;/a&gt;, to help with installing new packages in SQL Server R Services, as well as Microsoft R Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/06/real-time-predictions.html&quot;&gt;Demo: Real-Time Predictions with Microsoft R Server&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; blogs about a presentation he did at the &lt;a href=&quot;http://www.rinfinance.com/&quot;&gt;R/Finance 2017&lt;/a&gt; conference in Chicago in May. The presentation was about predicting fraud at a rate of 1 million transactions a second, using Microsoft R Server. The post links to a video of the presentation, and it also has links to the code used. It is well worth having a look at!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;For you who wonder about my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series, I should be able to publish episode VII this coming week sometime.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 23</title>
