@@ -4,13 +4,65 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-06-25T18:45:37+02:00</updated>
+ <updated>2017-06-25T19:55:09+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 25</title>
+   <link href="http://nielsberglund.com/2017/06/25/interesting-stuff-week-25/"/>
+   <updated>2017-06-25T19:51:33+02:00</updated>
+   <id>http://nielsberglund.com/2017/06/25/interesting-stuff---week-25</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils/&quot;&gt;Creating R Stored Procedures in SQL Server 2016 Using sqlrutils&lt;/a&gt;. A post from yours truly, how to create SQL Server wrapper procedures for &lt;code&gt;sp_execute_external_script&lt;/code&gt; in R.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/06/real-time-notifications-twitter&quot;&gt;Real-Time Notifications at Twitter&lt;/a&gt;. An article discussing Twitter's real-time notification architecture.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/19/loading-a-trained-model-dynamically-in-an-azure-ml-web-service/&quot;&gt;Loading a Trained Model Dynamically in an Azure ML Web Service&lt;/a&gt;. A post about a new Azure Machine Learning feature: the ability to load a trained model into an experiment at runtime. Let's say you have quite a few trained models, and you want to expose the models as web service calls. Previously you'd need to have one web endpoint for each model, whereas now you can at runtime decide what model to use.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/20/running-bigdl-apache-spark-deep-learning-library-on-microsoft-data-science-virtual-machine/&quot;&gt;Running BigDL Apache Spark Deep Learning Library on Microsoft Data Science Virtual Machine&lt;/a&gt;. A post about how you now can run the Apache Spark distributed deep learning library BigDL on Microsoft Data Science Virtual Machines, running on Linux. As I wrote in a tweet: &quot;Who'd 'thunk' some years ago, that MS would be on the forefront in Data Science and Open Source 'stuff'.&quot; Amazing!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/21/data-virtualization-unlocking-data-for-ai-and-machine-learning/&quot;&gt;Data Virtualization: Unlocking Data for AI and Machine Learning&lt;/a&gt;. A post about how to handle big data efficient and easy by using data virtualization techniques.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/06/interactive-r-visuals-in-power-bi.html&quot;&gt;Interactive R visuals in Power BI&lt;/a&gt;. Some days ago we discussed at work, how to get interactive R visuals in Power BI. Couple of days later, this blog post by the guys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, &quot;popped&quot; up, and told us what and how to do it. Cool!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Creating R Stored Procedures in SQL Server 2016 Using sqlrutils</title>
@@ -1335,72 +1387,6 @@
 &lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 18</title>
-   <link href="http://nielsberglund.com/2017/05/07/interesting-stuff-week-18/"/>
-   <updated>2017-05-07T21:18:40+02:00</updated>
-   <id>http://nielsberglund.com/2017/05/07/interesting-stuff---week-18</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/unsung-sqlos-the-sos_unfairmutexpair-behind-cmemthread-waits/&quot;&gt;Unsung SQLOS: The SOS_UnfairMutexPair behind CMEMTHREAD waits&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; has fired up WinDbg to look at the synchronization object behind memory allocations: &lt;code&gt;SOS_UnfairMutexPair&lt;/code&gt;. Very, very interesting if you are into SQL Server's plumbing.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://chrisadkin.io/2017/04/25/creating-self-building-sql-server-data-tools-pipelines-using-jenkins-and-git/&quot;&gt;Creating Self Building SQL Server Data Tools Pipelines Using Jenkins and GIT&lt;/a&gt;. Interesting article how to create a self-building SQL Server pipeline. Or more accurately, for SQL Server Data Tools projects.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/paul/sqlskills-sql101-query-plans-based-on-whats-in-memory/&quot;&gt;SQLskills SQL101: Query plans based on what’s in memory&lt;/a&gt;. Paul Randal from &lt;a href=&quot;https://www.sqlskills.com&quot;&gt;SQLskills&lt;/a&gt; posts about the SQL Server query optimizer doesn’t or care what’s in the buffer pool when creating a query plan.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/05/02/corfu-a-distributed-shared-log/&quot;&gt;Corfu: A distributed shared log&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Adrian Colyer&lt;/a&gt; covers &lt;strong&gt;Corfu&lt;/strong&gt;, which is a global log which clients can append-to and read-from over a network. It seems like a cross between &lt;strong&gt;Kafka&lt;/strong&gt; and an in-memory database.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/pelikan-distributed-caching&quot;&gt;In-memory Caching: Curb Tail Latency with Pelikan&lt;/a&gt;. A presentation about &lt;strong&gt;Pelikan&lt;/strong&gt; - a framework to implement distributed caches such as Memcached and Redis.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/05/02/end-to-end-scenarios-enabled-by-the-data-science-virtual-machine-video/&quot;&gt;End-to-End Scenarios Enabled by the Data Science Virtual Machine: Webinar Video&lt;/a&gt;. Blog-post pointing to a webinar about end-to-end scenarios you can do with the &lt;strong&gt;Microsoft Data Science Virtual Machine&lt;/strong&gt; (DSVM). I really need to find some time and do some work with DSVM.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/05/04/rxexecby-insights-on-rxspark-compute-context/&quot;&gt;rxExecBy Insights on RxSpark Compute Context&lt;/a&gt;. &lt;code&gt;rxExecBy&lt;/code&gt; is a function introduced in Microsoft R Server 9.1. It can be used to partition input data source by keys and apply user defined function on individual partitions. It comes in very handy when you have huge datasets - you can partition the dataset into many small partitions and train models on each partition. The blog-post shows examples of how it can be used on Spark.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/05/04/performance-rxexecby-vs-gapply-on-spark/&quot;&gt;Performance: rxExecBy vs gapply on Spark&lt;/a&gt;. Above I pointed to a blog-post about &lt;code&gt;rxExecBy&lt;/code&gt;. This post compares performance of &lt;code&gt;rxExecBy&lt;/code&gt; and &lt;code&gt;gapply&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/05/real-time-scoring-with-mrs-91.html&quot;&gt;Real-time scoring with Microsoft R Server 9.1&lt;/a&gt;. A blog-post by &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, discussing how you can do real-time scoring using Microsoft R Server 9.1.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;. I finally managed to finish the &lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Internals - V&lt;/a&gt; post. In this post I cover how parallelism works in SQL Server R Services.&lt;/li&gt;
-&lt;/ul&gt;
 
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
