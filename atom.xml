@@ -4,7 +4,7 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-07-01T06:44:52+02:00</updated>
+ <updated>2017-07-02T08:34:11+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -13,7 +13,275 @@
 
  
  <entry>
-   <title>SQLCLR and Certificates</title>
+   <title>SQL Server 2017, SQLCLR and Permissions</title>
+   <link href="http://nielsberglund.com/2017/07/02/sql-server-2017-sqlclr-and-permissions/"/>
+   <updated>2017-07-02T08:18:48+02:00</updated>
+   <id>http://nielsberglund.com/2017/07/02/sql-server-2017-sqlclr-and-permissions</id>
+   <content type="html">&lt;p&gt;While I was writing the post about &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt;, I came across some strange behavior when I accidentally ran my code on an SQL Server 2017 instance. I quickly connected back to my SQL Server 2016 instance and continued. However, afterwards I started to look into the differences between SQLCLR in SQL Server 2017 and SQL Server 2016, and this post is the result of me &lt;del&gt;playing around&lt;/del&gt; investigating the changes.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Let's start with a recap and an example&lt;/p&gt;
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In all versions of SQL Server from 2005 (where SQLCLR was introduced) up to 2016; when you deploy assemblies to the database and you want the assemblies to be able to execute outside of the database it is deployed to, you assign a permission set to the assembly. There are three permission sets available, ranging from not allowing you to shoot yourself in the foot to blow your head off:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SAFE&lt;/code&gt; - the code is not doing anything that you cannot do in T-SQL. You cannot shoot yourself in the foot any more than what you can do with T-SQL. This is the default.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt; - you can get outside of the local database, but only via &quot;approved&quot; assemblies, such as &lt;code&gt;ADO.NET&lt;/code&gt;, etc. You can definitely shoot yourself in the foot.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UNSAFE&lt;/code&gt; - You can do pretty much what you want. You are free to blow your head off.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The permission set is assigned when you create the assembly:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Create Assembly&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;some_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'F:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;some_path&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;somedll.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PERMISSION_SET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SAFE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EXTERNAL_ACCESS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UNSAFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Creating an Assembly from Absolute Path&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In order to create an assembly with anything else than &lt;code&gt;SAFE&lt;/code&gt;, the database or assembly need to have additional authorizations, and that was what my &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt; post covered.&lt;/p&gt;
+
+&lt;p&gt;To see what has changed in SQL Server 2017, let's look at some sample code. In &lt;em&gt;Code Snippet 1&lt;/em&gt; you see some C# code that we want to deploy to a SQL Server 2017 database:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Safe&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Sql2k17SqlClr&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Functions&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Safe Code to be Deployed&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After having built the project with the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;, you would deploy it to a specific database in your SQL Server instance like so (the dll is named &lt;code&gt;Sql2k17SqlClr1.dll&lt;/code&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Assembly Creation&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;lt;path_to_dll&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Sql2k17SqlClr1.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Create Safe Assembly&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The assembly we want to create in the database is definitely a safe assembly, as it is just doing some internal calculation, and in SQL Server (pre 2017), this would deploy just fine. In SQL Server 2017 however things are different. When you run the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, you will get following error:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_safe.png&quot; width=&quot;430&quot; height=&quot;209&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Error Deploying Safe Assembly&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The error you see is more or less the same you'd receive if you - in SQL Server pre 2017 - tried to deploy an assembly as &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt; or &lt;code&gt;UNSAFE&lt;/code&gt;. You can read more about that particular issue in my &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt; post.&lt;/p&gt;
+
+&lt;p&gt;One difference in the error message you see in &lt;em&gt;Figure 1&lt;/em&gt;, and what you would have received in pre SQL Server 2017 versions, is: &quot;&lt;em&gt;the 'clr strict security' option of sp_configure is set to 1&lt;/em&gt;&quot;. You may think; &quot;what is this, I have never seen that in other SQL Server versions&quot;. You are absolutely correct, so let's look at that  - and we'll start with &lt;strong&gt;Code Access Security&lt;/strong&gt; (&lt;strong&gt;CAS&lt;/strong&gt;)&lt;/p&gt;
+
+&lt;h2&gt;Code Access Security&lt;/h2&gt;
+
+&lt;p&gt;CAS is a security technology developed to provide the ability to protect system resources when a .NET assembly is executed. Such system resources could be: local files, files on a remote file system, registry keys, databases, printers and so on. CAS, in essence, was used to enforce security boundaries based on code origination or other identity aspects, and SQL Server's &lt;code&gt;PERMISSION_SET&lt;/code&gt; relied on the CAS security boundaries. That was how SQLCLR assemblies which only performed &quot;safe&quot; operations did not need any further authorizations.&lt;/p&gt;
+
+&lt;p&gt;In recent versions of the .NET framework (around version 4.5), Microsoft has changed the relation between CAS and security boundaries, and CAS is no longer supported as a boundary! From a SQLCLR perspective that is a real &quot;bummer&quot;, as theoretically there is no control over what an assembly can and cannot do (whereas before &lt;code&gt;PERMISSION_SET&lt;/code&gt; controlled the abilities).&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The above statement about no control what an assembly can and cannot do is not entirely correct as we will see further down.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h3&gt;&lt;code&gt;clr strict security&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;With the changes of the implications of CAS, and in order to enhance the security of CLR assemblies, Microsoft has in SQL Server 2017 introduced an &lt;code&gt;sp_configure&lt;/code&gt; option called &lt;code&gt;clr strict security&lt;/code&gt;, which by default is set to 1 (on). When the setting is on, SQL Server treats all assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) as if they were marked &lt;code&gt;UNSAFE&lt;/code&gt;. The implication of this is that you must either:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set the database to be &lt;code&gt;TRUSTWORTHY&lt;/code&gt;, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Sign the assembly with a certificate that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Sign the assembly with an asymmetric key that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;If you changed the &lt;code&gt;clr strict security&lt;/code&gt; option to 0, the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, would work just fine. Likewise, if you didn't change the option, but instead set &lt;code&gt;TRUSTWORTHY ON&lt;/code&gt; on the database, it would also work.&lt;/p&gt;
+
+&lt;h2&gt;Assembly Authorization&lt;/h2&gt;
+
+&lt;p&gt;So, where are we? In order to create a safe assembly we now need to authorize it as we would an &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt; or &lt;code&gt;UNSAFE&lt;/code&gt;, so let's do that to the assembly that the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; represents. We could do it by setting &lt;code&gt;TRUSTWORTHY&lt;/code&gt; to &lt;code&gt;ON&lt;/code&gt; for the database, and you who read my &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt; post know that I do not think that setting &lt;code&gt;TRUSTWORTHY&lt;/code&gt; to &lt;code&gt;ON&lt;/code&gt; is like &quot;opening the gates to hell&quot;, so I would not have an issue with doing that - even on a production database. That is however a discussion for another day, so let us do it by using a certificate.&lt;/p&gt;
+
+&lt;p&gt;To recap from the &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt; post, to use a certificate you'd:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a certificate, if you don't already have one.&lt;/li&gt;
+&lt;li&gt;Create a &lt;code&gt;.pfx&lt;/code&gt; file from the certificate. Pfx stands for Personal Information Exchange, and we'll use it to sign your assembly.&lt;/li&gt;
+&lt;li&gt;Sign the dll with the &lt;code&gt;.pfx&lt;/code&gt; file.&lt;/li&gt;
+&lt;li&gt;In the database create a SQL Server certificate from the original certificate.&lt;/li&gt;
+&lt;li&gt;In the database create login from the certificate.&lt;/li&gt;
+&lt;li&gt;Grant the login &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Create the dll in the database.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;I already have a certificate and a &lt;code&gt;.pfx&lt;/code&gt; file created from when I wrote the &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt; post, so I'll re-use those and go ahead and sign the assembly with the &lt;code&gt;.pfx&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Signing&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;signtool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sign&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NielsTestPfx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pfx&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testPwd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dll&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Sign the dll Using signtool.exe&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;/p&lt;/code&gt; flag in &lt;em&gt;Code Snippet 3&lt;/em&gt; defines the password of your &lt;code&gt;.pfx&lt;/code&gt; file. After having signed the dll, I create the SQL Server certificate, from the original certificate:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Certificate&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CERTIFICATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NielsTestCert&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;lt;path_to_cert&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;NielsTestCert.cer'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Create a SQL Server Certificate&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When the certificate is created we can create a login from the certificate, and &lt;code&gt;GRANT&lt;/code&gt; the login &lt;code&gt;UNSAFE&lt;/code&gt; assembly permissions:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Login&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;login_NielsTestCert&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CERTIFICATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NielsTestCert&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UNSAFE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;login_NielsTestCert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Create a SQL Server Login and Grant Permissions&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After the login has been created and the &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission granted to the login, the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, should just work. Oh, don't forget to switch back from &lt;code&gt;master&lt;/code&gt; to the database where you want to create the assembly.&lt;/p&gt;
+
+&lt;p&gt;We can then finally create a T-SQL wrapper function against the &lt;code&gt;fn_clr_Adder&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Function&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_Adder&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Create T-SQL Wrapper Function&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To check that it all works, run: &lt;code&gt;SELECT dbo.fn_clr_Adder(21,21)&lt;/code&gt; and the &lt;a href=&quot;https://en.wikipedia.org/wiki/42_(number)&quot;&gt;&lt;em&gt;Answer to the Ultimate Question of Life, the Universe, and Everything&lt;/em&gt;&lt;/a&gt; should be returned to you.&lt;/p&gt;
+
+&lt;p&gt;So far this does not seem too bad, OK - so for a &lt;code&gt;SAFE&lt;/code&gt; assembly we need to sign the assembly and have a login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permissions granted (or have &lt;code&gt;TRUSTWORTHY&lt;/code&gt; on).&lt;/p&gt;
+
+&lt;h2&gt;Confusion About &lt;code&gt;SAFE&lt;/code&gt; Assemblies&lt;/h2&gt;
+
+&lt;p&gt;Since the introduction of &lt;code&gt;clr strict security&lt;/code&gt; there has been some confusion about how &lt;code&gt;SAFE&lt;/code&gt; assemblies will behave, and part of this confusion can be attributed to the &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/clr-strict-security&quot;&gt;documentation&lt;/a&gt; around &lt;code&gt;clr strict security&lt;/code&gt;. Specifically this statement: &lt;em&gt;A CLR assembly created with PERMISSION_SET = SAFE may be able to access external system resources, call unmanaged code, and acquire sysadmin privileges.&lt;/em&gt;. When reading that statement, my understanding is that if I create an assembly as &lt;code&gt;SAFE&lt;/code&gt; I could potentially do &lt;code&gt;UNSAFE&lt;/code&gt; operations.&lt;/p&gt;
+
+&lt;p&gt;Let us test this out, and create a second dll &lt;code&gt;Sql2k17SqlClr2.dll&lt;/code&gt;, where the code looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Sql2k17SqlClr2.dll&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Threading&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Threading.Tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Sql2k17SqlClr&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Functions&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;StartNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LongRunning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LongRunning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Safe and Unsafe Behavior&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As you see in &lt;em&gt;Code Snippet 7&lt;/em&gt;, we have our trusted &lt;code&gt;fn_clr_Adder&lt;/code&gt; method, which is as safe as you can get. But, we also have the &lt;code&gt;fn_clr_LongRunningAdder&lt;/code&gt; method which uses a &lt;code&gt;Task&lt;/code&gt; for calling into another method and this is definitely &lt;code&gt;UNSAFE&lt;/code&gt;. So what will happen here if we, after having built and signed the dll, create the assembly as &lt;code&gt;SAFE&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Assembly Creation&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;lt;path_to_dll&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Sql2k17SqlClr2.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PERMISSION_SET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SAFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Create Safe Assembly with Unsafe Method&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Running the code in &lt;em&gt;Code Snippet 8&lt;/em&gt; should work, and it would also have worked in previous versions of SQL Server. We can now create a T-SQL wrapper function around the &lt;code&gt;fn_clr_LongRunningAdder&lt;/code&gt; method (the method using &lt;code&gt;UNSAFE&lt;/code&gt; resources):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Unsafe Function&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Create an Unsafe T-SQL Wrapper Function&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When I execute &lt;code&gt;SELECT dbo.fn_clr_LongRunningAdder(21, 21)&lt;/code&gt; I would expect - having read the statement above - that this would work. However, on my SQL Server 2017 instance (CTP 2.1), I receive an error:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_safe_unsafe.png&quot; width=&quot;530&quot; height=&quot;201&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Error Executing UNSAFE Function in SAFE Assembly&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, &lt;code&gt;HostProtection&lt;/code&gt; kicks in and says that I do not have necessary permissions to do the operation. In previous SQL Server versions this would happen if you hadn't assigned the correct &lt;code&gt;PERMISSION_SET&lt;/code&gt; to the assembly when it was created. So, let us drop the function and the assembly, and recreate the assembly with &lt;code&gt;PERMISSION_SET = UNSAFE&lt;/code&gt;, and recreate the wrapper function:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Recreate Assembly&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;lt;path_to_dll&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Sql2k17SqlClr2.dll'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PERMISSION_SET&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UNSAFE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 10:&lt;/strong&gt; &lt;em&gt;Create the Assembly as UNSAFE&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Now when I execute &lt;code&gt;SELECT dbo.fn_clr_LongRunningAdder(21, 21)&lt;/code&gt;, it all works as expected. So it seems that &lt;code&gt;PERMISSION_SET&lt;/code&gt; still has a role to play, at least in this scenario.&lt;/p&gt;
+
+&lt;h3&gt;Referenced Assemblies&lt;/h3&gt;
+
+&lt;p&gt;So what about if I have a &lt;code&gt;SAFE&lt;/code&gt; assembly which references an &lt;code&gt;UNSAFE&lt;/code&gt; assembly, and calls into an &lt;code&gt;UNSAFE&lt;/code&gt; method?&lt;/p&gt;
+
+&lt;p&gt;I created a third dll: &lt;code&gt;Sql2k17SqlClr3.dll&lt;/code&gt;, which has a method that calls into the &lt;code&gt;fn_clr_LongRunningAdder&lt;/code&gt; method in the &lt;code&gt;UNSAFE&lt;/code&gt; assembly &lt;code&gt;Sql2k17SqlClr2.dll&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Function&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Sql2k17SqlClr3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Functions&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17SqlClr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 11:&lt;/strong&gt; &lt;em&gt;Method Calling Into UNSAFE Method&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After having built and signed the dll, I deployed it to the database with &lt;code&gt;PERMISSION_SET = SAFE&lt;/code&gt;, and created a T-SQL wrapper function around the &lt;code&gt;fn_clr_Adder&lt;/code&gt; method. This is what was returned when executing the function:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_safe_unsafe.png&quot; width=&quot;530&quot; height=&quot;201&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Error Calling Into UNSAFE Assembly From SAFE&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Also in the case of referenced assemblies, it seems that &lt;code&gt;PERMISSION_SET&lt;/code&gt; plays a role. This was confirmed when I dropped and recreated the &lt;code&gt;Sql2k17SqlClr3.dll&lt;/code&gt; with &lt;code&gt;PERMISSION_SET = UNSAFE&lt;/code&gt;. When I at that stage executed the wrapper function, all worked OK!&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In SQL Server 2017, Microsoft now by default requires that all type of assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) are authorized for &lt;code&gt;UNSAFE&lt;/code&gt; access, by:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The database is set to be &lt;code&gt;TRUSTWORTHY&lt;/code&gt;, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;The assembly is signed with a certificate that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;The assembly is signed with an asymmetric key that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The above requirement is handled by a new configure option: &lt;code&gt;clr strict security&lt;/code&gt;. The documentation around this option is, at least at the moment, somewhat mis-leading as it implies that &lt;code&gt;PERMISSION_SET&lt;/code&gt; no longer has an impact on the behavior of an assembly.&lt;/p&gt;
+
+&lt;p&gt;The tests above shows however that if you want to do an &lt;code&gt;UNSAFE&lt;/code&gt; operation, the assembly has to be created with &lt;code&gt;PERMISSION_SET = UNSAFE&lt;/code&gt;. So what I wrote in the beginning of this post: &lt;em&gt;&quot;From a SQLCLR perspective that is a real &quot;bummer&quot;, as theoretically there is no control over what an assembly can and cannot do (whereas before &lt;code&gt;PERMISSION_SET&lt;/code&gt; controlled the abilities).&quot;&lt;/em&gt;, does not seem to be correct.&lt;/p&gt;
+
+&lt;p&gt;Bear in mind that I am running SQL Server 2017 CTP 2.1, and things may change. I'll try and dig in some more in this, and if I find out something I will edit this post.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>SQLCLR & Certificates</title>
    <link href="http://nielsberglund.com/2017/07/01/sqlclr-certificates/"/>
    <updated>2017-07-01T06:21:55+02:00</updated>
    <id>http://nielsberglund.com/2017/07/01/sqlclr--certificates</id>
@@ -1331,293 +1599,6 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
 
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Microsoft SQL Server R Services - Internals VI</title>
-   <link href="http://nielsberglund.com/2017/05/16/microsoft-sql-server-r-services-internals-vi/"/>
-   <updated>2017-05-16T19:38:41+02:00</updated>
-   <id>http://nielsberglund.com/2017/05/16/microsoft-sql-server-r-services---internals-vi</id>
-   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;[Microsoft SQL Server R Services - Internals VI (this post)&lt;/li&gt;
-&lt;li&gt;More to come (hopefully)&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;This post is the seventh post about Microsoft SQL Server R Services, and the sixth post that drills down into the internal of how it works. In this post we will look at the directories that are created when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Recap&lt;/h2&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; we spoke about how Windows user accounts are created during installation, and together with the user account; directories named as the individual Windows accounts are created in the &lt;code&gt;c:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. These directories act as storage for files, results, objects, etc., during execution of an external script.&lt;/p&gt;
-
-&lt;p&gt;When a user executes an external script in SQL Server, that account is being mapped to one of the 20 Windows account created, and it is under that Windows account the external part of the script is executed. Subsequently the files, etc., mentioned above, ends up in a sub-directory of the user account directory.&lt;/p&gt;
-
-&lt;p&gt;During execution the launchpad service creates working directories (the sub-folders above) and processes. The sub-directories are created with a &lt;code&gt;Guid&lt;/code&gt; as name, and the processes will get the same name as the sub-directory. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; we saw an excerpt from a log- showing among other things the creation of directories and processes. Below in &lt;em&gt;Code Snippet 1&lt;/em&gt; you see a part of that file:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Log-file&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:\...\MSSQLSERVER01\5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF) created (1)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:\...\MSSQLSERVER01\E7AB7781-A8C7-421F-BAA0-074075B41082) created (1)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(C:\...\R_SERVICES\bin\x64\rterm.exe
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    --slave --no-restore --no-save
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR);
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionDirectory &amp;lt;- 'C:\...\5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- '5F3BEB48-4E0A-4D0C-ACCF-3D8C6EB972EF';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(C:\...\R_SERVICES\bin\x64\rterm.exe
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    --slave --no-restore --no-save
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR);
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionDirectory &amp;lt;- 'C:\...\E7AB7781-A8C7-421F-BAA0-074075B41082';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- 'E7AB7781-A8C7-421F-BAA0-074075B41082';&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Excerpt from Creation of Processes and Directories&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Notice how, in &lt;em&gt;Code Snippet 1&lt;/em&gt;, the working directories are created first, followed by the processes. In the example above, two directories are created first followed by two processes. This happens for the two first directories and processes. After the two first ones, one directory will be created followed by one process, and so on, and so on. You can also see from the log how the name of the directory is used when creating the processes.&lt;/p&gt;
-
-&lt;h2&gt;Directories&lt;/h2&gt;
-
-&lt;p&gt;So, what is the purpose of the working directories? Well, we said in the beginning it was to store files etc., during execution of external scripts. So let us see what happens, when executing. The code we'll use in this post is similar to the code in the other posts in the series:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;&lt;br/&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             pid &amp;lt;- Sys.getpid()
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             d &amp;lt;- getwd()
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(paste0(&quot;WorkDir: &quot;, d))
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             OutputDataSet&amp;lt;-data.frame(ProcessId=pid,WorkingDir=d)'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WorkingDir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; Code to Execute*&lt;/p&gt;
-
-&lt;p&gt;As you see in &lt;em&gt;Code Snippet 2&lt;/em&gt;, we retrieve both the process id, as well as the working directory, and these two variables are output in the result set. The working directory is further more printed out, in the &lt;code&gt;cat&lt;/code&gt; function.&lt;/p&gt;
-
-&lt;p&gt;Let's execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, but before you do that:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service if it is running.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Start the launchpad service again.&lt;/li&gt;
-&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;The result of the execution looks something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir1.png&quot; width=&quot;650&quot; height=&quot;59&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Resultset from Code Execution&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we see that we executed in a process with an id of: 9092, and that the reported working directory is &lt;code&gt;E0A85B09-65C6-BD28-71A6B14917E9&lt;/code&gt;. So let us then go to the account - MSSQLSERVER01 - and see what it looks like:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir2.png&quot; width=&quot;303&quot; height=&quot;168&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Content of Account Directory After Execution&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Strange, we see 6 different directories, but not the directory that is reported to be the working directory. So let us try to figure out what happens:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;rlauncher.config&lt;/code&gt; file in a text editor and change the value of &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt; to 0, and save the file (you need to this as admin).&lt;/li&gt;
-&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; By setting the &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt; to 0 we tell the launchpad service to not delete any directories etc., after we have executed (the executing process will still be torn down though). By doing this we hope that we'll be able to see something that will cast some light on this.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; and see what is returned as working directory, and compare that with the directories under the user account directory under &lt;code&gt;ExtensibilityData&lt;/code&gt;. When I executed the code on my box, the working directory name returned in the result was &lt;code&gt;5DA4E521-5A5D-4E14-B3FC-769F994A7AD3&lt;/code&gt;, and the directory structure looked like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir3.png&quot; width=&quot;385&quot; height=&quot;189&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Directory Structure Including Working Directory&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So, there is a directory, but if you look at the contents you will see it is empty. The other directories though have content, and looks similar to:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir_content.png&quot; width=&quot;291&quot; height=&quot;118&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Content&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If you browse through the directories you will see that the content in all of them except for one (and the working directory), looks like what we see in &lt;em&gt;Figure 4&lt;/em&gt;. The one where it is different looks something like what we have in &lt;em&gt;Figure 5&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir_content_rscript.png&quot; width=&quot;351&quot; height=&quot;135&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Directory with Different Content&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 5&lt;/em&gt; we see how there is a file &lt;code&gt;&amp;lt;Guid-Value&amp;gt;.R, and how the&lt;/code&gt;stdout.txt` file has a 1kb size. In another post we'll look at the content of the directories, and what it means.&lt;/p&gt;
-
-&lt;p&gt;However, we still haven't really figured out about the working directory, and how it is created. If you remember from &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; and &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;IV&lt;/a&gt;, how we said that the launchpad service creates a number of directories (5+1 as default) as well as processes when an external script is executed, and after execution one process and directory is torn down. So why have I seven directories when the default settings has not changed on the SQL instance I run this on, I really should have six?&lt;/p&gt;
-
-&lt;p&gt;We actually saw the answer to that in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, when we at one stage looked at the &lt;code&gt;rlauncher.log&lt;/code&gt; file and saw what is logged when executing an external script with a &lt;code&gt;TRACE_LEVEL&lt;/code&gt; of 4. Instead of going back to that post, let us repeat it here:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;rlauncher.config&lt;/code&gt; file in a text editor and change the value of &lt;code&gt;TRACE_LEVEL&lt;/code&gt; to 4, and save the file (you need to this as admin). Oh, and keep the setting of &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt; at 0, as per above.&lt;/li&gt;
-&lt;li&gt;Delete the log files in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\Log\ExtensibilityLog&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
-&lt;li&gt;Execute the code again.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;On my box, the working directory came back as &lt;code&gt;67F7F651-8465-4F6B-B90E-0571DD84677D&lt;/code&gt;, and that directory also existed in the directory structure for the used user account, exactly as above. Then drilling down into the &lt;code&gt;rlauncher.log&lt;/code&gt; file, around the time we executed, we see this (this is heavily redacted, to make it readable):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Log-File&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session(67F7F651-8465-4F6B-B90E-0571DD84677D) [SqlSatellite] created.
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session(67F7F651-8465-4F6B-B90E-0571DD84677D)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    CleanupOnExit=0, Settings.JobCleanupOnExit=0
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session 67F7F651-8465-4F6B-B90E-0571DD84677D assigned to MSSQLSERVER01 user
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2) with minimum processes 5 created
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;ProcessPool(MSSQLSERVER01-ss-2)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    started GrowAsyncWorker() thread 11744 [00002DE0].
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:\...\MSSQLSERVER01\C23EA5B2-620C-473A-99F5-8BB37CCDA0B7)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    created (0)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;WorkingDirectory(C:\...\MSSQLSERVER01\3AEBD29C-E024-46F6-A25E-27E680AF9729)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    created (0)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:\...\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR); sessionDirectory &amp;lt;-
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    'C:\...\MSSQLSERVER01\C23EA5B2-620C-473A-99F5-8BB37CCDA0B7';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- 'C23EA5B2-620C-473A-99F5-8BB37CCDA0B7';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    ...
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;CreateProces(
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    C:\...\R_SERVICES\bin\x64\rterm.exe  --slave --no-restore --no-save
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    -e &quot;library(RevoScaleR); sessionDirectory &amp;lt;-
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    'C:\...\MSSQLSERVER01\3AEBD29C-E024-46F6-A25E-27E680AF9729';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    sessionId &amp;lt;- '3AEBD29C-E024-46F6-A25E-27E680AF9729';
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; ...
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Session[67F7F651-8465-4F6B-B90E-0571DD84677D]
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    attached to pooled processes [3AEBD29C-E024-46F6-A25E-27E680AF9729]
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;...
-&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Partial Log from Executing&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;From &lt;em&gt;Code Snippet 3&lt;/em&gt; we see what we also saw in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;A session is created.&lt;/li&gt;
-&lt;li&gt;A process pool is created.&lt;/li&gt;
-&lt;li&gt;Working directories are created.&lt;/li&gt;
-&lt;li&gt;Processes are created pointing to the working directories.&lt;/li&gt;
-&lt;li&gt;The session created initially is being attached to one of the pooled processes.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;But, when looking at the session it has the same &quot;name&quot; as the working directory, and we see how the session is attached to one of the processes. So it seems that the creation of a session also creates a directory. The process that the session is attached to becomes the process the external script is executed under, and the directory created together with the session becomes the working directory.&lt;/p&gt;
-
-&lt;p&gt;Is there any way we can see if the theory of a session-directory being created?&lt;/p&gt;
-
-&lt;p&gt;Seeing that we haven't used WinDbg for a while, let's try and see if we can confirm what is happening. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, we looked at the call chain when executing an external script, and it looked something bit like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Chain&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchServTask&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConstructSatelliteSession&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateSatelliteJobObject&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;2.&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateNewSessionObject&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;3.&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Launch&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;          &lt;span class=&quot;n&quot;&gt;Rlauncher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MiscCalls&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;                  &lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;High Level Call Chain&lt;/em&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Initially a call to &lt;code&gt;LaunchServTask&lt;/code&gt; happens.&lt;/li&gt;
-&lt;li&gt;We then create a satellite session, a job object and a session object.&lt;/li&gt;
-&lt;li&gt;We then come into the code path were we launch the launcher and create the RTerm processes: &lt;code&gt;launchpad!CLaunchContext::Launch&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;In there we do multiple calls to the launcher dll (&lt;code&gt;Rlauncher!&quot;MiscCalls&quot;&lt;/code&gt;), create the actual processes and assigns that to the job object. We initially create two processes, and one of the processes will be mapped to the session (as we saw from the log-file). This is then repeated multiple times.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;So, somewhere in the call chain in &lt;em&gt;Code Snippet 4&lt;/em&gt;, our directories are created. To try and figure out what happens, let's:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
-&lt;li&gt;Open WinDbg and attach to the launchpad service (you need to run WinDbg as admin).&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals - I&lt;/a&gt; has more information how to attach to a process, and what commands to use.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Now, let's set some break points at:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;bp launchpad!SatelliteSessionManager::CreateNewSessionObject&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp KERNELBASE!CreateDirectoryW&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp launchpad!SQLSatellite_LaunchProcess&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;So what we try to do is to establish in what order things happen, and how many times the &lt;code&gt;KERNELBASE!CreateDirectoryW&lt;/code&gt; is called. While we execute we should also, in file explorer, see what directories are created in the user account directory. Let's run the code now.&lt;/p&gt;
-
-&lt;p&gt;The output from the debugger looked for me like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteSessionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateNewSessionObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateDirectoryW&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='40' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='41' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Creation of Directories and Processes&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 5&lt;/em&gt; we see how:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Three directories are created initially, the first one being the directory for the session.&lt;/li&gt;
-&lt;li&gt;Then two processes, which will use the second and third directory.&lt;/li&gt;
-&lt;li&gt;Then one directory followed by one process, until we're done.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The above is in line what we discussed in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, as well as &lt;em&gt;Code Snippet 1&lt;/em&gt; where we saw how two directories are created initially followed by two processes.&lt;/p&gt;
-
-&lt;p&gt;So, that's fine - we now &quot;kind of&quot; understands how the working directory is created. Now, when you look at &lt;em&gt;Figure 4&lt;/em&gt;, you see that inside one of the created directories are some files, and a sub-directory. When we ran the code after having set the break points, as above, we did not see any &lt;code&gt;KERNELBASE!CreateDirectoryW&lt;/code&gt; calls which would have created the sub directories. What's up with that, and where do the files in the directories come from, and what do they do? Questions, questions, so many questions. Hopefully we'll get some answers in subsequent posts!&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;When we execute an external script, processes are created with backing directories. The script is executed in a session, and that session do have a backing directory as well. That directory becomes the working directory for the R process the script execute in.&lt;/p&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
