@@ -4,13 +4,87 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-07-13T20:14:40+02:00</updated>
+ <updated>2017-07-16T20:45:45+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 28</title>
+   <link href="http://nielsberglund.com/2017/07/16/interesting-stuff-week-28/"/>
+   <updated>2017-07-16T20:34:07+02:00</updated>
+   <id>http://nielsberglund.com/2017/07/16/interesting-stuff---week-28</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;p&gt;This weeks SQL Server topic, has quite a lot about graph databases. This is an interesting subject seeing SQL Server 2017's built-in graph capability.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/07/07/do-we-need-specialized-graph-databases-benchmarking-real-time-social-networking-applications/&quot;&gt;Do we need specialized graph databases? Benchmarking real-time social networking applications&lt;/a&gt;. In this white paper dissection, &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Andrew&lt;/a&gt; queries the need for specialized graph databases. Please read and judge for yourselves.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.red-gate.com/simple-talk/sql/t-sql-programming/sql-graph-objects-sql-server-2017-good-bad/&quot;&gt;SQL Graph Objects in SQL Server 2017: the Good and the Bad&lt;/a&gt;. &lt;a href=&quot;https://www.red-gate.com/simple-talk/author/dennes-torres/&quot;&gt;Dennes Torres&lt;/a&gt; has a really great blog-post about the graph capabilities in SQL Server 2017.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlblog.com/blogs/greg_low/archive/2017/07/10/what-s-in-a-name-how-should-sql-server-2017-graph-edge-tables-be-named.aspx&quot;&gt;What’s in a name? How should SQL Server 2017 Graph Edge tables be named?&lt;/a&gt;. Based on the post by Dennes (mentioned above), Greg Low posts some thoughts about naming of edge tables in graph databases.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Shows/Data-Exposed/Setting-up-SQL-Server-High-Availability-between-Windows-and-Linux-with-SQL-Server-2017&quot;&gt;Setting up SQL Server High-Availability between Windows and Linux with SQL Server 2017&lt;/a&gt;. &lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao&quot;&gt;Slava Oks&lt;/a&gt; and &lt;a href=&quot;https://azure.microsoft.com/en-us/blog/author/tobiast/&quot;&gt;Tobias Ternström&lt;/a&gt; (the &quot;SQL Server on Linux&quot; Brothers) talks about how to set up SQL server 2017 for high availability between Linux and Windows.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/complex-event-generation-business-process-monitoring-using-apache-flink&quot;&gt;Complex Event Generation for Business Process Monitoring using Apache Flink&lt;/a&gt;. Blog-post about how Apache Flink is being used for Complex Event Processing (CEP).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;p&gt;This week I came across two very interesting blogs, that cover the &quot;nitty-gritty&quot; of .NET, and here follows a couple of really interesting posts.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://adamsitnik.com/Value-Types-vs-Reference-Types/&quot;&gt;Value Types vs Reference Types&lt;/a&gt;. I certainly hope that every single .NET developer knows about value types and reference types, but I bet that this post by &lt;a href=&quot;http://adamsitnik.com/&quot;&gt;Adam Sitnik&lt;/a&gt; will blow everyones mind away, when he drills deep, deep into value types and reference types!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://mattwarren.org&quot;&gt;Memory Usage Inside the CLR&lt;/a&gt;. Another deep, deep drilling post about .NET. This time by &lt;a href=&quot;http://mattwarren.org&quot;&gt;Matthew Warren&lt;/a&gt;, and he goes into details about internal CLR memory! You gotta read it, it is awesome!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://adamsitnik.com/Span/&quot;&gt;Span&lt;/a&gt;. Oooh, this is &quot;sexy&quot;! &lt;a href=&quot;http://adamsitnik.com/&quot;&gt;Adam Sitnik&lt;/a&gt; posts about how to work with both managed and unmanaged memory in ,NET in a safe and efficient way!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/07/07/set-up-an-auto-scale-environment-to-operationalize-your-r-analytics-with-just-one-click/&quot;&gt;Set up an auto-scale environment to operationalize your R analytics, with just ONE CLICK&lt;/a&gt;. How to set up an auto-scale environment for operationalization of R analytics using Azure and Microsoft R Server.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;. I finally managed to get the &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt; post out there! I do apologize it took so long. Anyway, here we look at what files and sub-directories are created - and by whom - when executing an external R script.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;I am busy working on &lt;em&gt;Microsoft SQL Server R Services - Internals VIII&lt;/em&gt;, and hopefully it won't take as long as &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;VII&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals VII</title>
@@ -1496,75 +1570,6 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 22</title>
-   <link href="http://nielsberglund.com/2017/06/04/interesting-stuff-week-22/"/>
-   <updated>2017-06-04T20:13:28+02:00</updated>
-   <id>http://nielsberglund.com/2017/06/04/interesting-stuff---week-22</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;As it was the case last week, my reading has suffered due to work as well as due to &quot;prep&quot; for the &lt;a href=&quot;https://www.microsoft.com/middleeast/azure/cloud-society/engage-data-science-roadshow.aspx&quot;&gt;Microsoft Cloud Society - Data Science Roadshow&lt;/a&gt;, at which I will speak on Tuesday (June 6) next week.&lt;/p&gt;
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/05/29/use-with-clause-in-openjson-to-improve-parsing-performance/&quot;&gt;Use WITH clause in OPENJSON to improve parsing performance&lt;/a&gt;. Jovan Popovic (@JovanPop_MSFT), who is the JSON guru on the SQL Server team, has an interesting post how to improve performance of &lt;code&gt;OPENJSON&lt;/code&gt; by specifying what fields should be extracted from input JSON, using the &lt;code&gt;WITH&lt;/code&gt; clause.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://joeduffyblog.com/2017/06/01/an-update-on-me-pulumi/&quot;&gt;A Brief Update on Me (in a Word, Pulumi)&lt;/a&gt;. Well, me in the blog-title is obviously not me as in myself, but Joe Duffy - previously (among other things) &quot;Director of Engineering for Microsoft's Compiler and Language Group&quot; e.g. he knows a thing or two about &quot;stuff&quot;. He has since resigned from Microsoft and started [Pulumi]. The post was his first in a while, and as good it is to hear from him, it is infuriating to not know what Pulumi is all about :).&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://proto.actor/&quot;&gt;proto actor&lt;/a&gt;. Roger Johansson, who is the father of &lt;a href=&quot;http://getakka.net/&quot;&gt;Akka.Net&lt;/a&gt; has gone and created another actor framework: proto.actor. It sounds extremely interesting, being sort of a mix between Akka.Net and &lt;a href=&quot;https://dotnet.github.io/orleans/&quot;&gt;Microsoft Orleans&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-1-3-0-evolution-stream-processing&quot;&gt;Apache Flink® 1.3.0 and the Evolution of Stream Processing with Flink&lt;/a&gt;. Apache Flink has just released version 1.3. This post is a summary of the evolution of Flink.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/blink-flink-alibaba-search&quot;&gt;Blink: How Alibaba Uses Apache Flink&lt;/a&gt;. Anoter post about Apache Flink. This is about how the worlds largest e-commerce retailer, &lt;a href=&quot;https://www.alibaba.com/&quot;&gt;Alibaba&lt;/a&gt;, utilizes Flink.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/comparison-deep-learning-frameworks&quot;&gt;Comparing Deep Learning Frameworks&lt;/a&gt;.  An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation of different types of deep learning frameworks, specifically about open source neural networks.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/cognitive-toolkit/blog/2017/06/microsofts-high-performance-open-source-deep-learning-toolkit-now-generally-available/&quot;&gt;Microsoft’s high-performance, open source, deep learning toolkit is now generally available&lt;/a&gt;. Microsoft Cognitive Toolkit version 2.0 is now in full release with general availability. Some really interesting new features as well as performance benchmarks.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/05/watch-rfinance-2017.html&quot;&gt;Watch presentations from R/Finance 2017&lt;/a&gt;. Blog-post from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; listing interesting talks from the [R/Finance 2017] conference earlier this year.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://101.datascience.community/2017/06/01/5-datascience-research-papers-summer-2017&quot;&gt;5 DATA SCIENCE RESEARCH PAPERS TO READ IN SUMMER 2017&lt;/a&gt;. A blog-post from &lt;a href=&quot;http://101.datascience.community/&quot;&gt;Data Science 101&lt;/a&gt; listing some interesting Data Science papers to read.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;As was the case last week, I am struggling with getting out the next installation of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series. It is slow going but I hope to have something out within the next two weeks.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-
-&lt;p&gt;Oh, and if you attend the &lt;a href=&quot;https://www.microsoft.com/middleeast/azure/cloud-society/engage-data-science-roadshow.aspx&quot;&gt;Microsoft Cloud Society - Data Science Roadshow&lt;/a&gt; conference in Johannesburg, please come by and say Hi!&lt;/p&gt;
 </content>
  </entry>
  
