@@ -4,13 +4,298 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-07-16T20:45:45+02:00</updated>
+ <updated>2017-07-22T10:53:35+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals VIII</title>
+   <link href="http://nielsberglund.com/2017/07/22/microsoft-sql-server-r-services-internals-viii/"/>
+   <updated>2017-07-22T08:47:47+02:00</updated>
+   <id>http://nielsberglund.com/2017/07/22/microsoft-sql-server-r-services---internals-viii</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals VIII (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the ninth post about Microsoft SQL Server R Services, and the eight post that drills down into the internal of how it works.&lt;/p&gt;
+
+&lt;p&gt;So far in this series we have been looking at what happens in SQL Server as well as the launchpad service when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and we have still no real &quot;clue&quot; to where the R engine comes into play.&lt;/p&gt;
+
+&lt;p&gt;Well, hopefully that will change (at least a little bit) with this post, as we here will look at what happens when we leave the launchpad service.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Before we dive into the &quot;juicy&quot; stuff, let's remind ourselves where we are.&lt;/p&gt;
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;Normally in the recaps in this series, we have looked at what was covered in the previous &quot;episode&quot;. In this recap, let's look at he &quot;full&quot; picture up until now.&lt;/p&gt;
+
+&lt;p&gt;The first post in the series - &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt; - covered the installation of SQL Server 2016 R Services, and it also touched upon the external procedure which allows us to execute external scripts; &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We looked at the signature of the procedure as well as executing the equivalent to a &quot;Hello World&quot; script.&lt;/p&gt;
+
+&lt;p&gt;In the subsequent posts we talked about - when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt; - how SQL Server calls into the launchpad service, and how the launchpad service - through the &lt;code&gt;rlauncher.dll&lt;/code&gt; creates multiple &lt;code&gt;Rterm.exe&lt;/code&gt; processes as in &lt;em&gt;Figure 1&lt;/em&gt; below. One of the processes will be used to run the external script:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-rterm_processes.png&quot; width=&quot;583&quot; height=&quot;100&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Rterm.exe Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I addition to creating &lt;code&gt;Rterm.exe&lt;/code&gt; processes, the launchpad service also creates backing directories for those processes. These backing directories are used for saving output, intermediate results etc. The following figure was used to show what the call flow looks like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad_processes_post.png&quot; width=&quot;650&quot; height=&quot;466&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Call Flow Executing sp_execute_external_script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We discussed how the number of processes can be controlled by the &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting in &lt;code&gt;rlauncher.config&lt;/code&gt; file, and how it defaults to 5 if nothing is set.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; we came back to the backing directories, and we realized that in addition to the backing directories created for the Rterm processes, one more directory is created - which will be the &quot;official&quot; working directory for the session, and we showed this using this figure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_launchpad_working_dir.png&quot; width=&quot;650&quot; height=&quot;433&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Launchpad, Directories and Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;While we were investigating the directories created in &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; we saw that, while we executed an external script, files and sub-directories were created in the various backing directories:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_outputdir.png&quot; width=&quot;579&quot; height=&quot;139&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Contents Process Directory&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 4&lt;/em&gt; we see he content of the directory which is the processing directory, and in &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt; we looked into what creates those files/directories and what they are for. We came to the conclusion that both the launchpad service (probably through the &lt;code&gt;rlauncher.dll&lt;/code&gt;) created some files, whereas &lt;code&gt;Rterm.exe&lt;/code&gt; created others.&lt;/p&gt;
+
+&lt;p&gt;That's where we are, and now it is time to look at the world outside of the launchpad, and try to figure out what is being used when executing an external script.&lt;/p&gt;
+
+&lt;h2&gt;Rterm.exe&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; we saw how the launchpad service creates Rterm processes, and how the launchpad service calls &lt;code&gt;launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt; followed by &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; to call into the Rterm process chosen for execution of the external script. So what does &lt;code&gt;Rterm.exe&lt;/code&gt; and the RTerm process do?&lt;/p&gt;
+
+&lt;p&gt;To answer that let us first look at what the R &quot;engine&quot; really is, and let's do that by looking at standard CRAN R, and for this I use RStudio as an IDE. So, let's open RStudio and make sure it uses the CRAN R engine:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_cran.png&quot; width=&quot;456&quot; height=&quot;85&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;RStudion CRAN R&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;At that stage if I check in &lt;strong&gt;Process Explorer&lt;/strong&gt; to see what processes are loaded I see something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_rsession.png&quot; width=&quot;599&quot; height=&quot;56&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; **&lt;/p&gt;
+
+&lt;p&gt;So in &lt;em&gt;Figure 6&lt;/em&gt; we see how the &lt;code&gt;rstudio.exe&lt;/code&gt; is host for &lt;code&gt;rsession.exe&lt;/code&gt;, which in turn host &lt;code&gt;conhost.exe&lt;/code&gt;. For this discussion &lt;code&gt;conhost.exe&lt;/code&gt; has no real impact, but if you want to know more about it, &lt;a href=&quot;https://blogs.technet.microsoft.com/askperf/2009/10/05/windows-7-windows-server-2008-r2-console-host/&quot;&gt;here&lt;/a&gt; is a good article explaining why we have &lt;code&gt;conhost.exe&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Going back to &lt;code&gt;rsession.exe&lt;/code&gt;; in Process Explorer, we look at what dll's it has loaded (click on &lt;code&gt;`rsession.exe&lt;/code&gt; followed by &lt;strong&gt;Ctrl-D&lt;/strong&gt; ) we'll see something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_rsession_dlls1.png&quot; width=&quot;627&quot; height=&quot;128&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Loaded dll's&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 7&lt;/em&gt; above shows 7 dll's loaded by &lt;code&gt;rsession.exe&lt;/code&gt;, and what is interesting is the second from bottom, which has a path pointing to the R libraries. When we look further down in the list we'll see more dll's from the R libraries:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_rsession_rdlls.png&quot; width=&quot;574&quot; height=&quot;81&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;R Dlls&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Among the dll's we see the &lt;code&gt;R.dll&lt;/code&gt;, which is the main dll for R. So, it seems that &lt;code&gt;rsession.exe&lt;/code&gt; acts as a host for the R engine, and the R engine is a &quot;bunch&quot; of dll's.&lt;/p&gt;
+
+&lt;p&gt;Coming back to &lt;code&gt;rterm.exe&lt;/code&gt; and what it is, we can now assume it acts in the same way as &lt;code&gt;rsession.exe&lt;/code&gt;. Let us go back to the code that we used in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; when we captured the figure we above in &lt;em&gt;Figure 1&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Script with Pause&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet&amp;lt;-InputDataSet;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              Sys.sleep(120);'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TheAnswer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Execute with Sys.Sleep&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Like we did in &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, we'll execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;, and while the code is running we'll look in Process Explorer and see if we find anything of interest:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Start &lt;em&gt;Process Explorer&lt;/em&gt;, order by Process, and scroll down to where you see process names starting with &quot;RT&quot; (on my box there are none at this stage), or where the processes should be.
+
+&lt;ul&gt;
+&lt;li&gt;If you at this stage see RTerm, restart the launchpad service again and kill those processes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;While the code is running, take a quick look in Process Explorer, and you should see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rterm_processes.png&quot; width=&quot;644&quot; height=&quot;304&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;RTerm Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The difference between &lt;em&gt;Figure 1&lt;/em&gt; and &lt;em&gt;Figure 9&lt;/em&gt;, is that in &lt;em&gt;Figure 1&lt;/em&gt; I had collapsed the Rterm processes. In &lt;em&gt;Figure 9&lt;/em&gt; we see how the launchpad service is host for multiple Rterm processes, and how &lt;code&gt;Rterm.exe&lt;/code&gt; is host for &lt;code&gt;conhost.exe&lt;/code&gt; as well as &lt;code&gt;BxlServer.exe&lt;/code&gt;. We'll come back shortly to what &lt;code&gt;BxlServer.exe&lt;/code&gt; is.&lt;/p&gt;
+
+&lt;p&gt;Let's look a bit closer at what dll's we find for one of the active Rterm processes, click on the Rterm process which has a CPU value, and then click &lt;strong&gt;Ctrl-D&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may have to re-execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;, maybe even increase the sleep time to 3 or 4 minutes to be able to see everything.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When I scroll down in the dll list I see some familiar R dll's, that we also saw in &lt;em&gt;Figure 8&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rterm_dlls.png&quot; width=&quot;649&quot; height=&quot;168&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Rterm R dll's&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;At this stage we can safely say that the &lt;code&gt;Rterm.exe&lt;/code&gt; and its process hosts the R engine. That is cool (yeah I know - I need to get a life), but what does that &lt;code&gt;BxlServer.exe&lt;/code&gt; do in the mix?&lt;/p&gt;
+
+&lt;h2&gt;BxlServer&lt;/h2&gt;
+
+&lt;p&gt;So the question was, what is the &lt;code&gt;BxlServer.exe&lt;/code&gt;? To answer that let's take a step back, and look at the R offerings Microsoft has:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Microsoft R Open - a Microsoft open source offering of R&lt;/li&gt;
+&lt;li&gt;Microsoft R Server - Microsoft's commercial R offering.&lt;/li&gt;
+&lt;li&gt;SQL Server R Services - the moral equivalent of Microsoft R Server, but with SQL Server as delivery vehicle.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Let's see what happens if we pointed RStudio towards the Microsoft R Open environment:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_mro.png&quot; width=&quot;577&quot; height=&quot;294&quot;  &gt;
+&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;RStudio Targeting MRO&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Process Explorer&lt;/em&gt;, looking at the rstudio process, it won't look any different than what it did when Rstudio targeted CRAN R as in &lt;em&gt;Figure 6&lt;/em&gt;, so obviously the Microsoft R Open offering does not &quot;know&quot; of the &lt;code&gt;BxlServer.exe&lt;/code&gt; we see in &lt;em&gt;Figure 9&lt;/em&gt;. But, looking at the dll's loaded by &lt;code&gt;rsession.exe&lt;/code&gt;, we see more or less the same as was loaded by &lt;code&gt;rterm.exe&lt;/code&gt; in &lt;em&gt;Figure 10&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_mro_dlls.png&quot; width=&quot;594&quot; height=&quot;113&quot;  &gt;
+&lt;strong&gt;Figure 12:&lt;/strong&gt; &lt;em&gt;RStudio MRO dll's&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What would happen if RStudio targeted the Microsoft R Server (MRS) instead:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_mrs.png&quot; width=&quot;461&quot; height=&quot;314&quot;  &gt;
+&lt;strong&gt;Figure 13:&lt;/strong&gt; &lt;em&gt;RStudio Targeting MRS&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This time when looking at the rstudio process we do see &lt;code&gt;BxlServer.exe&lt;/code&gt; as a process hosted by &lt;code&gt;rsession.exe&lt;/code&gt;, so it seems that &lt;code&gt;BxlServer.exe&lt;/code&gt; is specifically for the commercial versions of Microsoft R.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; There is no difference between the &lt;code&gt;BxlServer.exe&lt;/code&gt; in MRS and SQL Server R Services. Well, not much anyway :), in next post we'll see some differences.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;By now you are probably saying something like: &quot;Niels, this is very informative - NOT, get to the point - what is &lt;code&gt;BxlServer.exe&lt;/code&gt;&quot;. OK, so let us see some of the dll's &lt;code&gt;BxlServer.exe&lt;/code&gt; has loaded (click on the &lt;code&gt;BxlServer.exe&lt;/code&gt; process and &lt;strong&gt;Ctrl-D&lt;/strong&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_bxlserver.png&quot; width=&quot;651&quot; height=&quot;90&quot;  &gt;
+&lt;strong&gt;Figure 13:&lt;/strong&gt; &lt;em&gt;BxlServer Loaded dll's&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ooh, that's interesting, look at the path and especially what is in the red rectangle: &lt;code&gt;RevoScaleR&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;RevoScaleR, is an R package providing both High Performance Computing (HPC) and High Performance Analytics (HPA) capabilities for R.  HPC capabilities allow you to distribute the execution of essentially any R function across cores and nodes, and deliver the results back to the user. HPA adds the ability to handle big data in a high performance way. In addition to this (or rather as part of) RevoScaleR also has functionality to handle data access with high performance, and &lt;code&gt;BxlServer.exe&lt;/code&gt; is the host for all this.&lt;/p&gt;
+
+&lt;p&gt;In addition to run the HPC, HPA and data access, &lt;code&gt;BxlServer.exe&lt;/code&gt; also coordinates with the R runtime in order to manage exchanges of data with SQL Server, and it runs most of the R processing. A lot of the coordination and handling of result sets in &lt;code&gt;BxlServer.exe&lt;/code&gt; is handled by a dll loaded by &lt;code&gt;BxlServer.exe&lt;/code&gt;: &lt;code&gt;BxServerLink.dll&lt;/code&gt;. Below we see how the &lt;code&gt;BxServerLink.dll&lt;/code&gt; is loaded by &lt;code&gt;Bxlserver.exe&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_rstudio_bxserverlink.png&quot; width=&quot;602&quot; height=&quot;21&quot;  &gt;
+&lt;strong&gt;Figure 14:&lt;/strong&gt; &lt;em&gt;BxServerLink Loaded by BxlServer.exe&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Let's go back to &lt;em&gt;Figure 13&lt;/em&gt; , where we see how &lt;code&gt;rsession.exe&lt;/code&gt; hosts &lt;code&gt;BxlServer.exe&lt;/code&gt;. How does that work, I mean - &lt;code&gt;rsession.exe&lt;/code&gt; is a CRAN R executable, and it does not know anything about Microsoft R Services and &lt;code&gt;BxlServer.exe&lt;/code&gt;? The answer is &lt;code&gt;R.dll&lt;/code&gt;; when &lt;code&gt;rsession.exe&lt;/code&gt; loads &lt;code&gt;R.dll&lt;/code&gt; (which is a Microsoft dll), the &lt;code&gt;R.dll&lt;/code&gt; then starts to load other dll's. But, &lt;code&gt;BxlServer.exe&lt;/code&gt; is not a dll, and it runs in a separate process, surely &lt;code&gt;R.dll&lt;/code&gt; cannot do that? No, it cannot - but what it does do is to load a dll acting as a conduit: the &lt;code&gt;RxLink.dll&lt;/code&gt;. The &lt;code&gt;RxLink.dll&lt;/code&gt; creates a new process in where &lt;code&gt;BxlServer.exe&lt;/code&gt; runs, and that is how communication happens between &lt;code&gt;rsession.exe&lt;/code&gt; and &lt;code&gt;BxlServer.exe&lt;/code&gt;. And that is also what happens in SQL Server R Services where &lt;code&gt;Rterm.exe&lt;/code&gt; is the &quot;host&quot;. &lt;code&gt;Rterm.exe&lt;/code&gt; loads the &lt;code&gt;R.dll&lt;/code&gt; which loads &lt;code&gt;RxLink.dll&lt;/code&gt; who then creates a process for &lt;code&gt;BxlServer.exe&lt;/code&gt;, and &lt;code&gt;BxlServer.exe&lt;/code&gt; loads &lt;code&gt;BxLinkServer.dll&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In the next Internals post we'll look more at &lt;code&gt;RxLink.dll&lt;/code&gt;, and &lt;code&gt;BxLinkServer.dll&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Finally, let's make sure that &lt;code&gt;BxlServer.exe&lt;/code&gt; actually is doing something when we execute an external script in SQL Server R Services. For that we'll use some code we wrote in &lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Internals V&lt;/a&gt;, where we discussed parallelism:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Setup&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RowID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_30M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TOP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Setup of Database, Table and Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The data we create in &lt;em&gt;Code Snippet 2&lt;/em&gt; makes absolutely no sense at all, but it will serve our purposes of have some volume of data to work with, and cause the execution to run for a little while.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Go back to &lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Internals - V&lt;/a&gt; if you are interested in seeing what this code does.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;The code we want to execute in SQL Server looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execute from SQL Server&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             #Sys.sleep(30)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             pid &amp;lt;- Sys.getpid()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             r &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                           data=InputDataSet)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             coef &amp;lt;- r$coefficients
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             icept &amp;lt;- coef&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              OutputDataSet &amp;lt;- data.frame(pid=pid, nRows=r$nValidObs,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                          intercept=icept)'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT  y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_30M'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FLOAT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Linear Regression in SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To run this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Restart the launchpad service (this is to clean-up any RTerm processes).&lt;/li&gt;
+&lt;li&gt;Navigate to the &lt;code&gt;Launchpad.exe&lt;/code&gt; process in &lt;em&gt;Process Explorer&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 3&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;While the code is executing, look in &lt;em&gt;Process Explorer&lt;/em&gt; for RTerm processes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Among the Rterm and BxlServer processes you should see one &lt;code&gt;BxlServer.exe&lt;/code&gt; process that has a CPU value, as well as consuming some memory:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_bxlserver_processing.png&quot; width=&quot;646&quot; height=&quot;66&quot;  &gt;
+&lt;strong&gt;Figure 15:&lt;/strong&gt; &lt;em&gt;BxlServer Processing&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, as I mentioned above, it is the &lt;code&gt;BxlServer.exe&lt;/code&gt; which is doing he heavy lifting in SQL Server R Services.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post we have now seen what happens when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SQL Server calls into the launchpad service.&lt;/li&gt;
+&lt;li&gt;The launchpad service calls into the &lt;code&gt;Rlauncher.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Rlauncher.dll&lt;/code&gt; creates Rterm processes.&lt;/li&gt;
+&lt;li&gt;Through Rterm, the &lt;code&gt;R.dll&lt;/code&gt; is loaded together with &lt;code&gt;RxLink.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;RxLink.dll&lt;/code&gt; creates the &lt;code&gt;BxlServer.exe&lt;/code&gt; process.&lt;/li&gt;
+&lt;li&gt;To coordinate with SQL Server, &lt;code&gt;BxlServer.exe&lt;/code&gt; loads &lt;code&gt;BxServerLink.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Below I have tried to describe it in a figure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_arch_overview.png&quot; width=&quot;650&quot; height=&quot;194&quot;  &gt;
+&lt;strong&gt;Figure 15:&lt;/strong&gt; &lt;em&gt;BxlServer Processing&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Notice how, in &lt;em&gt;Figure 15&lt;/em&gt;, there is nothing about how data gets back to SQL Server. That is something we will discuss in next post. Oh and yes, &lt;em&gt;Figure 15&lt;/em&gt; looks very much like one of the figures you can see in this &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/new-components-in-sql-server-to-support-r&quot;&gt;post&lt;/a&gt;, and I freely admit I have looked at it :).&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 28</title>
@@ -104,6 +389,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals VII (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1505,67 +1791,6 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;For you who wonder about my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series, I should be able to publish episode VII this coming week sometime.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 23</title>
-   <link href="http://nielsberglund.com/2017/06/11/interesting-stuff-week-23/"/>
-   <updated>2017-06-11T19:49:02+02:00</updated>
-   <id>http://nielsberglund.com/2017/06/11/interesting-stuff---week-23</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;For one reason or another I have not found that much interesting articles/posts this week. A reason for this can be that I have done some traveling the last week and not had time to read that much. Tuesday I was at the &lt;a href=&quot;https://www.microsoft.com/middleeast/azure/cloud-society/engage-data-science-roadshow.aspx&quot;&gt;Microsoft Cloud Society - Data Science Roadshow&lt;/a&gt; where I did a talk about Azure Machine Learning. It was fun doing some conference talks again, and I may do some more if there is anything interesting coming up.&lt;/p&gt;
-
-&lt;p&gt;Anyway, a couple of things caught my eye the week past, so let's get to it.&lt;/p&gt;
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sql-sasquatch.blogspot.co.za/2017/06/oledb-waits-in-sqlserver-checktable.html&quot;&gt;OLEDB waits in #SQLServer checktable Part I - Disappearing Act&lt;/a&gt;. This is the first &quot;episode&quot; in a series of blogposts by &lt;a href=&quot;https://twitter.com/sqL_handLe&quot;&gt;Lonny Niederstadt&lt;/a&gt; about the OLEDB wait type during checktable operations. The posts are really, really worth reading if you are interested in deep level SQL Server &quot;stuff&quot;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/paul/increased-sos_scheduler_yield-waits-on-virtual-machines/&quot;&gt;Increased SOS_SCHEDULER_YIELD waits on virtual machines&lt;/a&gt;. More about waits. This time by Paul Randal from &lt;a href=&quot;https://www.sqlskills.com&quot;&gt;SQLskills&lt;/a&gt;, and wait stats when SQL Server is running in a virtual machine.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/distributed-systems-theory&quot;&gt;Distributed Systems Theory for Practical Engineers&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Alvaro Videla. In this presentation Alvaro discusses asynchronous vs. synchronous distributed systems, message passing vs shared memory communication, failure detectors and leader election problems, etc. Very Cool!!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/twitter-notifications&quot;&gt;Real-time &amp;amp; Personalized Notifications @Twitter&lt;/a&gt;. Another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about the hybrid push/pull-based architecture adopted by the Twitter Notification platform.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/06/introducing-the-new-data-science-virtual-machine-on-windows-server-2016/&quot;&gt;Introducing the new Data Science Virtual Machine on Windows Server 2016&lt;/a&gt;. A blog-post introducing the Microsoft Azure Data Science Virtual Machine for Windows server 2016. There are quite a fee new interesting features in this release; Docker container support, unified support for Deep Learning on GPU or CPU-only based virtual machines, etc. Quite a lot of new exciting things to play with.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://101.datascience.community/2017/06/06/deep-learning-research-paper-lists-for-summer-2017&quot;&gt;DEEP LEARNING RESEARCH PAPER LISTS FOR SUMMER 2017&lt;/a&gt;. In the &lt;a href=&quot;http://101.datascience.community/2017/06/06/deep-learning-research-paper-lists-for-summer-2017&quot;&gt;roundup last week&lt;/a&gt; I covered a post with a list of Data Science research papers. This post is similar, but for papers about deep learning.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/tsmatsuz/2017/06/08/azure-data-lake-r-extension/&quot;&gt;Analyze your data in Azure Data Lake with R (R extension)&lt;/a&gt;. A blog-post about how you can run R code on Azure Data Lake Analytics in the cloud, so you don't have to move the data to somewhere locally.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I can see the light in the end of the tunnel and I hope to have the next installation of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series ready to be published soon:ish.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
