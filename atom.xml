@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>MANAGED DATA</title>
- <link href="http://localhost:4000/atom.xml" rel="self"/>
- <link href="http://localhost:4000/"/>
- <updated>2017-07-23T10:12:04+02:00</updated>
- <id>http://localhost:4000</id>
+ <link href="http://nielsberglund.com/atom.xml" rel="self"/>
+ <link href="http://nielsberglund.com/"/>
+ <updated>2017-07-23T10:21:32+02:00</updated>
+ <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>SQL Server 2017 SQLCLR - Whitelisting Assemblies</title>
-   <link href="http://localhost:4000/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/"/>
+   <link href="http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/"/>
    <updated>2017-07-23T09:53:57+02:00</updated>
-   <id>http://localhost:4000/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies</id>
+   <id>http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies</id>
    <content type="html">&lt;p&gt;A little while ago I wrote a &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;blog-post&lt;/a&gt; about the changes in the SQLCLR security model in SQL Server 2017. I wrote about how Microsoft has changed the relation between CAS and security boundaries, and CAS is no longer supported as a boundary! And also how Microsoft introduced an &lt;code&gt;sp_configure&lt;/code&gt; option called &lt;code&gt;clr strict security&lt;/code&gt;, which by default is set to 1 (on). When the setting is on, SQL Server treats all assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) as if they were marked &lt;code&gt;UNSAFE&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The release I wrote the post against was CTP 2.1, and earlier this week Microsoft released SQL Server 2017 RC1. Some days ago I received a comment from &lt;em&gt;Paul Vestuto&lt;/em&gt; on my &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;post&lt;/a&gt;, pointing out that in RC1 there has been some more changes to the security model. I thought those changes would earn their own blog-post, instead of just editing the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
@@ -314,9 +314,9 @@
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals VIII</title>
-   <link href="http://localhost:4000/2017/07/22/microsoft-sql-server-r-services-internals-viii/"/>
+   <link href="http://nielsberglund.com/2017/07/22/microsoft-sql-server-r-services-internals-viii/"/>
    <updated>2017-07-22T08:47:47+02:00</updated>
-   <id>http://localhost:4000/2017/07/22/microsoft-sql-server-r-services---internals-viii</id>
+   <id>http://nielsberglund.com/2017/07/22/microsoft-sql-server-r-services---internals-viii</id>
    <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -599,9 +599,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 28</title>
-   <link href="http://localhost:4000/2017/07/16/interesting-stuff-week-28/"/>
+   <link href="http://nielsberglund.com/2017/07/16/interesting-stuff-week-28/"/>
    <updated>2017-07-16T20:34:07+02:00</updated>
-   <id>http://localhost:4000/2017/07/16/interesting-stuff---week-28</id>
+   <id>http://nielsberglund.com/2017/07/16/interesting-stuff---week-28</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -673,9 +673,9 @@
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals VII</title>
-   <link href="http://localhost:4000/2017/07/11/microsoft-sql-server-r-services-internals-vii/"/>
+   <link href="http://nielsberglund.com/2017/07/11/microsoft-sql-server-r-services-internals-vii/"/>
    <updated>2017-07-11T20:08:13+02:00</updated>
-   <id>http://localhost:4000/2017/07/11/microsoft-sql-server-r-services---internals-vii</id>
+   <id>http://nielsberglund.com/2017/07/11/microsoft-sql-server-r-services---internals-vii</id>
    <content type="html">&lt;p&gt;(WOW, I finally managed to get this post out! Yay to me!!)&lt;/p&gt;
 
 &lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
@@ -970,9 +970,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 27</title>
-   <link href="http://localhost:4000/2017/07/09/interesting-stuff-week-27/"/>
+   <link href="http://nielsberglund.com/2017/07/09/interesting-stuff-week-27/"/>
    <updated>2017-07-09T19:15:08+02:00</updated>
-   <id>http://localhost:4000/2017/07/09/interesting-stuff---week-27</id>
+   <id>http://nielsberglund.com/2017/07/09/interesting-stuff---week-27</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1034,9 +1034,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 26</title>
-   <link href="http://localhost:4000/2017/07/02/interesting-stuff-week-26/"/>
+   <link href="http://nielsberglund.com/2017/07/02/interesting-stuff-week-26/"/>
    <updated>2017-07-02T19:23:56+02:00</updated>
-   <id>http://localhost:4000/2017/07/02/interesting-stuff---week-26</id>
+   <id>http://nielsberglund.com/2017/07/02/interesting-stuff---week-26</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1095,9 +1095,9 @@
  
  <entry>
    <title>SQL Server 2017, SQLCLR and Permissions</title>
-   <link href="http://localhost:4000/2017/07/02/sql-server-2017-sqlclr-and-permissions/"/>
+   <link href="http://nielsberglund.com/2017/07/02/sql-server-2017-sqlclr-and-permissions/"/>
    <updated>2017-07-02T08:18:48+02:00</updated>
-   <id>http://localhost:4000/2017/07/02/sql-server-2017-sqlclr-and-permissions</id>
+   <id>http://nielsberglund.com/2017/07/02/sql-server-2017-sqlclr-and-permissions</id>
    <content type="html">&lt;p&gt;While I was writing the post about &lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt;, I came across some strange behavior when I accidentally ran my code on an SQL Server 2017 instance. I quickly connected back to my SQL Server 2016 instance and continued. However, afterwards I started to look into the differences between SQLCLR in SQL Server 2017 and SQL Server 2016, and this post is the result of me &lt;del&gt;playing around&lt;/del&gt; investigating the changes.&lt;/p&gt;
 
 &lt;!--more--&gt;
@@ -1367,9 +1367,9 @@
  
  <entry>
    <title>SQLCLR and Certificates</title>
-   <link href="http://localhost:4000/2017/07/01/sqlclr-certificates/"/>
+   <link href="http://nielsberglund.com/2017/07/01/sqlclr-certificates/"/>
    <updated>2017-07-01T06:21:55+02:00</updated>
-   <id>http://localhost:4000/2017/07/01/sqlclr--certificates</id>
+   <id>http://nielsberglund.com/2017/07/01/sqlclr--certificates</id>
    <content type="html">&lt;p&gt;This post originates, like the one about &lt;a href=&quot;/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils/&quot;&gt;sqlrutils&lt;/a&gt;, from a question on a Microsoft forum - this time the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlnetfx&quot;&gt;.NET Framework inside SQL Server&lt;/a&gt; forum. As the name implies, the forum cover questions about the usage of SQLCLR (.NET inside SQL Server), and the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/sqlserver/en-US/35b8bce5-8ea9-4fd4-aa87-1764a2071e92/long-lasting-pfx-file-for-sqlclr-externalaccess-signing?forum=sqlnetfx&quot;&gt;question&lt;/a&gt; was about signing of SQLCLR assemblies in order to assigning other permission sets than &lt;code&gt;SAFE&lt;/code&gt; to the assembly.&lt;/p&gt;
 
 &lt;p&gt;As I, back in the day, taught SQLCLR as part of Developmentor's SQL Server curriculum, I thought that it'd be interesting if I tried to answer the question, and also make a blog-post about it. That way I'd remember what to do the next time the question came up.&lt;/p&gt;
@@ -1678,9 +1678,9 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
  
  <entry>
    <title>Interesting Stuff - Week 25</title>
-   <link href="http://localhost:4000/2017/06/25/interesting-stuff-week-25/"/>
+   <link href="http://nielsberglund.com/2017/06/25/interesting-stuff-week-25/"/>
    <updated>2017-06-25T19:51:33+02:00</updated>
-   <id>http://localhost:4000/2017/06/25/interesting-stuff---week-25</id>
+   <id>http://nielsberglund.com/2017/06/25/interesting-stuff---week-25</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1730,9 +1730,9 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
  
  <entry>
    <title>Creating R Stored Procedures in SQL Server 2016 Using sqlrutils</title>
-   <link href="http://localhost:4000/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils/"/>
+   <link href="http://nielsberglund.com/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils/"/>
    <updated>2017-06-25T17:19:20+02:00</updated>
-   <id>http://localhost:4000/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils</id>
+   <id>http://nielsberglund.com/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils</id>
    <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/home?forum=MicrosoftR&quot;&gt;Microsoft R Server forum&lt;/a&gt; the other day was a &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/5759339f-ec8a-4c70-b05c-081d56542c84/sql-server-r-services-stored-procedures-inputs&quot;&gt;question&lt;/a&gt; about inputs to SQL Server R stored procedures, or rather about &quot;strange&quot; parameter naming, when using the &lt;strong&gt;sqlrutils&lt;/strong&gt; package. I got intrigued by the question and started &lt;del&gt;playing around with&lt;/del&gt; researching it, and this blog-post is the result. Oh, and this blog-post would never have seen the light of the day, if it hadn't been for the original poster of the question: &lt;a href=&quot;https://social.msdn.microsoft.com/profile/jd%20long/&quot;&gt;JD Long&lt;/a&gt;, thanks JD!&lt;/p&gt;
 
 &lt;p&gt;So, what is SQL Server R stored procedures and what is &lt;strong&gt;sqlrutils&lt;/strong&gt;?&lt;/p&gt;
