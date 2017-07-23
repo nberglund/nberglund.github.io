@@ -4,13 +4,67 @@
  <title>MANAGED DATA</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-07-23T10:21:32+02:00</updated>
+ <updated>2017-07-23T19:54:51+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 29</title>
+   <link href="http://nielsberglund.com/2017/07/23/interesting-stuff-week-29/"/>
+   <updated>2017-07-23T19:51:06+02:00</updated>
+   <id>http://nielsberglund.com/2017/07/23/interesting-stuff---week-29</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/the-early-life-of-a-sqlos-thread/&quot;&gt;The early life of a SQLOS thread&lt;/a&gt;. &quot;And on that day a SQLOS thread was born&quot;! &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; talks about SQLOS threads in his normal entertaining style. Once again, if you are interested in the inner workings of SQL Server in general and SQLOS specifically, you have to follow &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt;!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/e78c8278-aeef-4a30-996e-cb80e385fea4/sqlclr-deployment-utility-and-helper-library?forum=sqlnetfx&quot;&gt;SQLCLR Deployment Utility and Helper library&lt;/a&gt;. A post on the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/home?forum=sqlnetfx&quot;&gt;.NET Framework inside SQL Server&lt;/a&gt; forum about a utility for SQLCLR functions as well as deployments. Have a look at the &lt;a href=&quot;https://github.com/vaseug/PowerLib&quot;&gt;GitHub&lt;/a&gt; repo for all the supporting code. Very impressive!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/&quot;&gt;SQL Server 2017 SQLCLR - Whitelisting Assemblies&lt;/a&gt;. A post by me about new functionality in SQL Server 2017 RC1 to be able to whitelist SQLCLR assemblies. Quite interesting if I may say so myself!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://thomaswdinsmore.com/2017/07/17/how-gdpr-affects-data-science/&quot;&gt;HOW GDPR AFFECTS DATA SCIENCE&lt;/a&gt;. A very interesting post about the upcoming legislation in EU over data protection, the GDPR, and what effects it will have on Data Science.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference&quot;&gt;useR! International R User 2017 Conference&lt;/a&gt;. A Microsoft &lt;a href=&quot;https://channel9.msdn.com&quot;&gt;Channel 9&lt;/a&gt; post containing videos of most of the presentations from the &lt;strong&gt;useR 2017&lt;/strong&gt; conference in Belgium in the early days of July. A lot of very interesting talks!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/07/nnets-from-scratch.html&quot;&gt;Neural Networks from Scratch, in R&lt;/a&gt;. A post from Ilia Karmanov, (a Data Scientists at Microsoft), about how to build a neural-network from scratch in R. If I only would understand half of it ...&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.sanddance.ms/&quot;&gt;SandDance - Visually Explore, Understand, and Present Data&lt;/a&gt;. SandDance is a Microsoft Research project aimed to help you find insights about your data. It looks very, very interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;. Have I been a busy boy this week or what?! The &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; covers some of the components the launchpad service loads; Rterm.exe, BxlServer.exe, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>SQL Server 2017 SQLCLR - Whitelisting Assemblies</title>
@@ -1725,330 +1779,6 @@ because assembly 'SqlClrCert' is not authorized for PERMISSION_SET = UNSAFE&lt;/
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Creating R Stored Procedures in SQL Server 2016 Using sqlrutils</title>
-   <link href="http://nielsberglund.com/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils/"/>
-   <updated>2017-06-25T17:19:20+02:00</updated>
-   <id>http://nielsberglund.com/2017/06/25/creating-r-stored-procedures-in-sql-server-2016-using-sqlrutils</id>
-   <content type="html">&lt;p&gt;In the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/home?forum=MicrosoftR&quot;&gt;Microsoft R Server forum&lt;/a&gt; the other day was a &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/5759339f-ec8a-4c70-b05c-081d56542c84/sql-server-r-services-stored-procedures-inputs&quot;&gt;question&lt;/a&gt; about inputs to SQL Server R stored procedures, or rather about &quot;strange&quot; parameter naming, when using the &lt;strong&gt;sqlrutils&lt;/strong&gt; package. I got intrigued by the question and started &lt;del&gt;playing around with&lt;/del&gt; researching it, and this blog-post is the result. Oh, and this blog-post would never have seen the light of the day, if it hadn't been for the original poster of the question: &lt;a href=&quot;https://social.msdn.microsoft.com/profile/jd%20long/&quot;&gt;JD Long&lt;/a&gt;, thanks JD!&lt;/p&gt;
-
-&lt;p&gt;So, what is SQL Server R stored procedures and what is &lt;strong&gt;sqlrutils&lt;/strong&gt;?&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;Before we answer the question above, let's do a quick recap of &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;&lt;code&gt;sp_execute_external_script&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;The procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt; is an extended stored procedure, and it allows us to execute R scripts (and in SQL 2017 also Python) from inside SQL Server. You use it by passing it the script you want to execute as well as various parameters. Let's assume you have some R code looking like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Iris Dataset&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set a variable&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;#get the iris data set as a data frame&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# grab the setosa species&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;setosa&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Species&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'setosa'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# calculate mean of the Sepal.Width for setosa&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;menSepWidth&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setosa&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# use the multiplier to do some &quot;stuff&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# look at the resulting dataset &lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# print out the mean&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;R Script&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As you see in &lt;em&gt;Code Snippet 1&lt;/em&gt;, we:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Set the value of the &lt;code&gt;multiplier&lt;/code&gt; variable.&lt;/li&gt;
-&lt;li&gt;Reads in the &lt;code&gt;iris&lt;/code&gt; data into a data frame: &lt;code&gt;iris_dataset&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Create a new data frame for the &lt;code&gt;setosa&lt;/code&gt; species.&lt;/li&gt;
-&lt;li&gt;Calculate the &lt;code&gt;mean&lt;/code&gt; of the &lt;code&gt;Sepal.Width&lt;/code&gt; for &lt;code&gt;setosa&lt;/code&gt; and assigns that to a variable: &lt;code&gt;menSepWidth&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Multiply the &lt;code&gt;Sepal.Length&lt;/code&gt; property with the &lt;code&gt;multiplier&lt;/code&gt; variable.&lt;/li&gt;
-&lt;li&gt;Finally output the calculated property, and print out the &lt;code&gt;menSepWidth&lt;/code&gt; variable.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Yes, yes, I know - the code is very, very simplistic, but it will still get the points across.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you haven't heard about the &lt;code&gt;iris&lt;/code&gt; dataset before, you can read more about it &lt;a href=&quot;https://en.wikipedia.org/wiki/Iris_flower_data_set&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;To use this script in SQL Server with &lt;code&gt;sp_execute_external_script&lt;/code&gt;, you would write something like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;R Script in SQL&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out_val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        iris_dataset &amp;lt;- iris
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        setosa &amp;lt;- iris[iris$Species == &quot;setosa&quot;,]
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        menSepWidth &amp;lt;- mean(setosa$Sepal.Width)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        iris_dataset$Sepal.Length &amp;lt;- iris_dataset$Sepal.Length * multiplier
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        OutputDataSet &amp;lt;- data.frame(iris_dataset$Sepal.Length)    &lt;br/&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      '&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'@multiplier float, @menSepWidth float OUTPUT'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out_val&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OUTPUT&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SepalLength&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;br/&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out_val&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MeanSepWidth&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;The iris Script in SQL Server&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As you see from &lt;em&gt;Code Snippet 2&lt;/em&gt;, the R script is passed in to the &lt;code&gt;@script&lt;/code&gt; parameter of &lt;code&gt;sp_execute_external_script&lt;/code&gt;. The actual script looks almost identical to what is in &lt;em&gt;Code Snippet 1&lt;/em&gt;, except for instead of the &lt;code&gt;View(iris_dataset$Sepal.Length)&lt;/code&gt;, we use &lt;code&gt;OutputDataSet&lt;/code&gt;. The &lt;code&gt;OutputDataSet&lt;/code&gt; variable is a well known variable in SQL Server R Services, and it is the default variable that will contain the data to be returned to SQL Server as a result-set upon completion of the stored procedure call. The layout of the result-set is defined in the &lt;code&gt;WITH RESULT SETS&lt;/code&gt; statement, and in &lt;em&gt;Code Snippet 2&lt;/em&gt; above we are interested in one column, of type &lt;code&gt;float&lt;/code&gt; and we name it &lt;code&gt;SepalLength&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The parameters we use are defined in the &lt;code&gt;@params&lt;/code&gt; parameter, followed by the parameters themselves. In this case &lt;code&gt;@multiplier&lt;/code&gt; which we set to 5, and &lt;code&gt;@menSepWidth&lt;/code&gt; which is &lt;code&gt;OUTPUT&lt;/code&gt;. If you have used &lt;code&gt;sp_executesql&lt;/code&gt; the parameter syntax should be familiar to you. We assign the (at the top of the script) declared &lt;code&gt;@out_val&lt;/code&gt; variable to the &lt;code&gt;@menSepWidth&lt;/code&gt; output parameter, and at the end of the script we &lt;code&gt;SELECT&lt;/code&gt; it out.&lt;/p&gt;
-
-&lt;p&gt;When running &lt;em&gt;Code Snippet 2&lt;/em&gt;, the output will be like in the two figures below:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sqlrutils_extscript_result.png&quot; width=&quot;153&quot; height=&quot;139&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Result-set&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt; shows the output from &lt;code&gt;OutputDataSet&lt;/code&gt;, the calculated &lt;code&gt;Sepal.Length&lt;/code&gt; column.&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sqlrutils_extscript_outparam.png&quot; width=&quot;139&quot; height=&quot;48&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Output Parameter&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 2&lt;/em&gt; we see the output parameter; &lt;code&gt;@menSepWidth&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;This is nice, being able to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and run our R scripts in SQL Server. However how do I operationalize this, I can't really be running these scripts every time I want to &quot;crunch&quot; some data?! Well, the answer to that is to wrap the code we see in &lt;em&gt;Code Snippet 2&lt;/em&gt; in a stored procedure, which would take the necessary parameters, and then execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; inside the procedure.&lt;/p&gt;
-
-&lt;p&gt;To make it easier to create wrapping procedures, Microsoft has an R package to help with this: &lt;strong&gt;sqlrutils&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2&gt;sqlrutils&lt;/h2&gt;
-
-&lt;p&gt;The sqlrutils package allows R users to, from inside an R IDE of choice, put their R scripts into a T-SQL stored procedure, register that stored procedure with a database, and run the stored procedure from an R development environment.&lt;/p&gt;
-
-&lt;p&gt;Let us see what the package does. To do that run from inside an R IDE, I am using R Tools for Visual Studio 2017 (RTVS), &lt;code&gt;help(package=&quot;sqlrutils&quot;)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Before you run the &lt;code&gt;help&lt;/code&gt; statement above, you may have to run: &lt;code&gt;library(sqlrutils)&lt;/code&gt;, to load the package.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;When running `help(package=&quot;sqlrutils&quot;), the httpd help server starts and you should see something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sqlrutils_help.png&quot; width=&quot;550&quot; height=&quot;528&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Output from Help&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 3&lt;/em&gt; you see the various function the package exposes. Now, let's see what we can do with it.&lt;/p&gt;
-
-&lt;h3&gt;R Function&lt;/h3&gt;
-
-&lt;p&gt;It is considered best practices to rewrite your R script as a function, and pass necessary parameters to the function. So we take our script and turn it into a function:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Function&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;irisFunc&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setosa&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Species&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'setosa'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidth&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setosa&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sepLength&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data.frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iris_dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sepal.Length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retList&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sepLengthData&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sepLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidthValue&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Create Function&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 3&lt;/em&gt; we create the function and we:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;pass in the &lt;code&gt;multiplier&lt;/code&gt; parameter&lt;/li&gt;
-&lt;li&gt;declare the &lt;code&gt;menSepWidth&lt;/code&gt; variable inside the function&lt;/li&gt;
-&lt;li&gt;assign &lt;code&gt;iris_dataset$Sepal.Length&lt;/code&gt; to a data frame variable&lt;/li&gt;
-&lt;li&gt;create a named list, containing the data frame as well as &lt;code&gt;menSepWidth&lt;/code&gt; variable&lt;/li&gt;
-&lt;li&gt;return the list&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The function will eventually be part of the script inside &lt;code&gt;sp_execute_external_script&lt;/code&gt;, but before we go there we should define the required parameters for the procedure.&lt;/p&gt;
-
-&lt;h3&gt;Define Parameters&lt;/h3&gt;
-
-&lt;p&gt;In this example we have three parameters / objects:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;the &lt;code&gt;multiplier&lt;/code&gt; input parameter&lt;/li&gt;
-&lt;li&gt;the &lt;code&gt;menSepWidth&lt;/code&gt; output parameter&lt;/li&gt;
-&lt;li&gt;the output dataset&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;When looking at the output from the &lt;code&gt;help&lt;/code&gt; as in &lt;em&gt;Figure 3&lt;/em&gt;, we see some functions that looks like doing what we want to do:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;InputParameter&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;OutputData&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;OutputParameter&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;So to create our parameters we write some code like in &lt;em&gt;Code Snippet 4&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Parameters&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# if the sqlrutils package is not loaded yet:
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;# library(&quot;sqlrutils&quot;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;inParam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InputParameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;multiplier&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;numeric&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;outParam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OutputParameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;menSepWidthValue&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;numeric&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;outputData&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OutputData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sepLengthData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Parameter Creation&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Notice how the output dataset, and the output parameter are named as the names in the list. This is important as we will see in a little bit. You can have multiple parameters (input/output), but only one output data set. If you have multiple parameters you define them as in &lt;em&gt;Code Snippet 4&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Now when the parameters are defined, we can create the stored procedure.&lt;/p&gt;
-
-&lt;h3&gt;Procedure Creation&lt;/h3&gt;
-
-&lt;p&gt;To create a stored procedure we use the &lt;code&gt;StoredProcedure&lt;/code&gt; class generator, and the signature of &lt;code&gt;StoredProcedure&lt;/code&gt; looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Signature&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;StoredProcedure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filePath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dbName&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connectionString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;batchSeparator&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;GO&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Signature for StoredProcedure Class Generator&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The arguments in the signature are:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;func&lt;/code&gt; - the function name, of the function we want wrapped.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spName&lt;/code&gt; - name for the generated stored procedure&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;...&lt;/code&gt; - optional input and output parameters (including output dataset)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;filePath&lt;/code&gt; - optional path to where to create and save a .sql source file.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dbName&lt;/code&gt; - optional name specifying the database to use in the script file.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;connectionString&lt;/code&gt; - optional connection string.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;batchSeparator&lt;/code&gt; - what batch separator to use.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;So, let's see what we should do to create a stored procedure based on what we have done so far (the code snippet below includes the parameter definitions from *Code Snippet 4):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Stored Procedure&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;inParam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InputParameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;multiplier&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;numeric&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;outParam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OutputParameter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;menSepWidthValue&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;numeric&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;outputData&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OutputData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sepLengthData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;irisProc&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StoredProcedure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irisFunc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pr_IrisProc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inParam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outParam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filePath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;C:\Temp&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Generate Stored Procedure from R Function&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 6&lt;/em&gt; we:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;define the function to use is the function assigned to the &lt;code&gt;irisFunc&lt;/code&gt; variable from &lt;em&gt;Code Snippet 3&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;say that we want the created procedure to be named &lt;code&gt;pr_IrisProc&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;define the input and output parameters though the variables we have created. If you have defined more parameters (as we spoke about above), you add them to the &lt;code&gt;StoredProcedure&lt;/code&gt; call.&lt;/li&gt;
-&lt;li&gt;set the file path where we want the source files to be created.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;We skip the rest of the arguments, and when we run the code in &lt;em&gt;Code Snippet 6&lt;/em&gt;, the source file looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Generated Procedure&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OBJECT_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'pr_IrisProc'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;IS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PROCEDURE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pr_IrisProc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PROCEDURE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pr_IrisProc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel_outer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier_outer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidthValue_outer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;output&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        irisFunc &amp;lt;- function (multiplier)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &amp;#x7b;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            iris_dataset &amp;lt;- iris
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            setosa &amp;lt;- iris[iris$Species == &quot;setosa&quot;, ]
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            menSepWidth &amp;lt;- mean(setosa$Sepal.Width)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            iris_dataset$Sepal.Length &amp;lt;- iris_dataset$Sepal.Length *
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                multiplier
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            sepLength &amp;lt;- data.frame(iris_dataset$Sepal.Length)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            retList &amp;lt;- list(sepLengthData = sepLength, menSepWidthValue = menSepWidth)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            return(retList)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &amp;#x7d;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        result &amp;lt;- irisFunc(multiplier = multiplier)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        if (is.list(result)) &amp;#x7b;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          OutputDataSet &amp;lt;- result$sepLengthData
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          menSepWidthValue &amp;lt;- result$menSepWidthValue
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &amp;#x7d; else stop(&quot;the R function must return a list&quot;)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      '&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel_outer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'@multiplier float, @menSepWidthValue float output'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier_outer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidthValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidthValue_outer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;output&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRY&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;THROW&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;END&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CATCH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Generated Stored Procedure&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;That looks OK, a couple of things to point out:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Parameter names are appended with &lt;em&gt;_outer&lt;/em&gt;. This is what &lt;a href=&quot;https://social.msdn.microsoft.com/profile/jd%20long/&quot;&gt;JD Long&lt;/a&gt; asked about; where comes that from? It seems to be the convention to do that, to separate the parameters for &lt;code&gt;sp_execute_external_script&lt;/code&gt; from the parameters for the &lt;em&gt;outer&lt;/em&gt; procedure. Hence the &lt;em&gt;_outer&lt;/em&gt; in the name.&lt;/li&gt;
-&lt;li&gt;What's this &lt;code&gt;@parallel_outer&lt;/code&gt; parameter, we did not define it anywhere? In &lt;code&gt;sp_execute_external_script&lt;/code&gt; you have the ability to define that you wish the execution of the R script should happen in parallel, and &lt;code&gt;@parallel&lt;/code&gt; is an existing parameter on &lt;code&gt;sp_execute_external_script&lt;/code&gt;. So by default, this parameter is always created (and defaulted to 0).&lt;/li&gt;
-&lt;li&gt;We then see the function definition as part of the &lt;code&gt;@script&lt;/code&gt; parameter, together with generated code to execute and retrieve the results. This is where it is important that you return a named list from the function, especially if you have more than one output parameter (including the output dataset). The names in the list should be the same as you set in your parameter definitions.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;You can now take the source file and deploy the procedure to a database of your choice. Then you execute the procedure as so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execute Proc&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pr_IrisProc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallel_outer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiplier_outer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;menSepWidthValue_outer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Execution of Generated Procedure&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When executing, you should get the same result as you see in &lt;em&gt;Figure 1&lt;/em&gt; and &lt;em&gt;Figure 2&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h3&gt;Deploying from R&lt;/h3&gt;
-
-&lt;p&gt;Above we deployed the created procedure by running the script from SQL Server Management Studio, on the database we wanted to deploy to. You can also deploy straight from R, by using &lt;code&gt;registerStoredProcedure&lt;/code&gt;. The signature of &lt;code&gt;registerStoredProcedure&lt;/code&gt; looks like in &lt;em&gt;Code Snippet 8&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Signature&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;registerStoredProcedure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlSP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        &lt;span class=&quot;n&quot;&gt;connectionString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Signature of registerStoredProcedure&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;We see in &lt;em&gt;Code Snippet 8&lt;/em&gt; how &lt;code&gt;registerStoredProcedure&lt;/code&gt; takes the generated stored procedure object (created by &lt;code&gt;StoredProcedure&lt;/code&gt;), and an optional connection string. It is optional as the connection string can be defined in &lt;code&gt;StoredProcedure&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;If we want to deploy to SQL Server directly the code looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;tile: &quot;Deploy&quot;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;conStr&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paste0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Driver=&amp;#x7b;ODBC Driver 13 for SQL Server&amp;#x7d;;Server=.;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Database=RTest;uid=sa;pwd=secretpassword;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;registerStoredProcedure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irisProc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Deploying from R&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 9&lt;/em&gt;, we continue from &lt;em&gt;Code Snippet 6&lt;/em&gt;, and we have created the stored procedure object &lt;code&gt;irisProc&lt;/code&gt;. We create a connection string, and pass &lt;code&gt;irisProc&lt;/code&gt; and the connection string to &lt;code&gt;registerStoredProcedure&lt;/code&gt;. After executing the code in &lt;em&gt;Code Snippet 9&lt;/em&gt;, you should see the procedure in the database.&lt;/p&gt;
-
-&lt;p&gt;As you know, by using &lt;code&gt;sp_execute_external_script&lt;/code&gt;, we can now in SQL Server 2016 and 2017 execute R scripts (and in SQL 2017 also Python) from inside SQL Server. &lt;code&gt;sp_execute_external_script&lt;/code&gt; is a SQL Server extended stored procedure and you pass in the script to execute as well as parameter info to the procedure.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
