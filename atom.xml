@@ -4,7 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-08-18T18:00:55+02:00</updated>
+ <updated>2017-08-18T18:14:02+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -975,6 +975,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals VIII (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1336,6 +1337,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals VII (this post)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
