@@ -4,13 +4,417 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-08-13T20:19:22+02:00</updated>
+ <updated>2017-08-18T18:00:55+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Microsoft SQL Server R Services - Internals IX</title>
+   <link href="http://nielsberglund.com/2017/08/18/microsoft-sql-server-r-services-internals-ix/"/>
+   <updated>2017-08-18T17:44:22+02:00</updated>
+   <id>http://nielsberglund.com/2017/08/18/microsoft-sql-server-r-services---internals-ix</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals IX (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the tenth post about Microsoft SQL Server R Services, and the ninth post that drills down into the internal of how it works.&lt;/p&gt;
+
+&lt;p&gt;We are now nearing the end of the Internals part of this series (you probably say &quot;about time&quot;). When I started this series way back in March this year, I thought that the Internals would be two, maximum three episodes. Boy was I wrong!&lt;/p&gt;
+
+&lt;p&gt;In this post we'll look at how the various components are communicating with each other.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; we looked at what different components are involved when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SQL Server calls into the launchpad service.&lt;/li&gt;
+&lt;li&gt;The launchpad service calls into the &lt;code&gt;Rlauncher.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Rlauncher.dll&lt;/code&gt; creates Rterm processes.&lt;/li&gt;
+&lt;li&gt;Through Rterm, the &lt;code&gt;R.dll&lt;/code&gt; is loaded together with &lt;code&gt;RxLink.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;RxLink.dll&lt;/code&gt; creates the &lt;code&gt;BxlServer.exe&lt;/code&gt; process.&lt;/li&gt;
+&lt;li&gt;To coordinate with SQL Server, &lt;code&gt;BxlServer.exe&lt;/code&gt; loads &lt;code&gt;BxServerLink.dll&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The above can be illustrated as in &lt;em&gt;Figure 1&lt;/em&gt; below&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_8_arch_overview.png&quot; width=&quot;650&quot; height=&quot;194&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Components In Play&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The questions are though how the components are communicating and what is involved in getting back to SQL Server after &lt;code&gt;BxlServer.exe&lt;/code&gt; and &lt;code&gt;BxServerLink.dll&lt;/code&gt; have done their &quot;magic&quot;?&lt;/p&gt;
+
+&lt;h2&gt;Demo Code&lt;/h2&gt;
+
+&lt;p&gt;Before we drill into the questions above, let's look at the demo code we'll use. Let's start with setting up the database and a table with some data we can use. All in all 1 million rows:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Setup&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RowID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TOP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Setup of Database, Table and Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The data is more or less the same data we used in &lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Internals - V&lt;/a&gt;, and the code to execute looks also almost the same:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Execute from SQL Server&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             #Sys.sleep(10)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             pid &amp;lt;- Sys.getpid()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             d &amp;lt;- getwd()
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(paste0(&quot;ProcessId: &quot;, pid))
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(paste0(&quot;WorkDir: &quot;, d))
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             r &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                           data=InputDataSet)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             coef &amp;lt;- r$coefficients
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             icept &amp;lt;- coef&lt;a href=&quot;&quot;&gt;1&lt;/a&gt;;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             OutputDataSet &amp;lt;- data.frame(pid=pid, nRows=r$nValidObs,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                          intercept=icept)'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_10M'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BIGINT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BIGINT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FLOAT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Code to Execute&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 2&lt;/em&gt; we see how we read in data from the statement in the &lt;code&gt;@input_data_1&lt;/code&gt; parameter. The actual R code retrieves the process id and work directory and assigns them to the &lt;code&gt;pid&lt;/code&gt; and  &lt;code&gt;d&lt;/code&gt; variables which then are printed out through the &lt;code&gt;cat&lt;/code&gt; statements. After a model has been created in &lt;code&gt;rxLinMod&lt;/code&gt; some information about the model is returned as a resultset from the &lt;code&gt;OutputDataSet&lt;/code&gt; variable. The schema of the resultset is defined in &lt;code&gt;WITH RESULT SETS ...&lt;/code&gt;. For us to be able to determine what is happening when executing the code, there is a &lt;code&gt;Sys.sleep&lt;/code&gt; statement, which for now is commented out. Before we go any further, let's make sure it works:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Restart the launchpad service (stop and start).&lt;/li&gt;
+&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;If everything has worked OK, the Results tab in SSMS should look something like in &lt;em&gt;Figure 2&lt;/em&gt;, and the Message tab like in &lt;em&gt;Figure 3&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_test_result.png&quot; width=&quot;355&quot; height=&quot;80&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Results from Running the Code&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_test_msgs.png&quot; width=&quot;610&quot; height=&quot;216&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Message Output from Running the Code&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As we know that the execution of the R code happens outside of SQL Server, the question is what component(s) are responsible for returning results and messages to SQL Server. Before looking at that, let's look at how communication happens between the various components.&lt;/p&gt;
+
+&lt;h2&gt;Communication&lt;/h2&gt;
+
+&lt;p&gt;The components we are interested in the communication between are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SQL Server -&gt; Launchpad&lt;/li&gt;
+&lt;li&gt;launchpad -&gt; Rterm&lt;/li&gt;
+&lt;li&gt;Rterm -&gt; BxlServer&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h4&gt;SQL Server -&gt; Launchpad&lt;/h4&gt;
+
+&lt;p&gt;So, let's start with the communication between SQL Server and the launchpad service. In &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals - I&lt;/a&gt; and &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Internals - II&lt;/a&gt; we used WinDbg and we saw how SQL Server calls (among other things) &lt;code&gt;sqllang!CSQLSatelliteConnection::OpenNpConnection&lt;/code&gt; to create and open a named pipe to the launchpad service. Let us make double sure that there really is named pipe involved, and the way we'll do that is by using &lt;strong&gt;WinDbg&lt;/strong&gt; and &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processexplorer.aspx&quot;&gt;&lt;strong&gt;Process Explorer&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What we'll do is:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Restart SQL Server and the launchpad service (please, do not do this on a production server :) ).&lt;/li&gt;
+&lt;li&gt;Start WinDbg and Process Explorer as admin.&lt;/li&gt;
+&lt;li&gt;In Process Explorer, ensure that the lower pane is visible (Ctrl + L).&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;To begin we'll see what named pipes SQL Server has created &quot;out of the box&quot; so to speak. Named pipes are exposed as handles in Process Explorer, so by clicking on the &lt;code&gt;sqlserver.exe&lt;/code&gt; process in Process Explorer and then Ctrl + H you should see handles in the lower pane. By ordering on name and scrolling down to &lt;code&gt;Device\Named&lt;/code&gt; pipe, you should see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_sql_named_pipes1.png&quot; width=&quot;350&quot; height=&quot;143&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;SQL Server Initial Named Pipes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As we see in &lt;em&gt;Figure 4&lt;/em&gt;, we have (at least on my machine) six named pipes. There is nothing that would indicate a named pipe to the launchpad service.&lt;/p&gt;
+
+&lt;p&gt;Now you can go on and see what named pipes (if any) the launchpad service (&lt;code&gt;launchpad.exe&lt;/code&gt;) has. On my machine it looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_launchpad_named_pipes1.png&quot; width=&quot;351&quot; height=&quot;55&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Launchpad Named Pipes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Hmm, that is interesting - there are two named pipes with a name similar to what we have seen in previous posts: &lt;em&gt;sqlsatellite&lt;/em&gt;. However, since the launchpad service is inactive right now, it seems those two named pipes are not connected to anything.&lt;/p&gt;
+
+&lt;p&gt;So far we do not have any evidence of named pipes between SQL Server and the launchpad service, but on the other hand we have not executed anything yet either (since the restart). Let us now go on and execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; again, but before we do that let us do what we did in &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals - I&lt;/a&gt; and set a breakpoint at &lt;code&gt;sqllang!CSQLSatelliteConnection::OpenNpConnection&lt;/code&gt;. So attach WinDbg to the &lt;code&gt;sqlserver.exe&lt;/code&gt; process and set the breakpoint.&lt;/p&gt;
+
+&lt;p&gt;Before you execute the code, uncomment the &lt;code&gt;Sys.sleep&lt;/code&gt; call and change the time to sleep to 30 seconds (&lt;code&gt;Sys.sleep(30)&lt;/code&gt;), so you can investigate what is happening. Now, go ahead and execute.&lt;/p&gt;
+
+&lt;p&gt;The breakpoint is hit and execution stops. Look in Process Explorer and see what named pipes there are both for SQL Server as well as the launchpad service. At this stage there should not be any more named pipes than what you see in &lt;em&gt;Figure 4&lt;/em&gt; and &lt;em&gt;Figure 5&lt;/em&gt;. Continue execution of the code, and look again in Process Explorer. You should now see for SQL Server something like in &lt;em&gt;Figure 6&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_sql_named_pipes2.png&quot; width=&quot;350&quot; height=&quot;124&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;SQL Server Named Pipes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;For the launchpad service it looks something like &lt;em&gt;Figure 7&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_launchpad_named_pipes2.png&quot; width=&quot;354&quot; height=&quot;49&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Launchpad Named Pipes During Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We see now how for SQL Server we have a new named pipe: &lt;code&gt;\Device\NamedPipe\sqlsatellitelaunch&lt;/code&gt;, and for the launchpad service a corresponding additional named pipe: &lt;code&gt;\Device\NamedPipe\sqlsatellitelaunch&lt;/code&gt;. By now we should be fairly certain that communication between SQL Server and the launchpad service is through named pipes.&lt;/p&gt;
+
+&lt;h4&gt;Launchpad -&gt; Rterm&lt;/h4&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The heading above is somewhat misleading as it is not &lt;code&gt;Launchpad.exe&lt;/code&gt; that connects to Rterm but &lt;code&gt;Rlauncher.dll&lt;/code&gt;, however we'll use launchpad for now.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When I started writing this section, I thought: &quot;how hard can this be, the launchpad service obviously talks to Rterm via named pipes&quot;. It turned out to be not that simple. The way I went about &quot;proving&quot; (or not) that named pipes were used was similar to what we did above between SQL Server and the launchpad service, but initially I didn't use WinDbg:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Restart SQL Server and the launchpad service.&lt;/li&gt;
+&lt;li&gt;Make sure Process Explorer is up and running.&lt;/li&gt;
+&lt;li&gt;Set a sufficiently high &lt;code&gt;Sys.sleep&lt;/code&gt; value in the code (I ended up using 120 seconds).&lt;/li&gt;
+&lt;li&gt;Execute the code.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When I at this stage looked at the handles for the launchpad service, I saw the three named pipes we saw in &lt;em&gt;Figure 7&lt;/em&gt;. That would make sense, we know that one of them is the named pipe connection from SQL Server, and then one of the other two would be used between the launchpad service and Rterm.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; When using named pipes, and you look at them in Process Explorer, you should see the same name in both source as well as destination.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;The problem was that I did not see a named pipe in the executing Rterm process, with the same name as in the launchpad service. Hmm, there went that theory. Well, if named pipes are not used, what about TCP/IP and sockets? So I noted the PID of the launchpad service, executed the code again, and while the code was running I (from command line) used &lt;code&gt;netstat&lt;/code&gt; to see what socket connections there were. The command I used was &lt;code&gt;netstat -a -n -o&lt;/code&gt;, which means:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;show all connections and listening ports (&lt;code&gt;-a&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;display addresses and port numbers in in numerical form (&lt;code&gt;-n&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;display the owning PID associated with each connection (&lt;code&gt;-o&lt;/code&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;I looked for the PID of the launchpad service to see if there were any connections, but none could be found. Now the original question of &quot;how hard can this be&quot; had an answer - &quot;actually, pretty hard&quot;! At this stage I resorted to some WinDbg &lt;a href=&quot;&quot;&gt;&quot;spelunking&quot;&lt;/a&gt;, and looked for &quot;promising&quot; routine names. Seeing that a lot of the routines we have seen so far in this series comes from classes with &quot;satellite&quot; in them I executed: &lt;code&gt;x *!*satellite*&lt;/code&gt;. Eish, that returned a &lt;strong&gt;lot&lt;/strong&gt;. However, while scrolling through the output, I came across following routine: &lt;code&gt;launchpad!CSQLSatelliteConnection::AddProviderDoneIOCPCallback&lt;/code&gt;. Hmm, something that has to do with callback from &lt;code&gt;IOCP&lt;/code&gt;, could it be that the launchpad service connects via IO Completion Ports (IOCP)? Only one way to find out - set some breakpoints in WinDbg.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Internals - II&lt;/a&gt; where we discussed what happens inside the launchpad service, we had a diagram of the flow of a call looking like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql-launchpad-r-post.png&quot; width=&quot;650&quot; height=&quot;325&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Launchpad Service Call Flow&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 8&lt;/em&gt; we see how the communication to Rterm is done in the &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; call, so the setup of the IOCP should be done before the &lt;code&gt;WriteMessage&lt;/code&gt; call, and most likely after the &lt;code&gt;LaunchServTask&lt;/code&gt; call. So in the already attached WinDbg, I set three breakpoints:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bp launchpad!CLaunchContext::LaunchServTask&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp KERNELBASE!CreateIoCompletionPort&lt;/code&gt; (I had read documentation of IOCP and saw that this was a likely call).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;If my theory was to be correct, I would see the execution first stop at &lt;code&gt;LaunchServTask&lt;/code&gt;, followed by &lt;code&gt;CreateIoCompletionPort&lt;/code&gt; and then finally at &lt;code&gt;WriteMessage&lt;/code&gt;. I executed the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; with &lt;code&gt;Sys.sleep(10)&lt;/code&gt; and this is what I saw in WinDbg:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Breakpoints&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;02&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLaunchContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchServTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateIoCompletionPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;011&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Launchpad Breakpoints being Hit&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This to me indicates that yes, IOCP is being used as communication mechanism between the launchpad service and Rterm.&lt;/p&gt;
+
+&lt;h4&gt;Rterm -&gt; BxlServer&lt;/h4&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; we spoke about &lt;code&gt;BxlServer.exe&lt;/code&gt;, how it hosts RevoScaleR code and how it also coordinates with the R runtime in order to manage exchanges of data with SQL Server. The &lt;code&gt;BxlServer.exe&lt;/code&gt; process is created by the Rterm process via the &lt;code&gt;RxLink.dll&lt;/code&gt; which acts as a conduit. The source code for &lt;code&gt;RxLink.dll&lt;/code&gt; is &lt;a href=&quot;https://packages.revolutionanalytics.com/tools/src/rre-gpl-src.8.0.3.tar.gz&quot;&gt;available&lt;/a&gt;, and when I had a look at the source, I saw quite a lot of code related to named pipes. So my assumption is that communication between the Rterm process (via &lt;code&gt;RxLink.dll&lt;/code&gt;) and the BxlServer process happens through named pipes.&lt;/p&gt;
+
+&lt;p&gt;Seeing that I don't have any debug symbols for &lt;code&gt;Rterm.exe&lt;/code&gt;, &lt;code&gt;R.dll&lt;/code&gt;, &lt;code&gt;RxLink.dll&lt;/code&gt; or &lt;code&gt;BxlServer.exe&lt;/code&gt; we'll try and use other methods to prove (or disprove) that named pipes are used. The way we'll do it is to use Process Explorer as we did with the communication between SQL Server and the launchpad service. Now is probably a good time to restart both the SQL Server service as well as the launchpad service (just to start afresh).&lt;/p&gt;
+
+&lt;p&gt;After the SQL Server and the launchpad service has been restarted bring back Process Explorer again (as admin). This time though we'll look at the Rterm process and the hosted BxlServer process:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;In Process Explorer navigate to the launchpad process.&lt;/li&gt;
+&lt;li&gt;Set big enough &lt;code&gt;Sys.sleep&lt;/code&gt; value in the code. 90 seconds worked fine for me.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When executing the code, look in Process Explorer for the Rterm process and BxlServer process where you have a &lt;code&gt;CPU&lt;/code&gt; value greater than 0:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_rterm_bxlserver.png&quot; width=&quot;360&quot; height=&quot;309&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Rterm and BxlServer Processes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 8&lt;/em&gt; we see the Rterm and BxlServer processes that are active. When you have found the active processes check if there are any named pipe handles for those two processes (Ctrl+H):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_rterm_nps.png&quot; width=&quot;313&quot; height=&quot;33&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Rterm Named Pipes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_bxlserver_nps.png&quot; width=&quot;315&quot; height=&quot;36&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;BxlServer Named Pipes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 9&lt;/em&gt; and &lt;em&gt;Figure 10&lt;/em&gt; show the named pipes file handles for the Rterm process (&lt;em&gt;Figure 9&lt;/em&gt;), and BxlServer process (&lt;em&gt;Figure 10&lt;/em&gt;). As we can, the same named pipes exists in both processes (they have the same names), so we can with some certainty say that communication between Rterm and BxlServer is done via named pipes. With this in mind we can enhance &lt;em&gt;Figure 1&lt;/em&gt; and show the communication mechanisms:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_comms1.png&quot; width=&quot;650&quot; height=&quot;193&quot;  &gt;
+&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;Communication Mechanisms&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 11&lt;/em&gt; the numbers indicate:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1 - named pipe.&lt;/li&gt;
+&lt;li&gt;2 - IOCP.&lt;/li&gt;
+&lt;li&gt;3 - named pipe.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SqlSatellite&lt;/h2&gt;
+
+&lt;p&gt;Now, we've seen how the various components are communicating with each other, but - how is data exchanged? E.g, how does a resultset get back to SQL Server, and does the print (&lt;code&gt;cat&lt;/code&gt;) statements travel back the same way? In &lt;em&gt;Figure 11&lt;/em&gt; wee see how the BxlServer is doing &quot;stuff&quot; and then interacts with BxServerLink, but it kind of stops there. Surely a dataset like in our code wouldn't go back over the IOCP? Would there be any other components in play? Let's see what we can find out.&lt;/p&gt;
+
+&lt;p&gt;Once again use the Process Explorer, but now we are interested in what dll's the BxlServer loads while it's running. Execute the code again, and when you have found the &quot;active&quot; BxlServer process do a Ctrl+D to find the loaded dlls, and see what &quot;pops up&quot;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_sqlsatellite.png&quot; width=&quot;620&quot; height=&quot;78&quot;  &gt;
+&lt;strong&gt;Figure 12:&lt;/strong&gt; &lt;em&gt;SqlSatellite.dll&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When we look at the various dll's that are loaded by BxlServer we come across a name we have seen and briefly mentioned before: &lt;code&gt;SqlSatellite.dll&lt;/code&gt;. In Internals &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;II&lt;/a&gt;, &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;III&lt;/a&gt; and &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;VII&lt;/a&gt; we saw how paths were set, pointing to where the &lt;code&gt;sqlsatellite.dll&lt;/code&gt; is located. In &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; we also mentioned how SqlSatellite is an API to support external code and external run times. It is loaded by the BxlServer process and it handles data transfers between SQL Server and external languages (in this case R).&lt;/p&gt;
+
+&lt;h4&gt;Communication&lt;/h4&gt;
+
+&lt;p&gt;Now we have an idea who handles data exchange (at least some of it), but what mechanism is used? Named pipes could be an option, and we saw in SQL Server that named pipe: &lt;code&gt;\Device\NamedPipe\sqlsatellitelaunch&lt;/code&gt;. However, that pipe is used by SQL Server for communication with the launchpad service, and there were really no other named pipes that seemed to fit in. How about sockets and TCP/IP? That could be an option, let's see.&lt;/p&gt;
+
+&lt;p&gt;Once again, do a restart of SQL Server as well as the launchpad service to make sure we are in a clean state. Make a note of the process id (PID) of SQL Server, well use it to see what socket connections SQL Server has. If Process Explorer is not running, start it up as admin. When SQL Server is restarted check what TCP connections we have by running the &lt;code&gt;netstat -a -n -o -p TCP&lt;/code&gt; command.&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Netstat&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1434&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;LISTENING&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;2900&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52637&lt;/span&gt;        &lt;span class=&quot;mf&quot;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;LISTENING&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;2900&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;TCP Connections SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The PID for SQL Server after I restarted was 2900, and from &lt;em&gt;Code Snippet 4&lt;/em&gt; we can see two listening connections, with no source as of yet. The listener for port 1434 is for the SQL Server Browser Service, whereas port 52637 is something of a mystery. Let's now execute our code and see if anything changes (I set &lt;code&gt;Sys.sleep&lt;/code&gt; to 90 seconds to make sure I had enough time to see what happens). While the code is executing run &lt;code&gt;netstat -a -n -o -p TCP -b&lt;/code&gt; (&lt;code&gt;-b&lt;/code&gt; will display the executable involved in creating the connection). When I executed the code and ran the netstat command I saw the following:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Netstat&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1434&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;LISTENING&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;2900&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlservr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52637&lt;/span&gt;        &lt;span class=&quot;mf&quot;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;LISTENING&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;2900&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlservr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52637&lt;/span&gt;        &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64511&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;ESTABLISHED&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;2900&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlservr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;TCP&lt;/span&gt;    &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64511&lt;/span&gt;        &lt;span class=&quot;mf&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52637&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;ESTABLISHED&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;8088&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BxlServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;TCP Connections SQL Server while Executing&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;That is interesting! From &lt;em&gt;Code Snippet 5&lt;/em&gt; we see how SQL Server now has an established TCP connection on port 52637, and the connection originates from PID 8088. That PID is &lt;code&gt;BxlServer.exe&lt;/code&gt;, and - as we know from earlier - &lt;code&gt;BxlServer.exe&lt;/code&gt; loads &lt;code&gt;SqlSatellite.dll&lt;/code&gt;. We now have a TCP/IP connection from SqlSatellite to SQL Server, and it is over that connection data is exchanged.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Not all data is exchanged over the TCP/IP socket connection, as we will see in next post.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;Finally, let's do some more WinDbg &quot;spelunking&quot; in order to understand how and when the TCP connection is established:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Restart SQL Server and the launchpad service, to clean things up.&lt;/li&gt;
+&lt;li&gt;Attach WinDbg to the SQL Server process&lt;/li&gt;
+&lt;li&gt;Browse symbols with the name TCP&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;When browsing for the symbols, you can use this command: &lt;code&gt;x /1 *!TCP*&lt;/code&gt;. By using the option &lt;code&gt;/1&lt;/code&gt; you'll only see the names, and no addresses. On my machine that gives me quite a lot, but there are two entries that catch my eye: &lt;code&gt;sqllang!Tcp::AcceptConnection&lt;/code&gt; and &lt;code&gt;sqllang!Tcp::Close&lt;/code&gt;. So let us set breakpoints at those two symbols, and see what happens when we execute our code.&lt;/p&gt;
+
+&lt;p&gt;The result when executing the code is that we initially break at &lt;code&gt;sqllang!Tcp::AcceptConnection&lt;/code&gt;. Followed somewhat later by breaking at &lt;code&gt;sqllang!Tcp::Close&lt;/code&gt;. Cool, this seems to work - let us set some more breakpoints and try to figure out the flow of events.&lt;/p&gt;
+
+&lt;p&gt;To be able to see the flow, we need to involve the launchpad service as well, as it is that service who &quot;spins up&quot; the Rterm process who in turn creates the BxlServer process who loads BxServerLink as well as SqlSatellite. So, remember from &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt; what the code looked like (from a very high level) to create the executing Rterm processes, it was something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLSatellite_LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessForSatelliteSession&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhysicalUserContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LaunchProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;KERNELBASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateProcessInternalW&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Satellite_ResourceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcessToJobObject&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteJobObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssociateProcess&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendResumeWithLoginInfo&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;launchpad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Launchpad Code Flow&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As discussed in &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Internal - II&lt;/a&gt; and &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Internals - III&lt;/a&gt;, when an external script is executed 6 different Rterm processes are &quot;spun&quot; up, bit only one will be the executing process, and the code in &lt;em&gt;Code Snippet 6&lt;/em&gt; illustrates the code creating the executing Rterm process.&lt;/p&gt;
+
+&lt;p&gt;With this in mind, let us:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
+&lt;li&gt;Delete any sub folders of the user account folders in the &lt;code&gt;C:\&amp;lt;path_to_sql_server_instance&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do &lt;strong&gt;NOT&lt;/strong&gt; delete the user account folders themselves.&lt;/li&gt;
+&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
+&lt;li&gt;Attach WinDbg to the launchpad process.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Set breakpoints in the attached launchpad process at (make sure that the SQL Server breakpoints are enabled):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bp launchpad!SatelliteJobObject::AssociateProcess&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;What we now want to do is to run the two WinDbg instances side by side and see when the individual breakpoints are hit, and in what order. Before we begin, clear out the WinDbg command output (&lt;code&gt;.cls&lt;/code&gt;). Execute the code and look closely at what happens in the two WinDbg instances.&lt;/p&gt;
+
+&lt;p&gt;What I see on my machine is that I break two or three times in launchpad at &lt;code&gt;launchpad!SatelliteJobObject::AssociateProcess&lt;/code&gt;, and after the second or third break, I break at &lt;code&gt;sqllang!Tcp::AcceptConnection&lt;/code&gt; in SQL Server. That is followed by &lt;code&gt;launchpad!CSQLSatelliteCommunication::SendResumeWithLoginInfo&lt;/code&gt; and &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;, plus more &lt;code&gt;launchpad!SatelliteJobObject::AssociateProcess&lt;/code&gt;. After a while I receive two more &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; in the launchpad service and a &lt;code&gt;sqllang!Tcp::Close&lt;/code&gt; in SQL Server.&lt;/p&gt;
+
+&lt;p&gt;The conclusion I draw from this is that after the executing Rterm process has been created (and BxlServer, BxLinkServer and SqlSatellite), SqlSatellite connects into SQL Server.&lt;/p&gt;
+
+&lt;p&gt;You may notice that the &lt;code&gt;launchpad!CSQLSatelliteConnection::WriteMessage&lt;/code&gt; breakpoint will be hit a couple of times after the SQL Server &lt;code&gt;sqllang!Tcp::AcceptConnection&lt;/code&gt;. We'll discuss that in the next Internals blogpost.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post we set out trying to determine what communication mechanisms there are between the various components interacting when &lt;code&gt;sp_execute_external_script&lt;/code&gt; is called. We also saw how a &quot;new&quot; component &lt;code&gt;sqlsatellite.dll&lt;/code&gt; is in the mix, and in the next blogpost in the Internals series we'll look more in detail what it does.&lt;/p&gt;
+
+&lt;p&gt;So, &lt;em&gt;Figure 13&lt;/em&gt; below illustrates quite well the communication mechanisms between the various components:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_9_comms2.png&quot; width=&quot;650&quot; height=&quot;228&quot;  &gt;
+&lt;strong&gt;Figure 13:&lt;/strong&gt; &lt;em&gt;How Communication Happens&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The figure looks quite like &lt;em&gt;Figure 11&lt;/em&gt; and the numbers indicate:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1 - named pipe.&lt;/li&gt;
+&lt;li&gt;2 - IOCP.&lt;/li&gt;
+&lt;li&gt;3 - named pipe.&lt;/li&gt;
+&lt;li&gt;4 - TCP/IP&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 32</title>
@@ -1267,67 +1671,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I know, I know, I know - I have said this before, but I am nearly finished with part 7 of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series. I have had a severe case of writers block for part 7, but 80% of it is done now. I promise!!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 26</title>
-   <link href="http://nielsberglund.com/2017/07/02/interesting-stuff-week-26/"/>
-   <updated>2017-07-02T19:23:56+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/02/interesting-stuff---week-26</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/06/28/graph-database-with-t-sql/&quot;&gt;Graph Database with T-SQL&lt;/a&gt;. &lt;a href=&quot;https://tomaztsql.wordpress.com&quot;&gt;Tomaz&lt;/a&gt; takes us through the new graph database functionality in SQL Server 2017. I so wanted to look into the graph capabilities of SQL Server 2017, but haven't had time, sigh!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/sql/relational-databases/in-memory-oltp/faster-temp-table-and-table-variable-by-using-memory-optimization&quot;&gt;Faster temp table and table variable by using memory optimization&lt;/a&gt;. Oh, this is cool! The post talks about increasing performance for temp tables and table variables by using in-memory optimizations.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/01/sqlclr-certificates/&quot;&gt;SQLCLR and Certificates&lt;/a&gt;. A post by myself, discussing how to authorize SQLCLR assemblies for permissions other than &lt;code&gt;SAFE&lt;/code&gt;. In this post I probably also offend some people by saying I don't think that &lt;code&gt;TRUSTWORTHY&lt;/code&gt; is that bad.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt;. Geez, I have been productive this week - a second post by me. While investigating the post above, I came across some changes in SQL Server 2017, regarding SQLCLR and permissions. This post is the result.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/28/using-azure-data-lake-and-r-for-fraud-detection/&quot;&gt;Using Azure Data Lake and R for Fraud Detection&lt;/a&gt;. A post about peta-scale fraud detection using R and Azure Data Lake.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/06/27/saving-snow-leopards-with-deep-learning-and-computer-vision-on-spark/&quot;&gt;Saving Snow Leopards with Deep Learning and Computer Vision on Spark&lt;/a&gt;. This is soooo cute! Using image analysis and Apache Spark to save Snow Leopards!!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/06/29/end-to-end-loan-chargeoff-prediction-built-using-azure-hdinsight-spark-clusters-and-sql-server-2016-r-service/&quot;&gt;End to End Loan ChargeOff Prediction Built Using Azure HDInsight Spark Clusters and SQL Server 2016 R Service&lt;/a&gt;. Monitoring loan charge-off using either R and Apache Spark, or SQL Server 2016 R Services.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/bettercloud-dynamic-alerting-apache-flink&quot;&gt;Dynamically Configured Stream Processing: How BetterCloud Built an Alerting System with Apache Flink&lt;/a&gt;. Building a real-time alerting system using Apache Flink.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/ericgu/2017/06/22/notdd/&quot;&gt;#NoTDD&lt;/a&gt;. A very thought provoking post regarding the advantages/disadvantages of TDD.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
