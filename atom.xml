@@ -4,13 +4,97 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-08-18T18:14:02+02:00</updated>
+ <updated>2017-08-20T20:33:08+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 33</title>
+   <link href="http://nielsberglund.com/2017/08/20/interesting-stuff-week-33/"/>
+   <updated>2017-08-20T20:25:44+02:00</updated>
+   <id>http://nielsberglund.com/2017/08/20/interesting-stuff---week-33</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/&quot;&gt;Announcing .NET Core 2.0&lt;/a&gt;. Well, not much to add - .NET Core 2.0 final has been released!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://adamsitnik.com/Disassembly-Diagnoser/&quot;&gt;Disassembling .NET Code with BenchmarkDotNet&lt;/a&gt;. &lt;a href=&quot;http://adamsitnik.com/about/&quot;&gt;Adam&lt;/a&gt; has enhanced &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; to also disassemble the .NET code that is benchmarked.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/dmv-diaries-sys-dm_os_threads/&quot;&gt;The DMV Diaries: sys.dm_os_threads&lt;/a&gt;. So while &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; is on a &lt;a href=&quot;http://sqlonice.com/footsteps-of-cooperative-wait/&quot;&gt;threads and tasks journey&lt;/a&gt;, he also peeks into the diaries of DMV's. This is the first, in hopefully many to come posts about the guts of DMV's. I have said it before, and I say it again; &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald's&lt;/a&gt; blog is a &lt;strong&gt;MUST&lt;/strong&gt; read if you are interested in the inner workings of SQL Server! What are you waiting for - go ahead and read it!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Azure/Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/services/event-grid/&quot;&gt;Event Grid&lt;/a&gt;. This is so &quot;freaking&quot; awesome, so there are no words for it! A single service for managing routing of all events from any source to any destination. Designed for high availability, consistent performance, and dynamic scale! I so &lt;strong&gt;have to&lt;/strong&gt; &lt;del&gt;play with it&lt;/del&gt; research this!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/08/17/on-the-design-of-distributed-programming-models/&quot;&gt;On the design of distributed programming models&lt;/a&gt;. Is there a need for a programming model for distributed computing? &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Adrian&lt;/a&gt; dissects a white paper making the case for it.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;p&gt;It's been a while since I have had any coverage of &lt;strong&gt;Apache Kafka&lt;/strong&gt; and / or &lt;strong&gt;Apache Flink&lt;/strong&gt;. Fortunately that changes today!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/flink-forward-berlin-preview-apache-flink-internals-sessions&quot;&gt;Flink Forward Berlin Preview: Apache Flink Internals Sessions&lt;/a&gt;. A preview of what is to come at the &lt;a href=&quot;https://berlin.flink-forward.org/&quot;&gt;Flink Forward&lt;/a&gt; conference in Berlin September 11 - 13. All I can say is that I hope there will be video recordings available after the conference, as it looks awesome!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/apache-kafka-for-service-architectures/&quot;&gt;Using Apache Kafka as a Scalable, Event-Driven Backbone for Service Architectures&lt;/a&gt;. A practical guide to building event driven systems using Apache Kafka as the message broker.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/leveraging-power-database-unbundled/&quot;&gt;Leveraging the Power of a Database ‘Unbundled’&lt;/a&gt;. &quot;Hello my name is Niels, and I am a database guy!&quot;. That's me; but this, this is &quot;absofreakinglutely&quot; awesome! I am right now installing Docker so I can download Kafka containers onto my Windows machine and start playing with this!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/image-featurizer.html&quot;&gt;How to build an image recognizer in R using just a few images&lt;/a&gt;. The boys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; talks about how to build your own image recognizer using the new &lt;strong&gt;Image Featurizer&lt;/strong&gt; capabilities of Microsoft R Server. Go forth and read, this is cool!!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://buckwoody.wordpress.com/2017/08/17/a-data-science-microsoft-project-template-you-can-use-in-your-solutions/&quot;&gt;A Data Science Microsoft Project Template You Can Use in Your Solutions&lt;/a&gt;. &lt;a href=&quot;https://buckwoody.wordpress.com/&quot;&gt;Buck Woody&lt;/a&gt; blogs about a Microsoft Project template for Data Science built on top of the &lt;a href=&quot;https://docs.microsoft.com/en-us/azure/machine-learning/data-science-process-overview&quot;&gt;Microsoft Team Data Science Process&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/20-years-of-the-r-core-group.html&quot;&gt;20 years of the R Core Group&lt;/a&gt;. The &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; guys points out that it was 20 year since the R Core Group was established. Happy Birthday!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;. I published &quot;episode&quot; nine of the SQL Server R Services Internals &quot;saga&quot;. Here we look at what communication methods are being used between the various components in play when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals IX</title>
@@ -1613,70 +1697,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;First of all, if you have any insight in the files &lt;code&gt;Rterm.exe&lt;/code&gt; creates, please get in touch! Otherwise, if you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 27</title>
-   <link href="http://nielsberglund.com/2017/07/09/interesting-stuff-week-27/"/>
-   <updated>2017-07-09T19:15:08+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/09/interesting-stuff---week-27</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/high-performance-dotnet&quot;&gt;Virtual Panel: High Performance Application in .NET&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; panel discussion about performance in .NET. It's a very interesting read and it led me to the item below.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/&quot;&gt;Performance Improvements in .NET Core&lt;/a&gt;. As the name says, a look at performance improvements in .NET Core. Having read this post as well as the post above, I'll make sure we'll start to look into .NET Core at &lt;a href=&quot;/derivco&quot;&gt;Derivco&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/@jaykreps/exactly-once-support-in-apache-kafka-55e1fdd0a35f&quot;&gt;Exactly-once Support in Apache Kafka&lt;/a&gt;. Woooo! This is so cool! A post about exactly-once support in Apache Kafka. I know I have said this before, but ... now we &lt;strong&gt;REALLY&lt;/strong&gt; need to start looking at Kafka.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Cloud&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/07/04/azure-data-lake-store-a-hyperscale-distributed-file-service-for-big-data-analytics/&quot;&gt;Azure Data Lake Store: a hyperscale distributed file service for big data analytics&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Andrew&lt;/a&gt; takes a deep, deep look into the plumbing of Azure Data Lake.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/07/03/spanner-becoming-a-sql-system/&quot;&gt;Spanner: becoming a SQL system&lt;/a&gt;. Another post by &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Andrew&lt;/a&gt;. Here he looks into how Google's Spanner becomes more SQL like.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/azure/cosmos-db/change-feed&quot;&gt;Working with the change feed support in Azure Cosmos DB&lt;/a&gt;. The Azure Cosmos DB, becomes more and more &quot;juicy&quot;! This is how it supports a real-time feed of changes: the Change Feed Support.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/tensorflow-concepts&quot;&gt;In Depth TensorFlow&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about Google's Tensorflow by one of the developers.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://buckwoody.wordpress.com/2017/07/06/quick-start-for-data-science/&quot;&gt;Quick Start for Data Science&lt;/a&gt;. &lt;a href=&quot;https://buckwoody.wordpress.com&quot;&gt;Buck Woody&lt;/a&gt; posts a quick introduction to Data Science. A must read for any &quot;budding&quot; data scientist out there.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I know, I know, I know - I have said this before, but I am nearly finished with part 7 of my &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;SQL Server R Services&lt;/a&gt; series. I have had a severe case of writers block for part 7, but 80% of it is done now. I promise!!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
