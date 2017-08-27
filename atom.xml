@@ -4,13 +4,70 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-08-20T20:33:08+02:00</updated>
+ <updated>2017-08-27T21:41:53+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 34</title>
+   <link href="http://nielsberglund.com/2017/08/27/interesting-stuff-week-34/"/>
+   <updated>2017-08-27T21:30:24+02:00</updated>
+   <id>http://nielsberglund.com/2017/08/27/interesting-stuff---week-34</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/dmv-diaries-sys-dm_os_workers/&quot;&gt;The DMV Diaries: sys.dm_os_workers&lt;/a&gt;. &quot;Dear diary, today this worker approached me, what should I do?&quot;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; continues his DMV journey. &lt;strong&gt;MUST READ!!&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2017/07/10/styles-of-event-architecture.html&quot;&gt;Styles of Event Architecture&lt;/a&gt;. Discussion about event architectures when building distributed systems.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2017/08/13/build-reactive-polyglot-muon.html&quot;&gt;Building Reactive Microservices using Muon and scaling them using Kafka, Cassandra and friends&lt;/a&gt;. More about event architectures.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/08/22/javascript-for-extending-low-latency-in-memory-key-value-stores/&quot;&gt;JavaScript for extending low-latency in-memory key-value stores&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Adrian&lt;/a&gt; looks at a white-paper about how to use java script for a low latency compute engine. Hmm, java script and low latency???&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/data-track-ignite.html&quot;&gt;Highlights of the Data Science Track at Microsoft Ignite&lt;/a&gt;. The &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; guys, points out quite interesting topics at &lt;a href=&quot;https://www.microsoft.com/en-us/ignite/default.aspx&quot;&gt;Microsoft Ignite&lt;/a&gt; in September.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/introduction-to-recurrent-neural-network-27202c3945f3&quot;&gt;Introduction to Recurrent Neural Network&lt;/a&gt;. A very, very interesting post about the use of &lt;em&gt;Recurrent Neural Network&lt;/em&gt;'s for analysis of sequences. I wonder if this could be used for real-time data?!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/query-editor-tips.html&quot;&gt;Tips and tricks on using R to query data in Power BI&lt;/a&gt;. Some ideas about hoe to use R for querying data in Power BI.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I am almost done with &lt;em&gt;Internals - X&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series. I had hoped to be able to publish it earlier today, but I found some &lt;em&gt;weird&lt;/em&gt; &quot;stuff&quot; regarding data sent to the SqlSatellite from SQL Server, and I want to see if I can find out what's going on with that. So, expect &lt;em&gt;Internals - X&lt;/em&gt; to be published some time next week. If you are interested in the previous &quot;episodes&quot; they can be found &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 33</title>
@@ -1399,304 +1456,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Microsoft SQL Server R Services - Internals VII</title>
-   <link href="http://nielsberglund.com/2017/07/11/microsoft-sql-server-r-services-internals-vii/"/>
-   <updated>2017-07-11T20:08:13+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/11/microsoft-sql-server-r-services---internals-vii</id>
-   <content type="html">&lt;p&gt;(WOW, I finally managed to get this post out! Yay to me!!)&lt;/p&gt;
-
-&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Microsoft SQL Server R Services - Internals VII (this post)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;More to come (hopefully)&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;This post is the eighth post about Microsoft SQL Server R Services, and the seventh post that drills down into the internal of how it works. In this post we will look more at some of the directories that are created when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, as well as files being created in those directories.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Recap&lt;/h2&gt;
-
-&lt;p&gt;In previous posts(&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;here&lt;/a&gt;, &lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;here&lt;/a&gt;, &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;here&lt;/a&gt;) we have talked about how the launchpad service creates a number of &lt;strong&gt;RTerm&lt;/strong&gt; processes when we execute an &lt;code&gt;sp_execute_external_script&lt;/code&gt; request. The number of processes are configurable by the &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting in the &lt;code&gt;rlauncher.config&lt;/code&gt; file, and by default 5 processes are created. These processes are added to a process pool, and when executing subsequent requests, or concurrent requests from different sessions, processes are picked up from the pool and used. At the same time new processes are created and added to the pool.&lt;/p&gt;
-
-&lt;p&gt;In the &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt; post we talked about the directories that are created when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We saw, when we execute the script, how (with a default &lt;code&gt;PROCESS_POOL_SQLSATELLITE_GROWTH&lt;/code&gt; setting):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Three directories are created initially, the first one being the directory for the session - this is the R working directory.&lt;/li&gt;
-&lt;li&gt;Then two processes, which will use the second and third directory.&lt;/li&gt;
-&lt;li&gt;Then one directory followed by one process, until we're done.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;From the above we understand that each process has a backing directory, and in the &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;post&lt;/a&gt; we saw how the various directories had some files and sub-directories inside, as in &lt;em&gt;Figure 1 below&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_6_dir_content.png&quot; width=&quot;291&quot; height=&quot;118&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Directory Content&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The figure above is from the &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; post. In that post we could not really determine where the sub-directories came from. So in this post let us figure out what the created files are for, and from where the sub-directories originate (or at least let us try to figure it out).&lt;/p&gt;
-
-&lt;h2&gt;Files&lt;/h2&gt;
-
-&lt;p&gt;In various documentation of SQL Server R Services it is stated that the directories created during execution of &lt;code&gt;sp_execute_external_script&lt;/code&gt; is to store files, intermediate results etc. We will run some code to see what files are created, but before that let's set things up to make life somewhat easier for us:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;rlauncher.config&lt;/code&gt; file in a text editor and change the value of &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt; to 0, and save the file (you need to do this as admin).&lt;/li&gt;
-&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; By setting the &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt; to 0 we tell the launchpad service to not delete any directories etc., after we have executed (the executing process will still be torn down though).&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;The code we initially want to run is similar to what we ran in &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 pid &amp;lt;- Sys.getpid()
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 d &amp;lt;- getwd()
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 cat(paste0(&quot;ProcessId: &quot;, pid))
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 cat(paste0(&quot;WorkDir: &quot;, d))
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 cat(&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot;)
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 OutputDataSet&amp;lt;-data.frame(ProcessId=pid,WorkingDir=d)'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WorkingDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;External Script&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As you see in &lt;em&gt;Code Snippet 1&lt;/em&gt;, the R script captures information about the process id we execute under as well as the working directory. It uses the &lt;code&gt;cat&lt;/code&gt; function to output the data, the question is where it outputs it to? Normally &lt;code&gt;cat&lt;/code&gt; would output to the standard output connection, the console, if no file name has been given as argument. So let us see what happens when we execute the code.&lt;/p&gt;
-
-&lt;p&gt;In SQL Server Management Studio (SSMS) - under the &lt;em&gt;Results&lt;/em&gt; tab, I get the returning result set containing the process id as well as the working directory path. Under the &lt;em&gt;Messages&lt;/em&gt; tab I get something like what is shown in &lt;em&gt;Figure 2&lt;/em&gt; below:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_output1.png&quot; width=&quot;443&quot; height=&quot;122&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Output from R Script&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So that is the result from the &lt;code&gt;cat&lt;/code&gt; function. This makes sense as we can see the &lt;em&gt;Messages&lt;/em&gt; tab as something like a console. But is the output from &lt;code&gt;cat&lt;/code&gt; anywhere else? Let's go and have a look in the user account directory in &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt;, and the specific account used when executing the script. It is most likely &lt;em&gt;MSSQLSERVER01&lt;/em&gt; if you execute from a default instance, but if you are unsure you can have a look at the output from the script and the value for the working directory. Just before the &lt;code&gt;Guid&lt;/code&gt; value is the name of the account used.&lt;/p&gt;
-
-&lt;p&gt;When we look under the user account directory, we'll see multiple directories, all with a &lt;code&gt;Guid&lt;/code&gt; like string as name. As we covered in previous posts, these directories are the backing directories for the processes created. When you look through these directories you'll see (as we said in &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals VI&lt;/a&gt;), that most of the directories look the same; they have one subdirectory and 3 files. There are however two directories that are somewhat different; one is empty, and that is the working directory, and one that has four files in it. The one directory with four files in it is the directory for the process the code executed under (I call it process directory), and when you look in that directory you see something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_outputdir.png&quot; width=&quot;579&quot; height=&quot;139&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Contents Process Directory&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As you see in &lt;em&gt;Figure 3&lt;/em&gt; there are two &lt;code&gt;.txt&lt;/code&gt; files in the directory, and we can see (from the Size), that it looks like the &lt;code&gt;stdout0.txt&lt;/code&gt; has some content. When you open the &lt;code&gt;stdout0.txt&lt;/code&gt; file you see how it contains the output from the &lt;code&gt;cat&lt;/code&gt; calls in the script. If there had been errors during script execution, the errors would have been written to the &lt;code&gt;stderr0.txt&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;p&gt;OK, so that is the &lt;code&gt;stdout.txt&lt;/code&gt; and `stderr.txt files - what about the other two files:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;7F73C367-0684-4B89-9DA7-86BEEA362FD2.R&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Rscriptae84173870&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The filenames above are what I see on my machine. If you run this, your filenames will most definitely be different.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Let's start with the R file, which looks something like so (paths made short):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;title &quot;R File&quot;&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RevoScaleR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;rxIgnoreResult&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.Call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'RxSqlSatelliteCall'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'1C49FD9B-BA79-4C1E-993B-E04669259CD8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;taskId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;51318&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pipeName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'DataSet1_1Col_Int_1Row'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlSatellitePath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'C:\&amp;lt;sql_inst_binn_path&amp;gt;\
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                  sqlsatellite.dll'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errorToStdError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;R File Set Up Satellite Connection&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This file only exists in the process directory, and the file is used to establish a named pipe connection with the SQL Satellite (we'll cover SQL Satellite in future posts). As we see in &lt;em&gt;Code Snippet 2&lt;/em&gt;, the script:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Loads the &lt;code&gt;RevoScaleR&lt;/code&gt; package&lt;/li&gt;
-&lt;li&gt;Executes the &lt;code&gt;.Call&lt;/code&gt; function to call into a method named &lt;code&gt;RxSqlSatelliteCall&lt;/code&gt;, and sends in some arguments for that method.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The &lt;code&gt;.Call&lt;/code&gt; function in R is used to call into C/C++ code.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;The arguments sent in to the method are for:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;What port to use for then named pipe connection.&lt;/li&gt;
-&lt;li&gt;Name of the named pipe.&lt;/li&gt;
-&lt;li&gt;The path to where the SQL Satellite is.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;What uses this file? Well, take a look at the &lt;code&gt;Rscriptae84173870&lt;/code&gt; file, it looks something like so (once again paths shortened):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Session&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RevoScaleR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sessionDirectory&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;s1&quot;&gt;'C:\&amp;lt;sql_inst_ext_data_path&amp;gt;\
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;     MSSQLSERVER01\7F73C367-0684-4B89-9DA7-86BEEA362FD2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sessionId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'7F73C367-0684-4B89-9DA7-86BEEA362FD2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;scriptFile&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file.path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;rxIgnoreCallResult&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.Call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'RxSqlSessionStart'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionDirectory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;waitTime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scriptFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Session Start&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Ah, looking at the code in &lt;em&gt;Code Snippet 3&lt;/em&gt;, we see how that code actually:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Loads the &lt;code&gt;RevoScaleR&lt;/code&gt; package.&lt;/li&gt;
-&lt;li&gt;Defines the directory for the executing process&lt;/li&gt;
-&lt;li&gt;Creates a &lt;code&gt;scriptFile&lt;/code&gt; argument, pointing to the file in &lt;em&gt;Code Snippet 2&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;Starts the process.&lt;/li&gt;
-&lt;li&gt;Calls the file from &lt;em&gt;Code Snippet 2&lt;/em&gt; in the &lt;code&gt;source&lt;/code&gt; call.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The result of the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; and &lt;em&gt;Code Snippet 3&lt;/em&gt; is that after execution a named pipe connection has been made to the SQL Satellite dll, and as I said above - we'll cover the SQL Satellite in a subsequent blog-post.&lt;/p&gt;
-
-&lt;h2&gt;Files &amp;amp; Sub-directory Origins&lt;/h2&gt;
-
-&lt;p&gt;Above we saw (at least kind of), what the files inside the process directory do. What about the sub directory that exist in all backing directories, what does that do, and where does it come from? Remember from the &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; post that we said that when we were using &lt;strong&gt;WinDbg&lt;/strong&gt; and had break point at &lt;code&gt;KERNELBASE!CreateDirectoryW&lt;/code&gt; we couldn't see the sub-directory being created.&lt;/p&gt;
-
-&lt;p&gt;There is also a question about who is creating the files that we have just discussed. The obvious answer would be that it is the launchpad service together with the &lt;code&gt;rlauncher.dll&lt;/code&gt; that create the files. Let's try and prove that.&lt;/p&gt;
-
-&lt;p&gt;So, to set things up:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Stop the launchpad service.&lt;/li&gt;
-&lt;li&gt;Delete any sub directories of the user account directories in the &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt; directory. Do NOT delete the user account directories themselves.&lt;/li&gt;
-&lt;li&gt;Restart the launchpad service.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;This time we will use &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/processmonitor.aspx&quot;&gt;&lt;em&gt;Process Monitor&lt;/em&gt;&lt;/a&gt; from &lt;strong&gt;Sysinternals&lt;/strong&gt; instead of WinDbg, as it will be easier to see what files (and directories) are created and by whom.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Process Monitor is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;When you run Process Monitor you will see that it monitors (and logs) a LOT on the machine you run it on:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon1.png&quot; width=&quot;596&quot; height=&quot;479&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Process Monitor Start Up&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 4&lt;/em&gt; you see output from Process Monitor right after startup on my machine. In order to get something useful out of what we see, we need to filter out events, or rather say what events we are interested in. We'll start with suppressing event monitoring to begin with, as well as not choosing to see events of certain types:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon2.png&quot; width=&quot;423&quot; height=&quot;87&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Suppress Event Collection&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 5&lt;/em&gt; we see the tool-bar of Process Monitor, and how we have paused capturing of events by clicking on the magnifying glass (in the first outlined box). We also have chosen not to receive any events related to registry, network and profiling activity (the second outlined box).&lt;/p&gt;
-
-&lt;p&gt;Now we are ready to start to define the events we are interested in, and we do that using the &lt;em&gt;Filter&lt;/em&gt; menu. We start with resetting the filters:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_reset_filter.png&quot; width=&quot;380&quot; height=&quot;262&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Reset Process Monitor's Filters&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When you reset the filters, sometimes event capturing will be enabled again. If it is, just disable it once more. Now is probably a good time to clear out the captured events at startup, so under the &lt;em&gt;Edit&lt;/em&gt; menu click &lt;em&gt;Clear Display&lt;/em&gt;. Having reset the filters and cleared out the display, we can now create a filter to use, to capture the events we are interested in. So, what are we interested in?&lt;/p&gt;
-
-&lt;p&gt;Well, we would like to see what files are being created under the subdirectories of the user account you will execute your R script under. For me it is: &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\ExtensibilityData\MSSQLSERVER01&lt;/code&gt;, and this will be the starting point for a filter to filter out events.&lt;/p&gt;
-
-&lt;p&gt;To create a filter, under the &lt;em&gt;Filter&lt;/em&gt; menu click the Filter menu item, and the &quot;Process Monitor Filter&quot; dialog will be shown:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_filter_dialog.png&quot; width=&quot;594&quot; height=&quot;239&quot;  &gt;
-&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Process Monitor Filter Dialog&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;To create the filter we enter the conditions we want to match:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The &lt;em&gt;Path&lt;/em&gt; (from first drop down) should &lt;em&gt;begins with&lt;/em&gt; (from second drop down): &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\ExtensibilityData\MSSQLSERVER01&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Operation&lt;/em&gt; (first drop down) &lt;em&gt;is&lt;/em&gt; (second drop down): &lt;code&gt;CreateFile&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Both of those conditions should be &lt;em&gt;Include&lt;/em&gt;:ed and &lt;em&gt;Add&lt;/em&gt;:ed. At the end the filter looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_filter_create.png&quot; width=&quot;650&quot; height=&quot;165&quot;  &gt;
-&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Filter Created&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;You click &lt;em&gt;OK&lt;/em&gt;, and you are ready to roll:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Re-enable capturing of events in Process Monitor&lt;/li&gt;
-&lt;li&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;After executing the code, disable the capturing of events again in Process Monitor&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;Process Monitor now shows quite a few events:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_capured_events.png&quot; width=&quot;576&quot; height=&quot;380&quot;  &gt;
-&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Captured Create File Events&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Let's go back to the user account and find the backing directory for the process, as - at the moment - we are only interested in what happens in that directory. In my case it is &lt;code&gt;1EB243A4-AE41-4DBD-A315-44B52EECF4B9&lt;/code&gt;. To make it easier to see what happens in Process Monitor, we can change the filter somewhat:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;In the &lt;em&gt;Path&lt;/em&gt; column in Process Monitor right click on the first occurrence of the path including the process directory, and click &lt;em&gt;Copy&lt;/em&gt;:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_find_path.png&quot; width=&quot;650&quot; height=&quot;323&quot;  &gt;
-&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Copying the Path&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Then open the Filter dialog and:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Remove the filter condition for the &lt;em&gt;Path&lt;/em&gt;. That will cause the condition to be entered into the condition fields:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_remove_filter.png&quot; width=&quot;650&quot; height=&quot;181&quot;  &gt;
-&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;After Remove Condition&lt;/em&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;In the conditions field enter the path to your process directory (the one you copied above).&lt;/li&gt;
-&lt;li&gt;Click &lt;em&gt;Add&lt;/em&gt;, &lt;em&gt;Apply&lt;/em&gt;, and &lt;em&gt;OK&lt;/em&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The number of events displayed should now have been reduced significantly. For me it went from 265 events captured to 53.&lt;/p&gt;
-
-&lt;p&gt;Now we can see how the launchpad service creates the &lt;code&gt;stdout0.txt&lt;/code&gt;, and &lt;code&gt;stderr0.txt&lt;/code&gt; files together with the &lt;code&gt;.R&lt;/code&gt; file (the image is cropped):&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_launchpad_create_file2.png&quot; width=&quot;650&quot; height=&quot;65&quot;  &gt;
-&lt;strong&gt;Figure 12:&lt;/strong&gt; **&lt;/p&gt;
-
-&lt;p&gt;However, the &lt;code&gt;Rscriptxxx&lt;/code&gt; file is not created by the launchpad service, but by &lt;code&gt;RTerm.exe&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_7_procmon_rterm.png&quot; width=&quot;558&quot; height=&quot;80&quot;  &gt;
-&lt;strong&gt;Figure 13:&lt;/strong&gt; &lt;em&gt;RTerm Creating Files and Directories&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 13&lt;/em&gt; we also see how - in addition to the Rscript file - a directory &lt;code&gt;Rtmp0AHI82&lt;/code&gt; is created, and inside that directory a file &lt;code&gt;file5f446ae7ae6&lt;/code&gt; is created. That particular file is not persisted regardless of the setting of &lt;code&gt;JOB_CLEANUP_ON_EXIT&lt;/code&gt;. I have not been able to figure out - yet - what that file contains, so if anyone out there knows, please let me know.&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;In this post we have seen how:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Output from R script (errors and print) are written to files in the processing directory by the launchpad service.&lt;/li&gt;
-&lt;li&gt;The launchpad service also writes a script to establish a named piped connection to the SQL Satellite dll.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;Rterm.exe&lt;/code&gt; writes a script that starts a session, and &lt;code&gt;source&lt;/code&gt;:s the script file mentioned above.&lt;/li&gt;
-&lt;li&gt;In addition to the session script, &lt;code&gt;Rterm.exe&lt;/code&gt; also creates a sub directory together with a file. The file is not persisted.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;First of all, if you have any insight in the files &lt;code&gt;Rterm.exe&lt;/code&gt; creates, please get in touch! Otherwise, if you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
