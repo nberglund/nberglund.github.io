@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Niels Berglund</title>
- <link href="http://localhost:4000/atom.xml" rel="self"/>
- <link href="http://localhost:4000/"/>
- <updated>2017-09-03T20:22:40+02:00</updated>
- <id>http://localhost:4000</id>
+ <link href="http://nielsberglund.com/atom.xml" rel="self"/>
+ <link href="http://nielsberglund.com/"/>
+ <updated>2017-09-03T20:34:25+02:00</updated>
+ <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 35</title>
-   <link href="http://localhost:4000/2017/09/03/interesting-stuff-week-35/"/>
+   <link href="http://nielsberglund.com/2017/09/03/interesting-stuff-week-35/"/>
    <updated>2017-09-03T19:55:48+02:00</updated>
-   <id>http://localhost:4000/2017/09/03/interesting-stuff---week-35</id>
+   <id>http://nielsberglund.com/2017/09/03/interesting-stuff---week-35</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -125,9 +125,9 @@
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals X</title>
-   <link href="http://localhost:4000/2017/08/29/microsoft-sql-server-r-services-internals-x/"/>
+   <link href="http://nielsberglund.com/2017/08/29/microsoft-sql-server-r-services-internals-x/"/>
    <updated>2017-08-29T20:19:14+02:00</updated>
-   <id>http://localhost:4000/2017/08/29/microsoft-sql-server-r-services---internals-x</id>
+   <id>http://nielsberglund.com/2017/08/29/microsoft-sql-server-r-services---internals-x</id>
    <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -630,9 +630,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 34</title>
-   <link href="http://localhost:4000/2017/08/27/interesting-stuff-week-34/"/>
+   <link href="http://nielsberglund.com/2017/08/27/interesting-stuff-week-34/"/>
    <updated>2017-08-27T21:30:24+02:00</updated>
-   <id>http://localhost:4000/2017/08/27/interesting-stuff---week-34</id>
+   <id>http://nielsberglund.com/2017/08/27/interesting-stuff---week-34</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -687,9 +687,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 33</title>
-   <link href="http://localhost:4000/2017/08/20/interesting-stuff-week-33/"/>
+   <link href="http://nielsberglund.com/2017/08/20/interesting-stuff-week-33/"/>
    <updated>2017-08-20T20:25:44+02:00</updated>
-   <id>http://localhost:4000/2017/08/20/interesting-stuff---week-33</id>
+   <id>http://nielsberglund.com/2017/08/20/interesting-stuff---week-33</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -771,9 +771,9 @@
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals IX</title>
-   <link href="http://localhost:4000/2017/08/18/microsoft-sql-server-r-services-internals-ix/"/>
+   <link href="http://nielsberglund.com/2017/08/18/microsoft-sql-server-r-services-internals-ix/"/>
    <updated>2017-08-18T17:44:22+02:00</updated>
-   <id>http://localhost:4000/2017/08/18/microsoft-sql-server-r-services---internals-ix</id>
+   <id>http://nielsberglund.com/2017/08/18/microsoft-sql-server-r-services---internals-ix</id>
    <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -1176,9 +1176,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 32</title>
-   <link href="http://localhost:4000/2017/08/13/interesting-stuff-week-32/"/>
+   <link href="http://nielsberglund.com/2017/08/13/interesting-stuff-week-32/"/>
    <updated>2017-08-13T20:12:03+02:00</updated>
-   <id>http://localhost:4000/2017/08/13/interesting-stuff---week-32</id>
+   <id>http://nielsberglund.com/2017/08/13/interesting-stuff---week-32</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1233,9 +1233,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 31</title>
-   <link href="http://localhost:4000/2017/08/06/interesting-stuff-week-31/"/>
+   <link href="http://nielsberglund.com/2017/08/06/interesting-stuff-week-31/"/>
    <updated>2017-08-06T19:36:25+02:00</updated>
-   <id>http://localhost:4000/2017/08/06/interesting-stuff---week-31</id>
+   <id>http://nielsberglund.com/2017/08/06/interesting-stuff---week-31</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1310,9 +1310,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 30</title>
-   <link href="http://localhost:4000/2017/07/30/interesting-stuff-week-30/"/>
+   <link href="http://nielsberglund.com/2017/07/30/interesting-stuff-week-30/"/>
    <updated>2017-07-30T14:23:33+02:00</updated>
-   <id>http://localhost:4000/2017/07/30/interesting-stuff---week-30</id>
+   <id>http://nielsberglund.com/2017/07/30/interesting-stuff---week-30</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1364,9 +1364,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 29</title>
-   <link href="http://localhost:4000/2017/07/23/interesting-stuff-week-29/"/>
+   <link href="http://nielsberglund.com/2017/07/23/interesting-stuff-week-29/"/>
    <updated>2017-07-23T19:51:06+02:00</updated>
-   <id>http://localhost:4000/2017/07/23/interesting-stuff---week-29</id>
+   <id>http://nielsberglund.com/2017/07/23/interesting-stuff---week-29</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1418,9 +1418,9 @@
  
  <entry>
    <title>SQL Server 2017 SQLCLR - Whitelisting Assemblies</title>
-   <link href="http://localhost:4000/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/"/>
+   <link href="http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/"/>
    <updated>2017-07-23T09:53:57+02:00</updated>
-   <id>http://localhost:4000/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies</id>
+   <id>http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies</id>
    <content type="html">&lt;p&gt;A little while ago I wrote a &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;blog-post&lt;/a&gt; about the changes in the SQLCLR security model in SQL Server 2017. I wrote about how Microsoft has changed the relation between CAS and security boundaries, and CAS is no longer supported as a boundary! And also how Microsoft introduced an &lt;code&gt;sp_configure&lt;/code&gt; option called &lt;code&gt;clr strict security&lt;/code&gt;, which by default is set to 1 (on). When the setting is on, SQL Server treats all assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) as if they were marked &lt;code&gt;UNSAFE&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The release I wrote the post against was CTP 2.1, and earlier this week Microsoft released SQL Server 2017 RC1. Some days ago I received a comment from &lt;em&gt;Paul Vestuto&lt;/em&gt; on my &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;post&lt;/a&gt;, pointing out that in RC1 there has been some more changes to the security model. I thought those changes would earn their own blog-post, instead of just editing the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
