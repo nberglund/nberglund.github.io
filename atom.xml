@@ -4,13 +4,70 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-09-03T20:34:25+02:00</updated>
+ <updated>2017-09-10T09:02:48+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 36</title>
+   <link href="http://nielsberglund.com/2017/09/10/interesting-stuff-week-36/"/>
+   <updated>2017-09-10T08:56:44+02:00</updated>
+   <id>http://nielsberglund.com/2017/09/10/interesting-stuff---week-36</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/flink-streaming-sql-ksql-stream-processing&quot;&gt;Streaming SQL in Apache Flink, KSQL, and Stream Processing for Everyone&lt;/a&gt;. In last weeks &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;roundup&lt;/a&gt; I mentioned how Apache Kafka now supports querying the data by using &lt;a href=&quot;https://www.confluent.io/blog/ksql-open-source-streaming-sql-for-apache-kafka/&quot;&gt;SQL&lt;/a&gt;. I wondered what impact this would have on Esper and Apache Flink. Sure enough, the post here is a reply from Apache Flink, where they point out all the shortcomings the Kafka SQL has compared to Flink, &quot;meow&quot;! Heh, wait a second while I go and get the cola and the pop-corn, then the fight can begin.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-3/&quot;&gt;The Simplest Useful Kafka Connect Data Pipeline In The World … or thereabouts—Part 3&lt;/a&gt;. The series how to build a data pipeline using Apache Kafka Connect API continues.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://engineering.skybettingandgaming.com/2017/09/07/trading-on-aws/&quot;&gt;Moving Our Trading Engine to AWS&lt;/a&gt;. A very interesting article how Sky Betting moved their sports-book trading engine to the cloud and started using serverless functions.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/04/the-leicester-city-fairytale-utilizing-new-soccer-analytics-tools-to-compare-performance-in-the-1516-and-1617-epl-seasons/&quot;&gt;&quot;The Leicester City fairytale?&quot;: Utilizing new soccer analytics tools to compare performance in the 15/16 and 16/17 EPL seasons&lt;/a&gt;. Adrian from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; looks at a new data science analytics tool for soccer. As a side note, I so wish I had put down $100 in August 2015 on Leicester winning the 15/16 English Premiership. I would have walked away with ~$500,000!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/examples-of-applied-data-science-in-healthcare-and-e-commerce-e3b4a77ed306&quot;&gt;How To Apply Data Science To Real Business Problems&lt;/a&gt;. A really interesting article about data science and how it can be used in the &quot;real world&quot;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/06/free-microsoft-webinar-on-the-interactive-price-analytics-solution-now-available-in-azure/&quot;&gt;Free Microsoft Webinar on Interactive Price Analytics, Now Available on Azure&lt;/a&gt;. Invitation to a webinar about interactive price analytics. So what's so earth shattering about that, I can do price analytics today using data science? Sure, but this is a much simpler solution, and that's what is being covered at the webinar.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/06/how-to-use-cognitive-toolkit-cntk-with-kubernetes-on-azure/&quot;&gt;How to Train &amp;amp; Serve Deep Learning Models at Scale, Using Cognitive Toolkit with Kubernetes on Azure&lt;/a&gt;. This blog post is about how to use Kubernetes clusters for deep learning together with &lt;a href=&quot;https://www.microsoft.com/en-us/cognitive-toolkit/&quot;&gt;Microsoft Cognitive Toolkit&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
+
+&lt;p&gt;As I wrote in last weeks &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;roundup&lt;/a&gt;, we are in the conference season now. I want to thank everyone that came and listed to my ramblings in &lt;a href=&quot;http://www.sqlsaturday.com/648/eventhome.aspx&quot;&gt;Johannesburg&lt;/a&gt;, &lt;a href=&quot;https://www.quicket.co.za/events/33252-sql-in-pe-06-september-2017/#/&quot;&gt;Port Elizabeth&lt;/a&gt;, and &lt;a href=&quot;http://www.sqlsaturday.com/637/eventhome.aspx&quot;&gt;Cape Town&lt;/a&gt;. Much appreciated!! After next weeks SQL Saturday in &lt;a href=&quot;http://www.sqlsaturday.com/659/eventhome.aspx&quot;&gt;Durban&lt;/a&gt;, I am done for a little while, and can hopefully get back to write blog-posts about SQL Server Machine Learning Services again.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 35</title>
@@ -1413,306 +1470,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>SQL Server 2017 SQLCLR - Whitelisting Assemblies</title>
-   <link href="http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/"/>
-   <updated>2017-07-23T09:53:57+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies</id>
-   <content type="html">&lt;p&gt;A little while ago I wrote a &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;blog-post&lt;/a&gt; about the changes in the SQLCLR security model in SQL Server 2017. I wrote about how Microsoft has changed the relation between CAS and security boundaries, and CAS is no longer supported as a boundary! And also how Microsoft introduced an &lt;code&gt;sp_configure&lt;/code&gt; option called &lt;code&gt;clr strict security&lt;/code&gt;, which by default is set to 1 (on). When the setting is on, SQL Server treats all assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) as if they were marked &lt;code&gt;UNSAFE&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The release I wrote the post against was CTP 2.1, and earlier this week Microsoft released SQL Server 2017 RC1. Some days ago I received a comment from &lt;em&gt;Paul Vestuto&lt;/em&gt; on my &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;post&lt;/a&gt;, pointing out that in RC1 there has been some more changes to the security model. I thought those changes would earn their own blog-post, instead of just editing the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;Let's look back at what the changes were in SQL 2017, to the SQLCLR permissions.&lt;/p&gt;
-
-&lt;h2&gt;Recap&lt;/h2&gt;
-
-&lt;p&gt;In SQL Server 2017, Microsoft now by default requires that all type of assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) are authorized for &lt;code&gt;UNSAFE&lt;/code&gt; access, by:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The database is set to be &lt;code&gt;TRUSTWORTHY&lt;/code&gt;, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;The assembly is signed with a certificate that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;The assembly is signed with an asymmetric key that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The implication of the above is that, unless you want to mark your database &lt;code&gt;TRUSTWORTHY&lt;/code&gt;, you can no longer &quot;just&quot; deploy a &lt;code&gt;SAFE&lt;/code&gt; assembly, it has to be signed!&lt;/p&gt;
-
-&lt;p&gt;You may say that: &quot;signing is not that bad - what's the big deal&quot;. Sure, sign one or two assemblies may not be that bad, but if you have, like &lt;a href=&quot;/derivco&quot;&gt;us&lt;/a&gt;, 50 - 60 assemblies then it can become a chore. Especially since there is no real tooling for this.&lt;/p&gt;
-
-&lt;p&gt;So, in SQL Server 2017 RC1, Microsoft has tried to make things somewhat simpler.&lt;/p&gt;
-
-&lt;h2&gt;Assembly Whitelisting&lt;/h2&gt;
-
-&lt;p&gt;What Microsoft introduces in SQL Server 2017 RC1, is something I refer to as &lt;a href=&quot;https://en.wikipedia.org/wiki/Whitelist&quot;&gt;whitelisting&lt;/a&gt;. It is somewhat similar to the &lt;code&gt;TRUSTWORTHY&lt;/code&gt; setting, where you indicate that a database is to be trusted. But instead of doing it on the database level, you do it per assembly.&lt;/p&gt;
-
-&lt;p&gt;To whitelist in SQL Server 2017 RC1, you use the system stored procedure &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt;. As the name implies the procedure adds an assembly to a list of &quot;trusted&quot; assemblies. By marking an assembly as trusted, SQL Server will allow it to be loaded when &lt;code&gt;clr strict security&lt;/code&gt; is on (on by default), even if:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;the assembly is not signed, &lt;em&gt;and&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;the database where you want to deploy it to is not &lt;code&gt;TRUSTWORTHY&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h4&gt;Demo Code&lt;/h4&gt;
-
-&lt;p&gt;Before we start to look into how this works, let's look at the demo code we'll be using. If you read the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt; post, the code should look fairly familiar. So, on a SQL Server 2017 RC1 installation, let us first make sure that we are correctly configured:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Configuration&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sp_configure&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'show advanced options'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;RECONFIGURE&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sp_configure&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'clr_enabled'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;RECONFIGURE&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sp_configure&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Check Configuration&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 1&lt;/em&gt; we ensure that we can see all the various options that exist, and then we enable SQLCLR. Finally we see what values we have for the options and that should result in something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_options.png&quot; width=&quot;547&quot; height=&quot;100&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Configuration Settings&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;From &lt;em&gt;Figure 1&lt;/em&gt; we see that SQLCLR is enabled as well as that &lt;code&gt;clr strict security&lt;/code&gt; is on. We can now create the databases we need (yes, databases as in plural - will explain later):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Databases&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DeployDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrustedAsmDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DeployDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DeployDB&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TRUSTWORTHY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrustedAsmDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Create Databases&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;For now, don't worry about the &lt;code&gt;DeployDB&lt;/code&gt; database, the database that will be the &quot;production&quot; database and to where we want to deploy an assembly is &lt;code&gt;TrustedAsmDB&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;With the databases created, the CLR code we will use is some of what we used in the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt; post:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;CLR&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Threading&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Threading.Tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Sql2k17TrustedAsm1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Functions&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;StartNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LongRunning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LongRunning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wait&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;C# Code to Use&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;After having compiled the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; we can now try and deploy the assembly to our production database (which is not &lt;code&gt;TRUSTWORTHY&lt;/code&gt;):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Assembly Creation&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrustedAsmDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'W:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;lt;path_to_dll&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Sql2k17TrustedAsm1.dll'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Create Assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When executing the code in &lt;em&gt;Code Snippet 4&lt;/em&gt;, you'll get almost the same error message as we initially saw in &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt;, when we tried an deploy an assembly without the assembly being signed:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_creation_fail.png&quot; width=&quot;627&quot; height=&quot;190&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Error Deploying Assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The only difference is the last part of the error message: &lt;em&gt;Alternatively, you can trust the assembly using sp_add_trusted_assembly&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2&gt;sys.sp_add_trusted_assembly&lt;/h2&gt;
-
-&lt;p&gt;Above we mentioned how &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt; adds an assembly to a list of &quot;trusted&quot; assemblies. We also said that by marking an assembly as trusted, SQL Server will allow it to be loaded when &lt;code&gt;clr strict security&lt;/code&gt; is on, even though the assembly in question is not signed, and the database where you want to deploy it to is not &lt;code&gt;TRUSTWORTHY&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;How do we use &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt;? Well, the signature looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Proc. Signature&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sp_add_trusted_assembly&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'value'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'description'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Signature of sys.sp_add_trusted_assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As we see in &lt;em&gt;Code Snippet 5&lt;/em&gt;, the procedure takes two parameters:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;@hash&lt;/code&gt; - this is the &lt;code&gt;SHA2_512&lt;/code&gt; hash value of the binary representation of the assembly.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;@description&lt;/code&gt; - an optional description of the assembly. It is recommended that the description is the same as you would see in the &lt;code&gt;clr_name&lt;/code&gt; column in &lt;code&gt;sys.assemblies&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;That seems straightforward enough, grab the binary, hash it and off you go! But wait a second, how do you get the binary representation of the assembly, and how do you hash it?&lt;/p&gt;
-
-&lt;p&gt;Well, there are various way you can get the binary representation; write some C# code that reads out the binary value of the dll, is one way - and then when you have it, you can run some C# code to create the hash.&lt;/p&gt;
-
-&lt;p&gt;Me, I am a lazy guy, and I am a database developer at heart, so I use the database for this, and this is now where that second database in &lt;em&gt;Code Snippet 2&lt;/em&gt; comes in. The &lt;code&gt;DeployDB&lt;/code&gt; which was marked as &lt;code&gt;TRUSTWORTHY&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;What I do is:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create the assembly in the &lt;code&gt;TRUSTWORTHY&lt;/code&gt; database.&lt;/li&gt;
-&lt;li&gt;In SQL Server Management Studio's (SSMS) &lt;strong&gt;Object Explorer&lt;/strong&gt; I script out the assembly as &lt;code&gt;CREATE&lt;/code&gt; to the clipboard, or a new query window:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_binary.png&quot; width=&quot;650&quot; height=&quot;580&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Scripting the Assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Scripting the assembly gives you the &lt;code&gt;CREATE&lt;/code&gt; statement of the assembly based on the binary representation:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Create&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ASSEMBLY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x4D5A90000300000004000000FFFF00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Create Assembly from Binary&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Instead of scripting it out, I could have done a &lt;code&gt;SELECT&lt;/code&gt; against the &lt;code&gt;sys.assembly_files&lt;/code&gt; table and the &lt;code&gt;content&lt;/code&gt; column, but I rather do it using the scripting option. I finally grab the &lt;code&gt;clr_name&lt;/code&gt; value from the &lt;code&gt;sys.assemblies&lt;/code&gt; table for the assembly:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_clr_name.png&quot; width=&quot;650&quot; height=&quot;48&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Clr Name&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Equipped with this I can now add the assembly as a trusted assembly. You may ask how do I get the hash value of the assembly? Fortunately SQL Server has a handy function called &lt;code&gt;HASHBYTES&lt;/code&gt; which looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Hashbytes&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;HASHBYTES&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&amp;lt;algorithm&amp;gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'input'&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;T-SQL Hashbytes Function&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The function takes two parameters as you can see from &lt;em&gt;Code Snippet 7&lt;/em&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;'&amp;lt;algorithm&amp;gt;'&lt;/code&gt; - That is the hashing algorithm to use. In our case, &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt; requires &lt;code&gt;SHA2_512&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;{@input|'input'}&lt;/code&gt; - This is either a &lt;code&gt;varchar&lt;/code&gt;, &lt;code&gt;nvarchar&lt;/code&gt; or &lt;code&gt;varbinary&lt;/code&gt; variable, (&lt;code&gt;@input&lt;/code&gt;), or an expression that results in a &lt;code&gt;varchar&lt;/code&gt;, &lt;code&gt;nvarchar&lt;/code&gt; or &lt;code&gt;varbinary&lt;/code&gt;, (&lt;code&gt;'input'&lt;/code&gt;). An example of the latter could be a column in a &lt;code&gt;SELECT&lt;/code&gt; statement.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;When using the &lt;code&gt;SHA2_512&lt;/code&gt; algorithm, the return value is 64 bytes, and an example of executing it based on the binary value of our assembly looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;HASHBYTES&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asmBin&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varbinary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x4D5A90000300000004000000FFFF00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varbinary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HASHBYTES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SHA2_512'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asmBin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Usage of HASHBYTES&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 8&lt;/em&gt; above, the &lt;code&gt;@asmBin&lt;/code&gt; variable is obviously truncated for readability.&lt;/p&gt;
-
-&lt;p&gt;Now, when we have the various pieces of the puzzle we can execute &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Trusted Assembly&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clrName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'sql2k17trustedasm1, ...'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asmBin&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varbinary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x4D5A90000300000004000000FFFF00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varbinary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HASHBYTES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SHA2_512'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asmBin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sp_add_trusted_assembly&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clrName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Adding Trusted Assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The code in &lt;em&gt;Code Snippet 9&lt;/em&gt; should succeed, and to ensure that is the case you can do: &lt;code&gt;SELECT * FROM sys.trusted_assemblies&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_trusted_assemblies.png&quot; width=&quot;643&quot; height=&quot;74&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Content of sys.trusted_assemblies&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So, everything looks OK. We can now go to the production database where we started this journey and try and deploy the assembly. You can deploy it either using the code in &lt;em&gt;Code Snippet 4&lt;/em&gt;, where it is being deployed from a path, or the code in &lt;em&gt;Code Snippet 6&lt;/em&gt;, using the binary representation. The &lt;code&gt;CREATE ASSEMBLY&lt;/code&gt; should now succeed.&lt;/p&gt;
-
-&lt;p&gt;Having created the assembly, let's create a function against the &lt;code&gt;fn_clr_Adder&lt;/code&gt; method, and then execute the function - just to ensure everything is OK:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Create Function&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;span class=&quot;n&quot;&gt;fn_clr_Adder&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_Adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 10:&lt;/strong&gt; &lt;em&gt;Create and Test Function&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Running the code in &lt;em&gt;Code Snippet 10&lt;/em&gt; should succeed, and you should get back a result of &lt;code&gt;42&lt;/code&gt;. Just for &quot;fun&quot; you could create a new database, and try and deploy the assembly to that database. That should just work, seeing that &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt; marks the assembly as trusted on the server instance.&lt;/p&gt;
-
-&lt;h4&gt;Permission Sets&lt;/h4&gt;
-
-&lt;p&gt;When we created the assembly from the code above, it was created with the default permission set &lt;code&gt;SAFE&lt;/code&gt;. When you look at the C# code you see how there is a method - &lt;code&gt;fn_clr_LongRunningAdder&lt;/code&gt; - which internally uses a &lt;code&gt;Task&lt;/code&gt;. Using a &lt;code&gt;Task&lt;/code&gt; is not considered &lt;code&gt;SAFE&lt;/code&gt; in any shape or form, so what happens if you create a T-SQL function against that method and then try to execute:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Unsafe&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FUNCTION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;RETURNS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NAME&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Sql2k17TrustedAsm1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Functions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fn_clr_LongRunningAdder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 11:&lt;/strong&gt;  &lt;em&gt;Create and Execute an Unsafe Function&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Ouch, the creation of the function succeeded, but when you executed the function you received an error that we also saw in the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt; post. The error says something about not having necessary permissions to do the operation. This normally happens if the assembly has not been assigned the correct &lt;code&gt;PERMISSION_SET&lt;/code&gt; when it was created.&lt;/p&gt;
-
-&lt;p&gt;So, if you drop the functions and the assembly, and recreate the assembly with &lt;code&gt;PERMISSION_SET = UNSAFE&lt;/code&gt;, then when you have recreated the functions, all should work.&lt;/p&gt;
-
-&lt;p&gt;The slightly interesting thing with this is that even when you mark an assembly as trusted, it still has to be created with the correct permission set.&lt;/p&gt;
-
-&lt;h2&gt;Dropping a Trusted Assembly&lt;/h2&gt;
-
-&lt;p&gt;As with most database objects, if you can create them - then you can also &lt;code&gt;DROP&lt;/code&gt; them. The question is if you have a trusted assembly, which you have deployed to the database and subsequently created functions etc., against - if you &lt;code&gt;DROP&lt;/code&gt; the trusted assembly, what effect, if any, will it have on the existing assemblies in the various databases on the server? Let's find out.&lt;/p&gt;
-
-&lt;p&gt;To drop a trusted assembly you use the proc &lt;code&gt;sys.sp_drop_trusted_assembly&lt;/code&gt;. The proc takes one parameter, the hash value of the trusted assembly, and in our example the code would look like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Drop&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sp_drop_trusted_assembly&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xCDFEFD60682FBB0182&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 12:&lt;/strong&gt; &lt;em&gt;Drop Trusted Assembly&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Executing the code in &lt;em&gt;Code Snippet 12&lt;/em&gt; works just fine, and when you look in &lt;code&gt;sys.trusted_assemblies&lt;/code&gt; afterward, your trusted assembly is gone. However, if you check in &lt;code&gt;sys.assemblies&lt;/code&gt; in the database where you deployed the actual assembly to, the assembly still exists. Isn't this now a big security hole? What happens when we execute one of our functions now, &lt;code&gt;SELECT dbo.fn_clr_Adder(21, 21)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql2k17_trust_asms_no_trust.png&quot; width=&quot;523&quot; height=&quot;256&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Assembly Not Trusted&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Based on the error message we get, it definitely seems like SQL Server checks whether the assembly is either signed or trusted during execution. So, no security hole.&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;In the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt; post I summarized the new SQL Server 2017 SQLCLR security requirements with: &lt;em&gt;All type of assemblies (&lt;code&gt;SAFE&lt;/code&gt;, &lt;code&gt;EXTERNAL_ACCESS&lt;/code&gt;, &lt;code&gt;UNSAFE&lt;/code&gt;) have to be authorized for &lt;code&gt;UNSAFE&lt;/code&gt; access.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;With the release of SQL Server 2017 RC1 there is another option and that is, that the assembly is marked as trusted. You mark an assembly as trusted by the stored procedure &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The security choices you now have for an assembly in SQL Server 2017 are:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The database is set to be &lt;code&gt;TRUSTWORTHY&lt;/code&gt;, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;The assembly is signed with a certificate that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;The assembly is signed with an asymmetric key that has a corresponding login with &lt;code&gt;UNSAFE ASSEMBLY&lt;/code&gt; permission, &lt;em&gt;OR&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;The assembly is marked as trustworthy by the &lt;code&gt;sys.sp_add_trusted_assembly&lt;/code&gt; procedure.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Marking an assembly as trusted does not mean that you can do whatever you want in the assembly, you still need to deploy the assembly with the correct permission set based on your operations in the assembly.&lt;/p&gt;
-
-&lt;p&gt;I'm finishing this summary with the same caveat as I had in the &lt;a href=&quot;/2017/07/02/sql-server-2017-sqlclr-and-permissions/&quot;&gt;SQL Server 2017, SQLCLR and Permissions&lt;/a&gt; post: Bear in mind that all the above are based on SQL Server 2017 RC1. Things may change up until release.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
