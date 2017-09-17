@@ -4,13 +4,90 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-09-10T09:02:48+02:00</updated>
+ <updated>2017-09-17T12:50:44+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 37</title>
+   <link href="http://nielsberglund.com/2017/09/17/interesting-stuff-week-37/"/>
+   <updated>2017-09-17T12:24:24+02:00</updated>
+   <id>http://nielsberglund.com/2017/09/17/interesting-stuff---week-37</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/okay-store-data-apache-kafka/&quot;&gt;It’s Okay To Store Data In Apache Kafka&lt;/a&gt;. An interesting post about using Kafka for data storage.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/events-data-points-and-messages-choosing-the-right-azure-messaging-service-for-your-data/&quot;&gt;Events, Data Points, and Messages - Choosing the right Azure messaging service for your data&lt;/a&gt;. For a while the messaging infrastructure of Microsoft Azure has consisted of the Azure Service Bus, and Azure EventHub. Recently Microsoft also introduced Azure EventGrid. In this post Clemens Vasters looks at what service to use when.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Blogs/Azure/Azure-Serverless-end-to-end-with-Functions-Logic-Apps-and-Event-Grid/&quot;&gt;Azure Serverless end-to-end with Functions, Logic Apps, and Event Grid&lt;/a&gt;. A &lt;a href=&quot;https://channel9.msdn.com&quot;&gt;Channel 9&lt;/a&gt; video, which gives a brief overview of each of the components of the Serverless story in Azure.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/netflix-deployment-practices&quot;&gt;Zero to Production-Ready in Minutes&lt;/a&gt;. A presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about how Netflix is enabling engineers to go from &quot;zero&quot; to &quot;production ready&quot; in minutes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sql-sasquatch.blogspot.co.za/2017/09/powershell-connection-to-sql-server.html&quot;&gt;PowerShell connection to SQL Server: MARS enabled, pooling disabled&lt;/a&gt;. &lt;a href=&quot;http://sql-sasquatch.blogspot.com&quot;&gt;Lonny&lt;/a&gt; posts about PowerShell, MARS and connection pooling. Cool stuff!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/mro-341-now-available.html&quot;&gt;Microsoft R Open 3.4.1 now available&lt;/a&gt;. David at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; posts how Microsoft R Open have been upgraded to R version 3.4.1. Let's hope that Microsoft R Server will be upgraded soon too.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/this-series-is-an-attempt-to-make-neural-networks-understandable-for-people-who-know-nothing-more-df6695b6cd39&quot;&gt;NEURAL NETWORKS DEMYSTIFIED 1: Classification Problems&lt;/a&gt;. First post in a series attempting to make Neural Networks understandable for people who know nothing more than high school math (e.g. myself). I'll follow it with interest!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/09/12/simplifying-the-use-of-azure-data-science-virtual-machine-with-r/&quot;&gt;Simplifying The Use of Azure Data Science Virtual Machine with R&lt;/a&gt;. This post talks about &lt;a href=&quot;https://github.com/Azure/AzureDSVM&quot;&gt;AzureDSVM&lt;/a&gt;, an R package that makes it possible to directly manage an &lt;a href=&quot;https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-provision-vm&quot;&gt;Azure Data Science Virtual Machine&lt;/a&gt; (DSVM).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/how-to-write-distributed-tensorflow-code-with-an-example-on-tensorport-70bf3306adcb&quot;&gt;How to write distributed TensorFlow code — with an example on TensorPort&lt;/a&gt;. &lt;a href=&quot;https://www.tensorflow.org/&quot;&gt;TensorFlow&lt;/a&gt; is an awesome framework for machine learning, but it is not straightforward to write TensorFlow code in a distributed fashion. This blog-post tries to describe/explain how to how to run distributed TensorFlow.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://buckwoody.wordpress.com/2017/09/14/the-keys-to-effective-data-science-projects-explore-the-data/&quot;&gt;The Keys to Effective Data Science Projects – Explore the Data&lt;/a&gt;. &lt;a href=&quot;https://buckwoody.wordpress.com/&quot;&gt;Buck Woody&lt;/a&gt; continues his &lt;a href=&quot;https://buckwoody.wordpress.com/2017/04/14/the-team-data-science-process/&quot;&gt;The Keys to an Effective Data Science Project&lt;/a&gt; series. This time he looks at how a data scientist should explore the data he works with. Some really useful tips and comments in there.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.red-gate.com/simple-talk/sql/bi/sql-server-r-services-basics/&quot;&gt;SQL Server R Services: The Basics&lt;/a&gt;. I am happy to see that there are more people then me writing about SQL Server R Services. This is the first post in a series about SQL Server R Services, written by Robert Sheldon. Quite a lot of cool stuff in there.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Speaking of SQL Server R Services; I have now finished my speaking engagements (for now), and can start writing about SQL Server R Services again. By the end of September I should have &lt;strong&gt;Internals - XI&lt;/strong&gt; ready to publish. In XI I cover the internal data transfer protocol &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;). If you are interested, &lt;strong&gt;Internals - X&lt;/strong&gt; is &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 36</title>
@@ -1410,60 +1487,6 @@
 &lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/07/25/passing-two-sql-queries-to-sp_execute_external_script/&quot;&gt;Passing two SQL queries to sp_execute_external_script&lt;/a&gt;. The procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt; which is used to execute R or Python scripts, has an input parameter: &lt;code&gt;@input_data_1&lt;/code&gt;. It is used to input a dataset to the external script. Based on the name you might expect that there would be more parameters for input of data (&lt;code&gt;@input_data_2&lt;/code&gt;, &lt;code&gt;@input_data_3&lt;/code&gt;, etc.) However, that is not the case, and there has been quite a few questions on various newsgroups what to do if you want to send in multiple datasets. In this blog-post, &lt;a href=&quot;https://tomaztsql.wordpress.com/&quot;&gt;Tomaz&lt;/a&gt;, shows a way you can achieve to input multiple datasets. Cool!!&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/thdeltei/azure-function-r&quot;&gt;Running R scripts on Azure Function&lt;/a&gt;. Serverless computing is really an &quot;in thing&quot;, and in AWS you have Lambda, and in Azure; Azure Functions (geez, what is it with Microsoft and naming of stuff?). Anyway &lt;a href=&quot;https://github.com/thdeltei&quot;&gt;Thomas Delteil&lt;/a&gt; from Microsoft shows how you can deploy a R scripts on Azure Function.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://buckwoody.wordpress.com/2017/07/27/data-science-start-at-the-very-beginning-its-a-very-good-place-to-start/&quot;&gt;Data Science: Start at the very Beginning, It’s a very good place to start&lt;/a&gt;. &lt;a href=&quot;https://buckwoody.wordpress.com/author/buckwoody/&quot;&gt;Buck Woody&lt;/a&gt; posts about two different types of data science projects, and which type of project won't work, and why.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 29</title>
-   <link href="http://nielsberglund.com/2017/07/23/interesting-stuff-week-29/"/>
-   <updated>2017-07-23T19:51:06+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/23/interesting-stuff---week-29</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/the-early-life-of-a-sqlos-thread/&quot;&gt;The early life of a SQLOS thread&lt;/a&gt;. &quot;And on that day a SQLOS thread was born&quot;! &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; talks about SQLOS threads in his normal entertaining style. Once again, if you are interested in the inner workings of SQL Server in general and SQLOS specifically, you have to follow &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt;!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/e78c8278-aeef-4a30-996e-cb80e385fea4/sqlclr-deployment-utility-and-helper-library?forum=sqlnetfx&quot;&gt;SQLCLR Deployment Utility and Helper library&lt;/a&gt;. A post on the &lt;a href=&quot;https://social.msdn.microsoft.com/Forums/en-US/home?forum=sqlnetfx&quot;&gt;.NET Framework inside SQL Server&lt;/a&gt; forum about a utility for SQLCLR functions as well as deployments. Have a look at the &lt;a href=&quot;https://github.com/vaseug/PowerLib&quot;&gt;GitHub&lt;/a&gt; repo for all the supporting code. Very impressive!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/23/sql-server-2017-sqlclr-white-listing-assemblies/&quot;&gt;SQL Server 2017 SQLCLR - Whitelisting Assemblies&lt;/a&gt;. A post by me about new functionality in SQL Server 2017 RC1 to be able to whitelist SQLCLR assemblies. Quite interesting if I may say so myself!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://thomaswdinsmore.com/2017/07/17/how-gdpr-affects-data-science/&quot;&gt;HOW GDPR AFFECTS DATA SCIENCE&lt;/a&gt;. A very interesting post about the upcoming legislation in EU over data protection, the GDPR, and what effects it will have on Data Science.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference&quot;&gt;useR! International R User 2017 Conference&lt;/a&gt;. A Microsoft &lt;a href=&quot;https://channel9.msdn.com&quot;&gt;Channel 9&lt;/a&gt; post containing videos of most of the presentations from the &lt;strong&gt;useR 2017&lt;/strong&gt; conference in Belgium in the early days of July. A lot of very interesting talks!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/07/nnets-from-scratch.html&quot;&gt;Neural Networks from Scratch, in R&lt;/a&gt;. A post from Ilia Karmanov, (a Data Scientists at Microsoft), about how to build a neural-network from scratch in R. If I only would understand half of it ...&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.sanddance.ms/&quot;&gt;SandDance - Visually Explore, Understand, and Present Data&lt;/a&gt;. SandDance is a Microsoft Research project aimed to help you find insights about your data. It looks very, very interesting!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;. Have I been a busy boy this week or what?! The &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; covers some of the components the launchpad service loads; Rterm.exe, BxlServer.exe, etc.&lt;/li&gt;
 &lt;/ul&gt;
 
 
