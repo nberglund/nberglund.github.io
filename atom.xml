@@ -4,13 +4,64 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-09-17T12:50:44+02:00</updated>
+ <updated>2017-09-24T09:57:32+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 38</title>
+   <link href="http://nielsberglund.com/2017/09/24/interesting-stuff-week-38/"/>
+   <updated>2017-09-24T09:26:42+02:00</updated>
+   <id>http://nielsberglund.com/2017/09/24/interesting-stuff---week-38</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.codecentric.de/en/2017/02/crossing-streams-joins-apache-kafka/&quot;&gt;Crossing the Streams – Joins in Apache Kafka&lt;/a&gt;. Kafka 0.10.1, introduced support for &quot;Interactive Queries&quot;, an API that allows querying stateful stream transformations without going through another Kafka topic. This blogpost looks at how to join streams, and what type of joins that exists.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/disaster-recovery-multi-datacenter-apache-kafka-deployments&quot;&gt;Disaster Recovery for Multi-Datacenter Apache Kafka Deployments&lt;/a&gt;. This post points to a white-paper how to set up Kafka across geo-locations for disaster recovery.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/how-did-we-build-book-recommender-systems-in-an-hour-the-fundamentals-dfee054f978e&quot;&gt;How Did We Build Book Recommender Systems in an Hour Part 1 — The Fundamentals&lt;/a&gt;. First part of a series how to build a recommender system.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/altrep-preview.html&quot;&gt;Preview: ALTREP promises to bring major performance improvements to R&lt;/a&gt;. David from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; talks about changes to the R engine, to improve performance and reduce memory usage.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://becominghuman.ai/cheat-sheets-for-ai-neural-networks-machine-learning-deep-learning-big-data-678c51b4b463&quot;&gt;Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning &amp;amp; Big Data&lt;/a&gt;. As the title say, cheat sheets for a lot of things data science.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/22/distributed-deep-neural-networks-over-the-cloud-the-edge-and-end-devices/&quot;&gt;Distributed deep neural networks over the cloud, the edge, and end devices&lt;/a&gt;. Adrian from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; looks at a whitepaper about distributed deep neural networks.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/hdinsight-tutorial.html&quot;&gt;Tutorial: Launch a Spark and R cluster with HDInsight&lt;/a&gt;. This post by David from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; points to a tutorial how to get up and running with a Spark cluster and R. Cool stuff!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/09/17/interesting-stuff-week-37/&quot;&gt;last weeks roundup&lt;/a&gt; I mentioned I'd be ready with &lt;strong&gt;Internals - XI&lt;/strong&gt; soon:ish, and it would cover SQL Server R Services internal data transfer protocol &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;). I will be ready soon:ish with &lt;strong&gt;Internals - XI&lt;/strong&gt;, but it will most likely cover something else than &lt;strong&gt;BXL&lt;/strong&gt;, just so you know :). If you are interested; Internals - X is &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 37</title>
@@ -293,7 +344,7 @@
 
 &lt;h2&gt;Recap&lt;/h2&gt;
 
-&lt;p&gt;Since I thought this would be the last Internals post I wanted to do a full recap what has been covered so far. We now know thta this is not the last Internals post, but since I have done the work, lets do the full recap anyway even though there will be one or two more posts covering Internals. Since I am lazy, I shamelessly &quot;steal&quot; the recap from &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; and add what we've done since then.&lt;/p&gt;
+&lt;p&gt;Since I thought this would be the last Internals post I wanted to do a full recap what has been covered so far. We now know that this is not the last Internals post, but since I have done the work, lets do the full recap anyway even though there will be one or two more posts covering Internals. Since I am lazy, I shamelessly &quot;steal&quot; the recap from &lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Internals - VIII&lt;/a&gt; and add what we've done since then.&lt;/p&gt;
 
 &lt;p&gt;The first post in the series - &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt; - covered the installation of SQL Server 2016 R Services, and it also touched upon the external procedure which allows us to execute external scripts; &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We looked at the signature of the procedure as well as executing the equivalent to a &quot;Hello World&quot; script.&lt;/p&gt;
 
@@ -754,7 +805,7 @@
 
 &lt;p&gt;From previous posts we knew that SQL Server communicates with the launchpad service over named pipes. We also know that there is communication between SQL Server and the SqlSatellite over sockets. We may have assumed that data was sent from SQL Server to the R components through the named pipe connection to the launchpad service, and the on from there to the R components.&lt;/p&gt;
 
-&lt;p&gt;In thos post we have seen how that is not true, but how both the script to execute including some metadata, as well as the actual data to use for analysis (&lt;code&gt;@input_data_1&lt;/code&gt;) is sent over the socket connection.&lt;/p&gt;
+&lt;p&gt;In this post we have seen how that is not true, but how both the script to execute including some metadata, as well as the actual data to use for analysis (&lt;code&gt;@input_data_1&lt;/code&gt;) is sent over the socket connection.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
@@ -1435,60 +1486,6 @@
 &lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
 
 &lt;p&gt;In the beginning of last week I received an email &quot;out of the blue&quot;, congratulating me to have been awarded &lt;strong&gt;MVP&lt;/strong&gt; for &lt;em&gt;Microsoft Data Platform&lt;/em&gt;. So it seems that writing blog-posts, answering forum questions and speaking at the &quot;odd&quot; conference now and then has its perks. I am chuffed!!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 30</title>
-   <link href="http://nielsberglund.com/2017/07/30/interesting-stuff-week-30/"/>
-   <updated>2017-07-30T14:23:33+02:00</updated>
-   <id>http://nielsberglund.com/2017/07/30/interesting-stuff---week-30</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/where-do-sqlos-tasks-come-from/&quot;&gt;Where do SQL Server tasks come from?&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; continues his tales, about thread and tasks and other cool stuff, from &lt;a href=&quot;http://sqlonice.com/the-early-life-of-a-sqlos-thread/&quot;&gt;last week&lt;/a&gt; when he spoke about SQLOS threads. This time he looks at how threads and tasks fit together. I really, really like what he writes about, seeing that is deep down in SQLOS (and he uses WinDbg a lot :) ).&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://sql-sasquatch.blogspot.com/2017/07/sql-server-memory-accounting-aligning.html&quot;&gt;SQL Server Memory Accounting: Aligning Perfmon &amp;amp; DMVs&lt;/a&gt;. &lt;a href=&quot;http://sql-sasquatch.blogspot.com&quot;&gt;Lonny&lt;/a&gt; writes a very interesting article about squaring up what you see in SQL Server performance counters with what you get from DMV's.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/07/26/the-new-net-application-architecture-guidance/&quot;&gt;.NET Application Architecture Guidance&lt;/a&gt;. The .NET team has published some free eBooks as guidance to application architecture, especially microservices and container based applications (at least that's the ones I am interested in).&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/07/24/get-started-with-f-as-a-c-developer/&quot;&gt;Get Started with F# as a C# developer&lt;/a&gt;. A nice introduction for C# developers how to get started with F#.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/06/29/performance-improvements-in-ryujit-in-net-core-and-net-framework/&quot;&gt;Performance Improvements in RyuJIT in .NET Core and .NET Framework&lt;/a&gt;. A blog-post pointing out some of the improvements that have gone into the RyuiJIT compiler for .NET Core (x64 and x86) as well as .NET Framework (x64). Pretty impressive stuff!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2017/07/25/passing-two-sql-queries-to-sp_execute_external_script/&quot;&gt;Passing two SQL queries to sp_execute_external_script&lt;/a&gt;. The procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt; which is used to execute R or Python scripts, has an input parameter: &lt;code&gt;@input_data_1&lt;/code&gt;. It is used to input a dataset to the external script. Based on the name you might expect that there would be more parameters for input of data (&lt;code&gt;@input_data_2&lt;/code&gt;, &lt;code&gt;@input_data_3&lt;/code&gt;, etc.) However, that is not the case, and there has been quite a few questions on various newsgroups what to do if you want to send in multiple datasets. In this blog-post, &lt;a href=&quot;https://tomaztsql.wordpress.com/&quot;&gt;Tomaz&lt;/a&gt;, shows a way you can achieve to input multiple datasets. Cool!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/thdeltei/azure-function-r&quot;&gt;Running R scripts on Azure Function&lt;/a&gt;. Serverless computing is really an &quot;in thing&quot;, and in AWS you have Lambda, and in Azure; Azure Functions (geez, what is it with Microsoft and naming of stuff?). Anyway &lt;a href=&quot;https://github.com/thdeltei&quot;&gt;Thomas Delteil&lt;/a&gt; from Microsoft shows how you can deploy a R scripts on Azure Function.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://buckwoody.wordpress.com/2017/07/27/data-science-start-at-the-very-beginning-its-a-very-good-place-to-start/&quot;&gt;Data Science: Start at the very Beginning, It’s a very good place to start&lt;/a&gt;. &lt;a href=&quot;https://buckwoody.wordpress.com/author/buckwoody/&quot;&gt;Buck Woody&lt;/a&gt; posts about two different types of data science projects, and which type of project won't work, and why.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
