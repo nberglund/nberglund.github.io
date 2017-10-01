@@ -4,13 +4,72 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-09-24T09:57:32+02:00</updated>
+ <updated>2017-10-01T18:00:01+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 39</title>
+   <link href="http://nielsberglund.com/2017/10/01/interesting-stuff-week-39/"/>
+   <updated>2017-10-01T17:57:21+02:00</updated>
+   <id>http://nielsberglund.com/2017/10/01/interesting-stuff---week-39</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://rusanu.com/2017/09/22/identifying-sqlconnection-objects-in-a-dump/&quot;&gt;Identifying SqlConnection objects in a dump&lt;/a&gt;. &lt;a href=&quot;http://rusanu.com/&quot;&gt;Remus Rusanu&lt;/a&gt; is doing cool WinDbg debugging to finding out  ADO.Net connection pool exhaust issues.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao/2017/09/24/what-made-porting-microsoft-sql-server-to-linux-to-be-a-right-move-after-all/&quot;&gt;What made Porting Microsoft SQL Server to Linux to be the right move after all&lt;/a&gt;. Slava Oks writes about Microsoft's &quot;secret sauce&quot;, which made porting SQL Server to Linux possible.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/build-deploy-scalable-machine-learning-production-apache-kafka/&quot;&gt;How to Build and Deploy Scalable Machine Learning in Production with Apache Kafka&lt;/a&gt;. A very interesting post discussing potential use cases for machine learning in real time applications using Apache Kafka and Apache Kafka’s Streams API to build intelligent streaming applications.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://arstechnica.com/gadgets/2017/09/microsoft-quantum-toolkit/&quot;&gt;Microsoft makes play for next wave of computing with quantum computing toolkit&lt;/a&gt;. Wow, just wow!! Microsoft are looking towards quantum computing and have showed off a new quantum computing programming language which will integrate into Visual Studio!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/news-from-ignite.html&quot;&gt;News Roundup from Microsoft Ignite&lt;/a&gt;. Microsoft's Ignite conference took place this week, and the &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; guys posts some data science highlights.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/09/26/in-database-machine-learning-in-sql-server-2017/&quot;&gt;In-database Machine Learning in SQL Server 2017&lt;/a&gt;. At the Ignite conference SQL Server 2017 was &quot;officially&quot; released, and together with it also the Machine Learning Services. This post points out some of the highlights.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/25/introducing-microsoft-machine-learning-server-9-2-release/&quot;&gt;Introducing Microsoft Machine Learning Server 9.2 Release&lt;/a&gt;. Microsoft R Server has been transformed into Microsoft Machine Learning Server, and during Ignite version 9.2 was released. This post talks about some of the new features.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 38</title>
@@ -1409,83 +1468,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I am still working on episode &lt;em&gt;Internals - IX&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series. I had aimed to have it published this weekend, but work &quot;reared its ugly head, so ...&quot;. However, I am fairly confident I'll be able to publish it before the coming weekend! If you are interested in the previous &quot;episodes&quot; they can be found &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 31</title>
-   <link href="http://nielsberglund.com/2017/08/06/interesting-stuff-week-31/"/>
-   <updated>2017-08-06T19:36:25+02:00</updated>
-   <id>http://nielsberglund.com/2017/08/06/interesting-stuff---week-31</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/footsteps-of-cooperative-wait/&quot;&gt;In the footsteps of a cooperative wait&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; is continuing on his journey of threads and tasks. This week it is about context switching and the cooperative wait.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2017/08/02/A-look-at-the-internals-of-boxing-in-the-CLR/&quot;&gt;A look at the internals of 'boxing' in the CLR&lt;/a&gt;. &lt;a href=&quot;http://mattwarren.org&quot;&gt;Matthew Warren&lt;/a&gt; drills down into the mysteries of &quot;boxing&quot; in .NET. If you are a .NET developer then Matthew's blog is a must read!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/big-data-serverless-aws-lambda&quot;&gt;Serverless Design Patterns with AWS Lambda: Big Data with Little Effort&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Tim Wagner about how to do Big Data on a server-less architecture.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/microservices-data-centric&quot;&gt;Managing Data in Microservices&lt;/a&gt;. Another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation. This is about how to handle data in microservices. I found this presentation extremely informative.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Programming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://spectrum.ieee.org/computing/software/the-2017-top-programming-languages&quot;&gt;The 2017 Top Programming Languages&lt;/a&gt;. &lt;a href=&quot;http://spectrum.ieee.org&quot;&gt;IEEE Spectrum's&lt;/a&gt; annual roundup of programming languages. Interesting to see how Python is now at first place.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/data-science-simplified-simple-linear-regression-models-3a97811a6a3d&quot;&gt;Data Science Simplified Part 4: Simple Linear Regression Models&lt;/a&gt;. Part 4 of a series trying to simplify data science. This &quot;episode&quot; tackles linear regression.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/07/h2o-hdinsight.html&quot;&gt;How to use H2O with R on HDInsight&lt;/a&gt;. &lt;a href=&quot;https://www.h2o.ai/&quot;&gt;H2O&lt;/a&gt; is a leading open source deep learning platform. In this blog-post, David from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; points to an article how use H2O together with Azure HDInsight. Cool stuff!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/data-curious-31-07-2017-a-roundup-of-data-stories-datasets-and-visualizations-from-last-week-da8b8cf5ea9b&quot;&gt;Data Curious 31.07.2017: A roundup of data stories, datasets and visualizations from last week&lt;/a&gt;. So, I am not the only one doing roundups. This is a roundup concentrating on data by &lt;a href=&quot;https://medium.com/@bnj_cooley&quot;&gt;Benjamin Cooley&lt;/a&gt;. Seeing his roundups, I am thinking of packing up and go home. They are absolutely awesome!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/a-gentle-introduction-to-neural-networks-series-part-1-2b90b87795bc&quot;&gt;A Gentle Introduction To Neural Networks Series — Part 1&lt;/a&gt;. The start of a series covering introduction to Neural Networks.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://sunilprakash.com/post/intro-to-tensorflow/&quot;&gt;Intro To Tensorflow&lt;/a&gt;. Another introduction. This time introduction to TensorFlow.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/rserver/2017/08/01/machine-learning-services-in-sql-server-2017/&quot;&gt;Machine Learning Services in SQL Server 2017&lt;/a&gt;. A blog-post about some of the highlights related to machine learning in the latest release (RC2) of SQL Server 2017.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I am still working on episode &lt;em&gt;Internals - IX&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series. I hope to have it out at the end of next week, or - worst case scenario - following week. If you are interested in the previous &quot;episodes&quot; they can be found &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
-
-&lt;p&gt;In the beginning of last week I received an email &quot;out of the blue&quot;, congratulating me to have been awarded &lt;strong&gt;MVP&lt;/strong&gt; for &lt;em&gt;Microsoft Data Platform&lt;/em&gt;. So it seems that writing blog-posts, answering forum questions and speaking at the &quot;odd&quot; conference now and then has its perks. I am chuffed!!&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
