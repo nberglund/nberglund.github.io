@@ -4,13 +4,76 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-10-20T19:55:43+02:00</updated>
+ <updated>2017-10-22T16:31:24+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 42</title>
+   <link href="http://nielsberglund.com/2017/10/22/interesting-stuff-week-42/"/>
+   <updated>2017-10-22T16:19:45+02:00</updated>
+   <id>http://nielsberglund.com/2017/10/22/interesting-stuff---week-42</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;p&gt;This week I have very little to post, mainly due to me being out of the country, and not having been able to read as much as I would have liked.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;I do however have a bonus this week, I finally finished &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt;!!&lt;/p&gt;
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/10/16/ryujit-just-in-time-compiler-optimization-enhancements/&quot;&gt;RyuJIT Just-in-Time Compiler Optimization Enhancements&lt;/a&gt;. A post about changes to extend the optimization capabilities of RyuJIT, the MSIL-to-native code generator used by .NET Core and .NET Framework. This looks very cool, but I am not sure in which release(s) this is available.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/10/17/announcing-the-net-framework-4-7-1/&quot;&gt;Announcing the .NET Framework 4.7.1&lt;/a&gt;. As the title says; this post is about the release of .NET Framework 4.7.1. Having had a quick look through the changes, what is interesting to me are the improvements in GC.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/predicting-flight-arrivals-with-the-apache-kafka-streams-api/&quot;&gt;Predicting Flight Arrivals with the Apache Kafka Streams API&lt;/a&gt;. This very interesting post covers how you ca use Kafka Stream API's to do predictive machine learning.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2017/10/15/1-million-predictionssec-with-machine-learning-server-web-service/&quot;&gt;1 Million predictions/sec with Machine Learning Server web service&lt;/a&gt;. This blog-post, demonstrates how you can score &gt; 1 million predictions per second with the real-time web-services from Microsoft Machine Learning Server Operationalization. Very, very interesting!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;Quick - &quot;look out the window, was that a pig flying by&quot;? Ah, no it was &lt;em&gt;Internals - XI&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series being published!!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Microsoft SQL Server R Services - Internals XI&lt;/a&gt;. Yeah, it took quite a while to get &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt; out there, almost as rare as a flying pig. Anyway, in this episode I look at what some of the packets are, being sent from SQL Server to the SqlSatellite, and what causes them to be sent.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XI</title>
@@ -1372,63 +1435,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 34</title>
-   <link href="http://nielsberglund.com/2017/08/27/interesting-stuff-week-34/"/>
-   <updated>2017-08-27T21:30:24+02:00</updated>
-   <id>http://nielsberglund.com/2017/08/27/interesting-stuff---week-34</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/dmv-diaries-sys-dm_os_workers/&quot;&gt;The DMV Diaries: sys.dm_os_workers&lt;/a&gt;. &quot;Dear diary, today this worker approached me, what should I do?&quot;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; continues his DMV journey. &lt;strong&gt;MUST READ!!&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2017/07/10/styles-of-event-architecture.html&quot;&gt;Styles of Event Architecture&lt;/a&gt;. Discussion about event architectures when building distributed systems.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2017/08/13/build-reactive-polyglot-muon.html&quot;&gt;Building Reactive Microservices using Muon and scaling them using Kafka, Cassandra and friends&lt;/a&gt;. More about event architectures.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/08/22/javascript-for-extending-low-latency-in-memory-key-value-stores/&quot;&gt;JavaScript for extending low-latency in-memory key-value stores&lt;/a&gt;. &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;Adrian&lt;/a&gt; looks at a white-paper about how to use java script for a low latency compute engine. Hmm, java script and low latency???&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/data-track-ignite.html&quot;&gt;Highlights of the Data Science Track at Microsoft Ignite&lt;/a&gt;. The &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; guys, points out quite interesting topics at &lt;a href=&quot;https://www.microsoft.com/en-us/ignite/default.aspx&quot;&gt;Microsoft Ignite&lt;/a&gt; in September.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/introduction-to-recurrent-neural-network-27202c3945f3&quot;&gt;Introduction to Recurrent Neural Network&lt;/a&gt;. A very, very interesting post about the use of &lt;em&gt;Recurrent Neural Network&lt;/em&gt;'s for analysis of sequences. I wonder if this could be used for real-time data?!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/08/query-editor-tips.html&quot;&gt;Tips and tricks on using R to query data in Power BI&lt;/a&gt;. Some ideas about hoe to use R for querying data in Power BI.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I am almost done with &lt;em&gt;Internals - X&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series. I had hoped to be able to publish it earlier today, but I found some &lt;em&gt;weird&lt;/em&gt; &quot;stuff&quot; regarding data sent to the SqlSatellite from SQL Server, and I want to see if I can find out what's going on with that. So, expect &lt;em&gt;Internals - X&lt;/em&gt; to be published some time next week. If you are interested in the previous &quot;episodes&quot; they can be found &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
