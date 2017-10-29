@@ -1,1 +1,1 @@
-Sitemap: http://nielsberglund.com//sitemap.xml
+Sitemap: http://nielsberglund.com/sitemap.xml
