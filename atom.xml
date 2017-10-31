@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Niels Berglund</title>
- <link href="http://nielsberglund.com/atom.xml" rel="self"/>
- <link href="http://nielsberglund.com/"/>
- <updated>2017-10-29T19:38:00+02:00</updated>
- <id>http://nielsberglund.com</id>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/"/>
+ <updated>2017-10-31T20:19:30+02:00</updated>
+ <id>http://localhost:4000</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
@@ -13,10 +13,488 @@
 
  
  <entry>
+   <title>Microsoft SQL Server R Services - Internals XII</title>
+   <link href="http://localhost:4000/2017/10/31/microsoft-sql-server-r-services-internals-xii/"/>
+   <updated>2017-10-31T19:57:36+02:00</updated>
+   <id>http://localhost:4000/2017/10/31/microsoft-sql-server-r-services---internals-xii</id>
+   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Microsoft SQL Server R Services - Internals X&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Microsoft SQL Server R Services - Internals XI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Microsoft SQL Server R Services - Internals XII (this post)&lt;/li&gt;
+&lt;li&gt;More to come (hopefully)&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;This post is the 13:th post about Microsoft SQL Server R Services, and the 12:th post that drills down into the internal of how it works.&lt;/p&gt;
+
+&lt;p&gt;The last few posts in this series has been about communication between SQL Server and SqlSatellite. We have discussed the connection between the two, and we have also seen how packets are sent from SQL Server to SqlSatellite. In this post we'll continue looking at what causes the packets to be send and what sends them. We will specifically look at the packet containing the external script, as well as the packet that contains the data (&lt;code&gt;@input_data_set_1&lt;/code&gt;).&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt;, we executed code looking like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sys.sleep(30)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 d&amp;lt;-42'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              SELECT TOP(1) y, rand1, rand2, rand3,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              FROM dbo.rand_1M'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;External Script with Data Select&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When executing the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;, and filtering on TCP event in &lt;em&gt;Process Monitor&lt;/em&gt;, the output from the filtering looked like below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_10_procmon_output3.png&quot; width=&quot;648&quot; height=&quot;241&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Process Monitor Output Data Select&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;By using &lt;em&gt;WireShark&lt;/em&gt; we determined that the two highlighted packets (length 350, and 6300 respectively) contained the external script (packet with length 350), and the result from the &lt;code&gt;SELECT&lt;/code&gt; (length 6300). We could however not determine what the two initial packets were, and what caused them to be sent - and in &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt; we set out to try to find out more about those packets.&lt;/p&gt;
+
+&lt;p&gt;By doing some &lt;em&gt;WinDbg&lt;/em&gt; &lt;a href=&quot;http://queue.acm.org/detail.cfm?id=945136&quot;&gt;&quot;spelunking&quot;&lt;/a&gt; we found out that the two packets are sent during authentication between SQL Server and the SqlSatellite and they are sent inside the &lt;code&gt;sqllang!CSQLSatelliteConnection::AuthenticateConnection&lt;/code&gt; routine. The flow of calls can be illustrated as in the figure below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_11_calls.png&quot; width=&quot;800&quot; height=&quot;532&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Flow in SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;It is worth noting that the second &lt;code&gt;WriteAsync&lt;/code&gt; is done on a separate thread from the first, but still within the &lt;code&gt;AuthenticateConnection&lt;/code&gt; routine. We now know what causes the two first packets to be sent, and what routines are involved. We also know what the two following packets are for (script and data), but we do not know what routines are involved (other than &lt;code&gt;WriteMessage&lt;/code&gt;), and we definitely don't know what the two packets with a length of 28 is for. As mentioned in the beginning of this post, this is now what we will try and figure out.&lt;/p&gt;
+
+&lt;h2&gt;Helper Tools&lt;/h2&gt;
+
+&lt;p&gt;To help us figure out the things we want, we will use &lt;em&gt;WinDbg&lt;/em&gt; and &lt;em&gt;Process Monitor&lt;/em&gt;. In the case of &lt;em&gt;Process Monitor&lt;/em&gt;, we'll use it to filter TCP traffic. If you want to refresh your memory about how to do it, we covered that in &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4&gt;WinDbg&lt;/h4&gt;
+
+&lt;p&gt;We have used &lt;em&gt;WinDbg&lt;/em&gt; throughout this series, and in &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals - I&lt;/a&gt; we discussed how to set it up etc. The &lt;em&gt;WinDbg&lt;/em&gt; we have used up until now is the &quot;classic&quot; &lt;em&gt;WinDbg&lt;/em&gt;, that has been available throughout the years. In August Microsoft released a preview version of a more modern &lt;a href=&quot;https://www.microsoft.com/en-us/store/p/windbg/9pgjgd53tn86&quot;&gt;&lt;em&gt;WinDbg&lt;/em&gt; application&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It has been updated to have more modern visuals, faster windows, a full-fledged scripting experience, and Time Travel Debugging (whatever that is):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_windbg1.jpg&quot; width=&quot;471&quot; height=&quot;308&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;New WinDbg&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So, going forward in this series, the new &lt;em&gt;WinDbg&lt;/em&gt; is the debugger I'll use.&lt;/p&gt;
+
+&lt;h2&gt;Script Packets&lt;/h2&gt;
+
+&lt;p&gt;Let us first start with the script packets, and the code we'll use for this is what we also used in &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sys.sleep(30)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 d&amp;lt;-42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Basic External Script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The reason for using simple code like in &lt;em&gt;Code Snippet 1&lt;/em&gt;, is that it might make it easier to understand what is happening, and we can compare with what is happening when executing some other, not so basic, code. Notice how in &lt;em&gt;Code Snippet 2&lt;/em&gt; there is a &lt;code&gt;Sys.sleep&lt;/code&gt;. It is there to make it easier to determine - when debugging - when data is sent to R and when data is coming back.&lt;/p&gt;
+
+&lt;p&gt;Before executing the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;start up &lt;em&gt;Process Monitor&lt;/em&gt; and run it as admin&lt;/li&gt;
+&lt;li&gt;set up the filters we used in &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;After &lt;em&gt;Process Monitor&lt;/em&gt; has been set up, you can execute the code. When you execute, look closely at the &lt;em&gt;Process Monitor&lt;/em&gt; output, especially what it looks like at the time you hit &lt;code&gt;Sys.sleep&lt;/code&gt;. After execution the output should look like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_procmon1.png&quot; width=&quot;660&quot; height=&quot;211&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Process Monitor Output&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The red line in &lt;em&gt;Figure 4&lt;/em&gt; illustrates where &lt;code&gt;Sys.sleep&lt;/code&gt; happens. Now let us drill down into the two packets with length 204 and the packet with a length of 28. As we did in Internals - &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;X&lt;/a&gt; and &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;XI&lt;/a&gt;, we'll set some breakpoints in &lt;em&gt;WinDbg&lt;/em&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Start &lt;em&gt;WinDbg&lt;/em&gt; as admin.&lt;/li&gt;
+&lt;li&gt;Attach to the SQL Server process - (as I have said so many times before, DO NOT do this on a production machine)&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Let's now set some break-points:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::ConnectToSatellite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!Tcp::WriteAsync&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;We use the &lt;code&gt;ConnectToSatellite&lt;/code&gt; break-point as a &quot;navigation&quot; aid, e.g. we know that what we are interested in will happen after &lt;code&gt;ConnectToSatellite&lt;/code&gt;. We should also keep in mind that there will be two &lt;code&gt;sqllang!Tcp::WriteAsync&lt;/code&gt; calls after &lt;code&gt;ConnectToSatellite&lt;/code&gt;, which is related to the authentication between SQL Server and SqlSatellite (see &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt;), and whatever we are interested in comes after those two calls.&lt;/p&gt;
+
+&lt;p&gt;Execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, and continue when you hit the first &lt;code&gt;WriteMessage&lt;/code&gt; (this call is related top the named pipe connection between SQL Server and the launchpad service). Notice how you break at &lt;code&gt;ConnectToSatellite&lt;/code&gt;, and when you continue, there are two &lt;code&gt;WriteAsync&lt;/code&gt; straight after it (this is the authentication calls we covered in &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt;). Now things are getting somewhat interesting; after the second &lt;code&gt;WriteAsync&lt;/code&gt;, continue past &lt;code&gt;WriteMessage&lt;/code&gt;, and you will break at &lt;code&gt;WriteAsync&lt;/code&gt;, which is where the script is being sent to SqlSatellite.&lt;/p&gt;
+
+&lt;p&gt;At that point, let's have a look at the call-stack. If you use the old &lt;em&gt;WinDbg&lt;/em&gt;, you do a &lt;code&gt;kc&lt;/code&gt;, and in the new &lt;em&gt;WinDbg&lt;/em&gt; you look at the call-stack window:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_windbg_callstack.png&quot; width=&quot;349&quot; height=&quot;274&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Call-stack Window in New WinDbg&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 5&lt;/em&gt; we see the call-stack, and I have also copied it out to the code snippet below to get a &quot;fuller&quot; view of the stack, (I only show the stack from &lt;code&gt;sqllang!SpExecuteExternalScript&lt;/code&gt; onwards):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tcp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xb0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteProxy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostSetupMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x376&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConnectToSatellite&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x62&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x96&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xe5&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StartupQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x316&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupQueryScanAndExpression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3fa&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InitForExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;snip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Call Stack&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When we look at the call-stack in &lt;em&gt;Figure 5&lt;/em&gt; or &lt;em&gt;Code Snippet 3&lt;/em&gt; we see some &quot;old friends&quot;; &lt;code&gt;sqllang!CUDXR_ExternalScript::Open&lt;/code&gt; and &lt;code&gt;sqllang!CUDXR_ExternalScript::ConnectToSatellite&lt;/code&gt; amongst them. The routine that sends the packet seems to be &lt;code&gt;sqllang!CSatelliteProxy::PostSetupMessage&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To try to prove that we start by looking at code in &lt;code&gt;PostSetupMessage&lt;/code&gt;, specifically around where &lt;code&gt;WriteMessage&lt;/code&gt; is called. In the &lt;em&gt;WinDbg&lt;/em&gt; console, do &lt;code&gt;uf sqllang!CSatelliteProxy::PostSetupMessage&lt;/code&gt; and look for &lt;code&gt;sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;. The region containing &lt;code&gt;WriteMessage&lt;/code&gt; looks something like so (I have taken out some memory addresses etc.):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;PostSetupMessage&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteProxy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostSetupMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x362&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dword&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rax&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;dword&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rcx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A0h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;eax&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;rdx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rcx&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;mov&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;rcx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r12&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteProxy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostSetupMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0x37d&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Branch&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;PostSetupMessage and WriteMessage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We know that &lt;code&gt;WriteMessage&lt;/code&gt; causes the &lt;code&gt;WriteAsync&lt;/code&gt; and in &lt;em&gt;Code Snippet 4&lt;/em&gt; we see that after the &lt;code&gt;WriteMessage&lt;/code&gt; call, the code &quot;jumps&quot; to &lt;code&gt;PostSetupMessage+0x37d&lt;/code&gt;. Logically, we then can believe that when &lt;code&gt;PostSetupMessage+0x37d&lt;/code&gt; is hit, the packet should have been sent. So now we set a break-point at &lt;code&gt;PostSetupMessage+0x37d&lt;/code&gt;, and we use &lt;em&gt;Process Monitor&lt;/em&gt; to capture TCP traffic, the same way we did above.&lt;/p&gt;
+
+&lt;p&gt;Before you execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, it is probably a good idea to clear the display in &lt;em&gt;Process Monitor&lt;/em&gt;, so you more easily can see what happens. Execute the code, and let it continue until it breaks for the third time (after &lt;code&gt;ConnectToSatellite&lt;/code&gt;) at &lt;code&gt;WriteAsync&lt;/code&gt;. At this stage the &lt;em&gt;Process Monitor&lt;/em&gt; output looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_procmon2.png&quot; width=&quot;688&quot; height=&quot;154&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; *Process Monitor Output *&lt;/p&gt;
+
+&lt;p&gt;As we see in &lt;em&gt;Figure 6&lt;/em&gt;, the packet containing the script has not been sent yet, but as soon as we continue the code in &lt;em&gt;WinDbg&lt;/em&gt;, the packet is sent and is visible in &lt;em&gt;Process Monitor&lt;/em&gt;. At this stage the code will hit the break-point at &lt;code&gt;PostSetupMessage+0x37d&lt;/code&gt;, so we can now with certainty say that the script packet is sent from inside &lt;code&gt;PostSetupMessage&lt;/code&gt;, and it has (in our example) a length of 204. So what about the packet with a length of 28?&lt;/p&gt;
+
+&lt;p&gt;We have seen how that packet is sent straight after the packet with a length of 204, so we'll investigate this packet in the same way we did with the &quot;204&quot; packet. Execute the code again, but at this time continue until you hit the &lt;code&gt;WriteAsync&lt;/code&gt; that comes after the &quot;204&quot; packet. At that stage have a look at the call-stack:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack 2&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tcp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteAsync&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xb0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x50&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa4&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x23b&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StartupQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x316&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SetupQueryScanAndExpression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3fa&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InitForExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Call Stack for &quot;28&quot; Packet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;At a cursory glance at the call-stack in &lt;em&gt;Code Snippet 5&lt;/em&gt;, it looks quite similar to the call-stack in &lt;em&gt;Code Snippet 4&lt;/em&gt;. However, when you start to look closer you can see it is not the same at all. There are no calls to &lt;code&gt;ConnectToSatellite&lt;/code&gt; or &lt;code&gt;PostSetupMessage&lt;/code&gt;, instead there are calls to some new routines:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;sqllang!CUDXR_ExternalScript::PushEOS&lt;/li&gt;
+&lt;li&gt;sqllang!CSatelliteCargoContext::SendChunkEnd&lt;/li&gt;
+&lt;li&gt;sqllang!CSatelliteCargoContext::SendChunkEndMessage&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;It seems that the call-stacks in code snippets 4 and 5 originates both from &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt;, however from different locations. What is somewhat strange is that if we were to do an &lt;code&gt;uf sqlmin!CQScanUdx::Open&lt;/code&gt;, we would not see any calls to &lt;code&gt;sqllang!CUDXR_ExternalScript::PushEOS&lt;/code&gt; from the &lt;code&gt;Open&lt;/code&gt; routine, so they must be &quot;hidden&quot; down deep in the code. To get a better feel for what goes on we can try to trace through the calls in &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Remove all breakpoints.&lt;/li&gt;
+&lt;li&gt;Set a breakpoint at &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Execute the code again, and when you hit the breakpoint at &lt;code&gt;Open&lt;/code&gt;, you execute the &lt;code&gt;wt&lt;/code&gt;, (Trace and Watch), command. However do it with the &lt;code&gt;-l&lt;/code&gt; option, which specifies the maximum depth of the calls to display. If you don't set the &lt;code&gt;-l&lt;/code&gt; option, the &lt;code&gt;wt&lt;/code&gt; will just go on and on and on. When I do it on my server I use a level of 4 (&lt;code&gt;wt -l 4&lt;/code&gt;), and the end of the trace looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Trace&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;//lot of other code&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EstimateDataChunkRows&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetTypeSizeInBytes&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EstimateDataChunkRows&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;floor&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;MSVCR120&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;floor&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EstimateDataChunkRows&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXC_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EUdxTypeGet&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrepareChunkEndPacket&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WaitWriteDone&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Trace and Watch of sqlmin!CQScanUdx::Open&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 6&lt;/em&gt; we definitely see how the routines mentioned above are being called during &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt;. Based on their names we understand that the packet being sent has to do with informing the SqlSatellite that no more script data is coming.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In the code in &lt;em&gt;Code Snippet 6&lt;/em&gt;, you can for now dismiss the first lines of code that has to do with &lt;code&gt;EstimateDataChunkRows&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;So the flow looks something like this (heavily abbreviated):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConnectToSatellite&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteProxy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostSetupMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Open&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Abbreviated Flow&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Please note that the flow in &lt;em&gt;Code Snippet 7&lt;/em&gt; is for when no result data (no &lt;code&gt;@input_data_1&lt;/code&gt;) is being sent. When we have result data the flow will look somewhat different as we will see below.&lt;/p&gt;
+
+&lt;h2&gt;Input Data&lt;/h2&gt;
+
+&lt;p&gt;Above we saw the packets for the external script and the end of script; how they were sent and what did send them. Now we'll have a look at the packets that are sent for data which is input for the script (&lt;code&gt;@input_data_1&lt;/code&gt;). The code we'll use looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sys.sleep(30)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 d&amp;lt;-InputDataSet'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT 42'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;External Script with SELECT&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The difference between the code in &lt;em&gt;Code Snippet 8&lt;/em&gt; and the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, is that in &lt;em&gt;Code Snippet 8&lt;/em&gt; we are selecting an input data set, that will be passed to the SqlSatellite together with the script.&lt;/p&gt;
+
+&lt;p&gt;We'll use &lt;em&gt;Process Monitor&lt;/em&gt; to be able to see when the packets are being sent, and initially we'll just run through the code and see the output in &lt;em&gt;Process Monitor&lt;/em&gt;. Remove whatever breakpoints you have, and execute the code in &lt;em&gt;Code Snippet 8&lt;/em&gt;. As you did above have a close look at the output from &lt;em&gt;Process Monitor&lt;/em&gt; when the external code hits &lt;code&gt;Sys.sleep&lt;/code&gt;. The output looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_procmon3.png&quot; width=&quot;713&quot; height=&quot;237&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Process Monitor Output&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As in &lt;em&gt;Figure 4&lt;/em&gt;, the red line you see in &lt;em&gt;Figure 7&lt;/em&gt; illustrates where control has been handed over to the SqlSatellite (we hit &lt;code&gt;Sys.sleep()&lt;/code&gt;). The packets we are interested in are the three just above the red line, with lengths of 2023, 28, and 28. We do know that the &quot;2023&quot; packet contains the data from the &lt;code&gt;SELECT&lt;/code&gt;, and that one of the &quot;28&quot; packets is the &quot;end of script&quot; packet from above. We do not know which one it is, and we do not know what the second &quot;28&quot; packet is.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; From above, if you wonder why a packet sending just one integer has a size of 2023, that's something we'll look a bit into in next post.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;To look more into the three packets we are interested in, we set breakpoints at:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteConnection::WriteMessage&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!Tcp::WriteAsync&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::PushEOS&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Clear the display in &lt;em&gt;Process Monitor&lt;/em&gt; and execute the code in &lt;em&gt;Code Snippet 8&lt;/em&gt;. Let the code continue through until you hit the break-point for &lt;code&gt;PushEOS&lt;/code&gt;. At this stage the output in &lt;em&gt;Process Monitor&lt;/em&gt; looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_procmon4.png&quot; width=&quot;666&quot; height=&quot;159&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Process Monitor Output at PushEOS&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Based on what we saw when we looked at how script packets were sent, what we see in &lt;em&gt;Figure 8&lt;/em&gt; is what we expected. We see how the script packet has been sent (length 234), and we are waiting for the end of script packet. What is somewhat different though, is the call-stack (from &lt;code&gt;SpExecuteExternalScript&lt;/code&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack 3&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1af&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x79&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x81&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Call Stack at PushEOS with Input Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Notice in &lt;em&gt;Code Snippet 9&lt;/em&gt; how &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt; is not in the stack at all. We'll come back to that in a little bit. Continue the execution from the break-point and stop at &lt;code&gt;WriteMessage&lt;/code&gt;, and wait a second or two. Look at the output from &lt;em&gt;Process Monitor&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_procmon5.png&quot; width=&quot;665&quot; height=&quot;180&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Process Monitor Output at WriteMessage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 9&lt;/em&gt; we now see how the input data packet (length 2023) have been sent, even though we haven't executed &lt;code&gt;WriteMessage&lt;/code&gt;! When we now continue execution we will see how we hit:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sqllang!Tcp::WriteAsync&lt;/code&gt;, which sends a packet with a length of 28.&lt;/li&gt;
+&lt;li&gt;another &lt;code&gt;WriteMessage&lt;/code&gt;, followed by&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sqllang!Tcp::WriteAsync&lt;/code&gt;, which sends a second packet with a length of 28.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;At this stage we are now at the red line in &lt;em&gt;Figure 7&lt;/em&gt;. Having seen this, there are some questions:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;where did the data packet originate from, but no &lt;code&gt;sqllang!Tcp::WriteAsync&lt;/code&gt; were called?&lt;/li&gt;
+&lt;li&gt;we saw two packets with a length of 28, we know one must be the script end packet, but which is it, and what is the other packet?&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Let's start with point 1, where does the input data come from? For one reason or another it doesn't originate from a &lt;code&gt;WriteMessage&lt;/code&gt; followed by an &lt;code&gt;sqllang!Tcp::WriteAsync&lt;/code&gt;. However, we do know that the data is sent as a TCP packet, so somewhere some code having to do with sockets need to be called. If we &quot;spelunk&quot; down in Windows documentation, we can see that there is a function named &lt;code&gt;WSPSend&lt;/code&gt;. According to the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms742292(v=vs.85).aspx&quot;&gt;documentation&lt;/a&gt;: &quot;The WSPSend function sends data on a connected socket.&quot;.&lt;/p&gt;
+
+&lt;p&gt;With that in mind, perhaps there is something in SQL Server that would be named something similar; &lt;code&gt;x *!*WSPSend*&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Socket&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSend&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MSAFD_WSPSendMsg&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSendTo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSendDisconnect&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parameter&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 10:&lt;/strong&gt; &lt;em&gt;Low Level Socket Calls&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What we see in &lt;em&gt;Code Snippet 10&lt;/em&gt; looks promising! Let's start from the top, and set a break-point at &lt;code&gt;mswsock!WSPSend&lt;/code&gt;. After having cleared out the display in &lt;em&gt;Process Monitor&lt;/em&gt; we then execute the code in &lt;em&gt;Code Snippet 8&lt;/em&gt; again. It seems our hunch about &lt;code&gt;WSPSend&lt;/code&gt; being used for low level socket sends is correct, as when the code executes each &lt;code&gt;WriteAsync&lt;/code&gt; is followed by a &lt;code&gt;WSPSend&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;When the code breaks at &lt;code&gt;PushEOS&lt;/code&gt; things are getting interesting. As expected we see in &lt;em&gt;Process Monitor&lt;/em&gt; that the 2023 packet has not been sent yet. When continuing we immediately hit &lt;code&gt;mswsock!WSPSend&lt;/code&gt;, which indicates that a package is about to be sent. At this point, look at the call-stack:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack 4&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSend&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;WS2_32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSASend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x16c&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tcp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GatherWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x181&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIGatherWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xad&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteGatherMessages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa6&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x34&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendRemainingChunk&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x149&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x2f&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1af&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x79&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x81&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 11:&lt;/strong&gt; &lt;em&gt;Call Stack Sending Data Packet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We'll look closer at the call-stack as in &lt;em&gt;Code Snippet 11&lt;/em&gt; shortly, but now we continue execution of the code. We immediately see the 2023 packet being sent, followed by hitting the &lt;code&gt;WriteMessage&lt;/code&gt; break-point. Continuing on from there we hit &lt;code&gt;WriteAsync&lt;/code&gt; followed by &lt;code&gt;WSPSend&lt;/code&gt;, and at this stage the call-stack looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack 5&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSend&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;WS2_32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSASend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x16c&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tcp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x174&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xb0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x50&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7c&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1af&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x79&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x81&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 12:&lt;/strong&gt; &lt;em&gt;Call Stack First 28 packet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Continuing on from there, a 28 packet is being sent, and we eventually break at &lt;code&gt;WSPSend&lt;/code&gt; again, and now the call-stack looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Call Stack 6&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;mswsock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSPSend&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;WS2_32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WSASend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x16c&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tcp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x174&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SNIWriteAsync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xb0&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x50&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEnd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x3e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa4&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x1af&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x79&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueryScan&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x81&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x4dc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XretExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x322&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ExecuteStmts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x40d&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CMsqlExecContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FExecute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xa9e&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x983&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SpExecuteExternalScript&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x140e&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 13:&lt;/strong&gt; &lt;em&gt;Call Stack Second 28 packet&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When the code in &lt;em&gt;Code Snippet 13&lt;/em&gt; continues, it will cause the second 28 packet to be sent.&lt;/p&gt;
+
+&lt;p&gt;So at this stage we have now sent three packets, let's now go back to the call-stack in &lt;em&gt;Code Snippet 11&lt;/em&gt; and see what causes the result data packet to be sent. Before we do that however let's address the question that was asked when we looked at &lt;em&gt;Code Snippet 9&lt;/em&gt;: where is &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Remember, when we did not send any result data into the SqlSatellite, the end of script was called from inside &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt; as in &lt;em&gt;Code Snippet 7&lt;/em&gt;. When result data is sent to the SqlSatellite &lt;code&gt;sqlmin!CQScanUdx::Open&lt;/code&gt; is still being called obviously (otherwise no connection to the satellite would be made etc.), but the end of script message is not sent by &lt;code&gt;Open&lt;/code&gt;, but instead after the result data has been sent.&lt;/p&gt;
+
+&lt;p&gt;So, &lt;em&gt;Code Snippet 11&lt;/em&gt; and the call-stack which sent result data: we can see how the result data is being sent from &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt; and an abbreviated flow looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 14:&lt;/strong&gt; &lt;em&gt;Abbreviated Flow Result Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, as we've seen, two packets with a size of 28 is sent. One is the end packet for the external script, and one is to indicate that no more result data will be sent. The flow, including sending the result data, looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 15:&lt;/strong&gt; &lt;em&gt;Abbreviated Flow Result Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;From what we've seen we can assume that &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; pushes data into &lt;code&gt;CSatelliteCargoContext&lt;/code&gt; from which the data is sent through the &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt; routine. After the result data has been sent, packets are sent to indicate that no more data (or script) is coming.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post we set out trying to figure out who and what sent the following packets from SQL Server to the SqlSatellite:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;External script packet&lt;/li&gt;
+&lt;li&gt;Packet containing the input data&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;We also wanted to figure out what the packets with a length of 28 were for.&lt;/p&gt;
+
+&lt;p&gt;Instead of &quot;re-hashing&quot; what we have covered above, the following figure depicts, from a high level, what is being sent and by who. The figure somewhat condenses what you see in &lt;em&gt;Figure 2&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_calls.png&quot; width=&quot;800&quot; height=&quot;508&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Flow in SQL Server&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The numbered arrows shows the communication out from SQL Server, and in what order it happens:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;SQL Server opens named pipe connection to the launchpad service.&lt;/li&gt;
+&lt;li&gt;Message sent to the launchpad service.&lt;/li&gt;
+&lt;li&gt;After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.&lt;/li&gt;
+&lt;li&gt;SQL Server sends the first packet to the SQL Satellite for authentication purposes.&lt;/li&gt;
+&lt;li&gt;A second authentication packet is sent to SqlSatellite.&lt;/li&gt;
+&lt;li&gt;The data for &lt;code&gt;@input_data_1&lt;/code&gt; is sent.&lt;/li&gt;
+&lt;li&gt;The first end packet is sent.&lt;/li&gt;
+&lt;li&gt;The second end packet is sent.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Interesting Stuff - Week 43</title>
-   <link href="http://nielsberglund.com/2017/10/29/interesting-stuff-week-43/"/>
+   <link href="http://localhost:4000/2017/10/29/interesting-stuff-week-43/"/>
    <updated>2017-10-29T19:29:49+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/29/interesting-stuff---week-43</id>
+   <id>http://localhost:4000/2017/10/29/interesting-stuff---week-43</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -75,9 +553,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 42</title>
-   <link href="http://nielsberglund.com/2017/10/22/interesting-stuff-week-42/"/>
+   <link href="http://localhost:4000/2017/10/22/interesting-stuff-week-42/"/>
    <updated>2017-10-22T16:19:45+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/22/interesting-stuff---week-42</id>
+   <id>http://localhost:4000/2017/10/22/interesting-stuff---week-42</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -138,9 +616,9 @@
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XI</title>
-   <link href="http://nielsberglund.com/2017/10/20/microsoft-sql-server-r-services-internals-xi/"/>
+   <link href="http://localhost:4000/2017/10/20/microsoft-sql-server-r-services-internals-xi/"/>
    <updated>2017-10-20T18:42:47+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/20/microsoft-sql-server-r-services---internals-xi</id>
+   <id>http://localhost:4000/2017/10/20/microsoft-sql-server-r-services---internals-xi</id>
    <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
 
 &lt;ol&gt;
@@ -156,6 +634,7 @@
 &lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Microsoft SQL Server R Services - Internals X&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Microsoft SQL Server R Services - Internals XI (this post)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Microsoft SQL Server R Services - Internals XII&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;More to come (hopefully)&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -506,9 +985,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 41</title>
-   <link href="http://nielsberglund.com/2017/10/13/interesting-stuff-week-41/"/>
+   <link href="http://localhost:4000/2017/10/13/interesting-stuff-week-41/"/>
    <updated>2017-10-13T06:27:44+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/13/interesting-stuff---week-41</id>
+   <id>http://localhost:4000/2017/10/13/interesting-stuff---week-41</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -574,9 +1053,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 40</title>
-   <link href="http://nielsberglund.com/2017/10/08/interesting-stuff-week-40/"/>
+   <link href="http://localhost:4000/2017/10/08/interesting-stuff-week-40/"/>
    <updated>2017-10-08T19:08:57+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/08/interesting-stuff---week-40</id>
+   <id>http://localhost:4000/2017/10/08/interesting-stuff---week-40</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -640,9 +1119,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 39</title>
-   <link href="http://nielsberglund.com/2017/10/01/interesting-stuff-week-39/"/>
+   <link href="http://localhost:4000/2017/10/01/interesting-stuff-week-39/"/>
    <updated>2017-10-01T17:57:21+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/01/interesting-stuff---week-39</id>
+   <id>http://localhost:4000/2017/10/01/interesting-stuff---week-39</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -699,9 +1178,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 38</title>
-   <link href="http://nielsberglund.com/2017/09/24/interesting-stuff-week-38/"/>
+   <link href="http://localhost:4000/2017/09/24/interesting-stuff-week-38/"/>
    <updated>2017-09-24T09:26:42+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/24/interesting-stuff---week-38</id>
+   <id>http://localhost:4000/2017/09/24/interesting-stuff---week-38</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -750,9 +1229,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 37</title>
-   <link href="http://nielsberglund.com/2017/09/17/interesting-stuff-week-37/"/>
+   <link href="http://localhost:4000/2017/09/17/interesting-stuff-week-37/"/>
    <updated>2017-09-17T12:24:24+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/17/interesting-stuff---week-37</id>
+   <id>http://localhost:4000/2017/09/17/interesting-stuff---week-37</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -827,9 +1306,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 36</title>
-   <link href="http://nielsberglund.com/2017/09/10/interesting-stuff-week-36/"/>
+   <link href="http://localhost:4000/2017/09/10/interesting-stuff-week-36/"/>
    <updated>2017-09-10T08:56:44+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/10/interesting-stuff---week-36</id>
+   <id>http://localhost:4000/2017/09/10/interesting-stuff---week-36</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -875,117 +1354,6 @@
 &lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
 
 &lt;p&gt;As I wrote in last weeks &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;roundup&lt;/a&gt;, we are in the conference season now. I want to thank everyone that came and listed to my ramblings in &lt;a href=&quot;http://www.sqlsaturday.com/648/eventhome.aspx&quot;&gt;Johannesburg&lt;/a&gt;, &lt;a href=&quot;https://www.quicket.co.za/events/33252-sql-in-pe-06-september-2017/#/&quot;&gt;Port Elizabeth&lt;/a&gt;, and &lt;a href=&quot;http://www.sqlsaturday.com/637/eventhome.aspx&quot;&gt;Cape Town&lt;/a&gt;. Much appreciated!! After next weeks SQL Saturday in &lt;a href=&quot;http://www.sqlsaturday.com/659/eventhome.aspx&quot;&gt;Durban&lt;/a&gt;, I am done for a little while, and can hopefully get back to write blog-posts about SQL Server Machine Learning Services again.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 35</title>
-   <link href="http://nielsberglund.com/2017/09/03/interesting-stuff-week-35/"/>
-   <updated>2017-09-03T19:55:48+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/03/interesting-stuff---week-35</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;p&gt;I know, I know - there is not much for this week. A major reason for this is that, here in South Africa, we are in &lt;a href=&quot;http://sqlsaturday.com/&quot;&gt;SQL Saturday&lt;/a&gt; season right now. What has that got to do with anything you may ask - well, it is like this:&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;In April/May (or thereabouts) emails are going out from the organizers asking for submissions to the upcoming SQL Saturday's. At that stage I have some &quot;awesome&quot; ides what to present about, typically some new cool stuff coming - hopefully - just in time for SQL Saturday.&lt;/p&gt;
-
-&lt;p&gt;So, I put together some topics with blurbs what the presentation will be about. Then I promptly forget about this until I receive an email a month, or thereabout, before the &quot;gig&quot; - saying what talks have been accepted. At that stage I am like : &quot;cool, my talk about xyz got accepted, let's see what to cover. Ah well, I have plenty of time ...&quot;.&lt;/p&gt;
-
-&lt;p&gt;Then, all of a sudden it is one week before the first &quot;gig&quot;, and I realize I have nothing prepared yet, so &lt;strong&gt;NOW&lt;/strong&gt; it is time to burn the midnight oil. And that is what I have been doing the last week (and will be next week, and the one after that). The upside of this is that the talks could potentially result in a blog-post or two.&lt;/p&gt;
-
-&lt;p&gt;Anyway, that aside, here is what I have found.&lt;/p&gt;
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://sqlonice.com/fishing-for-wait-types-revisited_query_task_enqueue_mutex/&quot;&gt;Fishing for wait types revisited – QUERY_TASK_ENQUEUE_MUTEX&lt;/a&gt;. &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; has to eat some &quot;humble pie&quot; when it comes to wait types. This blog-post is awesome from a couple of perspectives:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; is a mere mortal as the rest of us.&lt;/li&gt;
-&lt;li&gt;It covers some cool sh*t.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/ksql-open-source-streaming-sql-for-apache-kafka/&quot;&gt;Introducing KSQL: Open Source Streaming SQL for Apache Kafka&lt;/a&gt;. Man, this is sooo awesome! Apache Kafka and SQL! This can be the best thing since sliced bread!!! I wonder what impact this will have on technologies like &lt;a href=&quot;http://www.espertech.com/&quot;&gt;Esper&lt;/a&gt; and even &lt;a href=&quot;https://data-artisans.com/&quot;&gt;Flink&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/machine-learning-based-anomaly-detection-in-azure-stream-analytics/&quot;&gt;Machine Learning-based anomaly detection in Azure Stream Analytics&lt;/a&gt;. Azure Stream Analytics introduces machine learning-based anomaly detection.&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview&quot;&gt;Azure Event Hubs Capture&lt;/a&gt;. Azure Event Hubs have been the preferred choice in Azure to get data into the cloud. Then, if you wanted to push it further - Azure Data Lake, etc. - you had to either write your own consumer or use Azure Stream Analytics, with an output sink.&lt;/p&gt;
-
-&lt;p&gt;With Azure Event Hubs Capture you can automatically deliver the streaming data in Event Hubs to an Azure Blob storage or Azure Data Lake Store account of your choice, with the added flexibility of specifying a time or size interval. Cool!!!&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h1&gt;SQL Server R Services&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Microsoft SQL Server R Services - Internals X&lt;/a&gt;. This episode covers how data is sent from SQL Server to the R components. Initially I had planned &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt; to be the final posting the internals part of the &lt;em&gt;SQL Server R Services&lt;/em&gt; series, but I realize now that I need at least two more parts.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
-
-&lt;p&gt;In the beginning of this post I wrote about how it is SQL Saturday &quot;season&quot; here in South Africa. If you are around, and interested I am talking at:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.quicket.co.za/events/33252-sql-in-pe-06-september-2017/#/&quot;&gt;SQL in Port Elizabeth 06 September 2017&lt;/a&gt;. Here I present on
-
-&lt;ul&gt;
-&lt;li&gt;Real World Example of Using R in SQL Server&lt;/li&gt;
-&lt;li&gt;The Definitive Guide to SQL Server Error Handling&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/637/eventhome.aspx&quot;&gt;SQL Saturday 2017 Cape Town&lt;/a&gt;. My talk here is:
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/637/Sessions/Details.aspx?sid=66538&quot;&gt;Real World Example of Using R in SQL Server&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/659/eventhome.aspx&quot;&gt;SQL Saturday 2017 Durban&lt;/a&gt;. My talks here are:
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/659/Sessions/Details.aspx?sid=66543&quot;&gt;A Lap Around New Developer Features in SQL Server 2017&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/659/Sessions/Details.aspx?sid=66542&quot;&gt;Real World Example of Using R in SQL Server&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;So please, if you are around - come and say Hi!.&lt;/p&gt;
-
-&lt;p&gt;In addition to the above, I just came home from:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/648/eventhome.aspx&quot;&gt;SQL Saturday 2017 Johannesburg&lt;/a&gt;. Here I presented:
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.sqlsaturday.com/648/Sessions/Details.aspx?sid=66531&quot;&gt;A Drill Down into R and Python in SQL Server 2017&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
