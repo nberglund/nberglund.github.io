@@ -4,13 +4,85 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-10-31T20:24:42+02:00</updated>
+ <updated>2017-11-05T19:24:28+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 44</title>
+   <link href="http://nielsberglund.com/2017/11/05/interesting-stuff-week-44/"/>
+   <updated>2017-11-05T19:16:52+02:00</updated>
+   <id>http://nielsberglund.com/2017/11/05/interesting-stuff---week-44</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://sqlonice.com/pass-summit-2017/&quot;&gt;PASS Summit 2017 – a personal angle&lt;/a&gt;. Where &lt;a href=&quot;http://sqlonice.com/&quot;&gt;Ewald&lt;/a&gt; goes to Seattle to attend &lt;a href=&quot;http://www.pass.org/summit/2017/Live.aspx&quot;&gt;PASS 2017&lt;/a&gt;. A personal take on the summit, prior to its opening. Entertaining as ever!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/02/in-memory-oltp-indexes-part-1-recommendations/&quot;&gt;In-Memory OLTP Indexes&lt;/a&gt;. The first post in a series about in memory indexes in SQL Server.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Databases&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.cockroachlabs.com/&quot;&gt;CockroachDB&lt;/a&gt;. I don't know about the name, but the technology looks very, very interesting.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/11/01/modernize-existing-net-apps-with-windows-containers-and-azure/&quot;&gt;Modernize existing .NET apps with Windows Containers and Azure&lt;/a&gt;. Basically a &quot;plug&quot; for a free e-book. However as the topic is of interest to me, I decided to include it. Plus, the comments are interesting.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/apache-kafka-goes-1-0/&quot;&gt;Apache Kafka Goes 1.0&lt;/a&gt;. Yay!! Apache Kafka has reached the 1.0 milestone. This blog-post talks about that, but also all the new improvements in Apache Kafka 1.0.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/01/sentiment-analysis-with-python-in-sql-server-machine-learning-services/&quot;&gt;Sentiment analysis with Python in SQL Server Machine Learning Services&lt;/a&gt;. This blog post, shows two different ways to implement sentiment analysis in SQL Server using Python and Machine Learning Services. Very cool!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/intuitionmachine/why-probability-theory-should-be-thrown-under-the-bus-36e5d69a34c9&quot;&gt;Why Probability Theory Should be Thrown Under the Bus&lt;/a&gt;. A blog-post discussing the downside of probability theory. Really, really interesting and thought provoking!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Microsoft SQL Server R Services - Internals XII&lt;/a&gt;. I managed to get &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Internals - XII&lt;/a&gt; out this week. It covers what routines sends the packets from SQL Server to the &lt;strong&gt;SqlSatellite&lt;/strong&gt;, and what are some of those packets.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XII</title>
@@ -465,9 +537,11 @@
 
 &lt;p&gt;We also wanted to figure out what the packets with a length of 28 were for.&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;EDIT:&lt;/strong&gt; The figure below, and the flow has been edited, as I had forgotten the sending of the actual external script. It is now in the flow as point 6.&lt;/p&gt;
+
 &lt;p&gt;Instead of &quot;re-hashing&quot; what we have covered above, the following figure depicts, from a high level, what is being sent and by who. The figure somewhat condenses what you see in &lt;em&gt;Figure 2&lt;/em&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_calls.png&quot; width=&quot;800&quot; height=&quot;508&quot;  &gt;
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_12_calls.png&quot; width=&quot;800&quot; height=&quot;519&quot;  &gt;
 &lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Flow in SQL Server&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;The numbered arrows shows the communication out from SQL Server, and in what order it happens:&lt;/p&gt;
@@ -478,6 +552,7 @@
 &lt;li&gt;After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.&lt;/li&gt;
 &lt;li&gt;SQL Server sends the first packet to the SQL Satellite for authentication purposes.&lt;/li&gt;
 &lt;li&gt;A second authentication packet is sent to SqlSatellite.&lt;/li&gt;
+&lt;li&gt;The script is sent from inside &lt;code&gt;sqllang!CSatelliteProxy::PostSetupMessage&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;The data for &lt;code&gt;@input_data_1&lt;/code&gt; is sent.&lt;/li&gt;
 &lt;li&gt;The first end packet is sent.&lt;/li&gt;
 &lt;li&gt;The second end packet is sent.&lt;/li&gt;
@@ -1304,63 +1379,5 @@
 </content>
  </entry>
  
- <entry>
-   <title>Interesting Stuff - Week 36</title>
-   <link href="http://nielsberglund.com/2017/09/10/interesting-stuff-week-36/"/>
-   <updated>2017-09-10T08:56:44+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/10/interesting-stuff---week-36</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/flink-streaming-sql-ksql-stream-processing&quot;&gt;Streaming SQL in Apache Flink, KSQL, and Stream Processing for Everyone&lt;/a&gt;. In last weeks &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;roundup&lt;/a&gt; I mentioned how Apache Kafka now supports querying the data by using &lt;a href=&quot;https://www.confluent.io/blog/ksql-open-source-streaming-sql-for-apache-kafka/&quot;&gt;SQL&lt;/a&gt;. I wondered what impact this would have on Esper and Apache Flink. Sure enough, the post here is a reply from Apache Flink, where they point out all the shortcomings the Kafka SQL has compared to Flink, &quot;meow&quot;! Heh, wait a second while I go and get the cola and the pop-corn, then the fight can begin.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-3/&quot;&gt;The Simplest Useful Kafka Connect Data Pipeline In The World … or thereabouts—Part 3&lt;/a&gt;. The series how to build a data pipeline using Apache Kafka Connect API continues.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://engineering.skybettingandgaming.com/2017/09/07/trading-on-aws/&quot;&gt;Moving Our Trading Engine to AWS&lt;/a&gt;. A very interesting article how Sky Betting moved their sports-book trading engine to the cloud and started using serverless functions.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/04/the-leicester-city-fairytale-utilizing-new-soccer-analytics-tools-to-compare-performance-in-the-1516-and-1617-epl-seasons/&quot;&gt;&quot;The Leicester City fairytale?&quot;: Utilizing new soccer analytics tools to compare performance in the 15/16 and 16/17 EPL seasons&lt;/a&gt;. Adrian from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; looks at a new data science analytics tool for soccer. As a side note, I so wish I had put down $100 in August 2015 on Leicester winning the 15/16 English Premiership. I would have walked away with ~$500,000!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/examples-of-applied-data-science-in-healthcare-and-e-commerce-e3b4a77ed306&quot;&gt;How To Apply Data Science To Real Business Problems&lt;/a&gt;. A really interesting article about data science and how it can be used in the &quot;real world&quot;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/06/free-microsoft-webinar-on-the-interactive-price-analytics-solution-now-available-in-azure/&quot;&gt;Free Microsoft Webinar on Interactive Price Analytics, Now Available on Azure&lt;/a&gt;. Invitation to a webinar about interactive price analytics. So what's so earth shattering about that, I can do price analytics today using data science? Sure, but this is a much simpler solution, and that's what is being covered at the webinar.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/06/how-to-use-cognitive-toolkit-cntk-with-kubernetes-on-azure/&quot;&gt;How to Train &amp;amp; Serve Deep Learning Models at Scale, Using Cognitive Toolkit with Kubernetes on Azure&lt;/a&gt;. This blog post is about how to use Kubernetes clusters for deep learning together with &lt;a href=&quot;https://www.microsoft.com/en-us/cognitive-toolkit/&quot;&gt;Microsoft Cognitive Toolkit&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Shameless Self Promotion&lt;/h2&gt;
-
-&lt;p&gt;As I wrote in last weeks &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;roundup&lt;/a&gt;, we are in the conference season now. I want to thank everyone that came and listed to my ramblings in &lt;a href=&quot;http://www.sqlsaturday.com/648/eventhome.aspx&quot;&gt;Johannesburg&lt;/a&gt;, &lt;a href=&quot;https://www.quicket.co.za/events/33252-sql-in-pe-06-september-2017/#/&quot;&gt;Port Elizabeth&lt;/a&gt;, and &lt;a href=&quot;http://www.sqlsaturday.com/637/eventhome.aspx&quot;&gt;Cape Town&lt;/a&gt;. Much appreciated!! After next weeks SQL Saturday in &lt;a href=&quot;http://www.sqlsaturday.com/659/eventhome.aspx&quot;&gt;Durban&lt;/a&gt;, I am done for a little while, and can hopefully get back to write blog-posts about SQL Server Machine Learning Services again.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
 
 </feed>
-
