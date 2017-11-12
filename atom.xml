@@ -4,13 +4,74 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-11-11T20:39:29+02:00</updated>
+ <updated>2017-11-12T20:08:21+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 45</title>
+   <link href="http://nielsberglund.com/2017/11/12/interesting-stuff-week-45/"/>
+   <updated>2017-11-12T20:05:53+02:00</updated>
+   <id>http://nielsberglund.com/2017/11/12/interesting-stuff---week-45</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;p&gt;So, the last few months it's been very interesting following Apache Kafka and Apache Flink and their announcements. It seems both are wanting to usurp the other. In my mind that's good, as it is us - the consumers - that will reap the benefits! So this week a couple of interesting posts from both Kafka as well as Flink.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/building-a-microservices-ecosystem-with-kafka-streams-and-ksql/&quot;&gt;Building a Microservices Ecosystem with Kafka Streams and KSQL&lt;/a&gt;. A very interesting post about how to implement a microservices architecture built upon Kafka. I really need to look at this closer!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/complex-event-processing-flink-cep-update&quot;&gt;Complex Event Processing with Flink: An Update on the State of Flink CEP&lt;/a&gt;. CEP is a topic is &quot;near and dear&quot; to me, and that's why it is so interesting to see what Flink is offering. What is extremely interesting is the ability to - in the future - add dynamic patterns: to add new patterns to a CEP program with no downtime.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/08/high-scale-and-performance-of-azure-sql-database/&quot;&gt;Azure SQL Database: Ingesting 1.4 million sustained rows per second with In-Memory OLTP &amp;amp; Columnstore Index&lt;/a&gt;. Oooh, be still my beating heart! How awesome is this (very is the answer)?! This post outlines how Microsoft managed to get a throughput of 1.4 &lt;strong&gt;million&lt;/strong&gt; inserts per second. Sure it is on Azure, and a fairly beefy box, but still. I'll definitely show this to our DBA's!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/11/microsoft-aws-gluon&quot;&gt;Microsoft and AWS Collaborate on Machine Learning&lt;/a&gt;. Announcement from Microsoft and Amazon: &quot;Microsoft and AWS have recently announced a new collaboration aimed at democratizing deep learning and artificial intelligence. &lt;a href=&quot;https://mxnet.incubator.apache.org/gluon/&quot;&gt;Gluon&lt;/a&gt; is a joint effort between Microsoft Research and Amazon AI and is intended to make developing solutions using machine learning easier and quicker.&quot; It will be interesting to see what Google will do ...&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/11/paper-summary-towards-distributed.html&quot;&gt;Paper summary. Towards distributed machine learning in shared clusters: a dynamically partitioned approach&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; dissects a white paper about enabling multiple distributed ML frameworks, say TensorFlow, Petuum, MxNet, to share the same cluster.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://towardsdatascience.com/10-ways-to-take-your-boss-on-a-journey-through-the-data-14a3fdbb3503&quot;&gt;10 Ways to Take Your Boss on a Journey Through the Data&lt;/a&gt;. A blog-post about what and how you should present data to your boss. Definitely not &quot;hard-core&quot; data science, but very interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Microsoft SQL Server R Services - Internals XIII&lt;/a&gt;. The plan was to cover the &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;) in &lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Internals - XIII&lt;/a&gt;, but the &quot;best laid plans&quot; and all that. Instead &lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Internals - XIII&lt;/a&gt; covers when &lt;code&gt;SELECT&lt;/code&gt; statements for &lt;code&gt;@input_data_1&lt;/code&gt; is executed.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XIII</title>
@@ -1643,57 +1704,6 @@
 &lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/25/introducing-microsoft-machine-learning-server-9-2-release/&quot;&gt;Introducing Microsoft Machine Learning Server 9.2 Release&lt;/a&gt;. Microsoft R Server has been transformed into Microsoft Machine Learning Server, and during Ignite version 9.2 was released. This post talks about some of the new features.&lt;/li&gt;
 &lt;/ul&gt;
 
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 38</title>
-   <link href="http://nielsberglund.com/2017/09/24/interesting-stuff-week-38/"/>
-   <updated>2017-09-24T09:26:42+02:00</updated>
-   <id>http://nielsberglund.com/2017/09/24/interesting-stuff---week-38</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.codecentric.de/en/2017/02/crossing-streams-joins-apache-kafka/&quot;&gt;Crossing the Streams – Joins in Apache Kafka&lt;/a&gt;. Kafka 0.10.1, introduced support for &quot;Interactive Queries&quot;, an API that allows querying stateful stream transformations without going through another Kafka topic. This blogpost looks at how to join streams, and what type of joins that exists.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/disaster-recovery-multi-datacenter-apache-kafka-deployments&quot;&gt;Disaster Recovery for Multi-Datacenter Apache Kafka Deployments&lt;/a&gt;. This post points to a white-paper how to set up Kafka across geo-locations for disaster recovery.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/how-did-we-build-book-recommender-systems-in-an-hour-the-fundamentals-dfee054f978e&quot;&gt;How Did We Build Book Recommender Systems in an Hour Part 1 — The Fundamentals&lt;/a&gt;. First part of a series how to build a recommender system.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/altrep-preview.html&quot;&gt;Preview: ALTREP promises to bring major performance improvements to R&lt;/a&gt;. David from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; talks about changes to the R engine, to improve performance and reduce memory usage.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://becominghuman.ai/cheat-sheets-for-ai-neural-networks-machine-learning-deep-learning-big-data-678c51b4b463&quot;&gt;Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning &amp;amp; Big Data&lt;/a&gt;. As the title say, cheat sheets for a lot of things data science.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2017/09/22/distributed-deep-neural-networks-over-the-cloud-the-edge-and-end-devices/&quot;&gt;Distributed deep neural networks over the cloud, the edge, and end devices&lt;/a&gt;. Adrian from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;the morning paper&lt;/a&gt; looks at a whitepaper about distributed deep neural networks.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/hdinsight-tutorial.html&quot;&gt;Tutorial: Launch a Spark and R cluster with HDInsight&lt;/a&gt;. This post by David from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; points to a tutorial how to get up and running with a Spark cluster and R. Cool stuff!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2017/09/17/interesting-stuff-week-37/&quot;&gt;last weeks roundup&lt;/a&gt; I mentioned I'd be ready with &lt;strong&gt;Internals - XI&lt;/strong&gt; soon:ish, and it would cover SQL Server R Services internal data transfer protocol &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;). I will be ready soon:ish with &lt;strong&gt;Internals - XI&lt;/strong&gt;, but it will most likely cover something else than &lt;strong&gt;BXL&lt;/strong&gt;, just so you know :). If you are interested; Internals - X is &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
