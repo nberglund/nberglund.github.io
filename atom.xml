@@ -4,11 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
-<<<<<<< Updated upstream
- <updated>2017-11-12T20:08:21+02:00</updated>
-=======
- <updated>2017-11-19T19:45:53+02:00</updated>
->>>>>>> Stashed changes
+ <updated>2017-11-19T19:49:16+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -17,8 +13,6 @@
 
  
  <entry>
-<<<<<<< Updated upstream
-=======
    <title>Interesting Stuff - Week 46</title>
    <link href="http://nielsberglund.com/2017/11/19/interesting-stuff-week-46/"/>
    <updated>2017-11-19T19:43:30+02:00</updated>
@@ -69,7 +63,6 @@
  </entry>
  
  <entry>
->>>>>>> Stashed changes
    <title>Interesting Stuff - Week 45</title>
    <link href="http://nielsberglund.com/2017/11/12/interesting-stuff-week-45/"/>
    <updated>2017-11-12T20:05:53+02:00</updated>
@@ -1709,67 +1702,5 @@
 </content>
  </entry>
  
-<<<<<<< Updated upstream
- <entry>
-   <title>Interesting Stuff - Week 39</title>
-   <link href="http://nielsberglund.com/2017/10/01/interesting-stuff-week-39/"/>
-   <updated>2017-10-01T17:57:21+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/01/interesting-stuff---week-39</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://rusanu.com/2017/09/22/identifying-sqlconnection-objects-in-a-dump/&quot;&gt;Identifying SqlConnection objects in a dump&lt;/a&gt;. &lt;a href=&quot;http://rusanu.com/&quot;&gt;Remus Rusanu&lt;/a&gt; is doing cool WinDbg debugging to finding out  ADO.Net connection pool exhaust issues.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/slavao/2017/09/24/what-made-porting-microsoft-sql-server-to-linux-to-be-a-right-move-after-all/&quot;&gt;What made Porting Microsoft SQL Server to Linux to be the right move after all&lt;/a&gt;. Slava Oks writes about Microsoft's &quot;secret sauce&quot;, which made porting SQL Server to Linux possible.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/build-deploy-scalable-machine-learning-production-apache-kafka/&quot;&gt;How to Build and Deploy Scalable Machine Learning in Production with Apache Kafka&lt;/a&gt;. A very interesting post discussing potential use cases for machine learning in real time applications using Apache Kafka and Apache Kafka’s Streams API to build intelligent streaming applications.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://arstechnica.com/gadgets/2017/09/microsoft-quantum-toolkit/&quot;&gt;Microsoft makes play for next wave of computing with quantum computing toolkit&lt;/a&gt;. Wow, just wow!! Microsoft are looking towards quantum computing and have showed off a new quantum computing programming language which will integrate into Visual Studio!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/09/news-from-ignite.html&quot;&gt;News Roundup from Microsoft Ignite&lt;/a&gt;. Microsoft's Ignite conference took place this week, and the &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; guys posts some data science highlights.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/09/26/in-database-machine-learning-in-sql-server-2017/&quot;&gt;In-database Machine Learning in SQL Server 2017&lt;/a&gt;. At the Ignite conference SQL Server 2017 was &quot;officially&quot; released, and together with it also the Machine Learning Services. This post points out some of the highlights.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/09/25/introducing-microsoft-machine-learning-server-9-2-release/&quot;&gt;Introducing Microsoft Machine Learning Server 9.2 Release&lt;/a&gt;. Microsoft R Server has been transformed into Microsoft Machine Learning Server, and during Ignite version 9.2 was released. This post talks about some of the new features.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
-=======
->>>>>>> Stashed changes
 
 </feed>
