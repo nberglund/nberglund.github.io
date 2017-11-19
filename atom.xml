@@ -4,7 +4,11 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
+<<<<<<< Updated upstream
  <updated>2017-11-12T20:08:21+02:00</updated>
+=======
+ <updated>2017-11-19T19:45:53+02:00</updated>
+>>>>>>> Stashed changes
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -13,6 +17,59 @@
 
  
  <entry>
+<<<<<<< Updated upstream
+=======
+   <title>Interesting Stuff - Week 46</title>
+   <link href="http://nielsberglund.com/2017/11/19/interesting-stuff-week-46/"/>
+   <updated>2017-11-19T19:43:30+02:00</updated>
+   <id>http://nielsberglund.com/2017/11/19/interesting-stuff---week-46</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/11/15/announcing-sql-operations-studio-for-preview/&quot;&gt;Announcing SQL Operations Studio for preview&lt;/a&gt;. From the intro: &quot;SQL Operations Studio is a free, light-weight tool for modern database development and operations for SQL Server on Windows, Linux and Docker, Azure SQL Database and Azure SQL Data Warehouse on Windows, Mac or Linux machines.&quot;. Hmm, I don't know, haven't looked at it yet - but the name sux!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/13/json-parsing-10x-faster-than-xml-parsing/&quot;&gt;JSON parsing 10x faster than XML parsing&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; is busy writing posts about JSOn in SQL Server. In this post he compares performance of parsing JSON, with parsing XML. The title says it all!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/15/json-vs-clr-udt-performance-comparison/&quot;&gt;JSON vs CLR UDT – performance comparison&lt;/a&gt;. Another post from &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; about JSON in SQL Server. This time he takes a stab at comparing performance, parsing JSON using SQLCLR vs. the nvarchar JSON implementation in SQL Server 2016+. Interesting stuff!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/11/16/sql-server-2017-a-proven-leader-in-database-performance/&quot;&gt;SQL Server 2017: A proven leader in database performance&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/bobwardms&quot;&gt;Bob Ward&lt;/a&gt; posts about SQL Server 2017 running away with performance benchmarks both for OLTP as well as analytics,&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/11/15/nullable-reference-types-in-csharp/&quot;&gt;Introducing Nullable Reference Types in C#&lt;/a&gt;. Huh, &quot;nullable reference types&quot; in C#? I thought reference types were nullable by default? Well this post talks about a future version of C# where reference types would not be nullable by default, but how you can express your intent of a nullable reference type with new syntax. Looks interesting!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/11/15/introducing-tensor-for-multi-dimensional-machine-learning-and-ai-data/&quot;&gt;Introducing Tensor for multi-dimensional Machine Learning and AI data&lt;/a&gt;. I have categorized this post as .NET, but it could as easily be Data Science. Anyway, this is about a new .NET data type - &lt;strong&gt;Tensor&lt;/strong&gt; - whose purpose is to make it easy for Machine Learning library vendors like CNTK, Tensorflow, Caffe, Scikit-Learn to port their libraries over to .NET with minimal dependencies in place.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;It looks like I finally will get the &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; post published (this will probably jinx it). I have most of the post done, and with some luck it should be out there sometime before next weekend.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+>>>>>>> Stashed changes
    <title>Interesting Stuff - Week 45</title>
    <link href="http://nielsberglund.com/2017/11/12/interesting-stuff-week-45/"/>
    <updated>2017-11-12T20:05:53+02:00</updated>
@@ -1652,6 +1709,7 @@
 </content>
  </entry>
  
+<<<<<<< Updated upstream
  <entry>
    <title>Interesting Stuff - Week 39</title>
    <link href="http://nielsberglund.com/2017/10/01/interesting-stuff-week-39/"/>
@@ -1711,5 +1769,7 @@
 </content>
  </entry>
  
+=======
+>>>>>>> Stashed changes
 
 </feed>
