@@ -4,7 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-11-25T10:13:30+02:00</updated>
+ <updated>2017-11-25T14:01:23+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -679,6 +679,13 @@
 &lt;li&gt;For the &lt;code&gt;varmax&lt;/code&gt; data types the number of bytes that were pre-pended varied dependent on the data size.&lt;/li&gt;
 &lt;/ul&gt;
 
+
+&lt;p&gt;Not taking into account bytes pre-pended to a column etc., the diagram below tries to illustrate the layout of a BXL packet:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_14_bxl.png&quot; width=&quot;401&quot; height=&quot;229&quot;  &gt;
+&lt;strong&gt;Figure 14:&lt;/strong&gt; &lt;em&gt;BXL Schematic Layout&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 14&lt;/em&gt; shows what a BXL packet can look like. In this case it is a three column, four row packet. We see how the column headers all have the same size, where the individual columns can vary in size - but it will still fit into the size of the header.&lt;/p&gt;
 
 &lt;p&gt;What happens with nullable columns is a mystery, as we saw column overheads ranging from 7312 bytes (&lt;code&gt;tinyint&lt;/code&gt;) to 32 bytes (&lt;code&gt;decimal&lt;/code&gt;). I can't help but think that there is a &quot;bug&quot; in there somewhere that causes this, and I will try and follow up with Microsoft regarding this.&lt;/p&gt;
 
