@@ -4,13 +4,83 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-11-25T14:01:23+02:00</updated>
+ <updated>2017-11-26T19:15:11+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 47</title>
+   <link href="http://nielsberglund.com/2017/11/26/interesting-stuff-week-47/"/>
+   <updated>2017-11-26T19:08:43+02:00</updated>
+   <id>http://nielsberglund.com/2017/11/26/interesting-stuff---week-47</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;This week was a &quot;meager catch&quot;, maybe because of the holiday in US, but very little caught my eye. Anyway, here is what I have.&lt;/p&gt;
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/transactions-apache-kafka/&quot;&gt;Transactions in Apache Kafka&lt;/a&gt;. A while ago Apache Kafka introduced a transaction API. This post gives a high level overview of said API. Being a database &quot;nerd&quot;, this is awesome!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/looking-ahead-apache-flink-1-4-1-5&quot;&gt;Looking Ahead to Apache Flink 1.4.0 and 1.5.0&lt;/a&gt;. Heh, I swear - it seems that Kafka and Flink are in lock-step, releasing posts about new functionality, or - like in this case - ideas about new functionality. Anyway, this post is about thoughts about new functionality in upcoming Flink versions.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/python/what-is-revoscalepy&quot;&gt;How to make Python easier for the R user: revoscalepy&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; had a post about making Python easier if you aRe an R guy (or girl). However, I can't seem to fin that post now, so the link is for the MSDN introduction to &lt;strong&gt;revoscalepy&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://sqlonice.com/tsql-tuesday-96-round-up/&quot;&gt;TSQL Tuesday 96 Round-up&lt;/a&gt;. A couple of weeks ago &lt;a href=&quot;https://twitter.com/sqlOnIce&quot;&gt;Ewald&lt;/a&gt; hosted &lt;a href=&quot;http://tsqltuesday.com/about/&quot;&gt;T-SQL Tuesday&lt;/a&gt;, and as it was right after PASS, he chose a  non-technical subject, where he asked the community to post about persons who have made a contribution to their world of data. In this post Ewald does a summary of who wrote posts about who.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;TSQL Tuesday 96&lt;/h2&gt;
+
+&lt;p&gt;OK, I didn't contribute to TSQL Tuesday 96 (so shoot me). However having included Ewald's post above in this week's round-up, I started thinking about people that have inspired/influenced me in the world of data. In reality, there are so many, but I stuck to the &quot;rule of three&quot; (I have no idea what it means, but it sounds good). So, without further ado:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Don_Box&quot;&gt;Don Box&lt;/a&gt;. Sure, I know. Don is not a database person - trust me I know! However if it hadn't been for Don, there would not have been no DevelopMentor, if no DevelopMentor, no spelunking, no teaching SQL Server, without teaching SQL Server I would not have ... So Don has been a great influencer!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.red-gate.com/simple-talk/opinion/geek-of-the-week/geek-of-the-week-ken-henderson/&quot;&gt;Ken Henderson&lt;/a&gt;. Ken passed away - way, way, way too early - in 2008, and the SQL Server community suffered a huge loss! His &lt;a href=&quot;https://www.amazon.com/Gurus-Guide-Server-Architecture-Internals/dp/0201700476/ref=sr_1_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1511715066&amp;amp;sr=1-1&amp;amp;keywords=The+Guru%27s+Guide+to+SQL+Server+Architecture+and+Internals&quot;&gt;The Guru's Guide to SQL Server Architecture and Internals&lt;/a&gt; had been a constant companion and source for ideas for me, and without that &quot;tome&quot; I wouldn't be where I am today.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.linkedin.com/in/pathelland/&quot;&gt;Pat Helland&lt;/a&gt;. What can I say, from transaction monitors together with Jim Gray at Tandem and later at Microsoft, to SQL Server Service Broker also at Microsoft, to distributed computing in general - Pat is a legend. His thoughts and ideas are provoking and inspiring, and I am learning constantly!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Microsoft SQL Server R Services - Internals XIV&lt;/a&gt;. After many a false starts I finally managed to get the post about &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;) out! And for you who have followed my posts in the &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Internals&lt;/a&gt; series, where I have talked about extremely big BXL packets - I know what causes it, but I do not know why.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XIV</title>
@@ -2253,74 +2323,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 41</title>
-   <link href="http://nielsberglund.com/2017/10/13/interesting-stuff-week-41/"/>
-   <updated>2017-10-13T06:27:44+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/13/interesting-stuff---week-41</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by. This week, the roundup comes a bit early due to me having to go abroad at the weekend for a week.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/10/dotnet-core-standard-difference&quot;&gt;.NET Core and .NET Standard: What Is the Difference?&lt;/a&gt;. An article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; discussing the differences between .NET Core, and .NET Standard.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/10/10/whats-new-in-sql-server-management-studio-17-3/&quot;&gt;What’s new in SQL Server Management Studio 17.3&lt;/a&gt;. SQL Server 2017 was released during &lt;a href=&quot;https://www.microsoft.com/en-us/ignite/default.aspx&quot;&gt;Microsoft Ignite&lt;/a&gt; a couple of weeks ago. This week the latest version of &lt;strong&gt;SQL Server Management Studio&lt;/strong&gt; (&lt;strong&gt;SSMS&lt;/strong&gt;) was released. This blogpost looks at what is new in the latest SSMS version.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Databases&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://opensourceforu.com/2017/10/facebook-replacing-mysql-database-something-dynamic/&quot;&gt;Is Facebook replacing its MySQL database with something more dynamic&lt;/a&gt;. This post speculates whether Facebook is about to replace their MySql databases, and it talks about Facebook's in-house NoSql database; &lt;strong&gt;Apollo&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;p&gt;The &quot;war&quot; between Apache Kafka and Apache Flink of which has the best SQL implementation for streaming data continues (I wrote about it in the roundups for week &lt;a href=&quot;/2017/09/03/interesting-stuff-week-35/&quot;&gt;35&lt;/a&gt; and &lt;a href=&quot;/2017/09/10/interesting-stuff-week-36/&quot;&gt;36&lt;/a&gt;). This week there has been posts about SQL for streaming data from both Kafka as well as Flink.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/uber-introduces-open-source-athenax-streaming-sql-platform-apache-flink&quot;&gt;Uber Introduces Open Source AthenaX, A Streaming SQL Platform Powered By Apache Flink&lt;/a&gt;. This is very awesome. Uber has open sourced its streaming analytics platform &lt;a href=&quot;https://github.com/uber/AthenaX&quot;&gt;AthenaX&lt;/a&gt;. This is definitely something we at &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt; will have a very close look at.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/@Pinterest_Engineering/using-kafka-streams-api-for-predictive-budgeting-9f58d206c996&quot;&gt;Using Kafka Streams API for predictive budgeting&lt;/a&gt;. A post how Pinterest uses Kafka Streams API to provide inflight spend data to thousands of ads servers in mere seconds.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/using-ksql-to-analyse-query-and-transform-data-in-kafka&quot;&gt;Getting Started Analyzing Twitter Data in Apache Kafka through KSQL&lt;/a&gt;. How to use &lt;a href=&quot;https://github.com/confluentinc/ksql/&quot;&gt;KSQL&lt;/a&gt; (KSQL is the open source streaming SQL engine for Apache Kafka) to query, analyse and transform data in Kafka.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/10/09/the-microsoft-team-data-science-process-tdsp-recent-updates/&quot;&gt;The Microsoft Team Data Science Process (TDSP) – Recent Updates&lt;/a&gt;. &lt;a href=&quot;https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview&quot;&gt;Microsoft Team Data Science Process (TDSP)&lt;/a&gt; is an agile, iterative data science methodology to deliver predictive analytics solutions and intelligent applications efficiently. Its first version was released in September 2016. This post provides an overview of recent developments involving TDSP, including recent releases and how its adoption has gone since the first public release.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/towards-data-science/create-an-azure-machine-learning-web-service-with-python-and-azure-dsvm-f7a16a925c4b&quot;&gt;Create an Azure Machine Learning Web Service with Python and Azure DSVM&lt;/a&gt;. A short and sweet tutorial how to use Python together with the Azure Data Science Virtual Machine (DSVM).&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
