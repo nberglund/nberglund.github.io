@@ -4,13 +4,73 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-12-02T05:44:27+02:00</updated>
+ <updated>2017-12-02T15:37:45+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 48</title>
+   <link href="http://nielsberglund.com/2017/12/02/interesting-stuff-week-48/"/>
+   <updated>2017-12-02T15:34:35+02:00</updated>
+   <id>http://nielsberglund.com/2017/12/02/interesting-stuff---week-48</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://sql-sasquatch.blogspot.co.za/2017/11/hey-whats-deal-with-nocount-and-t-sql.html&quot;&gt;Hey! What's the deal with SQL Server NOCOUNT and T-SQL WHILE loops?&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/sqL_handLe&quot;&gt;Lonny&lt;/a&gt; investigates &lt;code&gt;NOCOUNT&lt;/code&gt; and potential performance implications using it.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2017/11/29/sql-server-2017-the-worlds-first-enterprise-class-diskless-database/&quot;&gt;SQL Server 2017: The world’s first enterprise-class diskless database&lt;/a&gt;. A very interesting post from &lt;a href=&quot;https://twitter.com/bobwardms&quot;&gt;Bob Ward&lt;/a&gt; discussing extremely impressive SQL Server 2017 performance figures, where SQL Server runs on SUSE Linux on boxes equipped with &lt;a href=&quot;https://www.hpe.com/us/en/servers/persistent-memory.html&quot;&gt;Hewlett Packard Enterprise scalable persistent memory&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/confluent-cloud-enterprise-ready-hosted-apache-kafka/&quot;&gt;Confluent Cloud: Enterprise-Ready, Hosted Apache Kafka is Here!&lt;/a&gt;. You can now host &lt;a href=&quot;https://www.confluent.io/blog/announcing-confluent-cloud-apache-kafka-as-a-service/&quot;&gt;Confluent Cloud&lt;/a&gt; in AWS without having to think about deploying servers, monitoring load, and upgrading brokers. This is cool, but now I want to see it on Azure as well.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/introducing-confluent-platform-4-0/&quot;&gt;Introducing Confluent Platform 4.0&lt;/a&gt;. Quite a few Confluent/Kafka notifications this week. This is about a new version of the Confluent Platform. As the title says; version 4.0. Confluent Platform improves Apache Kafka by expanding its integration capabilities, adding tools to optimize and manage Kafka clusters, and methods to ensure the streams are secure.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/toward-functional-programming-analogy-microservices/&quot;&gt;Toward a Functional Programming Analogy for Microservices&lt;/a&gt;. Yet another post about Kafka. This talks about implementing microservices using functional programming model, together with &lt;a href=&quot;https://martinfowler.com/bliki/CQRS.html&quot;&gt;CQRS&lt;/a&gt;, &lt;a href=&quot;https://docs.microsoft.com/en-us/azure/architecture/patterns/event-sourcing&quot;&gt;Event Sourcing&lt;/a&gt; and Kafka. Really, really interesting read!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/11/28/developing-and-operationalizing-h2o-ai-models-with-azure/&quot;&gt;Developing and Operationalizing H2O.ai Models with Azure&lt;/a&gt;. This post provides an overview of how to efficiently develop and operationalize &lt;a href=&quot;https://www.h2o.ai/&quot;&gt;H2O.ai&lt;/a&gt; ML models on Azure.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/11/on-dataflow-systems-naiad-and-tensorflow.html&quot;&gt;On dataflow systems, Naiad and Tensorflow&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; looks at data flow systems and compares &lt;a href=&quot;https://www.tensorflow.org/&quot;&gt;TensorFlow&lt;/a&gt; with Microsoft's &lt;a href=&quot;https://www.microsoft.com/en-us/research/project/naiad/&quot;&gt;Naiad&lt;/a&gt;. I obviously had heard about TensorFlow, and even written blog-posts about it, but Naiad was new to me. It sounds very interesting but when you look at the GitHub repo, the newest contributions are 3 years old. &lt;del&gt;That makes me winder whether the project is still alive.&lt;/del&gt; Reading some comments in the repo, it seems Naiad is abandoned - pity!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/12/02/microsoft-sql-server-r-services-internals-xv/&quot;&gt;Microsoft SQL Server R Services - Internals XV&lt;/a&gt;. A continuation of what I covered in [Internals - XIV], here I look at packets sizes as in TDS vs. BXL. I also look at what happens inside SQL Server when it sends a BXL packet to the SQL Satellite.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XV</title>
@@ -2361,69 +2421,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I have made good progress in writing &lt;strong&gt;Internals - XII&lt;/strong&gt; in the &lt;strong&gt;SQL Server R Services&lt;/strong&gt; series. Expect it to be published within a couple of days (the famous last words). It discusses more about the same topic as in &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt; - what routines sends the packets from SQL Server to the &lt;strong&gt;SqlSatellite&lt;/strong&gt;, and what are some of those packets.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 42</title>
-   <link href="http://nielsberglund.com/2017/10/22/interesting-stuff-week-42/"/>
-   <updated>2017-10-22T16:19:45+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/22/interesting-stuff---week-42</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;p&gt;This week I have very little to post, mainly due to me being out of the country, and not having been able to read as much as I would have liked.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;I do however have a bonus this week, I finally finished &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt;!!&lt;/p&gt;
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/10/16/ryujit-just-in-time-compiler-optimization-enhancements/&quot;&gt;RyuJIT Just-in-Time Compiler Optimization Enhancements&lt;/a&gt;. A post about changes to extend the optimization capabilities of RyuJIT, the MSIL-to-native code generator used by .NET Core and .NET Framework. This looks very cool, but I am not sure in which release(s) this is available.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/10/17/announcing-the-net-framework-4-7-1/&quot;&gt;Announcing the .NET Framework 4.7.1&lt;/a&gt;. As the title says; this post is about the release of .NET Framework 4.7.1. Having had a quick look through the changes, what is interesting to me are the improvements in GC.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/predicting-flight-arrivals-with-the-apache-kafka-streams-api/&quot;&gt;Predicting Flight Arrivals with the Apache Kafka Streams API&lt;/a&gt;. This very interesting post covers how you ca use Kafka Stream API's to do predictive machine learning.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2017/10/15/1-million-predictionssec-with-machine-learning-server-web-service/&quot;&gt;1 Million predictions/sec with Machine Learning Server web service&lt;/a&gt;. This blog-post, demonstrates how you can score &gt; 1 million predictions per second with the real-time web-services from Microsoft Machine Learning Server Operationalization. Very, very interesting!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;Quick - &quot;look out the window, was that a pig flying by&quot;? Ah, no it was &lt;em&gt;Internals - XI&lt;/em&gt; in the &lt;strong&gt;SQL Server 2016 R Services&lt;/strong&gt; series being published!!&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Microsoft SQL Server R Services - Internals XI&lt;/a&gt;. Yeah, it took quite a while to get &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt; out there, almost as rare as a flying pig. Anyway, in this episode I look at what some of the packets are, being sent from SQL Server to the SqlSatellite, and what causes them to be sent.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
