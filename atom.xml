@@ -4,13 +4,71 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2017-12-02T15:37:45+02:00</updated>
+ <updated>2017-12-10T10:40:45+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 49</title>
+   <link href="http://nielsberglund.com/2017/12/10/interesting-stuff-week-49/"/>
+   <updated>2017-12-10T10:24:31+02:00</updated>
+   <id>http://nielsberglund.com/2017/12/10/interesting-stuff---week-49</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This week there is very little content. This is because I've been overseas - last Sunday I went to Gibraltar, and I came back yesterday (Saturday) evening. Gibraltar is an awesome place by the way. The downside of living in South Africa (as I do) is the travel time - Durban to Gib was a 25 hours door to door trip!&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;p&gt;Anyway, having made my excuses here's what I've got.&lt;/p&gt;
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/podcasts/Dean-Wampler-fast-data&quot;&gt;Fast Data with Dean Wampler&lt;/a&gt;. &lt;a href=&quot;https://deanwampler.github.io/&quot;&gt;Dean Wampler&lt;/a&gt; discusses fast data, streaming, microservices, and the paradox of choice when it comes to the options available today building data pipelines.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://highscalability.com/blog/2017/12/4/the-eternal-cost-savings-of-netflixs-internal-spot-market.html&quot;&gt;The Eternal Cost Savings Of Netflix's Internal Spot Market&lt;/a&gt;. A very interesting article about, how NetFlix built their own spot market from their own reserved AWS EC2 instances.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/12/ml-server-ai-path.html&quot;&gt;AI School: Microsoft R and SQL Server ML Services&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; from &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; posts about how &lt;strong&gt;Microsoft AI School&lt;/strong&gt; offers courses for Microsoft R and SQL Server ML Services.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/machine-learning-production&quot;&gt;Production Machine Learning&lt;/a&gt;. A very, very interesting &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation talking about the challenges in writing deep learning code, testing and validating data management, environments, model storage &amp;amp; serving, validating data reporting, and CI&amp;amp;CD.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I had hoped to be able to publish &lt;strong&gt;Internals - XVI&lt;/strong&gt; around now, but my overseas trip put a hold on those plans. At this stage I'm not completely sure when it will be published. If you are interested here is a link to &lt;a href=&quot;/2017/12/02/microsoft-sql-server-r-services-internals-xv/&quot;&gt;Internals - XV&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 48</title>
@@ -656,7 +714,7 @@
 
 &lt;p&gt;That last few Internals blog-posts have all had the same thing in common, discussing data packets going from SQL Server to the SqlSatellite.&lt;/p&gt;
 
-&lt;p&gt;I &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt; we saw how both the external script as well as data from &lt;code&gt;@input_data_1&lt;/code&gt; was sent over a TCP/IP connection to the SqlSatellite from SQL Server, as in the figure below where we see output from &lt;em&gt;Process Monitor&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt; we saw how both the external script as well as data from &lt;code&gt;@input_data_1&lt;/code&gt; was sent over a TCP/IP connection to the SqlSatellite from SQL Server, as in the figure below where we see output from &lt;em&gt;Process Monitor&lt;/em&gt;:&lt;/p&gt;
 
 &lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_10_procmon_output3.png&quot; width=&quot;648&quot; height=&quot;241&quot;  &gt;
 &lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Process Monitor Output Data Select&lt;/em&gt;&lt;/p&gt;
@@ -2364,67 +2422,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 43</title>
-   <link href="http://nielsberglund.com/2017/10/29/interesting-stuff-week-43/"/>
-   <updated>2017-10-29T19:29:49+02:00</updated>
-   <id>http://nielsberglund.com/2017/10/29/interesting-stuff---week-43</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://sqlblog.com/blogs/kalen_delaney/archive/2017/10/23/sql-server-2016-2017-internals-and-tuning-is-online.aspx&quot;&gt;SQL Server 2016/2017 Internals and Tuning is Online!&lt;/a&gt;. &lt;a href=&quot;http://sqlblog.com/blogs/kalen_delaney/default.aspx&quot;&gt;Kalen&lt;/a&gt; is known for her books about the &lt;a href=&quot;https://www.amazon.com/Kalen-Delaney/e/B001JS5NZO/ref=dp_byline_cont_book_1&quot;&gt;internals of SQL Server&lt;/a&gt; as well as for her training courses. She is now presenting her entire SQL Server Internals training online. Do not miss it!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Cloud&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/highlighting-3-new-features-in-azure-data-factory-v2/&quot;&gt;Highlighting 3 New Features in Azure Data Factory V2&lt;/a&gt;. The first blog-post in a series about new features in &lt;a href=&quot;https://docs.microsoft.com/en-us/azure/data-factory/&quot;&gt;Azure Data Factory&lt;/a&gt; for different types of data integration users.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/real-time-fraud-detection-ing-bank-apache-flink&quot;&gt;StreamING Machine Learning Models: How ING Adds Fraud Detection Models at Runtime with Apache Flink&lt;/a&gt;. The title says it quite well; a post about how &lt;a href=&quot;https://www.ing.com/web/show&quot;&gt;ING&lt;/a&gt; based the risk engine on Apache Flink.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2017/10/statistical-machine-learning-with-microsoft-ml.html&quot;&gt;Statistical Machine Learning with Microsoft ML&lt;/a&gt;. The guys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; makes us aware of a new online &lt;a href=&quot;https://azure.github.io/learnAnalytics-MicrosoftML/index.html&quot;&gt;ebook&lt;/a&gt; about the &lt;a href=&quot;https://docs.microsoft.com/en-us/machine-learning-server/r-reference/microsoftml/microsoftml-package&quot;&gt;MicrosoftML&lt;/a&gt; R package.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2017/10/26/anaconda-and-microsoft-partner-to-offer-python-and-r-for-powerful-machine-learning/&quot;&gt;Anaconda and Microsoft partner to offer Python and R for powerful machine learning&lt;/a&gt;. A post announcing the partnership between [Anaconda] and Microsoft, where Anaconda will be part of Microsoft Machine Learning Server, SQL Server Machine Learning Services as well as Visual Studio. Real cool!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I have made good progress in writing &lt;strong&gt;Internals - XII&lt;/strong&gt; in the &lt;strong&gt;SQL Server R Services&lt;/strong&gt; series. Expect it to be published within a couple of days (the famous last words). It discusses more about the same topic as in &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Internals - XI&lt;/a&gt; - what routines sends the packets from SQL Server to the &lt;strong&gt;SqlSatellite&lt;/strong&gt;, and what are some of those packets.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
