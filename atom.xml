@@ -4,7 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-01-03T10:33:32+02:00</updated>
+ <updated>2018-01-04T08:28:59+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -137,7 +137,7 @@
 
 &lt;h4&gt;Helper Tools&lt;/h4&gt;
 
-&lt;p&gt;To help us figure out the things we want, we will use &lt;em&gt;Process Monitor&lt;/em&gt;, &lt;em&gt;WinDbg&lt;/em&gt;, and &lt;em&gt;WireShark&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;To help us figure out the things we want, we will use &lt;em&gt;Process Monitor&lt;/em&gt;, and &lt;em&gt;WinDbg&lt;/em&gt;:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;Process Monitor&lt;/em&gt;, will be used it to filter TCP traffic. If you want to refresh your memory about how to do it, we covered that in &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt; as well as in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;.&lt;/li&gt;
@@ -147,7 +147,7 @@
 
 &lt;h4&gt;Code&lt;/h4&gt;
 
-&lt;p&gt;The code below sets up the database and creates some tables with some data. it is more or less the same as we've used in the last posts:&lt;/p&gt;
+&lt;p&gt;The code below sets up the database and creates some tables with some data. It is more or less the same as we've used in the last posts:&lt;/p&gt;
 
 &lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
