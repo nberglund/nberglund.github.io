@@ -4,13 +4,93 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-01-07T06:00:39+02:00</updated>
+ <updated>2018-01-07T20:19:46+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Christmas, New Year, Week 1</title>
+   <link href="http://nielsberglund.com/2018/01/07/interesting-stuff-christmas-new-year-week-1/"/>
+   <updated>2018-01-07T20:17:09+02:00</updated>
+   <id>http://nielsberglund.com/2018/01/07/interesting-stuff---christmas-new-year-week-1</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me over the Christmas and New Year period.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;p&gt;Quite some JSON related topics in this roundup.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/18/building-sql-rest-api-back-end-for-angular-apps/&quot;&gt;Building SQL REST API back-end for Angular apps&lt;/a&gt;. In this post &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; (who is the SQL Server JSON &quot;god&quot;) shows how easy it is to build back-end REST API for Angular sample app using JSON functionalities in SQL Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/20/transitive-closure-clustering-with-clr-and-json/&quot;&gt;Transitive closure clustering with CLR and JSON&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; shows how a &lt;a href=&quot;https://en.wikipedia.org/wiki/Transitive_closure&quot;&gt;transitive closure&lt;/a&gt; algorithm can be implemented using CLR aggregates that can be placed in SQL database.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/22/injecting-json-objects-into-existing-json-text-with-json_modify-function/&quot;&gt;Injecting JSON objects into existing JSON text with JSON_MODIFY function&lt;/a&gt;. Yet another post by &quot;Mr. SQL Server JSON&quot; - &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; - showing how to update existing JSON text and inject JSON object in the text, avoiding some common mistakes.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/ksql-december-release&quot;&gt;KSQL December Release: Streaming SQL for Apache Kafka&lt;/a&gt;. A post about that is in the December release of the streaming SQL engine for Apache Kafka - &lt;strong&gt;KSQL&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Databases&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://learningsys.org/nips17/assets/papers/paper_22.pdf&quot;&gt;A Machine Learning Approach to Databases Indexes&lt;/a&gt;. A white-paper about how traditional B-tree indexes potentially can be replaced with more flexible, faster, and smaller machine learned neural networks. Very interesting!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/wpaxos-wide-area-network-paxos-protocol.html&quot;&gt;WPaxos: a wide area network Paxos protocol (Part 1)&lt;/a&gt;. &lt;a href=&quot;https://en.wikipedia.org/wiki/Paxos_(computer_science)&quot;&gt;Paxos&lt;/a&gt; is a protocol for solving the fault-tolerant coordination problem in a datacenter - and it is very good at what it is doing. However across datacenters the WAN latency may be too high. In this post &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; discusses an alternative to Paxos - WPaxos.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2018/01/05/entity-microservices.html&quot;&gt;Entity Oriented Microservices&lt;/a&gt;. A very interesting article by &lt;a href=&quot;https://twitter.com/davidthecoder&quot;&gt;David&lt;/a&gt; about Entity Services vs. Microservices vs. DDD.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/01/04/devops-for-data-science-continuous-delivery/&quot;&gt;DevOps for Data Science – Continuous Delivery&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt; continues his series about DevOps for Data Science, and in this episode he discusses Continuous Delivery. A very interesting post as well as series!!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/tensorflow-serving-flexible-high.html&quot;&gt;TensorFlow-Serving: Flexible, High-Performance ML Serving&lt;/a&gt;. Another post by &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt;, this time about a system/framework to serve machine learning (ML) models.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/paper-summary-real-time-machine.html&quot;&gt;Paper summary. Real-Time Machine Learning: The Missing Pieces&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; has been busy the holiday period. In this post he dissects a white-paper about real time machine learning, and what is required. This is an area, I am really interested in BTW!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;During the holiday period I managed to get some work done on the Microsoft SQL Server R Services series:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Microsoft SQL Server R Services - Internals XVI&lt;/a&gt;. In &lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Internals - XVI&lt;/a&gt; I talked about the result set data coming back from the SqlSatellite, and I looked at number of packets as well as packet sizes.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/01/03/microsoft-sql-server-r-services-internals-xvii/&quot;&gt;Microsoft SQL Server R Services - Internals XVII&lt;/a&gt;. &lt;a href=&quot;/2018/01/03/microsoft-sql-server-r-services-internals-xvii/&quot;&gt;Internals - XVII&lt;/a&gt; continues on from &lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Internals - XVI&lt;/a&gt;, and looks at what happens inside SQL Server when result-set data comes back.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XVII</title>
@@ -2550,67 +2630,6 @@ SQL Server supports quite a few data types, R has a limited number of scalar dat
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;It looks like I finally will get the &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; post published (this will probably jinx it). I have most of the post done, and with some luck it should be out there sometime before next weekend.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 45</title>
-   <link href="http://nielsberglund.com/2017/11/12/interesting-stuff-week-45/"/>
-   <updated>2017-11-12T20:05:53+02:00</updated>
-   <id>http://nielsberglund.com/2017/11/12/interesting-stuff---week-45</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;p&gt;So, the last few months it's been very interesting following Apache Kafka and Apache Flink and their announcements. It seems both are wanting to usurp the other. In my mind that's good, as it is us - the consumers - that will reap the benefits! So this week a couple of interesting posts from both Kafka as well as Flink.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/building-a-microservices-ecosystem-with-kafka-streams-and-ksql/&quot;&gt;Building a Microservices Ecosystem with Kafka Streams and KSQL&lt;/a&gt;. A very interesting post about how to implement a microservices architecture built upon Kafka. I really need to look at this closer!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/complex-event-processing-flink-cep-update&quot;&gt;Complex Event Processing with Flink: An Update on the State of Flink CEP&lt;/a&gt;. CEP is a topic is &quot;near and dear&quot; to me, and that's why it is so interesting to see what Flink is offering. What is extremely interesting is the ability to - in the future - add dynamic patterns: to add new patterns to a CEP program with no downtime.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/11/08/high-scale-and-performance-of-azure-sql-database/&quot;&gt;Azure SQL Database: Ingesting 1.4 million sustained rows per second with In-Memory OLTP &amp;amp; Columnstore Index&lt;/a&gt;. Oooh, be still my beating heart! How awesome is this (very is the answer)?! This post outlines how Microsoft managed to get a throughput of 1.4 &lt;strong&gt;million&lt;/strong&gt; inserts per second. Sure it is on Azure, and a fairly beefy box, but still. I'll definitely show this to our DBA's!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2017/11/microsoft-aws-gluon&quot;&gt;Microsoft and AWS Collaborate on Machine Learning&lt;/a&gt;. Announcement from Microsoft and Amazon: &quot;Microsoft and AWS have recently announced a new collaboration aimed at democratizing deep learning and artificial intelligence. &lt;a href=&quot;https://mxnet.incubator.apache.org/gluon/&quot;&gt;Gluon&lt;/a&gt; is a joint effort between Microsoft Research and Amazon AI and is intended to make developing solutions using machine learning easier and quicker.&quot; It will be interesting to see what Google will do ...&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/11/paper-summary-towards-distributed.html&quot;&gt;Paper summary. Towards distributed machine learning in shared clusters: a dynamically partitioned approach&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; dissects a white paper about enabling multiple distributed ML frameworks, say TensorFlow, Petuum, MxNet, to share the same cluster.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://towardsdatascience.com/10-ways-to-take-your-boss-on-a-journey-through-the-data-14a3fdbb3503&quot;&gt;10 Ways to Take Your Boss on a Journey Through the Data&lt;/a&gt;. A blog-post about what and how you should present data to your boss. Definitely not &quot;hard-core&quot; data science, but very interesting!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Microsoft SQL Server R Services - Internals XIII&lt;/a&gt;. The plan was to cover the &lt;strong&gt;Binary eXchange Language&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;) in &lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Internals - XIII&lt;/a&gt;, but the &quot;best laid plans&quot; and all that. Instead &lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Internals - XIII&lt;/a&gt; covers when &lt;code&gt;SELECT&lt;/code&gt; statements for &lt;code&gt;@input_data_1&lt;/code&gt; is executed.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
