@@ -4,13 +4,80 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-01-20T20:14:57+02:00</updated>
+ <updated>2018-01-21T07:39:31+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 3</title>
+   <link href="http://nielsberglund.com/2018/01/21/interesting-stuff-week-3/"/>
+   <updated>2018-01-21T07:35:50+02:00</updated>
+   <id>http://nielsberglund.com/2018/01/21/interesting-stuff---week-3</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/put-several-event-types-kafka-topic/&quot;&gt;Should You Put Several Event Types in the Same Kafka Topic?&lt;/a&gt;. A very informative blog-post about how to choose what number of topics you should have in your Kafka broker and how many event types per topic.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/01/the-lambda-and-kappa-architectures.html&quot;&gt;The Lambda and the Kappa Architectures&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; dissects an article / paper by &lt;a href=&quot;https://cs.uwaterloo.ca/~jimmylin/&quot;&gt;Jimmy Lin&lt;/a&gt; (no not the actor, but Jimmy Lin of Twitter fame), comparing Lambda and Kappa architectures. It is an interesting read, I would so have wanted to read the actual article, but it sits behind a pay-wall.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/blog/future-is-quantum-with-dr-krysta-svore/&quot;&gt;The Future is Quantum with Dr. Krysta Svore&lt;/a&gt;. I have in a couple of blog-posts covered a bit about Microsoft's quantum computing efforts (&lt;a href=&quot;/2017/10/01/interesting-stuff-week-39/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2017/12/17/interesting-stuff-week-50-year-end/&quot;&gt;here&lt;/a&gt;). This is the transcript of a pod-cast with Dr. Krysta Svore, who is Principal Research Manager of the Microsoft Quantum group. Very, very interesting!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/quora-ml&quot;&gt;ML for Question and Answer Understanding @Quora&lt;/a&gt;. A presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;, where Nikhil Dandekar discusses how Quora extracts intelligence from questions using machine learning, etc. Really cool!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/01/microsoft-r-open-343-now-available.html&quot;&gt;Microsoft R Open 3.4.3 now available&lt;/a&gt;. The guys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; points out that version 3.4.3 of &lt;strong&gt;Microsoft R Open&lt;/strong&gt; (MRO) is now available. If you use MRO, go forth and download and install!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;A couple of more posts in the Microsoft SQL Server R Services series have been published:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/01/10/microsoft-sql-server-r-services-internals-xviii/&quot;&gt;Microsoft SQL Server R Services - Internals XVIII&lt;/a&gt;. In this post I have a look at how output parameters are handled in SQL Server R Services.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/01/20/microsoft-sql-server-r-services-internals-xix/&quot;&gt;Microsoft SQL Server R Services - Internals XIX&lt;/a&gt;. This post does a drill down, using WinDbg, into how print statements in the external engine together with ack messages comes back to SQL Server.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - Internals XIX</title>
@@ -2529,483 +2596,6 @@ SQL Server supports quite a few data types, R has a limited number of scalar dat
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Microsoft SQL Server R Services - Internals XV</title>
-   <link href="http://nielsberglund.com/2017/12/02/microsoft-sql-server-r-services-internals-xv/"/>
-   <updated>2017-12-02T05:41:23+02:00</updated>
-   <id>http://nielsberglund.com/2017/12/02/microsoft-sql-server-r-services---internals-xv</id>
-   <content type="html">&lt;p&gt;This post is part of a series of blog-posts about Microsoft SQL Server R Services:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;Microsoft SQL Server 2016 R Services Installation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;Microsoft SQL Server R Services - Internals I&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;Microsoft SQL Server R Services - Internals II&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/13/microsoft-sql-server-r-services-internals-iii/&quot;&gt;Microsoft SQL Server R Services - Internals III&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;Microsoft SQL Server R Services - Internals IV&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/01/microsoft-sql-server-r-services-internals-v/&quot;&gt;Microsoft SQL Server R Services - Internals V&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Microsoft SQL Server R Services - Internals VI&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Microsoft SQL Server R Services - Internals VII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/07/22/microsoft-sql-server-r-services-internals-viii/&quot;&gt;Microsoft SQL Server R Services - Internals VIII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;Microsoft SQL Server R Services - Internals IX&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Microsoft SQL Server R Services - Internals X&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;Microsoft SQL Server R Services - Internals XI&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Microsoft SQL Server R Services - Internals XII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Microsoft SQL Server R Services - Internals XIII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Microsoft SQL Server R Services - Internals XIV&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Microsoft SQL Server R Services - Internals XV (this post)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Microsoft SQL Server R Services - Internals XVI&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/03/microsoft-sql-server-r-services-internals-xvii/&quot;&gt;Microsoft SQL Server R Services - Internals XVII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/10/microsoft-sql-server-r-services-internals-xviii/&quot;&gt;Microsoft SQL Server R Services - Internals XVIII&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/20/microsoft-sql-server-r-services-internals-xix/&quot;&gt;Microsoft SQL Server R Services - Internals XIX&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;More to come (hopefully)&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;This post is the 16:th post about Microsoft SQL Server R Services, and the 15:th post that drills down into the internals of how it works.&lt;/p&gt;
-
-&lt;p&gt;In the last post &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; we looked at the &lt;strong&gt;Binary eXchange Protocol&lt;/strong&gt; (&lt;strong&gt;BXL&lt;/strong&gt;). The post was fairly long, and there were things that I wanted to cover which I didn't do due to the length of the post.&lt;/p&gt;
-
-&lt;p&gt;So this post is a continuation of &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;p&gt;Before we dive into it, let's recap what we covered in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Recap&lt;/h2&gt;
-
-&lt;p&gt;After many attempts, I finally managed to do the post about BXL. To my defense I'd like to say that the &quot;failed&quot; attempts led to other posts instead :).&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; we started looking at TDS, which is an application-level protocol and &lt;strong&gt;THE&lt;/strong&gt; protocol used by SQL Server for the transfer of requests and responses between clients and database server systems. We tried to get an understanding for how a TDS response packet looked, and executed against a table: &lt;code&gt;dbo.tb_Test1&lt;/code&gt; and retrieved some integer columns: &lt;code&gt;sp_executesql N'SELECT TOP(2) rand1, rand2 FROM dbo.tb_Test1'&lt;/code&gt;. By using &lt;em&gt;Microsoft Message Analyzer&lt;/em&gt; (&lt;em&gt;MMA&lt;/em&gt;), we saw that the packet looked like so (the values of all the columns are &lt;code&gt;size&lt;/code&gt;):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;TDS Packet&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.............&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;§&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ð&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.......&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;§&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ð&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;Ñ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;Ñ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;err&quot;&gt;ÿ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Á&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.........&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;þ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;à&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.........&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;TDS Packet&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;From the above, and also looking at the package length, we determined that TDS response packets were row oriented, with a header part consisting of - among other things:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Column headers followed by the column name for each column.&lt;/li&gt;
-&lt;li&gt;After the headers, rows followed, where each row had a row delimiter (the &lt;code&gt;Ñ&lt;/code&gt; character in &lt;em&gt;Code Snippet 1&lt;/em&gt;). The rows contained the individual column values.&lt;/li&gt;
-&lt;li&gt;As last part of the packet was an end sequence. This is reflected in &lt;em&gt;Code Snippet 1&lt;/em&gt; as the line starting with &lt;code&gt;ÿ&lt;/code&gt;. This only appears in the last packet of results.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The TDS layout can be illustrated as so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_tds.png&quot; width=&quot;749&quot; height=&quot;252&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;TDS Packet Layout&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we see a TDS packet with three columns, four rows and an end sequence.&lt;/p&gt;
-
-&lt;p&gt;We then went on to BXL, which was introduced by Microsoft to be a protocol optimized for fast data transfers between SQL Server and external script engines. We executed the same code as what we did for the result in &lt;em&gt;Code Snippet 1&lt;/em&gt;, and - in &lt;em&gt;MMA&lt;/em&gt; we saw a packet like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;BXL Packet&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;....,....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ð&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ì\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;&lt;em&gt;K&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;¾&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ù&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sRq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..........&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;....,....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ð&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ì\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;&lt;/em&gt;K&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;¾&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Ù&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sRq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..........&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Layout of a BXL Packet&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;By looking at &lt;em&gt;Code Snippet 2&lt;/em&gt;, we saw how BXL is a column oriented protocol, with a header of fixed size for each column, followed by the rows for that column. In &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; we came to the conclusion:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Each column header has an over-head of 32 bytes (at least for non nullable data)&lt;/li&gt;
-&lt;li&gt;The size of the column in one row is the size of the data type for numeric types.&lt;/li&gt;
-&lt;li&gt;For &lt;code&gt;decimal&lt;/code&gt; and &lt;code&gt;numeric&lt;/code&gt; an extra byte is added to each column, where this byte indicates the precision.&lt;/li&gt;
-&lt;li&gt;Columns of alpha numeric type all had 2 bytes pre-pended to the bytes, except &lt;code&gt;max&lt;/code&gt; types.&lt;/li&gt;
-&lt;li&gt;For &lt;code&gt;char&lt;/code&gt; and &lt;code&gt;nchar&lt;/code&gt; the storage size was 2 bytes plus the size the column was defined as.&lt;/li&gt;
-&lt;li&gt;For &lt;code&gt;varchar&lt;/code&gt; and &lt;code&gt;nvarchar&lt;/code&gt; the storage size was 2 bytes plus the size of the data stored.&lt;/li&gt;
-&lt;li&gt;For the &lt;code&gt;varmax&lt;/code&gt; data types the number of bytes that were pre-pended varied dependent on the data size.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Nullable columns were somewhat weird in that the header for each column ranged from 7312 bytes for &lt;code&gt;tinyint&lt;/code&gt; down to 32 bytes for &lt;code&gt;decimal&lt;/code&gt;/&lt;code&gt;numeric&lt;/code&gt; and alpha-numeric types. In &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; I speculated that this is some sort of bug, but I haven't been able to verify that yet.&lt;/p&gt;
-
-&lt;p&gt;Finally I tried to show the layout of BXL as so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_14_bxl.png&quot; width=&quot;401&quot; height=&quot;229&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;BXL Schematic Layout&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt; illustrates a three column, four row packet. We see how the column headers all have the same size, where the individual columns can vary in size - but it will still fit into the size of the header.&lt;/p&gt;
-
-&lt;h2&gt;Housekeeping&lt;/h2&gt;
-
-&lt;p&gt;Housekeeping in this context is talking about the tools we'll use, as well as the code. Oh, I've had a couple of questions why I have this section here - this is meant to be for you guys who want to follow along in what we're doing in the posts.&lt;/p&gt;
-
-&lt;h4&gt;Helper Tools&lt;/h4&gt;
-
-&lt;p&gt;To help us figure out the things we want, we will use &lt;em&gt;Process Monitor&lt;/em&gt;, and &lt;em&gt;WinDbg preview&lt;/em&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Process Monitor&lt;/em&gt;, will be used it to filter TCP traffic. If you want to refresh your memory about how to do it, we covered that in &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;Internals - X&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;WinDbg preview&lt;/em&gt; is a windows debugger, which Microsoft released in August as a preview version of a more modern &lt;a href=&quot;https://www.microsoft.com/en-us/store/p/windbg/9pgjgd53tn86&quot;&gt;&lt;em&gt;WinDbg&lt;/em&gt; application&lt;/a&gt;. If you want to know more about it, I covered it in &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Internals - XII&lt;/a&gt;. Throughout this post I will refer to it as &lt;em&gt;WinDbg&lt;/em&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h4&gt;Code&lt;/h4&gt;
-
-&lt;p&gt;The code below sets up the database and creates some tables with some data, it is more or less the same as we used in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ResultData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ResultData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ResultData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RowID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                          &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rand_1M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TOP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o2&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o3&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Database, and Database Object Creation&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So if you want to follow along with what we do in this post, run the code in &lt;em&gt;Code Snippet 3&lt;/em&gt;, and you should be good to go.&lt;/p&gt;
-
-&lt;h2&gt;Lots of Data&lt;/h2&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; we saw how a packet was structured (both BXL and TDS), and the size of a packet when the packet returned just a couple of rows. Let's look at how BXL handles large data volumes and compare it to TDS. Let's start with TDS.&lt;/p&gt;
-
-&lt;h4&gt;TDS&lt;/h4&gt;
-
-&lt;p&gt;Remember how I, in the previous post, said that the TDS protocol is basically a request response protocol, where the &quot;client&quot;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sends a request to the server&lt;/li&gt;
-&lt;li&gt;Receives responses from a request.&lt;/li&gt;
-&lt;li&gt;Parses the response.&lt;/li&gt;
-&lt;li&gt;Asks for more data, until the server indicates there are no more data.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The last bullet point above: &quot;Asks for more ...&quot;, indicates that there is a limit to how much data the server sends to the client in one go, and by default that limit is the size of a network packet: 4096 bytes. We can see this if we fire up &lt;em&gt;Process Monitor&lt;/em&gt; and set a filter capturing outgoing TCP packets from SQL Server.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; We covered in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; how to set that filter. There we also spoke about how the TCP/IP protocol needs to be enabled in &lt;em&gt;SQL Server Network Configuration&lt;/em&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;After you have set the filter (and saved it), execute &lt;code&gt;sp_executesql N'SELECT TOP(820) rand1  FROM dbo.rand_1M'&lt;/code&gt; and look at the output from &lt;em&gt;Process Monitor&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_tds_multi_packets.png&quot; width=&quot;475&quot; height=&quot;145&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Multiple Packets&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Figure 3&lt;/em&gt; shows how we receive two response packets, one with a size of 4096 bytes, and the other with 74, so a total of 4170 bytes. But wait a second, if we go back to &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt; and read what was said about packet sizes, I would have expected to see:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;44 bytes, some miscellaneous overhead (including end sequence).&lt;/li&gt;
-&lt;li&gt;8 bytes column info overhead.&lt;/li&gt;
-&lt;li&gt;10 bytes column name (5 characters * 2).&lt;/li&gt;
-&lt;li&gt;3280 bytes for row data (820 * 4).&lt;/li&gt;
-&lt;li&gt;820 bytes (1 byte row delimiter per row).&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This according to my math would total up to 4162 bytes, why 8 bytes more? Reason for the 8 bytes is that each extra packet has an 8 byte header. This is regardless of of number of columns.&lt;/p&gt;
-
-&lt;p&gt;Now we have confirmed that TDS indeed returns packets in network packet size, what about BXL?&lt;/p&gt;
-
-&lt;h4&gt;BXL&lt;/h4&gt;
-
-&lt;p&gt;Let's see what the result is when executing the above in &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;BXL&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d&amp;lt;-InputDataSet'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT TOP(820) rand1  FROM dbo.rand_1M'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Large Resultset in BXL&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Before executing the code in &lt;em&gt;Code Snippet 4&lt;/em&gt; we need to change the &lt;em&gt;Process Monitor&lt;/em&gt; filter to on TCP packets received by BxlServer, like we did in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;. After that is done we can execute and look at the output from &lt;em&gt;Process Monitor&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_bxl_packets1.png&quot; width=&quot;554&quot; height=&quot;190&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;BXL Packet 820 Rows&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;There are a couple of things to notice from the output we see in &lt;em&gt;Figure 4&lt;/em&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Only one response packet has been sent from SQL Server to the SqlSatellite (length 3312).&lt;/li&gt;
-&lt;li&gt;The packet is smaller than the total size of the TDS packets in &lt;em&gt;Figure 3&lt;/em&gt; (4170).&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Right, this test didn't do anything else than show us that this BXL packet was smaller than its TDS counterpart. Remember in BXL we have the 32 bytes overhead followed by the rows, where in TDS there are column names, row delimiters, end sequence etc. It would make sense for the BXL packet to be smaller, at least for a narrow (few columns) result.&lt;/p&gt;
-
-&lt;p&gt;So what if we executed it with a a &lt;code&gt;TOP&lt;/code&gt; clause that is bigger? What is the output if we execute the code in &lt;em&gt;Code Snippet 4&lt;/em&gt; with &lt;code&gt;TOP(2000)&lt;/code&gt; instead? Once again only one packet, this time with a size of 8032 bytes. OK, so BXL is not doing network size packets, but at one stage or another there has to be more than 1 packet - sending gigs of data in one packet wouldn't make sense?! Let's try &lt;code&gt;TOP(5000)&lt;/code&gt;, that should result in a total of 20032 bytes, and probably more than one packet. No, still only one packet, and the size is 20032. Let's &quot;go wild&quot; and do &lt;code&gt;TOP(16400)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_bxl_packets2.png&quot; width=&quot;500&quot; height=&quot;250&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;BXL Packet 16400 Rows&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Finally, that gives us more than one packet and in &lt;em&gt;Figure 5&lt;/em&gt; we see two packets: one with a size of 65536, and one with a size of 128. So it looks like the &quot;cutoff&quot; for more packets is at 65536 bytes.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; 65,536 is considered a significant number. It is the product of 2 to the power of 16.  Why use this particular product?  Because it is the largest number that can be expressed by 2 eight-bit bytes of data.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;The total size of the two packets in &lt;em&gt;Figure 5&lt;/em&gt; is 65664 bytes. However the row size for the 16400 rows is 65600 bytes, so these two packets have 32 bytes &quot;extra&quot;. That should not be a surprise as we have previously said how a packet has a 32 bytes &quot;overhead&quot;/header per column, and this column header is per packet.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; As we'll soon see, I lied a little when I said the overhead was per packet.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;OK, so what happens if we were to send some more data, let's do &lt;code&gt;TOP(32800)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_bxl_packets3.png&quot; width=&quot;492&quot; height=&quot;370&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;BXL Packet 32800 Rows&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;What is highlighted in &lt;em&gt;Figure 6&lt;/em&gt; are the data packets sent to SqlSatellite, and as we can see they are quite a few. In fact, there are 13 of them including the first with a size of 65536. If we added the size of all the packets it would add up to 131296 bytes. With 13 packets, and each carrying a column overhead of 32 bytes the total row size would be 130880 (131296 - (13 * 32)). But, when we calculate the actual size (32800 rows * 4) we arrive at 131200? All of a sudden the actual size is greater than what we expect based on the packet sizes. So maybe what I said above, about the column overhead being per packet, is not correct.&lt;/p&gt;
-
-&lt;p&gt;If we look at total size from the packets (131296) and the actual row size (131200) we see the difference being 96 bytes. We know that the two first packets carry an overhead of 32 bytes, so that leaves us with another 32 bytes to explain. The explanation is that the column overhead is per packet of 65536 bytes (or thereabouts), and if we were to add up the packet sizes starting with the packet of 164 bytes, and end at the packet with a size of 52224, we'll end up with 65528 bytes. So we have in essence two packets with a size of ~65536 bytes and a final packet weighing in at 232 bytes, and the 232 bytes packet contains a 32 byte overhead.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The reason we're not getting 65536 bytes exactly in the second packet is due to how the individual packets are sent, and how &lt;em&gt;Process Monitor&lt;/em&gt; reports it.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;To get a better understanding how this works, let us do some &lt;a href=&quot;http://queue.acm.org/detail.cfm?id=945136&quot;&gt;spelunking&lt;/a&gt; in the SQL Server code with &lt;em&gt;WinDbg&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2&gt;WinDbg Debugging&lt;/h2&gt;
-
-&lt;p&gt;Whet we'll do here is to figure out some of the flow when creating the packages that are being sent to SqlSatellite, and well do this by setting breakpoints in &lt;em&gt;WinDbg&lt;/em&gt; and tracing what's happening when we hit those breakpoints.&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&quot;&gt;Internals - XIII&lt;/a&gt; we figured out when and how the statement in &lt;code&gt;@input_data_1&lt;/code&gt; was executed, and we saw a flow looking something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Flow&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CXStmtQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ErsqExecuteQuery&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendChunkEndMessage&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Abbreviated Flow Result Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Let's do this:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Start up &lt;em&gt;WinDbg&lt;/em&gt; as admin.&lt;/li&gt;
-&lt;li&gt;Attach to the SQL Server process.&lt;/li&gt;
-&lt;li&gt;Set breakpoints at &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; and  &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;When the breakpoints are set, execute following code, and see what breakpoints are being hit:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Data&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d&amp;lt;-InputDataSet'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT TOP(2) rand1
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                   FROM dbo.rand_1M'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Test Statement&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;We are selecting 2 rows in &lt;em&gt;Code Snippet 6&lt;/em&gt;, just to see how many times &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; and &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt; are called. When executing you'll see &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; and &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt; being called once. So whatever happens must happen between those two calls. Now, disable the break-point at &lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt; and execute again. At this time when you hit the &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; break-point, instead of continuing do a &lt;code&gt;wt -l6&lt;/code&gt; and see what is being output.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; As covered in a couple of other &lt;em&gt;Internals&lt;/em&gt; posts &lt;code&gt;wt&lt;/code&gt; stands for &quot;watch and trace&quot;. When you execute this command at the beginning of a function call, the command runs through the function and then displays statistics. The options &lt;code&gt;-l&lt;/code&gt; indicates how many levels deep to trace. So above we say that we want to trace 6 levels deep.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;The output is quite &quot;chunky&quot; (I see the odd 355 rows). We are not interested in every little detail, but something that would give us clues about how data is written to the data packets.&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Post Data&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXC_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EUdxTypeGet&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanTopNew&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanTableScanNew&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CServerCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostOneRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BindBufferForWrite&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BindBufferForWrite&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CServerCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostOneRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;MSVCR120&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memcpy_s&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;n&quot;&gt;MSVCR120&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memcpy&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;n&quot;&gt;MSVCR120&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MoveSmall&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;MSVCR120&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memcpy_s&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CServerCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostOneRow&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteData&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SQLDataWriterSourceRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SourceBufferPtr&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendRemainingChunk&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteCommunication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetSQLSatelliteMessage&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendRemainingChunk&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;    &lt;br/&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;......&lt;/span&gt;      &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Flow of Posting Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I will not go into detail of the trace, but in the trace we see some interesting routines. We'll set breakpoints at these routines (in addition to the break-point at &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt;), in order to try to understand how it all works:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::PushRow&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CServerCargoContext::PostOneRow&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WritePayloadHeader&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WriteData&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::PushEOS&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WriteMessageBlockDone&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Re-enable the break-point at&lt;code&gt;sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;When we execute the code in &lt;em&gt;Code Snippet 6&lt;/em&gt; again, we break at the various break-points like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Break-points&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlmin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQScanUdx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushNextChildRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CServerCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostOneRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CServerCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PostOneRow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='40' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;077&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='41' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='42' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Break-points Hit when Executing&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The code in &lt;em&gt;Code Snippet 6&lt;/em&gt; selects one column two rows, and in &lt;em&gt;Code Snippet 8&lt;/em&gt; we see how &lt;code&gt;PushRow&lt;/code&gt; and &lt;code&gt;PostOneRow&lt;/code&gt; is called twice. The routine &lt;code&gt;WriteData&lt;/code&gt; is also called twice, but &lt;code&gt;WritePayloadHeader&lt;/code&gt; only once. We see how &lt;code&gt;WriteMessageBlockDone&lt;/code&gt; is called once as part of &lt;code&gt;PushEOS&lt;/code&gt; (we discussed &lt;code&gt;PushEOS&lt;/code&gt; in &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Internals - XII&lt;/a&gt;) , and then finally &lt;code&gt;SendPackets&lt;/code&gt;. It is pretty clear that &lt;code&gt;PushRow&lt;/code&gt; and &lt;code&gt;PostOneRow&lt;/code&gt; is called per row in the result-set, and &lt;code&gt;WritePayloadHeader&lt;/code&gt; only once. The question now is what happens if more than one packet is sent? To see this, change the &lt;code&gt;TOP&lt;/code&gt; clause in the &lt;code&gt;@input_data_1&lt;/code&gt; statement to be &lt;code&gt;TOP(32800)&lt;/code&gt;, and execute. &lt;strong&gt;Wait&lt;/strong&gt;, &lt;strong&gt;wait&lt;/strong&gt;, before executing disable the &lt;code&gt;PushRow&lt;/code&gt;, &lt;code&gt;PostOneRow&lt;/code&gt; and &lt;code&gt;WriteData&lt;/code&gt; break-points, unless you want to press &lt;code&gt;F5&lt;/code&gt; or &lt;code&gt;g&lt;/code&gt; 32800 times.&lt;/p&gt;
-
-&lt;p&gt; The execution with &lt;code&gt;TOP(32800)&lt;/code&gt; hits the break-points as so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Break Points 2&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CUDXR_ExternalScript&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PushEOS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;073&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;Breakpoint&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hit&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSatelliteCargoContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SendPackets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Break-points when Executing 32800 Rows&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The output we see in &lt;em&gt;Code Snippet 9&lt;/em&gt; is for the same statement whose packets were illustrated in &lt;em&gt;Figure 6&lt;/em&gt;. There we had two big packets, and some small packets being sent, and we initially thought that there was a packet header for each packet - but when calculating sizes, we realized it couldn't be. What we now see in &lt;em&gt;Code Snippet 9&lt;/em&gt; collaborates that, where we see &lt;code&gt;WritePayloadHeader&lt;/code&gt; being called three times, which fits in with what we determined above.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code&gt;WriteMessageBlockDone&lt;/code&gt; routine is interesting in the sense that what does it write, and where does it write to. The immediate thought would be that it would write it as an end &quot;blob&quot; in the packet, but if you remember from [Internals - XIV] where we looked at the the binary representation of a BXL packet where we had selected against a table with alpha-numeric columns, we saw a packet structure like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;BXL&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;// SELECT TOP(1) rand1 FROM dbo.tb_Test1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;....&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Þ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;´&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/&amp;gt;ì@£þRÞ/.F/..........size   &lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 10:&lt;/strong&gt; &lt;em&gt;BXL Binary Packets&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;We selected one column, and row and as we see in &lt;em&gt;Code Snippet 10&lt;/em&gt;, the row value is &quot;size&quot;. When looking at &lt;em&gt;Code Snippet 10&lt;/em&gt; we do not see anything in the packet after the value, which then tells us that if &lt;code&gt;WriteMessageBlockDone&lt;/code&gt; writes anything to the packet, it has to be to the header.&lt;/p&gt;
-
-&lt;p&gt;In all the examples in this post we've retrieved only one column. What does it look like if we are selecting more than one? Re-enable the breakpoints we used when we executed what resulted in the output in &lt;em&gt;Code Snippet 8&lt;/em&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;bp sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::PushRow&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CServerCargoContext::PostOneRow&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WritePayloadHeader&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WriteData&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CUDXR_ExternalScript::PushEOS&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSQLSatelliteMessageDataChunk::WriteMessageBlockDone&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bp sqllang!CSatelliteCargoContext::SendPackets&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Change the &lt;code&gt;@input_data_1&lt;/code&gt; statement in &lt;em&gt;Code Snippet 6&lt;/em&gt; to &lt;code&gt;SELECT TOP(2) rand1, rand2 FROM dbo.rand_1M&lt;/code&gt; and execute. You'll see how we're looping over the rows, and for each row we're looping the columns, for first row we write the header and the value and for subsequent columns the value.&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;This post was a continuation of &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;, where we in this post looked at subjects that did not &quot;fit in&quot;, in the &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;XIV&lt;/a&gt; post.&lt;/p&gt;
-
-&lt;p&gt;We looked at the size of packages and compared it with TDS, and saw how TDS sends multiple smaller packages, BXL tries to send as big packages as possible. Big in this instance is up to 65536 bytes, and BXL creates a new package when the size of rows and columns has reached 65536.&lt;/p&gt;
-
-&lt;p&gt;From a code perspective we realized that the &lt;code&gt;sqlmin!CQScanUdx::PushNextChildRow&lt;/code&gt; routine was where everything happened (or in sub routines). We were aware of that routine from &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Internals - XII&lt;/a&gt;, where we looked at what sent the TCP packets to the SqlSatallite. Now we saw how &lt;code&gt;PushNextChildRow&lt;/code&gt; calls &lt;code&gt;PushRow&lt;/code&gt; which calls &lt;code&gt;WritePayloadHeader&lt;/code&gt; if it is the first row and &lt;code&gt;WriteData&lt;/code&gt;. If it is a packet that has reached the size of 65536 and there are more packets, &lt;code&gt;WriteMessageBlockDone&lt;/code&gt; is called. Then, if it is the last packet, &lt;code&gt;PushEOS&lt;/code&gt; is called and &lt;code&gt;PushEOS&lt;/code&gt; calls &lt;code&gt;WriteMessageBlockDone&lt;/code&gt;. The figure below illustrates the flow:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_15_bxl_code.png&quot; width=&quot;800&quot; height=&quot;537&quot;  &gt;
-&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;BXL Code Flow&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I you believe you have seen &lt;em&gt;Figure 7&lt;/em&gt; before or that it looks similar to some other figure, it is because is is a copy of a figure in &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;Internals - XII&lt;/a&gt;. Here I have compressed some routines in order to fit in the ones we learned about today. The numbered arrows in &lt;em&gt;Figure 7&lt;/em&gt; shows the communication out from SQL Server, and in what order it happens:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;SQL Server opens named pipe connection to the launchpad service.&lt;/li&gt;
-&lt;li&gt;Message sent to the launchpad service.&lt;/li&gt;
-&lt;li&gt;After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.&lt;/li&gt;
-&lt;li&gt;SQL Server sends the first packet to the SQL Satellite for authentication purposes.&lt;/li&gt;
-&lt;li&gt;A second authentication packet is sent to SqlSatellite.&lt;/li&gt;
-&lt;li&gt;The script is sent from inside &lt;code&gt;sqllang!CSatelliteProxy::PostSetupMessage&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;The data for &lt;code&gt;@input_data_1&lt;/code&gt; is sent.&lt;/li&gt;
-&lt;li&gt;The first end packet is sent.&lt;/li&gt;
-&lt;li&gt;The second end packet is sent.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;What the figure above illustrates can also be expressed in pseudo-code like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Pseudo Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;column&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rowColumns&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WritePayloadHeader&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;     &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;     &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteData&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;   &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;n&quot;&gt;sqllang&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CSQLSatelliteMessageDataChunk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteMessageBlockDone&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 11:&lt;/strong&gt; &lt;em&gt;Pseudo Code Flow for Writing BXL Packets&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I do believe this was the last post about BXL, &lt;em&gt;*unless&lt;/em&gt; I can find out why nullable columns causes these big, big packets, that we have discussed in quite few posts. Most recently in &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;Internals - XIV&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
