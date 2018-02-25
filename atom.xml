@@ -4,13 +4,71 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-02-18T13:35:46+02:00</updated>
+ <updated>2018-02-25T11:10:38+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 8</title>
+   <link href="http://nielsberglund.com/2018/02/25/interesting-stuff-week-8/"/>
+   <updated>2018-02-25T11:06:52+02:00</updated>
+   <id>http://nielsberglund.com/2018/02/25/interesting-stuff---week-8</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;AI&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/steeltoe-net-microservices&quot;&gt;Steeltoe and the Open Source .NET Renaissance&lt;/a&gt;. A discussion about the .NET platform renaissance, the &lt;a href=&quot;https://steeltoe.io/&quot;&gt;Steeltoe&lt;/a&gt; framework, and a demonstration how to build resilient microservices with ASP.NET Core.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/beam-model-stream-table=theory&quot;&gt;Streaming SQL Foundations: Why I ❤Streams+Tables&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about what is required to provide robust stream processing support in SQL. It also and discusses concrete efforts that have been made in the stream processing area by the Apache Beam, Calcite, and Flink communities.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/distributed-stream-processing-flink&quot;&gt;The Power of Distributed Snapshots in Apache Flink&lt;/a&gt;. Another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation. This time about how Apache Flink handles stateful stream processing and how to manage distributed stream processing and data-driven applications efficiently with Flink's checkpoints and savepoints.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/securing-ksql/&quot;&gt;Securing KSQL&lt;/a&gt;. A blog post looking at stream processing examples using KSQL, as well as how to secure KSQL and the entire Confluent Platform with encryption, authentication, and authorisation.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science &amp;amp; AI&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/02/22/the-microsoft-artificial-intelligence-landscape-and-what-to-use-when/&quot;&gt;The Microsoft Artificial Intelligence Landscape – And What to use When&lt;/a&gt;. A blog post by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt;, where he talks about what Microsoft offers in terms of AI.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/02/r-with-tensorflow.html&quot;&gt;Machine Learning in R with TensorFlow&lt;/a&gt;. This post is from &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt;, and he talks about how to use &lt;a href=&quot;https://www.tensorflow.org/&quot;&gt;TensorFlow&lt;/a&gt; in R.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://towardsdatascience.com/architecture-overview-of-a-conversational-ai-chat-bot-4ef3dfefd52e&quot;&gt;Conversational AI chat-bot — Architecture overview&lt;/a&gt;. Lately, I have become interested in AI chat-bots, so this article which gives an overview of a typical architecture to build a conversational AI chat-bot is right &quot;down my ally&quot;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I am starting to feel bad about not being able to publish the promised post about &lt;code&gt;sp_execute_external_script&lt;/code&gt;. The reason for this is that a lot going on at work at the moment. In the meantime, &lt;a href=&quot;/2017/03/04/microsoft-sql-server-2016-r-services-installation/&quot;&gt;here&lt;/a&gt; is the link to the first post in the &lt;strong&gt;SQL Server R Services&lt;/strong&gt; series.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 7</title>
@@ -2216,86 +2274,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Christmas, New Year, Week 1</title>
-   <link href="http://nielsberglund.com/2018/01/07/interesting-stuff-christmas-new-year-week-1/"/>
-   <updated>2018-01-07T20:17:09+02:00</updated>
-   <id>http://nielsberglund.com/2018/01/07/interesting-stuff---christmas-new-year-week-1</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me over the Christmas and New Year period.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;p&gt;Quite some JSON related topics in this roundup.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/18/building-sql-rest-api-back-end-for-angular-apps/&quot;&gt;Building SQL REST API back-end for Angular apps&lt;/a&gt;. In this post &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; (who is the SQL Server JSON &quot;god&quot;) shows how easy it is to build back-end REST API for Angular sample app using JSON functionalities in SQL Server.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/20/transitive-closure-clustering-with-clr-and-json/&quot;&gt;Transitive closure clustering with CLR and JSON&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; shows how a &lt;a href=&quot;https://en.wikipedia.org/wiki/Transitive_closure&quot;&gt;transitive closure&lt;/a&gt; algorithm can be implemented using CLR aggregates that can be placed in SQL database.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2017/12/22/injecting-json-objects-into-existing-json-text-with-json_modify-function/&quot;&gt;Injecting JSON objects into existing JSON text with JSON_MODIFY function&lt;/a&gt;. Yet another post by &quot;Mr. SQL Server JSON&quot; - &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; - showing how to update existing JSON text and inject JSON object in the text, avoiding some common mistakes.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/ksql-december-release&quot;&gt;KSQL December Release: Streaming SQL for Apache Kafka&lt;/a&gt;. A post about that is in the December release of the streaming SQL engine for Apache Kafka - &lt;strong&gt;KSQL&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Databases&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://learningsys.org/nips17/assets/papers/paper_22.pdf&quot;&gt;A Machine Learning Approach to Databases Indexes&lt;/a&gt;. A white-paper about how traditional B-tree indexes potentially can be replaced with more flexible, faster, and smaller machine learned neural networks. Very interesting!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/wpaxos-wide-area-network-paxos-protocol.html&quot;&gt;WPaxos: a wide area network Paxos protocol (Part 1)&lt;/a&gt;. &lt;a href=&quot;https://en.wikipedia.org/wiki/Paxos_(computer_science)&quot;&gt;Paxos&lt;/a&gt; is a protocol for solving the fault-tolerant coordination problem in a datacenter - and it is very good at what it is doing. However across datacenters the WAN latency may be too high. In this post &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; discusses an alternative to Paxos - WPaxos.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://daviddawson.me/blog/2018/01/05/entity-microservices.html&quot;&gt;Entity Oriented Microservices&lt;/a&gt;. A very interesting article by &lt;a href=&quot;https://twitter.com/davidthecoder&quot;&gt;David&lt;/a&gt; about Entity Services vs. Microservices vs. DDD.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/01/04/devops-for-data-science-continuous-delivery/&quot;&gt;DevOps for Data Science – Continuous Delivery&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt; continues his series about DevOps for Data Science, and in this episode he discusses Continuous Delivery. A very interesting post as well as series!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/tensorflow-serving-flexible-high.html&quot;&gt;TensorFlow-Serving: Flexible, High-Performance ML Serving&lt;/a&gt;. Another post by &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt;, this time about a system/framework to serve machine learning (ML) models.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2017/12/paper-summary-real-time-machine.html&quot;&gt;Paper summary. Real-Time Machine Learning: The Missing Pieces&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; has been busy the holiday period. In this post he dissects a white-paper about real time machine learning, and what is required. This is an area, I am really interested in BTW!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;During the holiday period I managed to get some work done on the Microsoft SQL Server R Services series:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Microsoft SQL Server R Services - Internals XVI&lt;/a&gt;. In &lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Internals - XVI&lt;/a&gt; I talked about the result set data coming back from the SqlSatellite, and I looked at number of packets as well as packet sizes.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/03/microsoft-sql-server-r-services-internals-xvii/&quot;&gt;Microsoft SQL Server R Services - Internals XVII&lt;/a&gt;. &lt;a href=&quot;/2018/01/03/microsoft-sql-server-r-services-internals-xvii/&quot;&gt;Internals - XVII&lt;/a&gt; continues on from &lt;a href=&quot;/2017/12/24/microsoft-sql-server-r-services-internals-xvi/&quot;&gt;Internals - XVI&lt;/a&gt;, and looks at what happens inside SQL Server when result-set data comes back.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
