@@ -4,13 +4,78 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-03-11T11:57:44+02:00</updated>
+ <updated>2018-03-11T14:26:19+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 10</title>
+   <link href="http://nielsberglund.com/2018/03/11/interesting-stuff-week-10/"/>
+   <updated>2018-03-11T14:17:55+02:00</updated>
+   <id>http://nielsberglund.com/2018/03/11/interesting-stuff---week-10</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/07/what-is-azure-sql-database-managed-instance-2/&quot;&gt;What is Azure SQL Database Managed Instance?&lt;/a&gt;. A blog-post by &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; about a new &lt;strong&gt;Azure SQL Server&lt;/strong&gt; offering: &lt;strong&gt;Managed Instance&lt;/strong&gt;. Managed Instance is a new managed database service that represents a fully-managed SQL Server instance in the Azure cloud. It shares the same code with the latest version of SQL Server database engine and has the latest features, performance improvements, and security patches; for example SQLCLR is available - yay!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/event-driven-oreilly&quot;&gt;Event-Driven Microservices at O'Reilly Software Architecture Conference NY&lt;/a&gt;. A roundup from the O'Reilly Software Architecture Conference about micros-services. The topics are around how an event driven architecture can help when doing micro-services.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf&quot;&gt;Impossibility of Distributed Consensus with One Faulty Process &lt;/a&gt;. A white paper covering some of the problems inherent in distributed asynchronous systems. A must read!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/03/09/settling-payments-fast-and-private-efficient-decentralized-routing-for-path-based-transactions/&quot;&gt;Settling payments fast and private: efficient decentralized routing for path-based transactions&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;&lt;strong&gt;the morning paper&lt;/strong&gt;&lt;/a&gt; dissects a white paper about Peer-to-peer path-based-transaction (PBT) networks. Very interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/AnacondaShippingVSCOde&quot;&gt;Popular Python Data Science Platform Anaconda Now Shipping with Microsoft VS Code&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about how release 5.1 of &lt;strong&gt;Anaconda&lt;/strong&gt;, the data science and machine learning platform, now includes &lt;strong&gt;Visual Studio Code&lt;/strong&gt; as an IDE. This is part of a wider collaborative effort between Anaconda Inc. and Microsoft. This is big!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/03/07/onnx-models-to-be-runnable-natively-on-100s-of-millions-of-windows-devices/&quot;&gt;ONNX Models to be Runnable Natively on 100s of Millions of Windows Devices&lt;/a&gt;. An announcement how the next major update to Windows will include the ability to run &lt;a href=&quot;https://github.com/onnx/onnx&quot;&gt;&lt;strong&gt;Open Neural Network Exchange&lt;/strong&gt;&lt;/a&gt; (ONNX) models natively with hardware acceleration.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/windows/uwp/machine-learning/overview&quot;&gt;Windows Machine Learning overview&lt;/a&gt;. Related to the link above is this link about &lt;strong&gt;Windows Machine Learning&lt;/strong&gt; (Windows ML). Windows ML is a platform for local evaluation of trained machine learning models on Windows 10 devices.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.getrevue.co/profile/datascienceweekly&quot;&gt;Best of Data Science Weekly&lt;/a&gt;. A good friend of mine here in South Africa, &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis de Sousa&lt;/a&gt;, publishes a weekly data science newsletter of all the best data science related news and blog posts. If you are interested in data science, you really should go ahead and subscribe.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.theatlantic.com/technology/archive/2018/03/largest-study-ever-fake-news-mit-twitter/555104/&quot;&gt;The Grim Conclusions of the Largest-Ever Study of Fake News&lt;/a&gt;. Not a data science article as such, however there is a lot of data science related material in the article. The article itself talks about fake news. Very interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I am awesome (if I may say so myself)! Since the last week's &lt;a href=&quot;/2018/03/04/interesting-stuff-week-9/&quot;&gt;roundup&lt;/a&gt; I have manged to finish off two posts about &lt;strong&gt;SQL Server R Services&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/03/07/microsoft-sql-server-r-services-sp_execute_external_script-I/&quot;&gt;Microsoft SQL Server R Services: sp_execute_external_script - I&lt;/a&gt;. First post in a couple, (maybe three), about &lt;code&gt;sp_execute_external_script&lt;/code&gt;. In this post I look at some of the parameters of &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/03/11/microsoft-sql-server-r-services-sp-execute-external-script-ii/&quot;&gt;Microsoft SQL Server R Services - sp_execute_external_script - II&lt;/a&gt;. Second post about &lt;code&gt;sp_execute_external_script&lt;/code&gt;. Here I look at how parameters are handled in &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Microsoft SQL Server R Services - sp_execute_external_script - II</title>
@@ -1973,73 +2038,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I am busy finishing off the last post about SQL Server R Services internals: &lt;strong&gt;Internals - XX&lt;/strong&gt;, and I hope to be able to publish it this coming week sometime. After the &lt;em&gt;Internals - XX&lt;/em&gt;, there will be one or two more posts in the series, but then I am done.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 3</title>
-   <link href="http://nielsberglund.com/2018/01/21/interesting-stuff-week-3/"/>
-   <updated>2018-01-21T07:35:50+02:00</updated>
-   <id>http://nielsberglund.com/2018/01/21/interesting-stuff---week-3</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This is the &quot;roundup&quot; of the posts that has been most interesting to me, for the week just gone by.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/put-several-event-types-kafka-topic/&quot;&gt;Should You Put Several Event Types in the Same Kafka Topic?&lt;/a&gt;. A very informative blog-post about how to choose what number of topics you should have in your Kafka broker and how many event types per topic.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/01/the-lambda-and-kappa-architectures.html&quot;&gt;The Lambda and the Kappa Architectures&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; dissects an article / paper by &lt;a href=&quot;https://cs.uwaterloo.ca/~jimmylin/&quot;&gt;Jimmy Lin&lt;/a&gt; (no not the actor, but Jimmy Lin of Twitter fame), comparing Lambda and Kappa architectures. It is an interesting read, I would so have wanted to read the actual article, but it sits behind a pay-wall.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/blog/future-is-quantum-with-dr-krysta-svore/&quot;&gt;The Future is Quantum with Dr. Krysta Svore&lt;/a&gt;. I have in a couple of blog-posts covered a bit about Microsoft's quantum computing efforts (&lt;a href=&quot;/2017/10/01/interesting-stuff-week-39/&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;/2017/12/17/interesting-stuff-week-50-year-end/&quot;&gt;here&lt;/a&gt;). This is the transcript of a pod-cast with Dr. Krysta Svore, who is Principal Research Manager of the Microsoft Quantum group. Very, very interesting!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/quora-ml&quot;&gt;ML for Question and Answer Understanding @Quora&lt;/a&gt;. A presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;, where Nikhil Dandekar discusses how Quora extracts intelligence from questions using machine learning, etc. Really cool!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/01/microsoft-r-open-343-now-available.html&quot;&gt;Microsoft R Open 3.4.3 now available&lt;/a&gt;. The guys at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; points out that version 3.4.3 of &lt;strong&gt;Microsoft R Open&lt;/strong&gt; (MRO) is now available. If you use MRO, go forth and download and install!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;A couple of more posts in the Microsoft SQL Server R Services series have been published:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/10/microsoft-sql-server-r-services-internals-xviii/&quot;&gt;Microsoft SQL Server R Services - Internals XVIII&lt;/a&gt;. In this post I have a look at how output parameters are handled in SQL Server R Services.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/01/20/microsoft-sql-server-r-services-internals-xix/&quot;&gt;Microsoft SQL Server R Services - Internals XIX&lt;/a&gt;. This post does a drill down, using WinDbg, into how print statements in the external engine together with ack messages comes back to SQL Server.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
