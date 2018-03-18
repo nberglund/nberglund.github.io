@@ -4,13 +4,91 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-03-11T14:26:19+02:00</updated>
+ <updated>2018-03-18T20:27:45+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 11</title>
+   <link href="http://nielsberglund.com/2018/03/18/interesting-stuff-week-11/"/>
+   <updated>2018-03-18T20:20:08+02:00</updated>
+   <id>http://nielsberglund.com/2018/03/18/interesting-stuff---week-11</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/14/how-to-configure-network-for-azure-sql-managed-instance/&quot;&gt;How to configure network for Azure SQL Managed Instance&lt;/a&gt;. In last weeks &lt;a href=&quot;/2018/03/11/interesting-stuff-week-10/&quot;&gt;roundup&lt;/a&gt; I had a link to a &lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/07/what-is-azure-sql-database-managed-instance-2/&quot;&gt;post&lt;/a&gt; about &lt;strong&gt;Azure SQL Database Managed Instance&lt;/strong&gt;. In the post I link to this week, &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; explains how to configure the network for a Managed Instance.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/events-distributed-systems&quot;&gt;Events Are Reshaping the Future of Distributed Systems: Jonas Bonér at QCon London&lt;/a&gt;. A summary of a QCon presentation by &lt;a href=&quot;http://jonasboner.com/&quot;&gt;Jonas Bonér&lt;/a&gt;, where he talked about events and distributed systems and how eventual consistency should be default.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/asynchronous-event-architectures&quot;&gt;QCon London: Asynchronous Event Architectures with or without Actors&lt;/a&gt;. Another summary of a QCon presentation. This time about asynchronous event communication in microservices systems.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/real-time-data-activation&quot;&gt;Real-Time Data Activation - Analytics, Intelligence &amp;amp; Decision Making&lt;/a&gt;. Presentaion from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about dealing with real-time analytics with the Lambda Architecture, creating a working data set and data-driven features in an application.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/azureservicefabric/2018/03/14/service-fabric-is-going-open-source/&quot;&gt;Service Fabric is going open source&lt;/a&gt;. A blog post announcing Microsoft taking Service Fabric fully open source. Wohoo!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.softwaremill.com/event-sourcing-using-kafka-53dfd72ad45d&quot;&gt;Event sourcing using Kafka&lt;/a&gt;. Kafka has recently introduced some new features which makes it pretty straightforward to do event sourcing on top of Kafka. This post tells us all about it. I found the post very interesting!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-master-branch-monthly-whats-new-flink-february-2018&quot;&gt;Apache Flink Master Branch Monthly: New in Flink in February 2018&lt;/a&gt;. Roundup of new features that were merged into Flink’s master branch during February 2018 but aren’t yet part of a stable release.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/no-more-silos-how-to-integrate-your-databases-with-apache-kafka-and-cdc&quot;&gt;No More Silos: How to Integrate your Databases with Apache Kafka and CDC&lt;/a&gt;. Oooh, this is so interesting! A post about how to get data from your database(s) into Kafka. Did I mention this is interesting?!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Misc.&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-databases&quot;&gt;Developer Survey Results 2018&lt;/a&gt;. Each year, StackOverflow asks the developer community about everything from their favorite technologies to their job preferences. This year over 100,000 developers took the 30-minute survey this past January, and here are the results!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/03/15/demystifying-docker-for-data-scientists-a-docker-tutorial-for-your-deep-learning-projects/&quot;&gt;Demystifying Docker for Data Scientists – A Docker Tutorial for Your Deep Learning Projects&lt;/a&gt;. A very interesting post about how Docker can be used in a Data Science environment. Must Read!!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
+
+&lt;p&gt;I am working on the last post in the &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series, and I hope to publish it this coming week!&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 10</title>
@@ -152,6 +230,10 @@
 &lt;h2&gt;Housekeeping&lt;/h2&gt;
 
 &lt;p&gt;Before we &quot;dive&quot; into today's topics let us look at the code and the tools we use today. This section is here for those who want to follow along in what we are doing in the post.&lt;/p&gt;
+
+&lt;h4&gt;Code&lt;/h4&gt;
+
+&lt;p&gt;In this post we use the same database and database objects as in &lt;a href=&quot;/2018/03/07/microsoft-sql-server-r-services-sp_execute_external_script-I/&quot;&gt;sp_execute_external_script - I&lt;/a&gt;, so go there and grab the code if you need to create the database again.&lt;/p&gt;
 
 &lt;h4&gt;Helper Tools&lt;/h4&gt;
 
@@ -1972,76 +2054,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 4</title>
-   <link href="http://nielsberglund.com/2018/01/28/interesting-stuff-week-4/"/>
-   <updated>2018-01-28T14:05:43+02:00</updated>
-   <id>http://nielsberglund.com/2018/01/28/interesting-stuff---week-4</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2018/01/22/sql-server-2017-on-linux-webcast-series/&quot;&gt;SQL Server 2017 on Linux webcast series&lt;/a&gt;. I guess that anyone interested in SQL Server knows about SQL Server on Linux. This blog-post announces a series of webcasts covering SQL Server on Linux.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/01/24/simplify-data-access-using-de-normalized-models/&quot;&gt;Simplify data access using de-normalized models&lt;/a&gt;. A very interesting post by &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; how to use JSON to de-normalise database models.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2018/01/22/Resources-for-Learning-about-.NET-Internals/&quot;&gt;Resources for Learning about .NET Internals&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/matthewwarren&quot;&gt;Matthew&lt;/a&gt; posts some very awesome links if you want to learn about .NET internals!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/01/26/a-practitioners-guide-to-reading-programming-languages-papers/&quot;&gt;A practitioner’s guide to reading programming languages papers&lt;/a&gt;. A &quot;cheat-sheet&quot; from &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; about how to read programming language white-papers.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://channel9.msdn.com/Shows/AI-Show/Data-Science-Virtual-Machine&quot;&gt;Data Science Virtual Machine&lt;/a&gt;. This is the first episode of the AI Show from &lt;a href=&quot;https://channel9.msdn.com/&quot;&gt;Channel9&lt;/a&gt; talking about the Data Science Virtual Machine (DSVM).&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/applied-data-science/how-to-build-your-own-alphazero-ai-using-python-and-keras-7f664945c188&quot;&gt;How to build your own AlphaZero AI using Python and Keras&lt;/a&gt;. In the &lt;a href=&quot;/2018/01/14/interesting-stuff-week-2/&quot;&gt;week 2 roundup&lt;/a&gt; I linked to a post about AlphaZero, the AI application from &lt;a href=&quot;https://en.wikipedia.org/wiki/DeepMind&quot;&gt;DeepMind&lt;/a&gt;, who teaches itself to play multiple board-games, like GO, chess, etc. In this post, David Foster - from Applied Data Science - shows how you can build something similar with Python and Keras. Very cool!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/streaming-data-in-the-enterprise-hits-a-tipping-point&quot;&gt;Streaming Data in the Enterprise Hits a Tipping Point: Our 2018 Predictions&lt;/a&gt;. Prediction from dataArtisans about the streaming and streaming technologies in 2018.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/managing-large-state-apache-flink-incremental-checkpointing-overview&quot;&gt;Managing Large State in Apache Flink: An Intro to Incremental Checkpointing&lt;/a&gt;. An introduction to check-pointing, which is the mechanism Apache Flink uses to make application state fault tolerant. Extremely interesting!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I am busy finishing off the last post about SQL Server R Services internals: &lt;strong&gt;Internals - XX&lt;/strong&gt;, and I hope to be able to publish it this coming week sometime. After the &lt;em&gt;Internals - XX&lt;/em&gt;, there will be one or two more posts in the series, but then I am done.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
