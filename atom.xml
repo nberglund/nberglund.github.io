@@ -4,13 +4,70 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-03-25T11:20:02+02:00</updated>
+ <updated>2018-03-31T19:15:12+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 13</title>
+   <link href="http://nielsberglund.com/2018/03/31/interesting-stuff-week-13/"/>
+   <updated>2018-03-31T19:12:05+02:00</updated>
+   <id>http://nielsberglund.com/2018/03/31/interesting-stuff---week-13</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Azure Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/implementation-patterns-for-big-data-and-data-warehouse-on-azure/&quot;&gt;Implementation patterns for big data and data warehouse on Azure&lt;/a&gt;. A blog post which lists some patterns and tools for big data as well as data warehouses in the Azure world. When I read it, I was surprised to see no mention of Azure Data Lake in the different patterns. I wrote a comment and asked about it, and received the answer that Azure Data Lake was a possibility instead of Azure Blob Store.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/da-platform-with-apache-flink-general-availability&quot;&gt;Full Stream Ahead! dA Platform is Generally Available and Ready for Download&lt;/a&gt;. This blog post announces the general availability of the &lt;a href=&quot;https://data-artisans.com/blog/da-platform-stateful-stream-processing-with-apache-flink-made-easier&quot;&gt;&lt;strong&gt;dA Platform&lt;/strong&gt;&lt;/a&gt; from dataArtisans. This is very exciting news, and I am so eager to test it out.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Databases&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/03/27/anna-a-kvs-for-any-scale/&quot;&gt;Anna: A KVS for any scale&lt;/a&gt;. A dissection, done by &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; of a white-paper about a new key-value store system: Anna. Anna is a partitioned and multi-mastered system, which achieves high performance and elasticity via wait-free execution and coordination-free consistency. Very exciting stuff!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science &amp;amp; AI&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ai-ml-swe&quot;&gt;Artificial Intelligence and Machine Learning for the SWE&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Rob Harrop where he describes his journey from traditional Software Engineer to AI/ML Engineer, and his experience building a development team with ML as the foundation.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/03/27/introduction-to-the-microsoft-ai-platform/&quot;&gt;Introduction to the Microsoft AI Platform&lt;/a&gt;. An excellent video series by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt;, where he covers the Microsoft Artificial Intelligence suite of tools and services. This is a must watch!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 12</title>
@@ -1970,61 +2027,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I am still working on the post about &lt;code&gt;sp_execute_external_script&lt;/code&gt; in the &lt;strong&gt;SQL Server R Services&lt;/strong&gt;. Watch this space.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 6</title>
-   <link href="http://nielsberglund.com/2018/02/11/interesting-stuff-week-6/"/>
-   <updated>2018-02-11T06:57:25+02:00</updated>
-   <id>http://nielsberglund.com/2018/02/11/interesting-stuff---week-6</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/kubernetes-effect&quot;&gt;The Kubernetes Effect&lt;/a&gt;. The first of two links this week from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; that have to do with &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. This article discusses the evolution of Kubernetes and what Kubernetes can do for us.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/02/think-before-you-code.html&quot;&gt;Think before you code&lt;/a&gt;. In this post &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; talks about different coding styles, and how important it is to think before you code. To think about the design and code, does not necessarily mean that you think, think, think, and strive for the perfect design (In my mind there is no such thing as a perfect design). A fascinating article and I thoroughly enjoyed it!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/02/kubecon-kafka-clusters-kubernete&quot;&gt;Managing and Operating Kafka Clusters in Kubernetes&lt;/a&gt;. The second article this week about Kubernetes and this article discusses how Kubernetes can make running Kafka clusters much easier.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/netflix-migrating-stream-processing&quot;&gt;Migrating Batch ETL to Stream Processing: A Netflix Case Study with Kafka and Flink&lt;/a&gt;. This article is about Netflix journey from an ETL based approach to moving data, to a real-time process using Kafka and Flink. A must read!!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-master-branch-monthly-whats-new-flink-january-2018&quot;&gt;Apache Flink Master Branch Monthly: New in Flink in January 2018&lt;/a&gt;. This post is highlighting a selection of features that have been merged into Flink’s master branch during January.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;The &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series is coming to an end. Last week I posted the last post of the &lt;a href=&quot;/2018/02/02/microsoft-sql-server-r-services-internals-xx/&quot;&gt;&lt;strong&gt;Internals&lt;/strong&gt;&lt;/a&gt; part, and I am now working on a post about &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
