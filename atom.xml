@@ -4,13 +4,71 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-04-08T16:12:12+02:00</updated>
+ <updated>2018-04-15T10:28:03+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 15</title>
+   <link href="http://nielsberglund.com/2018/04/15/interesting-stuff-week-15/"/>
+   <updated>2018-04-15T10:20:37+02:00</updated>
+   <id>http://nielsberglund.com/2018/04/15/interesting-stuff---week-15</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-controlled-chaos&quot;&gt;Induce controlled Chaos in Service Fabric clusters&lt;/a&gt;. A blog-post about Service Fabric Chaos. Chaos simulates intermittent, interleaved faults (both graceful and ungraceful) throughout the cluster over extended periods of time. Service Fabric Chaos allows developers to be able to test the stability of their services while the underlying unreliable infrastructure is going through complicated state transitions due to faults.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/uber-elasticsearch-clusters&quot;&gt;Scaling Uber's Elasticsearch Clusters&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about how Uber scaled its Elasticsearch clusters as well as its ingestion pipelines for ingestions, queries, data storage, and operations.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/cloud-native-kafka-netflix&quot;&gt;Cloud-native and Scalable Kafka Architecture&lt;/a&gt;. Another presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;. This presentation is about how Netflix addresses the issues of stability and scalability in a cloud environment by having many smaller and mostly immutable Kafka clusters with limited state changes.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://highscalability.com/blog/2018/4/9/give-meaning-to-100-billion-events-a-day-the-analytics-pipel.html&quot;&gt;Give Meaning To 100 Billion Events A Day - The Analytics Pipeline At Teads&lt;/a&gt;. An article about how &lt;a href=&quot;https://teads.tv/&quot;&gt;Teads&lt;/a&gt; orchestrates Kafka, Dataflow and BigQuery together to ingest and transform a large stream of events (close to 100 billion per day). A very interesting read!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2017/04/12/pleasingly-parallel-using-rxexecby/&quot;&gt;Running Pleasingly Parallel workloads using rxExecBy on Spark, SQL, Local and Localpar compute contexts&lt;/a&gt;. A blog-post about &lt;code&gt;rxExecBy&lt;/code&gt; which is a new &lt;strong&gt;RevoScaleR&lt;/strong&gt; function introduced in &lt;strong&gt;Microsoft Machine Learning Server 9.1&lt;/strong&gt;. The function can be used to partition input data source by keys and apply user-defined functions on individual partitions.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Upcoming Conferences&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/248443776/&quot;&gt;Azure Global Boot-Camp 2018 Durban&lt;/a&gt;. On April 21, 2018, all Azure communities will come together once again in the sixth great &lt;a href=&quot;https://global.azurebootcamp.net/&quot;&gt;Global Azure Bootcamp&lt;/a&gt; event! If you are in the Durban area, please join up and come and learn about all things Azure. Here in Durban, [Lawrance][lawr], who is a fellow MVP - but in the Azure space, arranges it. Yours truly presents two talks; one about Azure ML and the other about Azure Data Lake.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 14</title>
@@ -2848,70 +2906,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 9</title>
-   <link href="http://nielsberglund.com/2018/03/04/interesting-stuff-week-9/"/>
-   <updated>2018-03-04T19:29:44+02:00</updated>
-   <id>http://nielsberglund.com/2018/03/04/interesting-stuff---week-9</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2018/03/02/How-generics-were-added-to-.NET/&quot;&gt;How generics were added to .NET&lt;/a&gt;. A very, very interesting post by &lt;a href=&quot;https://twitter.com/matthewwarren&quot;&gt;Matthew&lt;/a&gt; about the &quot;history&quot; of generics in .NET. I have said it before, and I say it again - if you are interested in the &quot;plumbing&quot; of .NET, Matthew's blog is a must-read!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Databases&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/02/axondb-event-store-cqrs&quot;&gt;AxonDB, a New Implementation of an Event Store&lt;/a&gt;. An article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presenting AxonDB, which is a new data storage purpose-built for event sourcing with support for transactions and pushed-based event publishing. AxonDB is something I want to look closer into, and also see how it plays with Kafka.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/facebook-stream-processing&quot;&gt;Data Decisions with Real-time Stream Processing&lt;/a&gt;. A presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; and its QCon conference. The presentation is about how Facebook is using stream processing at scale to deliver insights with data stream processing, and it also covers difficulties they have encountered and the solutions they have created to date.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://101.datascience.community/2018/02/26/learn-data-science-youtube-channel/&quot;&gt;LEARN DATA SCIENCE YOUTUBE CHANNEL&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/ryanswanstrom&quot;&gt;Ryan Swanstrom&lt;/a&gt; from &lt;a href=&quot;http://101.datascience.community/&quot;&gt;Data Science 101&lt;/a&gt; launches a new YouTube channel to help to learn about data science. I have subscribed!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://101.datascience.community/2018/03/01/conversations-with-future-data-scientists-youtube-playlist/&quot;&gt;CONVERSATIONS WITH FUTURE DATA SCIENTISTS (YOUTUBE PLAYLIST)&lt;/a&gt;. A video from &lt;a href=&quot;https://twitter.com/ryanswanstrom&quot;&gt;Ryan&lt;/a&gt; and the YouTube channel mentioned above. In this video, Ryan chats to some future data scientists about various topics. Exciting questions and answers!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://livebook.datascienceheroes.com&quot;&gt;Data Science Live Book&lt;/a&gt;. An online data science book by &lt;a href=&quot;https://twitter.com/pabloc_ds&quot;&gt;Pablo Casas&lt;/a&gt;. The book is about data preparation, data analysis and machine learning.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/02/27/azure-machine-learning-and-the-team-data-science-process-part-1/&quot;&gt;Azure Machine Learning and the Team Data Science Process – Part 1&lt;/a&gt;. The first post in a series by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt; how the Microsoft Team Data Science Process fits in with Azure Machine Learning, AI programming and Deep Learning.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/02/27/introducing-the-microsoft-machine-learning-server-9-3-release/&quot;&gt;Introducing the Microsoft Machine Learning Server 9.3 Release&lt;/a&gt;. A blog post to announce the release of Microsoft Machine Learning Server 9.3. There are quite a few new features and lots of improvements, so go ahead and read the post and upgrade to the new version. I will!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;Good news, I have come quite a bit on the way with my post about  &lt;code&gt;sp_execute_external_script&lt;/code&gt;. I had hoped to be able to publish it today, but unfortunately, that seems out of the question. Expect it in a couple of days!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
