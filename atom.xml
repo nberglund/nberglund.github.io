@@ -4,13 +4,74 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-04-29T19:23:05+02:00</updated>
+ <updated>2018-05-06T19:36:01+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 18</title>
+   <link href="http://nielsberglund.com/2018/05/06/interesting-stuff-week-18/"/>
+   <updated>2018-05-06T19:27:40+02:00</updated>
+   <id>http://nielsberglund.com/2018/05/06/interesting-stuff---week-18</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Misc.&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/04/book-review-how-to-write-lot-practical.html&quot;&gt;Book review. How to write a lot: A practical guide to productive academic writing&lt;/a&gt;. Yes I know, this has nothing to do with computing at all. However, it touches on what I try to do - write &quot;stuff&quot;. In the blog post &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; reviews a book which provides excellent suggestions to enable academics to write more. Sure, god knows I am not an academic, but I had a quick look at the book - and the suggestions work for anyone that is interested in writing. Thanks &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt;!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/introducing-confluent-platform-preview-releases/&quot;&gt;Introducing Confluent Platform Preview Releases&lt;/a&gt;. A blog post announcing Confluent adding preview releases of their &lt;strong&gt;Confluent Platform&lt;/strong&gt; beside the three times a year release cycle. The first preview release looks very interesting with a lot of KSQL &quot;goodies&quot;!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/flink-stateful-streaming&quot;&gt;Next Steps in Stateful Streaming with Apache Flink&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about how Apache Flink is making stateful stream processing even more expressive and flexible to support applications in streaming that were previously not considered streamable.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/04/27/on-prem-or-on-the-cloud/&quot;&gt;On-Prem or On the Cloud&lt;/a&gt;. A blog post how you can utilise what you do in &lt;a href=&quot;https://azure.microsoft.com/en-us/services/virtual-machines/data-science-virtual-machines/&quot;&gt;Azure Data Science VM&lt;/a&gt; on-prem and &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Conferences / User Groups&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/250299101/?_xtd=gatlbWFpbF9jbGlja9oAJGUwMDZmMzI5LTVhM2QtNDVhYS05OGRiLWM4ZmM2NDZiOGNjMw&quot;&gt;Get Insight Into and Analyze Your Data with Azure EventHubs &amp;amp; Stream Analytics&lt;/a&gt;. I have the privilege to present at the upcoming Durban Azure User Group get together on May 9 about Azure Event Hubs and Azure Stream Analytics. If you are in the &quot;hood&quot;, please join. &lt;a href=&quot;https://twitter.com/bytezn&quot;&gt;Lawrance&lt;/a&gt; who is the driving force behind the user group says that there is awesome SWAG to be had, thanks to Microsoft.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;Sigh! In last weeks roundup I wrote how I was about to publish a new post to correct some errors I had in the post; &lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;sp_execute_external_script - III&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series. Well, it seems the post may take somewhat longer to get finished as I have realised there are quite a few things I do not understand as well as I would like to do. So please, bear with me!&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 17</title>
@@ -2083,71 +2144,6 @@
 &lt;h2&gt;SQL Server R Services&lt;/h2&gt;
 
 &lt;p&gt;I am working on the last post in the &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series, and I hope to publish it this coming week!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 10</title>
-   <link href="http://nielsberglund.com/2018/03/11/interesting-stuff-week-10/"/>
-   <updated>2018-03-11T14:17:55+02:00</updated>
-   <id>http://nielsberglund.com/2018/03/11/interesting-stuff---week-10</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/07/what-is-azure-sql-database-managed-instance-2/&quot;&gt;What is Azure SQL Database Managed Instance?&lt;/a&gt;. A blog-post by &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; about a new &lt;strong&gt;Azure SQL Server&lt;/strong&gt; offering: &lt;strong&gt;Managed Instance&lt;/strong&gt;. Managed Instance is a new managed database service that represents a fully-managed SQL Server instance in the Azure cloud. It shares the same code with the latest version of SQL Server database engine and has the latest features, performance improvements, and security patches; for example SQLCLR is available - yay!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/event-driven-oreilly&quot;&gt;Event-Driven Microservices at O'Reilly Software Architecture Conference NY&lt;/a&gt;. A roundup from the O'Reilly Software Architecture Conference about micros-services. The topics are around how an event driven architecture can help when doing micro-services.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf&quot;&gt;Impossibility of Distributed Consensus with One Faulty Process &lt;/a&gt;. A white paper covering some of the problems inherent in distributed asynchronous systems. A must read!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/03/09/settling-payments-fast-and-private-efficient-decentralized-routing-for-path-based-transactions/&quot;&gt;Settling payments fast and private: efficient decentralized routing for path-based transactions&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; from &lt;a href=&quot;https://blog.acolyer.org&quot;&gt;&lt;strong&gt;the morning paper&lt;/strong&gt;&lt;/a&gt; dissects a white paper about Peer-to-peer path-based-transaction (PBT) networks. Very interesting!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/AnacondaShippingVSCOde&quot;&gt;Popular Python Data Science Platform Anaconda Now Shipping with Microsoft VS Code&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about how release 5.1 of &lt;strong&gt;Anaconda&lt;/strong&gt;, the data science and machine learning platform, now includes &lt;strong&gt;Visual Studio Code&lt;/strong&gt; as an IDE. This is part of a wider collaborative effort between Anaconda Inc. and Microsoft. This is big!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/03/07/onnx-models-to-be-runnable-natively-on-100s-of-millions-of-windows-devices/&quot;&gt;ONNX Models to be Runnable Natively on 100s of Millions of Windows Devices&lt;/a&gt;. An announcement how the next major update to Windows will include the ability to run &lt;a href=&quot;https://github.com/onnx/onnx&quot;&gt;&lt;strong&gt;Open Neural Network Exchange&lt;/strong&gt;&lt;/a&gt; (ONNX) models natively with hardware acceleration.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/windows/uwp/machine-learning/overview&quot;&gt;Windows Machine Learning overview&lt;/a&gt;. Related to the link above is this link about &lt;strong&gt;Windows Machine Learning&lt;/strong&gt; (Windows ML). Windows ML is a platform for local evaluation of trained machine learning models on Windows 10 devices.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.getrevue.co/profile/datascienceweekly&quot;&gt;Best of Data Science Weekly&lt;/a&gt;. A good friend of mine here in South Africa, &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis de Sousa&lt;/a&gt;, publishes a weekly data science newsletter of all the best data science related news and blog posts. If you are interested in data science, you really should go ahead and subscribe.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.theatlantic.com/technology/archive/2018/03/largest-study-ever-fake-news-mit-twitter/555104/&quot;&gt;The Grim Conclusions of the Largest-Ever Study of Fake News&lt;/a&gt;. Not a data science article as such, however there is a lot of data science related material in the article. The article itself talks about fake news. Very interesting!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I am awesome (if I may say so myself)! Since the last week's &lt;a href=&quot;/2018/03/04/interesting-stuff-week-9/&quot;&gt;roundup&lt;/a&gt; I have manged to finish off two posts about &lt;strong&gt;SQL Server R Services&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/03/07/microsoft-sql-server-r-services-sp_execute_external_script-I/&quot;&gt;Microsoft SQL Server R Services: sp_execute_external_script - I&lt;/a&gt;. First post in a couple, (maybe three), about &lt;code&gt;sp_execute_external_script&lt;/code&gt;. In this post I look at some of the parameters of &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/03/11/microsoft-sql-server-r-services-sp-execute-external-script-ii/&quot;&gt;Microsoft SQL Server R Services - sp_execute_external_script - II&lt;/a&gt;. Second post about &lt;code&gt;sp_execute_external_script&lt;/code&gt;. Here I look at how parameters are handled in &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
