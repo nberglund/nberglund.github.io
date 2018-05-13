@@ -4,13 +4,83 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-05-06T19:36:01+02:00</updated>
+ <updated>2018-05-13T20:16:06+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 19</title>
+   <link href="http://nielsberglund.com/2018/05/13/interesting-stuff-week-19/"/>
+   <updated>2018-05-13T20:09:52+02:00</updated>
+   <id>http://nielsberglund.com/2018/05/13/interesting-stuff---week-19</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://engineering.skybettingandgaming.com/2018/05/04/firedrills-in-core/&quot;&gt;Crash! Bang! Wallop! Practice makes perfect&lt;/a&gt;. A very interesting blog post about how &lt;strong&gt;Sky Betting &amp;amp; Gaming&lt;/strong&gt; conducts &lt;em&gt;Chaos&lt;/em&gt; and &lt;em&gt;Disaster Recovery&lt;/em&gt; testing.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/microservices-and-containers-book-review&quot;&gt;Book Review and Q&amp;amp;A: Microservices and Containers by Parminder Singh Kocher&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; book review of &lt;strong&gt;Microservices and Containers&lt;/strong&gt;. The book provides a deep dive into the central concepts, patterns and technologies used to implement modern, highly available, highly scalable cloud-native applications.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/level-up-your-ksql/&quot;&gt;Level Up Your KSQL&lt;/a&gt;. A blog post announcing a video series to skill up on KSQL. This is a must watch if you are interested Kafka!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/4-new-features-now-available-in-azure-stream-analytics/&quot;&gt;4 new features now available in Azure Stream Analytics&lt;/a&gt;. This post announces four new features in Azure Stream Analytics. Of the new features, I am most excited about the &lt;code&gt;SessionWindow&lt;/code&gt; feature. The &lt;code&gt;SessionWindow&lt;/code&gt; allows users to filter out periods of time where there is no data. The new feature does this by creating dynamic temporal windows of variable sizes based on the batches of incoming data.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/rounding-up-kafka-summit-london-2018/&quot;&gt;Rounding Up Kafka Summit London 2018&lt;/a&gt;. This post is not so much a roundup as an announcement that videos are now available for the recently concluded Kafka 2018 summit. Now I know what to do with all the free time I have - watch Kafka videos!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/azure-event-hubs-for-kafka-ecosystems-in-public-preview/&quot;&gt;Azure Event Hubs for Kafka Ecosystems in public preview&lt;/a&gt;. This is so very exciting! The ability to integrate Kafka with Azure Event Hubs.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/05/07/introducing-ml-net-cross-platform-proven-and-open-source-machine-learning-framework/&quot;&gt;Introducing ML.NET: Cross-platform, Proven and Open Source Machine Learning Framework&lt;/a&gt;. A blog post announcing ML.NET: a cross-platform, open source machine learning framework. ML.NET allows .NET developers to develop their models and infuse custom ML into their applications without prior expertise in developing or tuning machine learning models.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/05/open-source-machine-learning-in-azure.html&quot;&gt;Open-Source Machine Learning in Azure&lt;/a&gt;. This post by &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; is about a presentation he gave at Microsoft Build 2018 about how you can take your open-source tools and workflows you already use for machine learning and data science and easily transition them to the Azure cloud to take advantage of its capacity and scale.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://simplystatistics.org/2018/04/30/relationships-in-data-analysis/&quot;&gt;Relationships in Data Analysis&lt;/a&gt;.  A thought-provoking post about how data analysis is very much dependent upon human relationships.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/Azure-Machine-Learning-New&quot;&gt;What’s New in Azure Machine Learning?&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; summary from Microsoft Build 2018 about new features in Azure Machine Learning. There are quite a few new cool things coming.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/uber-ml-architecture-models&quot;&gt;Machine Learning Pipeline for Real-time Forecasting @Uber Marketplace&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation where [Danny Yuan]  discusses how Uber is using ML to improve their forecasting models, the architecture of their ML platform and lessons learned running it in production. I got so many cool ideas seeing this presentation.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Durban Azure User Group&lt;/h2&gt;
+
+&lt;p&gt;Last Wednesday (May 9) The Durban Azure User Group had its monthly meetup, and I did a presentation:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/250299101&quot;&gt;Get Insight Into and Analyze Your Data with Azure EventHubs &amp;amp; Stream Analytics&lt;/a&gt;. As the title says, the presentation was bout Azure Event Hubs and Azure Stream Analytics. For you who attended (and everyone else as well), there is a zip file to download &lt;a href=&quot;/downloads/presentations/azureusergroup/azureusergroup_2018-05-09.zip&quot;&gt;here&lt;/a&gt;, which contains the slide deck in pdf format and a text file with various resource links.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;I am still working on the post to correct the errors I had in the post; [sp_execute_external_script - III][sext3] in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series. Please, bear with me!&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 18</title>
@@ -2070,84 +2140,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me. As mentioned, this is the last post in this series: I have had a lot of fun writing this and I have learned a lot. Hope you - my readers - have enjoyed it as well!&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 11</title>
-   <link href="http://nielsberglund.com/2018/03/18/interesting-stuff-week-11/"/>
-   <updated>2018-03-18T20:20:08+02:00</updated>
-   <id>http://nielsberglund.com/2018/03/18/interesting-stuff---week-11</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/14/how-to-configure-network-for-azure-sql-managed-instance/&quot;&gt;How to configure network for Azure SQL Managed Instance&lt;/a&gt;. In last weeks &lt;a href=&quot;/2018/03/11/interesting-stuff-week-10/&quot;&gt;roundup&lt;/a&gt; I had a link to a &lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/03/07/what-is-azure-sql-database-managed-instance-2/&quot;&gt;post&lt;/a&gt; about &lt;strong&gt;Azure SQL Database Managed Instance&lt;/strong&gt;. In the post I link to this week, &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; explains how to configure the network for a Managed Instance.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/events-distributed-systems&quot;&gt;Events Are Reshaping the Future of Distributed Systems: Jonas Bonér at QCon London&lt;/a&gt;. A summary of a QCon presentation by &lt;a href=&quot;http://jonasboner.com/&quot;&gt;Jonas Bonér&lt;/a&gt;, where he talked about events and distributed systems and how eventual consistency should be default.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/03/asynchronous-event-architectures&quot;&gt;QCon London: Asynchronous Event Architectures with or without Actors&lt;/a&gt;. Another summary of a QCon presentation. This time about asynchronous event communication in microservices systems.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/real-time-data-activation&quot;&gt;Real-Time Data Activation - Analytics, Intelligence &amp;amp; Decision Making&lt;/a&gt;. Presentaion from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about dealing with real-time analytics with the Lambda Architecture, creating a working data set and data-driven features in an application.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/azureservicefabric/2018/03/14/service-fabric-is-going-open-source/&quot;&gt;Service Fabric is going open source&lt;/a&gt;. A blog post announcing Microsoft taking Service Fabric fully open source. Wohoo!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.softwaremill.com/event-sourcing-using-kafka-53dfd72ad45d&quot;&gt;Event sourcing using Kafka&lt;/a&gt;. Kafka has recently introduced some new features which makes it pretty straightforward to do event sourcing on top of Kafka. This post tells us all about it. I found the post very interesting!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-master-branch-monthly-whats-new-flink-february-2018&quot;&gt;Apache Flink Master Branch Monthly: New in Flink in February 2018&lt;/a&gt;. Roundup of new features that were merged into Flink’s master branch during February 2018 but aren’t yet part of a stable release.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/no-more-silos-how-to-integrate-your-databases-with-apache-kafka-and-cdc&quot;&gt;No More Silos: How to Integrate your Databases with Apache Kafka and CDC&lt;/a&gt;. Oooh, this is so interesting! A post about how to get data from your database(s) into Kafka. Did I mention this is interesting?!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://insights.stackoverflow.com/survey/2018/#technology-most-loved-dreaded-and-wanted-databases&quot;&gt;Developer Survey Results 2018&lt;/a&gt;. Each year, StackOverflow asks the developer community about everything from their favorite technologies to their job preferences. This year over 100,000 developers took the 30-minute survey this past January, and here are the results!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/03/15/demystifying-docker-for-data-scientists-a-docker-tutorial-for-your-deep-learning-projects/&quot;&gt;Demystifying Docker for Data Scientists – A Docker Tutorial for Your Deep Learning Projects&lt;/a&gt;. A very interesting post about how Docker can be used in a Data Science environment. Must Read!!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;I am working on the last post in the &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series, and I hope to publish it this coming week!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
