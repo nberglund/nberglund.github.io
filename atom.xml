@@ -4,13 +4,72 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-05-20T11:04:42+02:00</updated>
+ <updated>2018-05-20T18:37:12+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 20</title>
+   <link href="http://nielsberglund.com/2018/05/20/interesting-stuff-week-20/"/>
+   <updated>2018-05-20T18:33:35+02:00</updated>
+   <id>http://nielsberglund.com/2018/05/20/interesting-stuff---week-20</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/visualizations-on-apache-kafka-made-easy-with-ksql/&quot;&gt;Visualizations on Apache Kafka Made Easy with KSQL&lt;/a&gt;. Not a week without one or more Kafka related posts. This blog-post is about how to get started with processing streaming data with Confluent KSQL and visualizing it using the &lt;a href=&quot;https://www.arcadiadata.com/&quot;&gt;Arcadia Data&lt;/a&gt; platform. The post contains quite a few links to interesting demos.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Cloud / Big Data&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/enhance-productivity-using-azure-data-factory-visual-tools/&quot;&gt;Enhance productivity using Azure Data Factory Visual Tools&lt;/a&gt;. A blog-post about ADF Visual Tools where the primary goal of the ADF visual tools is to allow you to be productive with ADF by getting pipelines up and running quickly without requiring to write a single line of code. It looks quite impressive, and this is another thing I really need to have a look at.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/azure-signalr-preview&quot;&gt;Microsoft Announces Preview of Azure SignalR Service&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about how Microsoft recently announced a public preview of the Azure SignalR Service. SignalR has been available for download as a separate ASP.NET library, but this is the first time it has been available as a fully-managed service. Exciting stuff!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/data-ml-pipelines-stitchfix&quot;&gt;Developing Data and ML Pipelines at Stitch Fix&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/presentations/data-ml-pipelines-stitchfix&quot;&gt;InfoQ&lt;/a&gt; presentation about how Stitch Fix develops, schedules, and maintains their data and ML pipelines. Very interesting, it sure gave me some ideas!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/PyTorch-AI&quot;&gt;PyTorch 1.0 Announced for Research and Production AI Projects&lt;/a&gt;. This links to another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article. This article is about the introduction of PyTorch 1.0 and its new capabilities.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/05/18/getting-started-with-machine-learning-services-in-sql-server/&quot;&gt;Getting Started with Machine Learning Services in SQL Server&lt;/a&gt;. A blog-post which serves as an introduction to SQL Server Machine Learning Services. It looks somewhat like my &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt;, but this post has links to videos. Awesome!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. I finally managed to finish the post about &lt;code&gt;sp_execute_external_script&lt;/code&gt; and &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). That is the good news; the bad news is that I realised that there are quite a few things I do not understand about SQLCC, so I need to investigate more and also write more posts about SQLCC. Sigh - that is life!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>sp_execute_external_script and SQL Compute Context - I</title>
@@ -1787,82 +1846,6 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ai-ml-swe&quot;&gt;Artificial Intelligence and Machine Learning for the SWE&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Rob Harrop where he describes his journey from traditional Software Engineer to AI/ML Engineer, and his experience building a development team with ML as the foundation.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/03/27/introduction-to-the-microsoft-ai-platform/&quot;&gt;Introduction to the Microsoft AI Platform&lt;/a&gt;. An excellent video series by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt;, where he covers the Microsoft Artificial Intelligence suite of tools and services. This is a must watch!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 12</title>
-   <link href="http://nielsberglund.com/2018/03/25/interesting-stuff-week-12/"/>
-   <updated>2018-03-25T11:12:17+02:00</updated>
-   <id>http://nielsberglund.com/2018/03/25/interesting-stuff---week-12</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2018/03/18/sql-server-2017-improved-resource-usage-on-smaller-machines/&quot;&gt;SQL Server 2017 Improved Resource Usage On Smaller Machines&lt;/a&gt;. Bob Dorr talks about improvements he did in SQL Server 2017 CU4 to improve resource usage on smaller machines. Some interesting tidbits about SQLCLR and garbage collection!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/dataplatforminsider/2018/03/20/ssms-17-6-is-now-available-managed-instance-and-many-bug-fixes/&quot;&gt;SSMS 17.6 is now available: Managed Instance and many bug fixes&lt;/a&gt;. A blog post announcing the release of &lt;strong&gt;SQL Server Management Studio&lt;/strong&gt; (SSMS) 17.6. Go and grab it before Microsoft runs out of stock!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2018/03/23/Exploring-the-internals-of-the-.NET-Runtime/&quot;&gt;Exploring the internals of the .NET Runtime&lt;/a&gt;. An excellent blog post by &lt;a href=&quot;https://twitter.com/matthewwarren&quot;&gt;Matthew&lt;/a&gt; how he drills down into and figures out how the .NET runtime works. A bonus to this post is the link to the &lt;a href=&quot;https://github.com/dotnet/coreclr/tree/master/Documentation/botr&quot;&gt;&lt;strong&gt;Book of the Runtime&lt;/strong&gt;&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/03/anatomical-similarities-and-differences.html&quot;&gt;Anatomical similarities and differences between Paxos and blockchain consensus protocols&lt;/a&gt;. An interesting blog post by &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; where he compares the &lt;a href=&quot;https://en.wikipedia.org/wiki/Paxos_(computer_science)&quot;&gt;&lt;strong&gt;Paxos&lt;/strong&gt;&lt;/a&gt; protocol with blockchain consensus protocols.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.benstopford.com/2017/05/12/devoxx-london-2017-rethinking-services-stateful-streams/&quot;&gt;Devoxx 2017 – Rethinking Services With Stateful Streams&lt;/a&gt;. A presentation from &lt;a href=&quot;https://en.wikipedia.org/wiki/Devoxx&quot;&gt;Devoxx&lt;/a&gt; 2017, where &lt;a href=&quot;https://twitter.com/benstopford&quot;&gt;Ben Stopford&lt;/a&gt; talks about microservices and streaming using Kafka. This presentation is a must watch if you do microservices!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/azure-event-hubs-integration-with-apache-spark-now-generally-available/&quot;&gt;Azure Event Hubs integration with Apache Spark now generally available&lt;/a&gt;. This post is an announcement from the Microsoft Azure EventHub team that integration between EventHubs and Apache Spark in Azure is now available across regions. The Spark integration is cool, but I would like to see integration with Apache Flink as well.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/ksql-in-action-enriching-csv-events-with-data-from-rdbms-into-AWS/&quot;&gt;KSQL in Action: Enriching CSV Events with Data from RDBMS into AWS&lt;/a&gt;. In last weeks &lt;a href=&quot;/2018/03/18/interesting-stuff-week-11/&quot;&gt;roundup&lt;/a&gt; I linked to a &lt;a href=&quot;https://www.confluent.io/no-more-silos-how-to-integrate-your-databases-with-apache-kafka-and-cdc&quot;&gt;post&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/rmoff&quot;&gt;Robin Moffat&lt;/a&gt; where he discussed Apache Kafka integration with relational databases. In this link, &lt;a href=&quot;https://twitter.com/rmoff&quot;&gt;Robin&lt;/a&gt; takes the database integration a step further and shows how we can enrich streaming data with database data in real-time!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/azure-databricks-industry-leading-analytics-platform-powered-by-apache-spark/&quot;&gt;Azure Databricks, industry-leading analytics platform powered by Apache Spark&lt;/a&gt;. Another Azure announcement: this is about how &lt;strong&gt;Azure Databricks&lt;/strong&gt; - an Apache Spark based analytics platform optimised for Azure - is now available across regions in Azure.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/03/r-and-docker.html&quot;&gt;R and Docker&lt;/a&gt;. In the &lt;a href=&quot;/2018/03/18/interesting-stuff-week-11/&quot;&gt;roundup&lt;/a&gt; from last week I linked to a &lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/03/15/demystifying-docker-for-data-scientists-a-docker-tutorial-for-your-deep-learning-projects/&quot;&gt;post&lt;/a&gt; about Data Science and Docker, and in this post from &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt;, he talks about R and Docker images.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server R Services&lt;/h2&gt;
-
-&lt;p&gt;Over one year and 24 posts later I have finally finished my &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series, and the last post was:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;Microsoft SQL Server R Services: sp_execute_external_script - III&lt;/a&gt;. In this post I discussed parallelism when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt;. If I may say so myself, I quite liked it!&lt;/li&gt;
 &lt;/ul&gt;
 
 
