@@ -4,13 +4,91 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-05-20T18:37:12+02:00</updated>
+ <updated>2018-05-27T11:11:31+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 21</title>
+   <link href="http://nielsberglund.com/2018/05/27/interesting-stuff-week-21/"/>
+   <updated>2018-05-27T11:06:31+02:00</updated>
+   <id>http://nielsberglund.com/2018/05/27/interesting-stuff---week-21</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;SQL Server &amp;amp; Other Database Systems&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2018/05/20/sql-server-on-linux-quick-performance-monitoring/&quot;&gt;SQL Server on Linux: Quick Performance Monitoring&lt;/a&gt;. A blog post by &lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/&quot;&gt;Bob Dorr&lt;/a&gt; where he talks about how we can get a Performance Monitor like view on Linux for SQL Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/mysql8&quot;&gt;MySQL Version 8 Adds Document Store, Performance and Security Improvements&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about new functionality in the latest version of MySQL. What caught my eye was the support for document store. I guess, depending on how it is done, having a combination of Document Store and a relational database can be very powerful.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-1-5-0-release-announcement&quot;&gt;Apache Flink 1.5.0 Release Announcement&lt;/a&gt;. This post announces the release of Flink version 1.5.0. There are quite a few new exciting features, among them: broadcast state, task-local state recovery and support for windowed outer equi-joins in the SQL and Table API's. I have just set up a new CentOS 7 virtual machine so I can check this out.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/confluent-cloud-pro-gcp/&quot;&gt;New Confluent Cloud Professional, and Ecosystem Expansion to Google Cloud Platform&lt;/a&gt;. I do not know if you knew this - but there is a rule saying that if there is an announcement from Flink, there also has to be an announcement from Kafka (and visa versa). So, the Kafka announcement is that the Confluent Cloud is now also available on the Google Cloud (in addition to AWS). I really hope to see Azure being in the mix in a not too distant future.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/future-of-net-core&quot;&gt;Discussions on the Future of .NET Core&lt;/a&gt;. An [InfoQ] article where five industry veterans discuss the .NET Core platform. Some takeaways:
+
+&lt;ul&gt;
+&lt;li&gt;The .NET Core platform provides significant performance benefits as compared to the traditional .NET Framework.&lt;/li&gt;
+&lt;li&gt;.NET Core benefits from a server-centric design that is not Windows-focused.&lt;/li&gt;
+&lt;li&gt;.NET Core is now a stable platform suitable for new application development.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/netflix-techblog/open-sourcing-zuul-2-82ea476cb2b3&quot;&gt;Open Sourcing Zuul 2&lt;/a&gt;. An announcement from Netflix, how they are now open-sourcing their cloud gateway: &lt;strong&gt;Zuul 2&lt;/strong&gt;. A very interesting point in the post was where it discussed anomaly detection and contextual alerting.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/paypal-data-service-fraud&quot;&gt;Data Pipelines for Real-time Fraud Prevention at Scale&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about the architecture of PayPal’s data service which combines a Big Data approach with providing data in real time for decision making in fraud detection.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/&quot;&gt;Pixie: a system for recommending 3+ billion items to 200+ million users in real-time&lt;/a&gt;. A white paper dissected by &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; describing how Pinterest has built a system for recommending 3+ billion items to 200+ million users in real-time!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/05/21/enterprise-deployment-tips-for-azure-data-science-virtual-machine-dsvm&quot;&gt;Enterprise Deployment Tips for Azure Data Science Virtual Machine (DSVM)&lt;/a&gt;. I came across this post thanks to &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis&lt;/a&gt; and his weekly &lt;a href=&quot;https://www.getrevue.co/profile/datascienceweekly/&quot;&gt;newsletter&lt;/a&gt;. The post he pointed to is about the Azure Data Science Virtual Machine (DSVM) and how to use and deploy in an enterprise environment. This topic is especially interesting right now as we at &lt;a href=&quot;/derivco&quot;&gt;Derivco&lt;/a&gt; is looking at the DSVM. Thanks &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis&lt;/a&gt;!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;In lasts week &lt;a href=&quot;/2018/05/20/interesting-stuff-week-20/&quot;&gt;roundup&lt;/a&gt; I mentioned how I probably have to write some follow up posts to the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post I published a week ago. I have now started with the first follow up post, and I hope I can publish it in a week or two.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 20</title>
@@ -1795,63 +1873,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 13</title>
-   <link href="http://nielsberglund.com/2018/03/31/interesting-stuff-week-13/"/>
-   <updated>2018-03-31T19:12:05+02:00</updated>
-   <id>http://nielsberglund.com/2018/03/31/interesting-stuff---week-13</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Azure Cloud&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/implementation-patterns-for-big-data-and-data-warehouse-on-azure/&quot;&gt;Implementation patterns for big data and data warehouse on Azure&lt;/a&gt;. A blog post which lists some patterns and tools for big data as well as data warehouses in the Azure world. When I read it, I was surprised to see no mention of Azure Data Lake in the different patterns. I wrote a comment and asked about it, and received the answer that Azure Data Lake was a possibility instead of Azure Blob Store.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/da-platform-with-apache-flink-general-availability&quot;&gt;Full Stream Ahead! dA Platform is Generally Available and Ready for Download&lt;/a&gt;. This blog post announces the general availability of the &lt;a href=&quot;https://data-artisans.com/blog/da-platform-stateful-stream-processing-with-apache-flink-made-easier&quot;&gt;&lt;strong&gt;dA Platform&lt;/strong&gt;&lt;/a&gt; from dataArtisans. This is very exciting news, and I am so eager to test it out.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Databases&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/03/27/anna-a-kvs-for-any-scale/&quot;&gt;Anna: A KVS for any scale&lt;/a&gt;. A dissection, done by &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; of a white-paper about a new key-value store system: Anna. Anna is a partitioned and multi-mastered system, which achieves high performance and elasticity via wait-free execution and coordination-free consistency. Very exciting stuff!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science &amp;amp; AI&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ai-ml-swe&quot;&gt;Artificial Intelligence and Machine Learning for the SWE&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by Rob Harrop where he describes his journey from traditional Software Engineer to AI/ML Engineer, and his experience building a development team with ML as the foundation.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/03/27/introduction-to-the-microsoft-ai-platform/&quot;&gt;Introduction to the Microsoft AI Platform&lt;/a&gt;. An excellent video series by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt;, where he covers the Microsoft Artificial Intelligence suite of tools and services. This is a must watch!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
