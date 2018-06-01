@@ -4,13 +4,157 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-05-27T11:11:31+02:00</updated>
+ <updated>2018-06-01T19:53:46+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>SQL Server Machine Learning Services and SQL Server 2017 CU7</title>
+   <link href="http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
+   <updated>2018-06-01T19:43:01+02:00</updated>
+   <id>http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
+   <content type="html">&lt;p&gt;This post is as much for you as it is for me to come back to when I wonder what to do when SQL Serer Machine Learning Services all of a sudden stops working after a SQL Server upgrade.&lt;/p&gt;
+
+&lt;h2&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;Last week I did a complete reformat of my development box at home and installed the latest version of Windows 10: the 1803 build, also called the April 2018 update.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I usually try to reformat my box at least twice a year, to ensure it is not too &quot;bogged&quot; down by old &quot;cruft&quot;, and that it has the latest and greatest.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;After the reformat I installed all my necessary applications, among them SQL Server 2017 with the in-database analytics components (R and Python). After installation I tested that it all worked and made sure I could execute my usual test scripts for &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;R Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d &amp;lt;- 42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Test Script for R&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The &quot;moral&quot; equivalent to &lt;em&gt;Code Snippet 1&lt;/em&gt; in Python also worked without an issue:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Python Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;   &lt;span class=&quot;nd&quot;&gt;@language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Python'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'d = 42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Test Script for Python&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Cool, all is &quot;A-OK&quot;! A couple of days go by, and I see that there is a Cumulative Update (CU) for SQL Server 2017 - CU7. I install it and does not think much about it. I mean: &quot;what can go wrong, how hard can it be?&quot;. A couple of days later and I am busy writing the follow-up post to &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; when I try to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and it falls over!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you do not know what CU's are, you can read more about them &lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlreleaseservices/announcing-the-modern-servicing-model-for-sql-server/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Exception&lt;/h2&gt;
+
+&lt;p&gt;The exception I received when I tried to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; looked like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_error1.png&quot; width=&quot;405&quot; height=&quot;105&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Exception when Executing&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As we see in &lt;em&gt;Figure 1&lt;/em&gt; the exception has something to do with not being able to create a directory, which points to permission issues. This, kind of, resonated with me as I had in the back of my mind that something similar happened in the early days of SQL Server 2016 R Services when R stopped working after service packs were applied. Regardless I did some investigation around the issue (read I Googled) and found &lt;a href=&quot;http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/&quot;&gt;this&lt;/a&gt; post by Jon Culp and also a post by my old friend &lt;a href=&quot;https://blog.greglow.com/2018/05/16/machine-learning-testing-your-installation-of-r-and-python-in-sql-server-2017/&quot;&gt;Greg Low&lt;/a&gt;. Both posts mention the 8.3 file naming convention as the primary culprit for the error. However, seeing that this worked fine before I applied CU7, I did not believe that the 8.3 file names were the case.  Having said that, I did (to be sure) enable the 8.3 notation as per &lt;a href=&quot;http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/&quot;&gt;Jon Culp's&lt;/a&gt; post: &lt;code&gt;fsutil.exe behaviour set disable8dot3 0&lt;/code&gt;. Unfortunately, that did not change anything because when I executed the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; it still errored out with the error in &lt;em&gt;Figure 1&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;All this pointed me back to the error being due to permission issues.&lt;/p&gt;
+
+&lt;h2&gt;Permissions&lt;/h2&gt;
+
+&lt;p&gt;Ok, so above we said permission issues, but permissions on what?&lt;/p&gt;
+
+&lt;p&gt;If you read my series about &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server 2016 R Services&lt;/a&gt; you may remember that in &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; and &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt; we discussed how the Launchpad service and the RTerm processes create files and directories in the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In a default installation of SQL Server on a Windows box, the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory is located at &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When you navigate the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory in &lt;em&gt;File Explorer&lt;/em&gt; and look at the &lt;em&gt;Advanced Security Settings for ExtensibilityData&lt;/em&gt; dialog you see something like so in an installation where everything works:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_permissions1.png&quot; width=&quot;755&quot; height=&quot;515&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Permissions on ExtensibilityData&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 2&lt;/em&gt; we see the various users, groups and roles that have access to the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and the highlighted part is the group that is of interest for this discussion. What is interesting is that when you look at this dialog before CU7 (when everything works) and after you deploy CU7, it looks the same. So, something is going on behind the scenes.&lt;/p&gt;
+
+&lt;p&gt;To further confirm that what I saw was a permission issue I used &lt;em&gt;Process Monitor&lt;/em&gt; to see what file operations happened when I tried to execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;. After gradually filtering out events I ended up with was is shown in the figure below.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are interested in how you can use &lt;em&gt;Process Monitor&lt;/em&gt; I covered that in &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_procmon1.png&quot; width=&quot;782&quot; height=&quot;192&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Process Monitor Output&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Remember how we in the &lt;strong&gt;Internals&lt;/strong&gt; posts &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;IV&lt;/a&gt; and &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;VII&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and its sub-directories. So what we see in &lt;em&gt;Figure 3&lt;/em&gt; is how the RTerm processes cannot write to the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and this is what ultimately causes the error in &lt;em&gt;Figure 1&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;What I saw when I filtered out events was that even though the RTerm processes could not write to the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory, they could write to subdirectories:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_procmon2.png&quot; width=&quot;801&quot; height=&quot;161&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Successful Writes&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So based on what we see in &lt;em&gt;Figure 3&lt;/em&gt; and &lt;em&gt;Figure 4&lt;/em&gt; it seems like something has gone awry with permissions for the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory. How to fix this?&lt;/p&gt;
+
+&lt;h2&gt;Fix&lt;/h2&gt;
+
+&lt;p&gt;I must confess that I initially added &lt;em&gt;Everyone&lt;/em&gt; with &lt;em&gt;Full control&lt;/em&gt; to the security settings for the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and it all worked:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_permissions2.png&quot; width=&quot;755&quot; height=&quot;515&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Everyone Full Control&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;However that did not seem like the correct way to do it, so I started playing around with the &quot;Advanced&quot; security properties on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_sec_properties.png&quot; width=&quot;360&quot; height=&quot;485&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Security Properties&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 6&lt;/em&gt; we see how I have right clicked on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory in &lt;em&gt;File Explorer&lt;/em&gt; and chosen properties and then clicked on the &lt;em&gt;Security&lt;/em&gt; (highlighted in the figure). The group that we work with is the &lt;code&gt;MSSQLLaunchpad&lt;/code&gt;, outlined in red.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you work on a SQL instance other than the default the group name is &lt;code&gt;MSSQLLaunchpad$instance_name&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When I click on the &quot;Advanced&quot; button (also outlined in red in &lt;em&gt;Figure 6&lt;/em&gt;) I see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh.png&quot; width=&quot;765&quot; height=&quot;515&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Advanced Security Settings&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the &quot;Advanced Security Settings&quot; dialog in &lt;em&gt;Figure 7&lt;/em&gt; I clicked on &quot;Enable inheritance&quot; (outlined in red) followed by &quot;Apply&quot;, which showed an error dialog:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh_1.png&quot; width=&quot;395&quot; height=&quot;220&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Error Dialog&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I clicked on &quot;Continue&quot; and the error repeated for each subdirectory in the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory. After last error I was back in the &quot;Advanced Security Settings&quot; dialog where I saw something strange:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh_2.png&quot; width=&quot;800&quot; height=&quot;580&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Additional Security Principals&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What I saw was quite a few new security principals added to the security settings for the directory, and we see them outlined in red in &lt;em&gt;Figure 9&lt;/em&gt;. I clicked OK until I exited all dialogs. Now, when I tried to execute the R code, it succeeded. However, I was not happy with the added principals, so I went back into the &quot;Advanced Security Settings&quot; dialog:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_disable_inh_1.png&quot; width=&quot;750&quot; height=&quot;515&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Disable Inheritance&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the dialog as we see in &lt;em&gt;Figure 10&lt;/em&gt; I clicked on the &quot;Disable inheritance&quot; button. When I clicked &quot;Apply&quot; the &quot;Block Inheritance&quot; dialog &quot;popped up&quot;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_convert_inh_1.png&quot; width=&quot;510&quot; height=&quot;275&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Block Inheritance&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the &quot;Block Inheritance&quot; dialog I clicked on the outlined part in &lt;em&gt;Figure 10&lt;/em&gt;: &quot;Convert inherited permissions ...&quot;, and the same error dialog as we see in &lt;em&gt;Figure 8&lt;/em&gt; came up. As I did above, I clicked through the errors through the &quot;Continue&quot; button, and when I was back in the &quot;Advanced Security Settings&quot; dialog I saw that the added security principals were no longer there. That is not true, one principal from the added ones was still there, and that was &lt;code&gt;MSSQLSERVER&lt;/code&gt;. I removed it and clicked OK out of the remaining dialogs. When I executed the code, it all worked, Yay!&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Above we see how I managed to fix the issue how R did not work in SQL Server 2017 after I had applied CU7. The steps I took:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Right-click on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and choose properties.&lt;/li&gt;
+&lt;li&gt;In properties click on the &quot;Security&quot; tab and then the &quot;Advanced&quot; button.&lt;/li&gt;
+&lt;li&gt;In the &quot;Advanced Security Settings&quot; dialog click &quot;Enable inheritance&quot; followed by &quot;Apply&quot;.&lt;/li&gt;
+&lt;li&gt;In the error dialogs that appear click continue until you are back in the &quot;Advanced Security Settings&quot; dialog, and there you click OK out of all dialogs.&lt;/li&gt;
+&lt;li&gt;At this stage, you can execute the R code without any exceptions.&lt;/li&gt;
+&lt;li&gt;Go back into the &quot;Advanced Security Settings&quot; dialog and click &quot;Disable inheritance&quot; and &quot;Apply&quot;.&lt;/li&gt;
+&lt;li&gt;In the &quot;Block Inheritance&quot; dialog chose &quot;Convert inherited permissions ...&quot;.&lt;/li&gt;
+&lt;li&gt;&quot;Continue&quot; through the error dialogs until you are back in the &quot;Advanced Security Settings&quot; dialog.&lt;/li&gt;
+&lt;li&gt;In the &quot;Advanced Security Settings&quot; dialog &quot;Remove&quot; the &lt;code&gt;MSSQLSERVER&lt;/code&gt; principal.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Oh, and I can warmly recommend the blogs I mention above by &lt;a href=&quot;http://jonculp.com/&quot;&gt;Jon Culp&lt;/a&gt; and &lt;a href=&quot;https://blog.greglow.com/&quot;&gt;Greg Low&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 21</title>
@@ -957,922 +1101,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>SQL Server Machine Learning Services and Extended Events</title>
-   <link href="http://nielsberglund.com/2018/04/08/sql-server-machine-learning-services-and-extended-events/"/>
-   <updated>2018-04-08T08:06:46+02:00</updated>
-   <id>http://nielsberglund.com/2018/04/08/sql-server-machine-learning-services-and-extended-events</id>
-   <content type="html">&lt;p&gt;Back in the day when I started with the &lt;strong&gt;SQL Server R Services - Internals&lt;/strong&gt; posts, I thought I would use &lt;a href=&quot;https://technet.microsoft.com/en-us/library/bb630354(v=sql.105).aspx&quot;&gt;SQL Server Extended Events&lt;/a&gt; (XEvents) to figure things out. I knew SQL Server and the extensibility architecture supported XEvents because I had come across &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;this&lt;/a&gt; documentation, where it (amongst other things) said:&lt;/p&gt;
-
-&lt;p&gt;&quot;&lt;em&gt;SQL Server provides a set of extended events to use in troubleshooting operations related to the SQL Server Trusted Launchpad, as well as Python or R jobs sent to SQL Server.&lt;/em&gt;&quot;&lt;/p&gt;
-
-&lt;p&gt;From the above, it is pretty clear that XEvents is the way to go when drilling down into how things &quot;hang together&quot;. However, how hard I tried, I could not make &quot;head or tails&quot; of how to get things to work (I should probably have tried harder), so in the end, I went the &lt;strong&gt;WinDbg&lt;/strong&gt; and &lt;strong&gt;WireShark&lt;/strong&gt; route.&lt;/p&gt;
-
-&lt;p&gt;Fast forward a year (and a bit) and someone asked a question on an internal forum about XEvents and &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;, and I decided to look into it and to try to understand it a bit better. So this post is the result of me &lt;del&gt;playing around with&lt;/del&gt; researching XEvents and SQL Server Machine Learning Services.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Extended Events&lt;/h2&gt;
-
-&lt;p&gt;Let us first look quickly at what Extended Events are.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Please feel free to skip this part if you know about XEvents already.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Once upon a time, the only way for DBA's, developers, and others to identify problems with performance, deadlocks and so forth was to use SQL Trace and SQL Server Profiler together with DBCC and various trace flags. When SQL Server 2005 came along, it expanded upon the diagnostic capabilities with the introduction of Dynamic Management Views (DMV's). However, the diagnostic tools were still intrusive, and you would not want to keep a SQL Trace or SQL Profiler running for an extended period.&lt;/p&gt;
-
-&lt;p&gt;So, in SQL Server 2008 Microsoft introduced Extended Events, which is a general event-handling system for server systems. The Extended Events infrastructure supports the correlation of data from SQL Server, and under certain conditions, the correlation of data from the operating system and database applications. Compared to SQL Profiles and SQL Trace XEvents are less intrusive with minimal negative impact (if any) on performance. Some of the essential concepts/objects are:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Package&lt;/li&gt;
-&lt;li&gt;Event&lt;/li&gt;
-&lt;li&gt;Action&lt;/li&gt;
-&lt;li&gt;Target&lt;/li&gt;
-&lt;li&gt;Event Session&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The list above of concepts/objects are by no means complete. For example, I do not mention Predicates. The list and following explanations are just meant to give a quick, high-level overview of Extended Events.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Let us look at the concepts/objects:&lt;/p&gt;
-
-&lt;h4&gt;Package&lt;/h4&gt;
-
-&lt;p&gt;SQL Server Extended Events consists of different type of objects and the &lt;strong&gt;Package&lt;/strong&gt; is the &quot;top level&quot; container for these objects. A &lt;em&gt;Package&lt;/em&gt; is registered in the XEvents engine by a binary &lt;strong&gt;Win32&lt;/strong&gt; module, and the package exposes objects/functionality related to that module. The following code lists the packages and their respective modules:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Packages&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageDesc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;n&quot;&gt;lm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModuleName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModuleDesc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_packages&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_os_loaded_modules&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lm&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;module_address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base_address&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Packages and Modules&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When you execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;, you see how there is a one to many relationships between modules and packages, and how all modules are SQL Server dll's. When you work with XEvents you use objects from one or more packages, and objects from different packages can be mixed in an event session (we talk more about event sessions in a bit).&lt;/p&gt;
-
-&lt;h4&gt;Event&lt;/h4&gt;
-
-&lt;p&gt;The Event is the &quot;thing&quot; you want to monitor, and it is some point of interest that may or may not happen when executing an application. When the event fires - if it fires - it carries with it the payload (data) related to the occurrence of that point of interest. Execute following code to see all different events:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Events&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EventName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EventDesc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageName&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_packages&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;package_guid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;guid&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'event'&lt;/span&gt;  &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Events and Packages&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see, there are quite a few events, and they cover a variety of things. The payload of the Event differs obviously between various events, but you can see the individual data elements in the payload for an Event via  &lt;code&gt;sys.dm_xe_object_columns&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Payload&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ColumnName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;column_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object_name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Event&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_object_columns&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'event'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;oc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'sql_statement_completed'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Retrieve Payload Columns for an Event&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 3&lt;/em&gt; we see how we select the individual data elements for the Event &lt;code&gt;sql_statement_completed&lt;/code&gt;. So, the information returned in the payload is what you see in &lt;code&gt;sys.dm_xe_object_columns&lt;/code&gt;. However, if you want more information you can achieve that by using Actions.&lt;/p&gt;
-
-&lt;h4&gt;Actions&lt;/h4&gt;
-
-&lt;p&gt;We can think of an Action as an internal function bound to the Event, and it performs a specified task when the Event fires. There are two types of tasks the Action does; either collecting additional information and add it to the Event payload or do something inside the engine, like performing a memory dump, or breaking execution in the default debugger. Run following code to see what actions are available:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Action&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ActionDesc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'action'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Get Actions&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;We have seen see that for both events as well as actions, we can collect information. What do we now do with this information?&lt;/p&gt;
-
-&lt;h4&gt;Targets&lt;/h4&gt;
-
-&lt;p&gt;The Target is what consumes an Event, and the Target can write to a file, aggregate event data, or start a task that is related to the event. The Target processes the data either synchronously or asynchronously. The code below lists what targets there are:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Target&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TargetDesc&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'target'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Available XEvents Targets&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When you run the code in &lt;em&gt;Code Snippet 5&lt;/em&gt; you see how a Target is either a file target, like the event file target and the ETW target, or an in-memory target, like event bucketing, event pairing, ring buffer target and so forth. Shortly we see how we use a Target (as well as events and actions).&lt;/p&gt;
-
-&lt;h4&gt;Event Session&lt;/h4&gt;
-
-&lt;p&gt;The Event Session is what ties Events, Actions, Targets and all the other XEVents objects together. In essence, an Event Session is a collection of events, corresponding actions, and the targets that are the destinations for the events we collect.&lt;/p&gt;
-
-&lt;p&gt;When you create an Event Session, it exists in the Extended Events Engine until you drop the Event Session. The Event Session can be started and stopped as needed without having to recreate the session. The flow of creating an Event Session is as follows:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;You first create the Event Session.&lt;/li&gt;
-&lt;li&gt;You add Events. Each Event can have additional Actions.&lt;/li&gt;
-&lt;li&gt;You add one or more Targets.&lt;/li&gt;
-&lt;li&gt;You start the Event Session.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h4&gt;Example Code&lt;/h4&gt;
-
-&lt;p&gt;With all the above in mind, let us see what it can look like when creating an Extended Event session:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Event Session I&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server_event_sessions&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SimpleTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleTest&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleTest&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqlserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql_statement_completed&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TARGET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ring_buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleTest&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;START&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Create Event Session&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 6&lt;/em&gt; we see how we:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First check whether the Event Session already exists, and if so - we drop it.&lt;/li&gt;
-&lt;li&gt;Create the Event Session through the &lt;code&gt;CREATE EVENT SESSION session_name ON SERVER&lt;/code&gt; syntax.&lt;/li&gt;
-&lt;li&gt;Add the Event(s) we are interested in: &lt;code&gt;ADD EVENT package_name.event_name&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Add the Target(s): &lt;code&gt;ADD TARGET package_name.target_name&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Start the session.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;You see in &lt;em&gt;Code Snippet 6&lt;/em&gt; how we reference the package name for the Event as well as Target, and how the package for the target is &lt;code&gt;package0&lt;/code&gt;. You may wonder what &lt;code&gt;package0&lt;/code&gt; is: it is the default package in XEvents, and it contains (among other things) all actions and targets.&lt;/p&gt;
-
-&lt;p&gt;As the Event Session is now running, let us see what happens if we execute a SQL statement, for example: &lt;code&gt;SELECT * FROM sys.databases&lt;/code&gt;. When we execute the statement, nothing visible happens, but hopefully, our Target has consumed some event information. The Target for our Event Session is the ring buffer, and to read data from the ring buffer we use code looking like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Event Information&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stargets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target_data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;targetdata&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_session_targets&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stargets&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INNER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_sessions&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessions&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stargets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_session_address&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'SimpleTest'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stargets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ring_buffer'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 7:&lt;/strong&gt; &lt;em&gt;Reading Event Data from the Ring Buffer&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When you execute the code in &lt;em&gt;Code Snippet 7&lt;/em&gt;, the output is in XML format, and the XML you see below is heavily edited for display:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Result&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sql_statement_completed&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sqlserver&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;timestamp=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2018-03-30T17:35:16.226Z&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;duration&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;int64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;2115&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cpu_time&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;0&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;physical_reads&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;0&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;logical_reads&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;266&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;writes&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;0&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row_count&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;10&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;last_row_count&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uint64&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;10&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;line_number&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;int32&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;2&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;offset&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;int32&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;4&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;offset_end&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;int32&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='40' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;56&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='41' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='42' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;statement&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='43' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;unicode_string&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='44' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;SELECT * FROM sys.databases&lt;span class=&quot;nt&quot;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='45' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='46' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;data&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;parameterized_plan_handle&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='47' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;type&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;binary_data&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='48' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;value&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='49' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/data&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='50' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/event&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Event Information for sql_statement_completed&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Notice in &lt;em&gt;Code Snippet 8&lt;/em&gt; how we can see the row count (&lt;code&gt;&amp;lt;data name=&quot;row_count&quot;&amp;gt;&lt;/code&gt;) and also the SQL statement which caused the event to fire (&lt;code&gt;&amp;lt;data name=&quot;statement&quot;&amp;gt;&lt;/code&gt;).&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can also use the UI in &lt;strong&gt;SQL Server Management Studio&lt;/strong&gt; (SSMS) to set up Event Sessions.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;h4&gt;Event File Target&lt;/h4&gt;
-
-&lt;p&gt;Using the ringbuffer as target fort the events is OK, and it is a &quot;quick and dirty&quot; way to get things underway. However, it can be somewhat cumbersome to read the data as it is in XML format and there is no UI support for it and so forth. Therefore, in the rest of this post the &lt;code&gt;event_file&lt;/code&gt; target is the target of choice for us, instead of the ringbuffer.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Read this &lt;a href=&quot;https://www.sqlskills.com/blogs/jonathan/why-i-hate-the-ring_buffer-target-in-extended-events/&quot;&gt;blog-post&lt;/a&gt; by, &quot;Mr Extended Events&quot;, &lt;a href=&quot;https://www.sqlskills.com/about/jonathan-kehayias/&quot;&gt;Jonathan Kehayias&lt;/a&gt; for more information about why not to use the ringbuffer.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Just to see the &lt;code&gt;event_file&lt;/code&gt; target in action:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create a new directory on the SQL Server box, and give it necessary permissions so that various processes can write to the directory (on my machine I created &lt;code&gt;C:\ExtLogs&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Alter the &lt;code&gt;SimpleTest&lt;/code&gt; session like so:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Alter SimpleTest&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleTest&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TARGET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ring_buffer&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SimpleTest&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TARGET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_file&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\E&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;xtLogs&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;impleTest.xel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;n&quot;&gt;max_file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 9:&lt;/strong&gt; &lt;em&gt;Alter Session to Use Event File Target&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the code in &lt;em&gt;Code Snippet 9&lt;/em&gt; we see how we first drop the original &lt;code&gt;ring_buffer&lt;/code&gt; target and then add the &lt;code&gt;event_file&lt;/code&gt; target.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The assumption in the code in &lt;em&gt;Code Snippet 9&lt;/em&gt; is that the event session exists and is in the &lt;code&gt;START&lt;/code&gt; &lt;code&gt;STATE&lt;/code&gt;. Oh - and it is not necessary to &lt;code&gt;DROP&lt;/code&gt; the &lt;code&gt;ring_buffer&lt;/code&gt; target as we can have more than one target in a session.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;To see this in action:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Execute the code we used before: &lt;code&gt;SELECT * FROM sys.databases&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;If everything works, you now see in your directory, a file named something like so: &lt;code&gt;SimpleTest_0_some_long_number.xel&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Drag and drop the file into SSMS and you see something like so:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_ssms_event_file.png&quot; width=&quot;365&quot; height=&quot;120&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Output Event File&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; you see the top part of what is on the SSMS canvas and what you see are the individual events that fired. When you click on one of the events you see the details as so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_ssms_event_file_details.png&quot; width=&quot;360&quot; height=&quot;405&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Event Details&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 2&lt;/em&gt;, in the &lt;code&gt;Details&lt;/code&gt; pane, we see the individual &lt;code&gt;data&lt;/code&gt; elements, and their values from the event outlined in red. To me, I very much prefer what I see in &lt;em&gt;Figure 2&lt;/em&gt; to what is in &lt;em&gt;Code Snippet 8&lt;/em&gt;, especially since the information is the same.&lt;/p&gt;
-
-&lt;p&gt;You do not explicitly have to drag and drop the event file to the SSMS canvas, you can use the SSMS UI for this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_ssms_target.png&quot; width=&quot;395&quot; height=&quot;460&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Event Details&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When you click on the &lt;em&gt;View Target Data&lt;/em&gt; as you see in &lt;em&gt;Figure 3&lt;/em&gt;, you get the same as in &lt;em&gt;Figure 1&lt;/em&gt; and &lt;em&gt;Figure 2&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h4&gt;More Information&lt;/h4&gt;
-
-&lt;p&gt;As I mentioned above - this is a very simplified overview of XEvents, and I have skipped a lot of relevant information. Below follows a couple of links if you want to read more about SQL Server Extended Events:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://technet.microsoft.com/en-us/library/bb630282(v=sql.110).aspx&quot;&gt;Extended Events&lt;/a&gt;. Microsoft Extended Events documentation.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.sqlskills.com/blogs/jonathan/an-xevent-a-day-31-days-of-extended-events/&quot;&gt;An XEvent A Day: 31 days of Extended Events&lt;/a&gt;. Blog post series by &lt;a href=&quot;https://www.sqlskills.com/about/jonathan-kehayias/&quot;&gt;Jonathan Kehayias&lt;/a&gt; about Extended Events. Jonathan know what he talks about when it comes to Extended Events, among other things he wrote the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/dd822788.aspx&quot;&gt;definitive white-paper&lt;/a&gt; on Extended Events for Microsoft.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/ff878115.aspx&quot;&gt;Event File Target&lt;/a&gt;. Documentation about the Event File target.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;XEvents and SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;p&gt;At this stage I hope we all have at least some basic knowledge of XEvents, so let us now see how XEvents plays with &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;. When you looked through the results from the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; (XEvents packages), you might have noticed this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_1.png&quot; width=&quot;393&quot; height=&quot;74&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;SqlSatellite Package&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Starting with SQL Server 2016, there is a new XEvents package: &lt;code&gt;SQLSatellite&lt;/code&gt;, and as there is a new package, the chance is high that there are events exposed through that package as well:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;SQLSatellite Events&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EventName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EventDesc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;       &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageName&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dm_xe_packages&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;package_guid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;guid&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'event'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'SQLSatellite'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 10:&lt;/strong&gt; &lt;em&gt;Retrieving Events from the SQLSatellite Package&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When I execute the code in &lt;em&gt;Code Snippet 10&lt;/em&gt;, I get 34 rows back:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_2.png&quot; width=&quot;665&quot; height=&quot;795&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;SqlSatellite Events&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So, &lt;em&gt;Figure 5&lt;/em&gt; shows all events from the &lt;code&gt;SQLSatellite&lt;/code&gt; package, and I have outlined in red five events that look interesting. Now, let us create an event session with these five events, and see what happens:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Event Session II&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server_event_sessions&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SatelliteTest1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_authentication_completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_authorization_completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_cleanup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;launchpad_launch_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;launchpad_resume_sent&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TARGET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_file&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\E&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;xtLogs&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;atelliteTest1.xel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;n&quot;&gt;max_file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_DISPATCH_LATENCY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SECONDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;START&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 11:&lt;/strong&gt; &quot;Event Session for SQLSatellite&quot;&lt;/p&gt;
-
-&lt;p&gt;The code in &lt;em&gt;Code Snippet 11&lt;/em&gt; looks similar to the code in &lt;em&gt;Code Snippet 9&lt;/em&gt;, except for the &lt;code&gt;WITH(MAX_DISPATCH_LATENCY = 2 SECONDS)&lt;/code&gt; event session option. The &lt;code&gt;MAX_DISPATCH_LATENCY&lt;/code&gt; option specifies the amount of time that events sit in memory before being dispatched to event session targets. By default, this value is 30 seconds. In the code above, as you can see, the time in memory is 2 seconds.&lt;/p&gt;
-
-&lt;p&gt;Execute the code in &lt;em&gt;Code Snippet 11&lt;/em&gt;, and then execute the following:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;External Script&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d &amp;lt;- 42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 12:&lt;/strong&gt; &lt;em&gt;External Script&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When we have executed the code in &lt;em&gt;Code Snippet 12&lt;/em&gt;, let us see if some events have fired. Once again, if everything has gone to plan, you now see in your directory, a file named something like so: &lt;code&gt;SatelliteTest1_0_some_long_number.xel&lt;/code&gt;. When you drop it on the SSMS canvas you get this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_ssms_ext_script_1.png&quot; width=&quot;385&quot; height=&quot;165&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Captured Events&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Hmm - Ok, looking at &lt;em&gt;Figure 6&lt;/em&gt; I have good news and bad news. The good news is that we captured events from our code execution! The bad news is that we have missing events (&lt;code&gt;satellite_cleanup&lt;/code&gt;, &lt;code&gt;launchpad_launch_start&lt;/code&gt;, &lt;code&gt;launchpad_resume_sent&lt;/code&gt;), and the events we have, look like duplicates (two of both &lt;code&gt;satellite_authentication_completion&lt;/code&gt; and &lt;code&gt;satellite_authorization_completion&lt;/code&gt;). What is happening?&lt;/p&gt;
-
-&lt;p&gt;Let us look at the &quot;alleged&quot; duplication issue first. Click on the first &lt;code&gt;satellite_authentication_completion&lt;/code&gt; event and you see this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_ssms_ext_script_2.png&quot; width=&quot;385&quot; height=&quot;335&quot;  &gt;
-&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Event Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 7&lt;/em&gt; you see the &lt;code&gt;data&lt;/code&gt; element of the first &lt;code&gt;satellite_authentication_completion&lt;/code&gt; event, and you see how the &lt;code&gt;connection_provider&lt;/code&gt; is of type &lt;code&gt;ConnectionProviderNamedpipe&lt;/code&gt;. The same &lt;code&gt;connection_provider&lt;/code&gt; type shows for the first &lt;code&gt;satellite_authorization_completion&lt;/code&gt; event as well. However, if you click on either of the second events, the &lt;code&gt;connection_provider&lt;/code&gt; type is no longer &lt;code&gt;ConnectionProviderNamedpipe&lt;/code&gt; but &lt;code&gt;ConnectionProviderTCP&lt;/code&gt;. Ah, so we have two types of connections happening with separate authentication and authorisation events:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Named Pipes&lt;/li&gt;
-&lt;li&gt;TCP Sockets&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;That we see two connection types should not come as a surprise to those of you who have read my &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;&lt;strong&gt;Internals - I&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&quot;/2017/08/18/microsoft-sql-server-r-services-internals-ix/&quot;&gt;&lt;strong&gt;Internals - IX&lt;/strong&gt;&lt;/a&gt; posts in the &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt; series. In those two posts we discussed how SQL Server makes a named pipes connection to the Launchpad service, and how there is a TCP socket connection established between the SqlSatellite and SQL Server. So, making authorisation and authentication calls for named pipe and TCP socket connections are why we see &quot;duplicates&quot;.&lt;/p&gt;
-
-&lt;p&gt;What about why we do not see the &lt;code&gt;satellite_cleanup&lt;/code&gt;, &lt;code&gt;launchpad_launch_start&lt;/code&gt; and &lt;code&gt;launchpad_resume_sent&lt;/code&gt; events in &lt;em&gt;Figure 3&lt;/em&gt;? Well, I did not read the &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;documentation&lt;/a&gt; I linked to above thorough enough because in there it says:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Additional extended events are available for components that are related to and used by SQL Server Machine Learning Services, such as the SQL Server Trusted Launchpad, and BXLServer, the satellite process that starts the R runtime. &lt;strong&gt;These additional extended events are fired from the external processes, and thus must be captured using an external utility&lt;/strong&gt;.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Clear as daylight, huh? Do not expect SQL Server to know when external processes fires events. If you want to capture events from processes outside of SQL Server, you need to do it in some other way, not &lt;code&gt;EVENT SESSION&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Events from External Processes&lt;/h2&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Some of the below are copied and re-worded from the &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;Extended events for SQL Server Machine Learning Services&lt;/a&gt; page.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;So how do we then capture events from external processes, or rather - how do we register with an external process to capture events, and also, how do we define the events we want to capture? Oh, and what processes do we talk about here?&lt;/p&gt;
-
-&lt;p&gt;We start with the last one first: the processes that interests us are:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Launchpad.exe&lt;/code&gt; - called in &lt;code&gt;sp_execute_external_script&lt;/code&gt; and &quot;routes&quot; the request to correct external engine.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;BxlServer.exe&lt;/code&gt; - this is the process that hosts the SqlSatellite.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;To register for events as well as defining the events which interest us, we use a configuration file. This file is the &quot;moral equivalent&quot; of the &lt;code&gt;CREATE EVENT SESSION&lt;/code&gt; statement for SQL Server. What I mean with that is that, in said file, you define pretty much what you do in &lt;code&gt;CREATE EVENT SESSION&lt;/code&gt;. The format of the file (taken from the &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;link&lt;/a&gt; above), looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Configuration&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;event_sessions&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;event_session&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[session name]&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;maxMemory=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;dispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;MaxDispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2 SECONDS&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;description&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;owner=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;you&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;XEvents.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[XEvent Name 1]&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[XEvent Name 2]&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;target&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;event_file&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;filename&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[SessionName].xel&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_file_size&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_rollover_files&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_session&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_sessions&amp;gt;&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 13:&lt;/strong&gt; &lt;em&gt;Configuration File for External Extended Events&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When looking at &lt;em&gt;Code Snippet 13&lt;/em&gt; we see we have a root element &lt;code&gt;&amp;lt;event_sessions&amp;gt;&lt;/code&gt; followed by a child element &lt;code&gt;&amp;lt;event_session&amp;gt;&lt;/code&gt;. With this in mind, we see how one config file can support multiple event sessions. The &lt;code&gt;&amp;lt;event_session&amp;gt;&lt;/code&gt; element is like an amalgamation of &lt;code&gt;CREATE EVEN SESSION&lt;/code&gt; and the &lt;code&gt;WITH&lt;/code&gt; event session options in the T-SQL statement for creating an event session. The &lt;code&gt;&amp;lt;event_session&amp;gt;&lt;/code&gt; element has following attributes:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;name&lt;/code&gt; - A mandatory attribute. If you do not set the name, &quot;bad things&quot; happen.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;maxMemory&lt;/code&gt; - An optional attribute and it is similar to &lt;code&gt;MAX_MEMORY&lt;/code&gt; in SQL Server event session options, and it specifies the maximum amount of memory to allocate to the session for event buffering.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;MaxDispatchLatency&lt;/code&gt; - Optional attribute, similar to &lt;code&gt;MAX_DISPATCH_LATENCY&lt;/code&gt; in SQL Server event session options. The attribute has a default of 30 seconds, and it specifies the amount of time that events sit in memory before being dispatched to event session targets.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dispatchLatency&lt;/code&gt; - Optional attribute and this has no equivalent (as far as I can tell) in the SQL Server event session options. However, it is similar to &lt;code&gt;MaxDispatchLatency&lt;/code&gt;, in that the attribute specifies the time (in seconds), events sit in memory before being dispatched to event session targets. If both &lt;code&gt;MaxDispatchLatency&lt;/code&gt; and &lt;code&gt;dispatchLatency&lt;/code&gt; have values, &lt;code&gt;dispatchLatency&lt;/code&gt; takes precedence.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;The &lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; element is optional, and I do not know what functionality it offers. I can only speculate, but perhaps, some event readers may display the description. Anyway, after the &lt;code&gt;&amp;lt;description&amp;gt;&lt;/code&gt; element comes the actual &lt;code&gt;&amp;lt;event&amp;gt;&lt;/code&gt; element(s), with attributes for &lt;code&gt;package&lt;/code&gt; and &lt;code&gt;name&lt;/code&gt; and this is equivalent of &lt;code&gt;ADD EVENT package.event&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Finally, after the events, we set up the target in the &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; element. The only target I have tried with is the &lt;code&gt;event_file&lt;/code&gt;, so keep that in mind. The package for all targets are &lt;code&gt;package0&lt;/code&gt; and the &lt;code&gt;name&lt;/code&gt; is &lt;code&gt;event_file&lt;/code&gt;. The &lt;code&gt;&amp;lt;target&amp;gt;&lt;/code&gt; element have child nodes of &lt;code&gt;&amp;lt;parameter&amp;gt;&lt;/code&gt; nodes. For the &lt;code&gt;&amp;lt;event_file&amp;gt;&lt;/code&gt; target the only required &lt;code&gt;&amp;lt;parameter&amp;gt;&lt;/code&gt; is the &lt;code&gt;filename&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, &lt;code&gt;filename&lt;/code&gt; - this is where things are getting interesting: Having seen how we define the file to write to for SQL Server XEvents (&lt;em&gt;Code Snippet 9&lt;/em&gt; and &lt;em&gt;Code Snippet 11&lt;/em&gt;), you expect it is the same for the external processes. But no, it is different, and it is even different between Launchpad and BxlServer!&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Launchpad:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;For Launchpad, the filename has to be the actual filename, no path: &lt;code&gt;&amp;lt;parameter name=&quot;filename&quot; value=&quot;launchpadTest.xel&quot; /&amp;gt;&lt;/code&gt; for example. Launchpad then writes the event file to the path that the &lt;code&gt;-logFile&lt;/code&gt; parameter sets at startup. Default location is &lt;code&gt;C:\\&amp;lt;path_to_SQL_instance\&amp;gt;\MSSQL\LOG\ExtensibilityLog&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about startup parameters for the Launchpad service in &lt;a href=&quot;/2017/04/02/microsoft-sql-server-r-services-internals-ii/&quot;&gt;&lt;strong&gt;Internals - II&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;BxlServer:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;You would expect that Launchpad and BxlServer would be similar in how they handle the file name, but as I wrote above they are not. BxlServer requires you to define the file as a relative path to where the &lt;code&gt;BxlServer.exe&lt;/code&gt; is, and the BxlServer process needs write permissions on the directory where it writes the file to. So if I want the BxlServer to write the file to the directory I created above, the directory where SQL Server writes the events to, the parameter looks like so: &lt;code&gt;&amp;lt;parameter name=&quot;filename&quot; value=&quot;..\..\..\..\..\..\..\..\..\..\ExtLogs\bxlserver1.xel&quot; /&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I know the above purely due to &lt;a href=&quot;https://www.linkedin.com/in/umachandarjayachandran/&quot;&gt;Umachandar Jayachandran&lt;/a&gt; (Program Manager in the SQL Server team) told me about it - so no great insight from me.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;The two remaining &lt;code&gt;&amp;lt;parameter&amp;gt;&lt;/code&gt; nodes: &lt;code&gt;max_file_size&lt;/code&gt; and &lt;code&gt;max_rollover_files&lt;/code&gt; are both optional and you can read more about them in the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/ff878115.aspx&quot;&gt;Event File Target&lt;/a&gt; documentation.&lt;/p&gt;
-
-&lt;p&gt;The final thing to cover before a couple of examples is where to place the configuration files and what to name them. You name the files&lt;code&gt;process_name.xevents.xml&lt;/code&gt; ( &lt;code&gt;Launchpad.xevents.xml&lt;/code&gt;, &lt;code&gt;bxlserver.xevents.xml&lt;/code&gt;) and you place them together with the executables for the processes (remember that &lt;code&gt;BxlSever.exe&lt;/code&gt; is in two locations, one for R and one for Python):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Launchpad - &lt;code&gt;C:\\&amp;lt;path_to_SQL_instance\&amp;gt;\MSSQL\Binn&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;BxlServer R - &lt;code&gt;C:\\&amp;lt;path_to_SQL_instance\&amp;gt;\R_SERVICES\library\RevoScaleR\rxLibs\x64&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;BxlServer Python - &lt;code&gt;C:\\&amp;lt;path_to_SQL_instance\&amp;gt;\PYTHON_SERVICES\Lib\site-packages\revoscalepy\rxLibs&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h4&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Having covered the basics of SQL Server extended events for external processes, let us see an example of what it can look like with SQL Server, Launchpad and BxlServer. So the assumption for this example is that we want to understand what happens when we send and receive data to and from the external engine.&lt;/p&gt;
-
-&lt;p&gt;The first thing we do is to set up a SQL Server event session. We expand and alter the code in &lt;em&gt;Code Snippet 11&lt;/em&gt; slightly:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Data XEvents&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server_event_sessions&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SatelliteTest1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_authentication_completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_authorization_completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_service_start_posted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_data_send_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_data_chunk_sent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_data_send_completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_schema_received&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_outputArgument_received&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_abort_sent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_abort_received&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SQLSatellite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;satellite_abort_connection&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TARGET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;package0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_file&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\E&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;xtLogs&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;atelliteTest1.xel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               &lt;span class=&quot;n&quot;&gt;max_file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_DISPATCH_LATENCY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SECONDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EVENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SESSION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SatelliteTest1&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SERVER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;START&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 14:&lt;/strong&gt; &lt;em&gt;XEvents SQL Server&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 14&lt;/em&gt; we see how we use the authentication and authorisation events from &lt;em&gt;Code Snippet 11&lt;/em&gt; and how we add data related events, output argument events and abort events to the session.&lt;/p&gt;
-
-&lt;p&gt;The Launchpad config file looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Launchpad Config&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;event_sessions&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;event_session&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dataEventsLaunchPad&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;maxMemory=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;dispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;MaxDispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2 SECONDS&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;trace_event&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;launchpad_launch_start&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;launchpad_resume_sent&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_authentication_completion&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_messaging&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_message_summary&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;target&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;event_file&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;filename&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;launchpadDataEvents.xel&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_file_size&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_rollover_files&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_session&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_sessions&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 15:&lt;/strong&gt; &lt;em&gt;Launchpad.xevents.xel Configuration File&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;For Launchpad we are interested in trace events, the start and resume events, authentication and then finally some message events. Notice how the file name is just the filename with no path. This is per what we discussed earlier.&lt;/p&gt;
-
-&lt;p&gt;Finally the BxlServer config file looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;BxlServer Config&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;event_sessions&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;event_session&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dataEventsBxl&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;maxMemory=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;dispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                 &lt;span class=&quot;na&quot;&gt;MaxDispatchLatency=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2 SECONDS&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;trace_event&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_authentication_completion&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_data_receive_completion&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_schema_sent&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_outputArgument_sent&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_abort_connection&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_cleanup&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_messaging&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;event&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SQLSatellite&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;satellite_message_summary&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;target&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;event_file&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;filename&quot;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;..\..\..\..\..\..\..\..\..\..\ExtLogs\bxlDataEvents.xel&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_file_size&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;nt&quot;&gt;&amp;lt;parameter&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;max_rollover_files&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/target&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_session&amp;gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/event_sessions&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 16:&lt;/strong&gt; &lt;em&gt;bxlserver.xevents.xel Configuration File&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The config file for BxlServer looks a little bit like the config file for Launchpad in that we are interested in authentication and trace events. In addition to to those events, we are interested in: data, output arguments, aborts and messages.&lt;/p&gt;
-
-&lt;p&gt;We now create the event session in &lt;em&gt;Code Snippet 14&lt;/em&gt; by executing - in SSMS - the code in the code snippet. We then drop the configuration files for the Launchpad (&lt;code&gt;Launchpad.xevents.xel&lt;/code&gt;) and BxlServer (&lt;code&gt;bxlserver.xevents.xel&lt;/code&gt;) in respective directories (as we mentioned above).&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Both Launchpad and BxlServer loads the configuration files at startup. This is not so much an issue with the BxlServer, as each execution results in a startup. However, for Launchpad it is different, as Launchpad starts when the service starts. So if you create a new configuration file for the Launchpad service (as we do here) or do changes to an existing file, you need to restart the Launchpad service afterwards.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;Right, we can now execute some &lt;code&gt;sp_execute_external_script&lt;/code&gt; code and see what happens (after having restarted the Launchpad service):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;External Script II&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;            &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'OutputDataSet &amp;lt;- InputDataSet'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;          &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT name, database_id
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              FROM sys.databases'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 17:&lt;/strong&gt; &lt;em&gt;External Script&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;After execution, you now see in your log directory two &lt;code&gt;xel&lt;/code&gt; files, one for the SQL Server &lt;code&gt;SatelliteTest1&lt;/code&gt; session and one for the BxlServer. In the &lt;code&gt;..\Log\ExtensibilityLog&lt;/code&gt; directory you see one &lt;code&gt;xel&lt;/code&gt; file for the Launchpad extended events. If we drag and drop them to the SSMS canvas we see this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_sql_xevents.png&quot; width=&quot;405&quot; height=&quot;470&quot;  &gt;
-&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;SQL Server Event Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_launchpad_xevents.png&quot; width=&quot;395&quot; height=&quot;355&quot;  &gt;
-&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Launchpad Event Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_bxl_xevents.png&quot; width=&quot;385&quot; height=&quot;260&quot;  &gt;
-&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;BxlServer Event Data&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The three figures above show the extended events, after we executed the code in &lt;em&gt;Code Snippet 17&lt;/em&gt;, from:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;SQL Server - &lt;em&gt;Figure 8&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;Launchpad - &lt;em&gt;Figure 9&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;BxlServer - &lt;em&gt;Figure 10&lt;/em&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;By looking at the events and the timestamps, we get an idea what the flow is when executing &lt;code&gt;sp_execute_external_script&lt;/code&gt;, similar to what we covered in the &lt;strong&gt;SQL Server R Services - Internals&lt;/strong&gt;. To see more clearly the flow, I inserted the different events into a table and selected out from the table in the order of the event time, and then it looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_xevents_event_order2.png&quot; width=&quot;540&quot; height=&quot;835&quot;  &gt;
-&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;Event Order&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I have in &lt;em&gt;Figure 11&lt;/em&gt; highlighted some events worth saying a couple of words about:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Green - &lt;code&gt;trace_event&lt;/code&gt;. In the &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;documentation&lt;/a&gt; it says that the &lt;code&gt;trace_event&lt;/code&gt; can include events due to output to stdout and stderr from R. From my testing I can not see that, it only outputs internal trace events, and it looks like SQL Server does not output any trace events at all.&lt;/li&gt;
-&lt;li&gt;Yellow - &lt;code&gt;satellite_messaging&lt;/code&gt;. This event is really cool, as it fires when the different processes send messages to each other. Useful if you want to see what happens. I only included &lt;code&gt;satellite_messaging&lt;/code&gt; for the Launchpad service, as otherwise, the trace becomes too big.&lt;/li&gt;
-&lt;li&gt;Blue - &lt;code&gt;satellite_schema_sent/received&lt;/code&gt;. BxlServer fires &lt;code&gt;satellite_schema_sent&lt;/code&gt; when data goes back to SQL Server, and SQL Server fires &lt;code&gt;satellite_schema_received&lt;/code&gt;. In fact regardless if any return data goes back to SQL Server, these two events fires.&lt;/li&gt;
-&lt;li&gt;Red - &lt;code&gt;satellite_outputArgument_sent/received&lt;/code&gt;. As the name implies, these two events are related to output arguments. They have the same behaviour as the schema events above in that that they fire regardless whether there is an output argument or not.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Event Matrix&lt;/h2&gt;
-
-&lt;p&gt;During my playing around with extended events for &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; I have tried to keep track and what events fire when and for what processes. There are events I have not been able to see fire at all, but that is most likely due to me not knowing what I am doing. Anyway, the table below lays out what I have seen:&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt; Event &lt;/th&gt;
-&lt;th style=&quot;text-align:center;&quot;&gt; SQL Server &lt;/th&gt;
-&lt;th style=&quot;text-align:center;&quot;&gt; Launchpad &lt;/th&gt;
-&lt;th style=&quot;text-align:center;&quot;&gt; BxlServer &lt;/th&gt;
-&lt;th&gt; Comments &lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;launchpad_launch_start&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;launchpad_resume_sent&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;trace_event&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; See above about &lt;code&gt;trace_event&lt;/code&gt;.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_authentication_completion&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_authorization_completion&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_service_start_posted&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_data_send_start&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_data_chunk_sent&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_data_send_completion&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_data_receive_completion&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_schema_sent&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; See above about &lt;code&gt;satellite_schema_sent&lt;/code&gt;. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_outputArgument_sent&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; See above about &lt;code&gt;satellite_outputArgument_sent&lt;/code&gt;.  &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_error&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x  &lt;/td&gt;
-&lt;td&gt; This event is output, regardless if there is an error or not. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_schema_received&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; See above about &lt;code&gt;satellite_schema_received&lt;/code&gt;. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_outputArgument_received&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; See above about &lt;code&gt;satellite_outputArgument_received&lt;/code&gt;. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_abort_sent&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; (x) &lt;/td&gt;
-&lt;td&gt; See below. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_abort_received&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_abort_connection&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_cleanup&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_message_summary&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_messaging&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_message_coalesced&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; x &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;connection_accept&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; See below. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;failed_launching&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; See below. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;extensibility_session_snapshot&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;external_resource_pool&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;extensibility_error_ring_buffer_record&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;extensibility_session_snapshot&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_unexpected_message_received&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;stack_trace&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Should fire if a memory dump is made of the process. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_message_ring_buffer_record&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. Believe this is more for debug purposes. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_sessionId_mismatch&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. Believe this is more for debug purposes. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_invalid_sized_message&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. Believe this is more for debug purposes. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_message_version_mismatch&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. Believe this is more for debug purposes. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt; &lt;code&gt;satellite_partial_message&lt;/code&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td style=&quot;text-align:center;&quot;&gt; &lt;/td&gt;
-&lt;td&gt; Cannot get to fire. &lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-
-&lt;p&gt;&lt;strong&gt;Table 1:&lt;/strong&gt; &lt;em&gt;Event Matrix&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Table 1&lt;/em&gt; there are a couple of &quot;see below&quot;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;satellite_abort_sent&lt;/code&gt; - If execution goes OK, SQL Server fires the &lt;code&gt;satellite_abort_sent&lt;/code&gt; at the end of execution. If an exception happens in the external engine, SqlSatellite fires &lt;code&gt;satellite_abort_sent&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;connection_accept&lt;/code&gt; - I am surprised that I cannot see this event fire.  I would have expected at least SQL Server or SqlSatellite to cause the event to happen when they connect.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;failed_launching&lt;/code&gt; - This I am also surprised not to see fire. I stopped the launchpad service and tried to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, but no, no &lt;code&gt;failed_launching&lt;/code&gt; event.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;I hope that Microsoft, at some stage, can explain to me what I did wrong when I could not see some of the events above fire. When that happens I will update this post.&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;So what are the takeaway points in this post:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;With the introduction of R in SQL Server 2016, Microsoft also introduced new extended events for &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;SQLSatellite&lt;/code&gt; package contains the events.&lt;/li&gt;
-&lt;li&gt;XEvents are available both for the SQL Server process as well as the external processes: &lt;code&gt;Launchpad.exe&lt;/code&gt; and &lt;code&gt;BxlServer.exe&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The three processes do not publish all the same events.&lt;/li&gt;
-&lt;li&gt;To capture events from SQL Server you use the &quot;normal&quot; &lt;code&gt;CREATE EVENT SESSION&lt;/code&gt; syntax.&lt;/li&gt;
-&lt;li&gt;For &lt;code&gt;Launchpad.exe&lt;/code&gt; and &lt;code&gt;BxlServer.exe&lt;/code&gt; you use a configuration file in XML format to register the events that interests you.&lt;/li&gt;
-&lt;li&gt;You place the configuration file(s) in the same directory as the executable(s).&lt;/li&gt;
-&lt;li&gt;When the external processes target the &lt;code&gt;event_file&lt;/code&gt; &lt;code&gt;target&lt;/code&gt;, the target filename (and path) differs between the Launchpad process and the BxlServer process.
-
-&lt;ul&gt;
-&lt;li&gt;For Launchpad the filename is the filename only, and Launchpad writes the file to the &lt;code&gt;..\Log\ExtensibilityLog&lt;/code&gt; directory.&lt;/li&gt;
-&lt;li&gt;For BxlServer the path is a relative path (relative to BxlServer) to a directory which BxlServer has write access to.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;As I mentioned at the beginning of this post, the post came about due to a question on an internal forum, and I just wanted to figure out for myself what goes on with extended events and &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;. The  &lt;a href=&quot;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&quot;&gt;documentation&lt;/a&gt; about extended events and SQL Server Machine Learning Services was a big help, and without the help from &lt;a href=&quot;https://www.linkedin.com/in/umachandarjayachandran/&quot;&gt;Umachandar Jayachandran&lt;/a&gt; I would never have figured out why I could not see any events from &lt;code&gt;BxlServer.exe&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
