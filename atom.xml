@@ -4,13 +4,80 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-06-01T19:53:46+02:00</updated>
+ <updated>2018-06-03T09:49:16+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 22</title>
+   <link href="http://nielsberglund.com/2018/06/03/interesting-stuff-week-22/"/>
+   <updated>2018-06-03T09:41:05+02:00</updated>
+   <id>http://nielsberglund.com/2018/06/03/interesting-stuff---week-22</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/crdt-distributed-consistency&quot;&gt;CRDTs and the Quest for Distributed Consistency&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by &lt;a href=&quot;https://twitter.com/martinkl&quot;&gt;Martin Kleppmann&lt;/a&gt; where he talks about how to ensure data consistency in distributed systems, especially in systems that don't have an authoritative leader. Very interesting! Oh, and if you have not read Martin's book &lt;a href=&quot;http://dataintensive.net/&quot;&gt;Designing Data Intensive Applications&lt;/a&gt;, shame on you - it is a &lt;strong&gt;MUST&lt;/strong&gt; read for anyone wanting to build scalable applications!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/async-event-arch&quot;&gt;Actors or Not: Async Event Architectures&lt;/a&gt;. A presentation, discussing two approaches to an asynchronous event-based architecture. The first is a &quot;classic&quot; style, protocol. The second is an actor-based approach.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/lambda-streams-delta&quot;&gt;Lambda Architectures: a Snapshot, a Stream, &amp;amp; a Bunch of Deltas&lt;/a&gt;. This link points to yet another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation. The presentation is about how event-sourced architectures can allow core services to reliably be able to share their information with other services asynchronously.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mdavey.wordpress.com/2018/05/28/book-building-evolutionary-architectures/&quot;&gt;Book: Building Evolutionary Architectures&lt;/a&gt;. Some notes by [Matt Davey] about the book &lt;a href=&quot;https://www.thoughtworks.com/books/building-evolutionary-architectures&quot;&gt;Building Evolutionary Architectures&lt;/a&gt;. Need to get this book! Also, you really should follow &lt;a href=&quot;https://mdavey.wordpress.com/&quot;&gt;Matt's blog&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/05/30/announcing-net-core-2-1/&quot;&gt;Announcing .NET Core 2.1&lt;/a&gt;. I guess the title of the blog post says it all, the release of .NET Core 2.1!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://engineering.skybettingandgaming.com/2018/05/26/jmx-metrics-kafka-connect/&quot;&gt;JMX Metrics in Kafka Connect&lt;/a&gt;. It cannot be a weekly roundup without at least one link to something Kafka related. This post is about how to use &lt;a href=&quot;https://docs.oracle.com/cd/E28280_01/web.1111/e13729/understanding.htm#JMXPG114&quot;&gt;JMX&lt;/a&gt; to monitor Kafka Connect.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2018/05/28/native-scoring-in-sql-server-2017-using-r/&quot;&gt;Native scoring in SQL Server 2017 using R&lt;/a&gt;. One of the things I wanted to write about related to &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; is how you do predictions. &lt;a href=&quot;https://twitter.com/tomaz_tsql&quot;&gt;Tomaz&lt;/a&gt; beat me to it with this interesting post.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/05/25/how-to-operationalize-keras-models-in-microsoft-machine-learning-server/&quot;&gt;How to operationalize Keras models in Microsoft Machine Learning Server&lt;/a&gt;. This post talks about how to operationalize Keras models as web services in R and Python in &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/&quot;&gt;SQL Server Machine Learning Services and SQL Server 2017 CU7&lt;/a&gt;. I was busy writing the follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from two weeks ago when, all of a sudden, I could not execute R code. I had applied &lt;strong&gt;SQL Server 2017 CU7&lt;/strong&gt; a couple of days before and it seems it &quot;messed&quot; with some permissions. So this post details how I fixed it.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>SQL Server Machine Learning Services and SQL Server 2017 CU7</title>
@@ -1023,78 +1090,6 @@
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/248443776/&quot;&gt;Azure Global Boot-Camp 2018 Durban&lt;/a&gt;. On April 21, 2018, all Azure communities will come together once again in the sixth great &lt;a href=&quot;https://global.azurebootcamp.net/&quot;&gt;Global Azure Bootcamp&lt;/a&gt; event! If you are in the Durban area, please join up and come and learn about all things Azure. Here in Durban, [Lawrance][lawr], who is a fellow MVP - but in the Azure space, arranges it. Yours truly presents two talks; one about Azure ML and the other about Azure Data Lake.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 14</title>
-   <link href="http://nielsberglund.com/2018/04/08/interesting-stuff-week-14/"/>
-   <updated>2018-04-08T16:04:25+02:00</updated>
-   <id>http://nielsberglund.com/2018/04/08/interesting-stuff---week-14</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://jvns.ca/blog/2018/03/31/reverse-engineering-notability-format/&quot;&gt;Reverse engineering the Notability file format&lt;/a&gt;. I came across &lt;a href=&quot;https://twitter.com/b0rk&quot;&gt;Julia&lt;/a&gt;'s blog a couple of weeks ago, and it is awesome for a tech-nerd like myself. This particular post &quot;speaks&quot; to me after my &lt;a href=&quot;/2017/03/18/microsoft-sql-server-r-services-internals-i/&quot;&gt;&lt;strong&gt;Internals&lt;/strong&gt;&lt;/a&gt; posts where I to a small extent reversed engineered how SQL Server R Services works.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/perfview-net&quot;&gt;PerfView: The Ultimate .NET Performance Tool&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about &lt;strong&gt;PerfView&lt;/strong&gt;. PerfView is an open source tool for .NET performance diagnosis in production environments. PerfView is ideal if you want to systematically measure and improve CPU time, wall-clock time, and memory usage.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://theburningmonk.com/2018/04/what-is-the-best-event-source-for-doing-pub-sub-with-aws-lambda/&quot;&gt;What is the best event source for doing pub-sub with AWS Lambda?&lt;/a&gt;. In this post, &lt;a href=&quot;https://twitter.com/theburningmonk&quot;&gt;Yan&lt;/a&gt; compares and contrasts some of the options for implementing messaging patterns such as pub-sub with AWS Lambda (server-less). A very informative read!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/podcasts/Danny-Yuan-uber&quot;&gt;Streaming: Danny Yuan on Real-Time, Time Series Forecasting @Uber&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; podcast where &lt;a href=&quot;https://twitter.com/g9yuayon&quot;&gt;Danny Yuan&lt;/a&gt; (Real-time Streaming/Forecasting Lead @Uber) talks about building a real-time streaming platform with a significant focus on forecasting. Awesome quote: &lt;em&gt;&quot;If you want to start leveraging machine learning, developers just need to start doing.&quot;&lt;/em&gt;. This is a must listen!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/04/booking-kubernetes-machine-learn&quot;&gt;How Booking.com Uses Kubernetes for Machine Learning&lt;/a&gt;. Another piece from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;. This time an article about how Booking.com scale machine learning (ML) models for recommending destinations and accommodation to their customers using Kubernetes. This post is a must-read!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/operationalize-azure-databricks-notebooks-using-data-factory/&quot;&gt;Ingest, prepare, and transform using Azure Databricks and Data Factory&lt;/a&gt;. A post about how to, using Azure DataBricks and Azure Data Factory, do ETL/ELT via data pipelines.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Upcoming Conferences&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/248443776/&quot;&gt;Azure Global Boot-Camp 2018 Durban&lt;/a&gt;. On April 21, 2018, all Azure communities will come together once again in the sixth great &lt;a href=&quot;https://global.azurebootcamp.net/&quot;&gt;Global Azure Bootcamp&lt;/a&gt; event! If you are in the Durban area, please join up and come and learn about all things Azure. Here in Durban, &lt;a href=&quot;https://twitter.com/bytezn&quot;&gt;Lawrance&lt;/a&gt;, who is a fellow MVP - but in the Azure space, arranges it. Yours truly presents two talks; one about Azure ML and the other about Azure Data Lake.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/04/08/sql-server-machine-learning-services-and-extended-events/&quot;&gt;SQL Server Machine Learning Services and Extended Events&lt;/a&gt;. A couple of weeks there was a post on one of the internal MVP forums discussing SQL Server XEvents. I decided to look into how XEvents worked with SQL Server Machine Learning Services, and this post is what I came up with.&lt;/li&gt;
 &lt;/ul&gt;
 
 
