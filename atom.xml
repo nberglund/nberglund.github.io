@@ -4,13 +4,78 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-06-03T09:49:16+02:00</updated>
+ <updated>2018-06-10T10:27:01+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 23</title>
+   <link href="http://nielsberglund.com/2018/06/10/interesting-stuff-week-23/"/>
+   <updated>2018-06-10T10:10:24+02:00</updated>
+   <id>http://nielsberglund.com/2018/06/10/interesting-stuff---week-23</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/06/05/servicefabric-a-distributed-platform-for-building-microservices-in-the-cloud/&quot;&gt;ServiceFabric: a distributed platform for building microservices in the cloud&lt;/a&gt;. &lt;strong&gt;Service Fabric&lt;/strong&gt; (SF) is Microsoft's platform to support microservices applications both in the cloud as well as on-prem. In this blog post &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; dissects a white paper about the internal workings of Service Fabric. As we in &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt; are using SF I have made this white paper recommended reading for my developers.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/channel/UCmZz-Gj3caLLzEWBtbYUXaA&quot;&gt;Confluent Kafka Videos&lt;/a&gt;. This link is to a YouTube video library of Kafka videos. If you are interested in Kafka, then I recommend you watch these videos.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data / Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/process-more-files-than-ever-and-use-parquet-with-azure-data-lake-analytics/&quot;&gt;Process more files than ever and use Parquet with Azure Data Lake Analytics&lt;/a&gt;. A blog post about how Azure Data Analytics now has capabilities for processing files of any formats including Parquet at tremendous scale.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/blog/microsoft-unveils-faster-key-value-store-large-state-management/&quot;&gt;Microsoft Unveils FASTER – a key-value store for large state management&lt;/a&gt;. &lt;strong&gt;FASTER&lt;/strong&gt; is a new embedded key-value store invented by Microsoft Research, and this blog post discusses how FASTER works.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ml-dl-visualization&quot;&gt;Understanding ML/DL Models using Interactive Visualization Techniques&lt;/a&gt;. A presentation via &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about how to use visualisation techniques to better understand machine learning and deep learning models. When I shared this with the data scientists at &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt;, they were keen on testing it out themselves.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/06/05/announcing-ml-net-0-2/&quot;&gt;Announcing ML.NET 0.2&lt;/a&gt;. A blog post announcing version 0.2 of &lt;strong&gt;ML.NET&lt;/strong&gt;, the .NET based cross-platform, open source machine learning framework. This release adds new ML tasks like clustering, making it easier to validate models, and also a brand-new repo for &lt;a href=&quot;https://github.com/dotnet/machinelearning/tree/master/test/Microsoft.ML.Tests&quot;&gt;ML.NET samples&lt;/a&gt;. Check it out!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://databricks.com/blog/2018/06/05/introducing-mlflow-an-open-source-machine-learning-platform.html&quot;&gt;Introducing MLflow: an Open Source Machine Learning Platform&lt;/a&gt;. A blog post about &lt;strong&gt;MLFlow&lt;/strong&gt;: an open source platform designed to manage the entire machine learning lifecycle and work with any machine learning library. It looks quite interesting, and at some stage, I may have a go at it.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/booking-dl-models&quot;&gt;Tools to Put Deep Learning Models in Production&lt;/a&gt;. A presentation about how Booking.com supports data scientists by making it easy to put their models in production, and how they optimise their model prediction infrastructure for latency or throughput.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/06/04/free-e-book-a-developers-guide-to-building-ai-applications/&quot;&gt;Free E-Book: A Developer’s Guide to Building AI Applications&lt;/a&gt;. A free e-book (requires registration though) which walks you through the process of building intelligent cloud-based bots.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;I am still busy writing the follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from three weeks ago. The post is supposed to be about why executing code in the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; gives so much better performance than when executing in the local context. Initially, I thought it was straightforward; boy was I wrong.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 22</title>
@@ -1034,64 +1099,6 @@
 
 
 &lt;p&gt;If you download the slide decks from the links above, do not expect to get much out of them. The slides were there for background information, and most of the talks were demos.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 15</title>
-   <link href="http://nielsberglund.com/2018/04/15/interesting-stuff-week-15/"/>
-   <updated>2018-04-15T10:20:37+02:00</updated>
-   <id>http://nielsberglund.com/2018/04/15/interesting-stuff---week-15</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-controlled-chaos&quot;&gt;Induce controlled Chaos in Service Fabric clusters&lt;/a&gt;. A blog-post about Service Fabric Chaos. Chaos simulates intermittent, interleaved faults (both graceful and ungraceful) throughout the cluster over extended periods of time. Service Fabric Chaos allows developers to be able to test the stability of their services while the underlying unreliable infrastructure is going through complicated state transitions due to faults.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/uber-elasticsearch-clusters&quot;&gt;Scaling Uber's Elasticsearch Clusters&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about how Uber scaled its Elasticsearch clusters as well as its ingestion pipelines for ingestions, queries, data storage, and operations.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/cloud-native-kafka-netflix&quot;&gt;Cloud-native and Scalable Kafka Architecture&lt;/a&gt;. Another presentation from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt;. This presentation is about how Netflix addresses the issues of stability and scalability in a cloud environment by having many smaller and mostly immutable Kafka clusters with limited state changes.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://highscalability.com/blog/2018/4/9/give-meaning-to-100-billion-events-a-day-the-analytics-pipel.html&quot;&gt;Give Meaning To 100 Billion Events A Day - The Analytics Pipeline At Teads&lt;/a&gt;. An article about how &lt;a href=&quot;https://teads.tv/&quot;&gt;Teads&lt;/a&gt; orchestrates Kafka, Dataflow and BigQuery together to ingest and transform a large stream of events (close to 100 billion per day). A very interesting read!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2017/04/12/pleasingly-parallel-using-rxexecby/&quot;&gt;Running Pleasingly Parallel workloads using rxExecBy on Spark, SQL, Local and Localpar compute contexts&lt;/a&gt;. A blog-post about &lt;code&gt;rxExecBy&lt;/code&gt; which is a new &lt;strong&gt;RevoScaleR&lt;/strong&gt; function introduced in &lt;strong&gt;Microsoft Machine Learning Server 9.1&lt;/strong&gt;. The function can be used to partition input data source by keys and apply user-defined functions on individual partitions.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Upcoming Conferences&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/248443776/&quot;&gt;Azure Global Boot-Camp 2018 Durban&lt;/a&gt;. On April 21, 2018, all Azure communities will come together once again in the sixth great &lt;a href=&quot;https://global.azurebootcamp.net/&quot;&gt;Global Azure Bootcamp&lt;/a&gt; event! If you are in the Durban area, please join up and come and learn about all things Azure. Here in Durban, [Lawrance][lawr], who is a fellow MVP - but in the Azure space, arranges it. Yours truly presents two talks; one about Azure ML and the other about Azure Data Lake.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
