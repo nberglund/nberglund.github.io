@@ -4,13 +4,86 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-06-10T10:27:01+02:00</updated>
+ <updated>2018-06-17T19:35:31+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 24</title>
+   <link href="http://nielsberglund.com/2018/06/17/interesting-stuff-week-24/"/>
+   <updated>2018-06-17T19:29:19+02:00</updated>
+   <id>http://nielsberglund.com/2018/06/17/interesting-stuff---week-24</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/06/13/using-net-and-docker-together-dockercon-2018-update/&quot;&gt;Using .NET and Docker Together – DockerCon 2018 Update&lt;/a&gt;. What the title says; how to use .NET and Docker together.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2018/06/15/Tools-for-Exploring-.NET-Internals/&quot;&gt;Tools for Exploring .NET Internals&lt;/a&gt;. An excellent write up by &lt;a href=&quot;https://twitter.com/matthewwarren&quot;&gt;Matthew&lt;/a&gt; about tools you can use to better understand what goes on in the CLR.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data / Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/control-azure-data-lake-costs-using-log-analytics-to-create-service-alerts/&quot;&gt;Control Azure Data Lake costs using Log Analytics to create service alerts&lt;/a&gt;. This blog post talks about Azure Data Lake Store (ADLS) and &lt;a href=&quot;https://azure.microsoft.com/en-us/services/log-analytics/&quot;&gt;Azure Log Analytics&lt;/a&gt; (ALA) and how you can use ALA to control ADLS costs. Very informative!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/netflix-techblog/metacat-making-big-data-discoverable-and-meaningful-at-netflix-56fb36a53520&quot;&gt;Metacat: Making Big Data Discoverable and Meaningful at Netflix&lt;/a&gt;. This post is about Netflix Metacat system. A system that acts as a federated metadata access layer for all data stores Netflix has.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/06/13/medea-scheduling-of-long-running-applications-in-shared-production-clusters/&quot;&gt;Medea: scheduling of long running applications in shared production clusters&lt;/a&gt;. &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; dissects a white paper about Medea. Medea is designed to support the use case of mixed long running applications and shorter duration tasks within the same cluster.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://notetoself.tech/2018/06/03/acessing-event-hubs-with-confluent-kafka-library/&quot;&gt;Acessing Event Hubs with Confluent Kafka Library&lt;/a&gt;. Last month - some time - Microsoft announced EventHubs support for the Kafka protocol. What Kafka protocol support means is that you can use the Kafka client libraries to ingest data into an EventHub, sweet! This blog post shows an example of how to do that.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://strimzi.io/&quot;&gt;Deploying Kafka on Kubernetes with Local Persistent Volumes using Strimzi&lt;/a&gt;. So &lt;a href=&quot;http://strimzi.io/&quot;&gt;Strimzi&lt;/a&gt; is a system which provides the ability to run Kafka clusters on OpenShift and Kubernetes. The blog post discusses various Kafka storage options when running Kafka this way.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/democratizing-stream-processing-apache-kafka-ksql&quot;&gt;Democratizing Stream Processing with Apache Kafka and KSQL&lt;/a&gt;. An article which discusses stream processing with KSQL, the streaming SQL engine for Apache Kafka, and how KSQL helps to bridge the world of streams and databases through streams and tables.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://eng.uber.com/advanced-technologies-detecting-preventing-fraud-uber/&quot;&gt;Advanced Technologies for Detecting and Preventing Fraud at Uber&lt;/a&gt;. A blog post discussing how Uber leverages cutting-edge systems to tackle fraud on their platform.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;At the moment I have two posts about &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; &quot;on the go&quot;. The first is the never-ending follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from four weeks ago. I can not seem to get that one done.&lt;/p&gt;
+
+&lt;p&gt;The second is a post about the options you have if you want to install R packages into &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;. For that one I have good hopes to be able to publish this coming week sometime.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 23</title>
@@ -1024,81 +1097,6 @@
 &lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
 
 &lt;p&gt;I am busy writing a post correcting some errors I did in the last post (&lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;sp_execute_external_script - III&lt;/a&gt;) in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series. I hope to publish it in a week or so.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 16</title>
-   <link href="http://nielsberglund.com/2018/04/22/interesting-stuff-week-16/"/>
-   <updated>2018-04-22T16:45:06+02:00</updated>
-   <id>http://nielsberglund.com/2018/04/22/interesting-stuff---week-16</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/04/17/calling-http-endpoints-in-t-sql-using-curl-extension/&quot;&gt;Calling Http endpoints in T-SQL using CURL extension&lt;/a&gt;. Seeing that I think SQLCLR is the best thing (almost) since sliced bread, it is cool to read this blog-post by &lt;a href=&quot;https://twitter.com/JovanPop_MSFT&quot;&gt;Jovan&lt;/a&gt; about how you can use &lt;code&gt;CURL&lt;/code&gt; from SQLCLR. I do however have a couple of comments about the post, but I will save them for a post of my own.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/managing-data-microservices&quot;&gt;Managing Data in Microservices&lt;/a&gt;. An article based on a presentation at QCon in San Francisco 2017. The article is about how to separate out monolithic databases into individual data sources for microservices.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/04/18/performance-improvements-in-net-core-2-1/&quot;&gt;Performance Improvements in .NET Core 2.1&lt;/a&gt;. .NET Core 2.1 is about to be released, and this post looks at some of the performance improvements in this release.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/confluent-platform-4-1-with-production-ready-ksql-now-available/&quot;&gt;Confluent Platform 4.1 with Production-Ready KSQL Now Available&lt;/a&gt;. This post announces the release of &lt;strong&gt;Confluent Platform 4.1&lt;/strong&gt;. The BIG thing (for me) is the inclusion of KSQL: the ability to write SQL queries against the event data in Kafka. Very, very cool!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Big Data&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/iteratively-develop-and-debug-your-etl-elt-workflows-using-data-factory/&quot;&gt;Iterative development and debugging using Data Factory&lt;/a&gt;. A blog post about how &lt;strong&gt;Azure Data Factory&lt;/strong&gt; now allows you to do debugging of your data pipelines.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Azure Global Boot Camp 2018&lt;/h2&gt;
-
-&lt;p&gt;Yesterday, April 21 2018, all Azure communities came together again in the sixth great &lt;a href=&quot;https://global.azurebootcamp.net/&quot;&gt;Global Azure Bootcamp&lt;/a&gt; event! In Durban, we had a great event arranged by, a fellow MVP, &lt;a href=&quot;https://twitter.com/bytezn&quot;&gt;Lawrance Reddy&lt;/a&gt;. The turnout was really good, and everyone seemed to have had a great time. Yours truly presented two talks (the links are for the slide decks):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/downloads/presentations/azureglobalbootcamp_2k18/azure_ml.pdf&quot;&gt;Azure Machine Learning Labs with Ninja Niels&lt;/a&gt;. Don't blame me for the title, &lt;a href=&quot;https://twitter.com/bytezn&quot;&gt;Lawrance&lt;/a&gt; insisted. Anyway, this talk was a gentle introduction to Azure Machine Learning and Azure Machine Learning Studio.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/downloads/presentations/azureglobalbootcamp_2k18/azure_datalake.pdf&quot;&gt;Go Big or Go Home: Big Data Analytics &amp;amp; Azure Data Lake&lt;/a&gt;. This presentation was a short introduction to Azure Data Lake Store and Azure Data Lake Analytics.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;If you download the slide decks from the links above, do not expect to get much out of them. The slides were there for background information, and most of the talks were demos.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
