@@ -4,7 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-06-24T14:48:11+02:00</updated>
+ <updated>2018-06-24T14:55:17+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -13,7 +13,7 @@
 
  
  <entry>
-   <title>sp_execute_external_script & Permissions</title>
+   <title>sp_execute_external_script and Permissions</title>
    <link href="http://nielsberglund.com/2018/06/24/sp-execute-external-script-and-permissions/"/>
    <updated>2018-06-24T14:36:36+02:00</updated>
    <id>http://nielsberglund.com/2018/06/24/sp-execute-external-script-and-permissions</id>
