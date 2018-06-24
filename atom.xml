@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Niels Berglund</title>
- <link href="http://localhost:4000/atom.xml" rel="self"/>
- <link href="http://localhost:4000/"/>
- <updated>2018-06-24T14:44:10+02:00</updated>
- <id>http://localhost:4000</id>
+ <link href="http://nielsberglund.com/atom.xml" rel="self"/>
+ <link href="http://nielsberglund.com/"/>
+ <updated>2018-06-24T14:48:11+02:00</updated>
+ <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>sp_execute_external_script & Permissions</title>
-   <link href="http://localhost:4000/2018/06/24/sp-execute-external-script-and-permissions/"/>
+   <link href="http://nielsberglund.com/2018/06/24/sp-execute-external-script-and-permissions/"/>
    <updated>2018-06-24T14:36:36+02:00</updated>
-   <id>http://localhost:4000/2018/06/24/sp-execute-external-script-and-permissions</id>
+   <id>http://nielsberglund.com/2018/06/24/sp-execute-external-script-and-permissions</id>
    <content type="html">&lt;p&gt;This post will (hopefully) be short and sweet. It came about as I was testing out &quot;stuff&quot; for the &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;Install R Packages in SQL Server ML Services&lt;/a&gt; series of posts and I could not get it to work as I had expected.&lt;/p&gt;
 
 &lt;!--more--&gt;
@@ -197,9 +197,9 @@
  
  <entry>
    <title>Installing R Packages in SQL Server Machine Learning Services - I</title>
-   <link href="http://localhost:4000/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/"/>
+   <link href="http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/"/>
    <updated>2018-06-23T13:13:58+02:00</updated>
-   <id>http://localhost:4000/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i</id>
+   <id>http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i</id>
    <content type="html">&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series.&lt;/p&gt;
 
 &lt;p&gt;To see other posts in the series go to &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -414,9 +414,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 24</title>
-   <link href="http://localhost:4000/2018/06/17/interesting-stuff-week-24/"/>
+   <link href="http://nielsberglund.com/2018/06/17/interesting-stuff-week-24/"/>
    <updated>2018-06-17T19:29:19+02:00</updated>
-   <id>http://localhost:4000/2018/06/17/interesting-stuff---week-24</id>
+   <id>http://nielsberglund.com/2018/06/17/interesting-stuff---week-24</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -487,9 +487,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 23</title>
-   <link href="http://localhost:4000/2018/06/10/interesting-stuff-week-23/"/>
+   <link href="http://nielsberglund.com/2018/06/10/interesting-stuff-week-23/"/>
    <updated>2018-06-10T10:10:24+02:00</updated>
-   <id>http://localhost:4000/2018/06/10/interesting-stuff---week-23</id>
+   <id>http://nielsberglund.com/2018/06/10/interesting-stuff---week-23</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -552,9 +552,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 22</title>
-   <link href="http://localhost:4000/2018/06/03/interesting-stuff-week-22/"/>
+   <link href="http://nielsberglund.com/2018/06/03/interesting-stuff-week-22/"/>
    <updated>2018-06-03T09:41:05+02:00</updated>
-   <id>http://localhost:4000/2018/06/03/interesting-stuff---week-22</id>
+   <id>http://nielsberglund.com/2018/06/03/interesting-stuff---week-22</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -619,9 +619,9 @@
  
  <entry>
    <title>SQL Server Machine Learning Services and SQL Server 2017 CU7</title>
-   <link href="http://localhost:4000/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
+   <link href="http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
    <updated>2018-06-01T19:43:01+02:00</updated>
-   <id>http://localhost:4000/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
+   <id>http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
    <content type="html">&lt;p&gt;This post is as much for you as it is for me to come back to when I wonder what to do when SQL Serer Machine Learning Services all of a sudden stops working after a SQL Server upgrade.&lt;/p&gt;
 
 &lt;h2&gt;Background&lt;/h2&gt;
@@ -763,9 +763,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 21</title>
-   <link href="http://localhost:4000/2018/05/27/interesting-stuff-week-21/"/>
+   <link href="http://nielsberglund.com/2018/05/27/interesting-stuff-week-21/"/>
    <updated>2018-05-27T11:06:31+02:00</updated>
-   <id>http://localhost:4000/2018/05/27/interesting-stuff---week-21</id>
+   <id>http://nielsberglund.com/2018/05/27/interesting-stuff---week-21</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -841,9 +841,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 20</title>
-   <link href="http://localhost:4000/2018/05/20/interesting-stuff-week-20/"/>
+   <link href="http://nielsberglund.com/2018/05/20/interesting-stuff-week-20/"/>
    <updated>2018-05-20T18:33:35+02:00</updated>
-   <id>http://localhost:4000/2018/05/20/interesting-stuff---week-20</id>
+   <id>http://nielsberglund.com/2018/05/20/interesting-stuff---week-20</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -900,9 +900,9 @@
  
  <entry>
    <title>sp_execute_external_script and SQL Compute Context - I</title>
-   <link href="http://localhost:4000/2018/05/20/sp-execute-external-script-and-sql-compute-context/"/>
+   <link href="http://nielsberglund.com/2018/05/20/sp-execute-external-script-and-sql-compute-context/"/>
    <updated>2018-05-20T10:46:52+02:00</updated>
-   <id>http://localhost:4000/2018/05/20/sp-execute-external-script-and-sql-compute-context</id>
+   <id>http://nielsberglund.com/2018/05/20/sp-execute-external-script-and-sql-compute-context</id>
    <content type="html">&lt;p&gt;The last &lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;blog post&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;Microsoft SQL Server R Services&lt;/a&gt; series covered some performance related parameters of &lt;code&gt;sp_execute_external_script&lt;/code&gt;, (&lt;code&gt;@parallel&lt;/code&gt; and &lt;code&gt;@r_rowsPerRead&lt;/code&gt;), and it touched a little bit on &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;After I published the post, I received an email from &lt;a href=&quot;https://www.linkedin.com/in/umachandarjayachandran/&quot;&gt;Umachandar Jayachandran&lt;/a&gt; who is a Principal Program Manager in the SQL Server team and is working on integration of R, Python and other runtimes into SQL Server (basically, he knows this &quot;stuff&quot;). In the mail, he said that I was somewhat incorrect in what I said about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works.&lt;/p&gt;
@@ -1318,9 +1318,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 19</title>
-   <link href="http://localhost:4000/2018/05/13/interesting-stuff-week-19/"/>
+   <link href="http://nielsberglund.com/2018/05/13/interesting-stuff-week-19/"/>
    <updated>2018-05-13T20:09:52+02:00</updated>
-   <id>http://localhost:4000/2018/05/13/interesting-stuff---week-19</id>
+   <id>http://nielsberglund.com/2018/05/13/interesting-stuff---week-19</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
