@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Niels Berglund</title>
- <link href="http://nielsberglund.com/atom.xml" rel="self"/>
- <link href="http://nielsberglund.com/"/>
- <updated>2018-06-23T13:29:23+02:00</updated>
- <id>http://nielsberglund.com</id>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/"/>
+ <updated>2018-06-24T14:44:10+02:00</updated>
+ <id>http://localhost:4000</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
@@ -13,16 +13,196 @@
 
  
  <entry>
+   <title>sp_execute_external_script & Permissions</title>
+   <link href="http://localhost:4000/2018/06/24/sp-execute-external-script-and-permissions/"/>
+   <updated>2018-06-24T14:36:36+02:00</updated>
+   <id>http://localhost:4000/2018/06/24/sp-execute-external-script-and-permissions</id>
+   <content type="html">&lt;p&gt;This post will (hopefully) be short and sweet. It came about as I was testing out &quot;stuff&quot; for the &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;Install R Packages in SQL Server ML Services&lt;/a&gt; series of posts and I could not get it to work as I had expected.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;Usually, when I work with &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;, I execute code in the context of admin (yeah I know, do not do that :)). In the &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;Install R Packages in SQL Server ML Services&lt;/a&gt; series I used non-admin accounts, and all of a sudden nothing worked.&lt;/p&gt;
+
+&lt;p&gt;I tried to research (read Google) the issue, but I could not find a definitive answer, just tidbits here and there. So when I finally realised what the issues were, I decided to write a blog post about it.&lt;/p&gt;
+
+&lt;h2&gt;Housekeeping&lt;/h2&gt;
+
+&lt;p&gt;As in quite a few of my other blog posts, here follows some code to set things up if you want to follow along.&lt;/p&gt;
+
+&lt;h4&gt;Code&lt;/h4&gt;
+
+&lt;p&gt;This is the code to &quot;set the scene&quot;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Database&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server_principals&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;              &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'user1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;BEGIN&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PASSWORD&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'password1234$'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;END&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionDB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOGIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Create Login, Database and User&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 1&lt;/em&gt; we create a login, a database, and then we create a user for the login in the database.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Below you see in quite a few places the abbreviation SPEES. That is short for &lt;code&gt;sp_excute_external_script&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Permissions&lt;/h2&gt;
+
+&lt;p&gt;What we see in &lt;em&gt;Code Snippet 1&lt;/em&gt; is that we have not assigned &lt;code&gt;user1&lt;/code&gt; to any particular roles on either the server or the database, so &lt;code&gt;user1&lt;/code&gt; has whatever default permissions he gets during creation. Let us look in &lt;em&gt;SSMS&lt;/em&gt; UI and see what server level roles &lt;code&gt;user1&lt;/code&gt; belongs to:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_speess_permissions1.png&quot; width=&quot;485&quot; height=&quot;235&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Roles User1&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we see how &lt;code&gt;user1&lt;/code&gt; belongs to the server role &lt;code&gt;public&lt;/code&gt;, and that is the only role he belongs to. So what if we have code like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;SPEES&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--uncomment the following and execute&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--to execute as user1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--EXECUTE AS USER = 'user1';&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               d&amp;lt;-42
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               OutputDataSet &amp;lt;- as.data.frame(d)'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--to switch back from user1 uncomment and execute&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--the following&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;--REVERT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Simple Test Code&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Code Snippet 2&lt;/em&gt; allows you to switch between admin/sa and &lt;code&gt;user1&lt;/code&gt; without having to log in as &lt;code&gt;user1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If someone with sufficient permissions ran the code in &lt;em&gt;Code Snippet 2&lt;/em&gt;, the result looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_sa_exec.png&quot; width=&quot;160&quot; height=&quot;70&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;sa Executes SPEES&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As we see in &lt;em&gt;Figure 2&lt;/em&gt; we get back &lt;a href=&quot;https://www.independent.co.uk/life-style/history/42-the-answer-to-life-the-universe-and-everything-2205734.html&quot;&gt;&lt;em&gt;The Answer to the Ultimate Question of Life, the Universe and Everything.&lt;/em&gt;&lt;/a&gt;, but if &lt;code&gt;user1&lt;/code&gt; runs the same code, the result is:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_sa_exec_error1.png&quot; width=&quot;555&quot; height=&quot;95&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;SPEES Execution Error&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh, dear me, &lt;code&gt;user1&lt;/code&gt; receives a permission denied exception! Well, from what we know about SQL Server and permissions it probably was not that unexpected. No problem, we know about SQL Server permissions, so we realise we probably have to &lt;code&gt;GRANT EXECUTE&lt;/code&gt; permissions on &lt;em&gt;SPEES&lt;/em&gt; to &lt;code&gt;user1&lt;/code&gt; (or &lt;code&gt;public&lt;/code&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Grant Permission&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Grant Execute Permission&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Being in the database where &lt;code&gt;user1&lt;/code&gt; exists and executing the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; as admin/sa - what could possibly go wrong:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_perm_grant_error1.png&quot; width=&quot;525&quot; height=&quot;95&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Grant Permission Error&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Oops, something did go wrong, as it turns out that if you try to grant permissions on extended stored procedures, which &lt;em&gt;SPEES&lt;/em&gt; is, you need to do it from the &lt;code&gt;master&lt;/code&gt; database. Cool, let us switch to master and do it there. Well, if you try to do that - then you get another error: the user does not exist in &lt;code&gt;master&lt;/code&gt;, sigh!&lt;/p&gt;
+
+&lt;p&gt;At this stage you have a couple of options:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;del&gt;Add the login for the user to the &lt;code&gt;sysadmin&lt;/code&gt; role, or the user to the &lt;code&gt;db_owner&lt;/code&gt; role in the actual database.&lt;/del&gt; No do not do that, I am only kidding! Do.Not.Do.That!&lt;/li&gt;
+&lt;li&gt;Create the user in &lt;code&gt;master&lt;/code&gt; and grant the permission. That would work.&lt;/li&gt;
+&lt;li&gt;Grant the permission to &lt;code&gt;public&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Both options above (I do not count &lt;code&gt;sysadmin&lt;/code&gt;, &lt;code&gt;db_owner&lt;/code&gt;) have drawbacks:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create the user in &lt;code&gt;master&lt;/code&gt;: you now have a user in master, and the question is what &quot;shenanigans&quot; the user can do.&lt;/li&gt;
+&lt;li&gt;Grant permission to &lt;code&gt;public&lt;/code&gt;: anyone can potentially execute &lt;em&gt;SPEES&lt;/em&gt;, not ideal.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;For reasons that become clear later I go with granting permission to &lt;code&gt;public&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Public Permission&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Granting Permission to Public&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After admin/sa runs the code in &lt;em&gt;Code Snippet 4&lt;/em&gt;, &lt;code&gt;user1&lt;/code&gt; can now execute the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; and we should see &lt;em&gt;The Answer ...&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_sa_exec_error2.png&quot; width=&quot;495&quot; height=&quot;70&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;SPEES Execution Error&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.oxforddictionaries.com/definition/eish&quot;&gt;Eish&lt;/a&gt;, what goes on here? We did grant the permission in &lt;em&gt;Code Snippet 4&lt;/em&gt;, so what now? Hmm, if we compare the errors, we see that they are slightly different. The error before granting the permission is something like: &quot;The EXECUTE permission was denied ...&quot;, whereas the error after granting the permission is like: &quot;The user does not have permission ...&quot;. It seems that the code in &lt;em&gt;Code Snippet 4&lt;/em&gt; did something, but we still miss a piece (or multiple) of the puzzle, and it is permissions related. What permission(s) is the question?&lt;/p&gt;
+
+&lt;p&gt;So I decided to try a &quot;brute force attack&quot;; find all built in permissions in SQL Server, browse through them and see if I see something promising. For this, I used a SQL Server function: &lt;code&gt;sys.fn_builtin_permissions&lt;/code&gt;, which - when executed - returns a description of the built-in permissions hierarchy of the server:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Functions&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fn_builtin_permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'database'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Retrieve All Functions&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The parameter (&lt;code&gt;database&lt;/code&gt;) in &lt;em&gt;Code Snippet 5&lt;/em&gt; indicates what permissions I want back. In this case, I want all permissions on a database level. When I ran the code in &lt;em&gt;Code Snippet 5&lt;/em&gt; the function call returned 78 rows, and towards the end of the result I saw something promising:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_permissions.png&quot; width=&quot;500&quot; height=&quot;155&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;SPEES Execution Error&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The highligthed part in &lt;em&gt;Figure 6&lt;/em&gt; looks very interesting. I wonder what happens if I do something like this as admin/sa in the database the user is in:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Functions&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ANY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCRIPT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user1&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 5:&lt;/strong&gt; &lt;em&gt;Grant External Script&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Code Snippet 5&lt;/em&gt; ran without any issues, and &lt;code&gt;user1&lt;/code&gt; can then try following code:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Another Try&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SUSER_NAME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXECUTE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;             &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;           &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               d&amp;lt;-42
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;               OutputDataSet &amp;lt;- as.data.frame(d)'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 6:&lt;/strong&gt; &lt;em&gt;Another Try by user1&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;SELECT SUSER_NAME()&lt;/code&gt; in &lt;em&gt;Code Snippet 6&lt;/em&gt; is there to verify that it is the correct user executing. The result when &lt;code&gt;user1&lt;/code&gt; executes looks like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_spees_user1_exec.png&quot; width=&quot;145&quot; height=&quot;130&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Successful Execution&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So that was the missing link: &lt;code&gt;GRANT EXECUTE ANY EXTERNAL SCRIPT TO ...&lt;/code&gt;, and to tell the truth; afterwards, I have seen a few posts on the net mentioning &lt;code&gt;EXECUTE ANY EXTERNAL SCRIPT&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;One more thing: above I mentioned that I favour granting the &lt;code&gt;EXECUTE&lt;/code&gt; on &lt;em&gt;SPEES&lt;/em&gt; to &lt;code&gt;public&lt;/code&gt; instead of adding the user to &lt;code&gt;master&lt;/code&gt;. The reason for this is what we just have seen: yes you do a &quot;blanket&quot; &lt;code&gt;GRANT&lt;/code&gt; by granting &lt;code&gt;public&lt;/code&gt;, but a user still needs to be granted &lt;code&gt;EXECUTE ANY EXTERNAL SCRIPT&lt;/code&gt; before he can &quot;go wild&quot;. That gives admins/dba's some control over who can execute &lt;em&gt;SPEES&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;To allow a non-admin database user to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; you need to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Grant &lt;code&gt;public&lt;/code&gt; execute permissions on &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and you do it in &lt;code&gt;master&lt;/code&gt;. Obviously, you only need to do it once.&lt;/li&gt;
+&lt;li&gt;Grant &lt;code&gt;EXECUTE ANY EXTERNAL SCRIPT&lt;/code&gt; to the user in the different databases he needs to execute &lt;em&gt;SPEES&lt;/em&gt; in.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That is it!&lt;/p&gt;
+
+&lt;p&gt;One final thing: if you want to read more about &lt;code&gt;sp_execute_external_script&lt;/code&gt;, &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series has some posts.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Installing R Packages in SQL Server Machine Learning Services - I</title>
-   <link href="http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/"/>
+   <link href="http://localhost:4000/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/"/>
    <updated>2018-06-23T13:13:58+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i</id>
-   <content type="html">&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series:&lt;/p&gt;
+   <id>http://localhost:4000/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i</id>
+   <content type="html">&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series.&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Installing R Packages in SQL Server Machine Learning Services - I&lt;/strong&gt; (this post)&lt;/li&gt;
-&lt;/ol&gt;
-
+&lt;p&gt;To see other posts in the series go to &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As you may know, I am in the process of writing the follow-up post to &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when &lt;a href=&quot;https://www.linkedin.com/in/dane-bax/&quot;&gt;Dane Bax&lt;/a&gt;, a colleague of mine, contacted me a couple of days ago with a &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; problem, I jumped at the chance to help him, and also write a post about it.&lt;/p&gt;
 
@@ -234,9 +414,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 24</title>
-   <link href="http://nielsberglund.com/2018/06/17/interesting-stuff-week-24/"/>
+   <link href="http://localhost:4000/2018/06/17/interesting-stuff-week-24/"/>
    <updated>2018-06-17T19:29:19+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/17/interesting-stuff---week-24</id>
+   <id>http://localhost:4000/2018/06/17/interesting-stuff---week-24</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -307,9 +487,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 23</title>
-   <link href="http://nielsberglund.com/2018/06/10/interesting-stuff-week-23/"/>
+   <link href="http://localhost:4000/2018/06/10/interesting-stuff-week-23/"/>
    <updated>2018-06-10T10:10:24+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/10/interesting-stuff---week-23</id>
+   <id>http://localhost:4000/2018/06/10/interesting-stuff---week-23</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -372,9 +552,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 22</title>
-   <link href="http://nielsberglund.com/2018/06/03/interesting-stuff-week-22/"/>
+   <link href="http://localhost:4000/2018/06/03/interesting-stuff-week-22/"/>
    <updated>2018-06-03T09:41:05+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/03/interesting-stuff---week-22</id>
+   <id>http://localhost:4000/2018/06/03/interesting-stuff---week-22</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -439,9 +619,9 @@
  
  <entry>
    <title>SQL Server Machine Learning Services and SQL Server 2017 CU7</title>
-   <link href="http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
+   <link href="http://localhost:4000/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
    <updated>2018-06-01T19:43:01+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
+   <id>http://localhost:4000/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
    <content type="html">&lt;p&gt;This post is as much for you as it is for me to come back to when I wonder what to do when SQL Serer Machine Learning Services all of a sudden stops working after a SQL Server upgrade.&lt;/p&gt;
 
 &lt;h2&gt;Background&lt;/h2&gt;
@@ -583,9 +763,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 21</title>
-   <link href="http://nielsberglund.com/2018/05/27/interesting-stuff-week-21/"/>
+   <link href="http://localhost:4000/2018/05/27/interesting-stuff-week-21/"/>
    <updated>2018-05-27T11:06:31+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/27/interesting-stuff---week-21</id>
+   <id>http://localhost:4000/2018/05/27/interesting-stuff---week-21</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -661,9 +841,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 20</title>
-   <link href="http://nielsberglund.com/2018/05/20/interesting-stuff-week-20/"/>
+   <link href="http://localhost:4000/2018/05/20/interesting-stuff-week-20/"/>
    <updated>2018-05-20T18:33:35+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/20/interesting-stuff---week-20</id>
+   <id>http://localhost:4000/2018/05/20/interesting-stuff---week-20</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -720,9 +900,9 @@
  
  <entry>
    <title>sp_execute_external_script and SQL Compute Context - I</title>
-   <link href="http://nielsberglund.com/2018/05/20/sp-execute-external-script-and-sql-compute-context/"/>
+   <link href="http://localhost:4000/2018/05/20/sp-execute-external-script-and-sql-compute-context/"/>
    <updated>2018-05-20T10:46:52+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/20/sp-execute-external-script-and-sql-compute-context</id>
+   <id>http://localhost:4000/2018/05/20/sp-execute-external-script-and-sql-compute-context</id>
    <content type="html">&lt;p&gt;The last &lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;blog post&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;Microsoft SQL Server R Services&lt;/a&gt; series covered some performance related parameters of &lt;code&gt;sp_execute_external_script&lt;/code&gt;, (&lt;code&gt;@parallel&lt;/code&gt; and &lt;code&gt;@r_rowsPerRead&lt;/code&gt;), and it touched a little bit on &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;After I published the post, I received an email from &lt;a href=&quot;https://www.linkedin.com/in/umachandarjayachandran/&quot;&gt;Umachandar Jayachandran&lt;/a&gt; who is a Principal Program Manager in the SQL Server team and is working on integration of R, Python and other runtimes into SQL Server (basically, he knows this &quot;stuff&quot;). In the mail, he said that I was somewhat incorrect in what I said about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works.&lt;/p&gt;
@@ -1138,9 +1318,9 @@
  
  <entry>
    <title>Interesting Stuff - Week 19</title>
-   <link href="http://nielsberglund.com/2018/05/13/interesting-stuff-week-19/"/>
+   <link href="http://localhost:4000/2018/05/13/interesting-stuff-week-19/"/>
    <updated>2018-05-13T20:09:52+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/13/interesting-stuff---week-19</id>
+   <id>http://localhost:4000/2018/05/13/interesting-stuff---week-19</id>
    <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1199,67 +1379,6 @@
 &lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
 
 &lt;p&gt;I am still working on the post to correct the errors I had in the post; [sp_execute_external_script - III][sext3] in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series. Please, bear with me!&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 18</title>
-   <link href="http://nielsberglund.com/2018/05/06/interesting-stuff-week-18/"/>
-   <updated>2018-05-06T19:27:40+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/06/interesting-stuff---week-18</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Misc.&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://muratbuffalo.blogspot.co.za/2018/04/book-review-how-to-write-lot-practical.html&quot;&gt;Book review. How to write a lot: A practical guide to productive academic writing&lt;/a&gt;. Yes I know, this has nothing to do with computing at all. However, it touches on what I try to do - write &quot;stuff&quot;. In the blog post &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt; reviews a book which provides excellent suggestions to enable academics to write more. Sure, god knows I am not an academic, but I had a quick look at the book - and the suggestions work for anyone that is interested in writing. Thanks &lt;a href=&quot;https://twitter.com/muratdemirbas&quot;&gt;Murat&lt;/a&gt;!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/introducing-confluent-platform-preview-releases/&quot;&gt;Introducing Confluent Platform Preview Releases&lt;/a&gt;. A blog post announcing Confluent adding preview releases of their &lt;strong&gt;Confluent Platform&lt;/strong&gt; beside the three times a year release cycle. The first preview release looks very interesting with a lot of KSQL &quot;goodies&quot;!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/flink-stateful-streaming&quot;&gt;Next Steps in Stateful Streaming with Apache Flink&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about how Apache Flink is making stateful stream processing even more expressive and flexible to support applications in streaming that were previously not considered streamable.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/04/27/on-prem-or-on-the-cloud/&quot;&gt;On-Prem or On the Cloud&lt;/a&gt;. A blog post how you can utilise what you do in &lt;a href=&quot;https://azure.microsoft.com/en-us/services/virtual-machines/data-science-virtual-machines/&quot;&gt;Azure Data Science VM&lt;/a&gt; on-prem and &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Conferences / User Groups&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.meetup.com/Azure-Transformation-Labs/events/250299101/?_xtd=gatlbWFpbF9jbGlja9oAJGUwMDZmMzI5LTVhM2QtNDVhYS05OGRiLWM4ZmM2NDZiOGNjMw&quot;&gt;Get Insight Into and Analyze Your Data with Azure EventHubs &amp;amp; Stream Analytics&lt;/a&gt;. I have the privilege to present at the upcoming Durban Azure User Group get together on May 9 about Azure Event Hubs and Azure Stream Analytics. If you are in the &quot;hood&quot;, please join. &lt;a href=&quot;https://twitter.com/bytezn&quot;&gt;Lawrance&lt;/a&gt; who is the driving force behind the user group says that there is awesome SWAG to be had, thanks to Microsoft.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;p&gt;Sigh! In last weeks roundup I wrote how I was about to publish a new post to correct some errors I had in the post; &lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;sp_execute_external_script - III&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series. Well, it seems the post may take somewhat longer to get finished as I have realised there are quite a few things I do not understand as well as I would like to do. So please, bear with me!&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
