@@ -4,13 +4,79 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-06-30T19:16:39+02:00</updated>
+ <updated>2018-07-01T05:58:06+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 26</title>
+   <link href="http://nielsberglund.com/2018/07/01/interesting-stuff-week-26/"/>
+   <updated>2018-07-01T05:51:55+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/01/interesting-stuff---week-26</id>
+   <content type="html">&lt;p&gt;Geez, does time fly or what? We are already past the halfway mark of the year! Anyway, throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Databases&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.allthingsdistributed.com/2018/06/purpose-built-databases-in-aws.html&quot;&gt;A one size fits all database doesn't fit anyone&lt;/a&gt;. A very interesting post by &lt;a href=&quot;https://en.wikipedia.org/wiki/Werner_Vogels&quot;&gt;Werner Vogels&lt;/a&gt;, CTO at Amazon, where he argues that (from the article): &lt;em&gt;The days of the one-size-fits-all monolithic database are behind us, and developers are now building highly distributed applications using a multitude of purpose-built databases.&lt;/em&gt;. As I said, a very interesting read!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/real-time-syslog-processing-apache-kafka-ksql-enriching-events-with-external-data/&quot;&gt;We ❤ syslogs: Real-time syslog processing with Apache Kafka and KSQL—Part 3: Enriching events with external data&lt;/a&gt;. This article is the third in the series about syslog processing and Apache Kafka. In this episode &lt;a href=&quot;https://twitter.com/rmoff&quot;&gt;Robin Moffat&lt;/a&gt; discusses how the inbound streams of syslog data can be enriched. Awesome article!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data / Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/structured-streaming-with-databricks-into-power-bi-cosmos-db/&quot;&gt;Structured streaming with Azure Databricks into Power BI &amp;amp; Cosmos DB&lt;/a&gt;. A post, discussing the concept of Structured Streaming and how a data ingestion path can be built using &lt;a href=&quot;https://docs.microsoft.com/en-gb/azure/azure-databricks/what-is-azure-databricks&quot;&gt;Azure Databricks&lt;/a&gt; to enable the streaming of data in near-real-time. The post also talks about how Databricks can be connected directly into Power BI for reporting etc., and to Cosmos DB for persistence.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/the-emerging-big-data-architectural-pattern/&quot;&gt;The emerging big data architectural pattern&lt;/a&gt;. A very interesting blog post, discussing the popularity and success of the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lambda_architecture&quot;&gt;Lambda&lt;/a&gt; architecture as well as some of the shortcomings. The post then goes on to talk about how some of the shortcomings of Lambda can be solved by the use of Azure and &lt;a href=&quot;https://azure.microsoft.com/en-gb/services/cosmos-db/&quot;&gt;Azure Cosmos DB&lt;/a&gt;. In essence, the post discusses how we can implement the &lt;a href=&quot;http://dataottam.com/2016/06/02/understand-kappa-architecture-in-2-minutes/&quot;&gt;Kappa&lt;/a&gt; architecture in Azure.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/a-closer-look-at-azure-data-lake-storage-gen2/&quot;&gt;A closer look at Azure Data Lake Storage Gen2&lt;/a&gt;. Microsoft recently announced &lt;a href=&quot;https://azure.microsoft.com/en-us/services/storage/data-lake-storage/&quot;&gt;Azure Data Lake Storage Gen2&lt;/a&gt; and this post discusses some of the new features and capabilities.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://databricks.com/blog/2018/06/27/rstudio-integration.html&quot;&gt;Announcing RStudio and Databricks Integration&lt;/a&gt;. This post announces the integration of RStudio with the &lt;a href=&quot;https://databricks.com/glossary/what-is-unified-analytics&quot;&gt;Databricks Unified Analytics Platform&lt;/a&gt;. Databricks &quot;pops up&quot; all over the place lately. I really need to look into it!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/06/28/the-data-analysis-maturity-model-level-three-distributed-consistent-reporting-systems/&quot;&gt;The Data Analysis Maturity Model – Level Three: Distributed, consistent reporting systems&lt;/a&gt;. The third &quot;episode&quot; in &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody's&lt;/a&gt; series about data analysis maturity levels. In this post, Buck talks about distributed and consistent reporting systems.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services-ii/&quot;&gt;Installing R Packages in SQL Server Machine Learning Services - II&lt;/a&gt;. I published part 2 of the &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;Install R Packages in SQL Server ML Services Series&lt;/a&gt;. In this post, we discussed how to use functionality in RevoScaleR to install packages on a remote &lt;strong&gt;SQL Server ML Services&lt;/strong&gt; instance.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Installing R Packages in SQL Server Machine Learning Services - II</title>
@@ -1522,65 +1588,6 @@
 &lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
 
 &lt;p&gt;In lasts week &lt;a href=&quot;/2018/05/20/interesting-stuff-week-20/&quot;&gt;roundup&lt;/a&gt; I mentioned how I probably have to write some follow up posts to the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post I published a week ago. I have now started with the first follow up post, and I hope I can publish it in a week or two.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 20</title>
-   <link href="http://nielsberglund.com/2018/05/20/interesting-stuff-week-20/"/>
-   <updated>2018-05-20T18:33:35+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/20/interesting-stuff---week-20</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/visualizations-on-apache-kafka-made-easy-with-ksql/&quot;&gt;Visualizations on Apache Kafka Made Easy with KSQL&lt;/a&gt;. Not a week without one or more Kafka related posts. This blog-post is about how to get started with processing streaming data with Confluent KSQL and visualizing it using the &lt;a href=&quot;https://www.arcadiadata.com/&quot;&gt;Arcadia Data&lt;/a&gt; platform. The post contains quite a few links to interesting demos.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Cloud / Big Data&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/enhance-productivity-using-azure-data-factory-visual-tools/&quot;&gt;Enhance productivity using Azure Data Factory Visual Tools&lt;/a&gt;. A blog-post about ADF Visual Tools where the primary goal of the ADF visual tools is to allow you to be productive with ADF by getting pipelines up and running quickly without requiring to write a single line of code. It looks quite impressive, and this is another thing I really need to have a look at.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/azure-signalr-preview&quot;&gt;Microsoft Announces Preview of Azure SignalR Service&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about how Microsoft recently announced a public preview of the Azure SignalR Service. SignalR has been available for download as a separate ASP.NET library, but this is the first time it has been available as a fully-managed service. Exciting stuff!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/data-ml-pipelines-stitchfix&quot;&gt;Developing Data and ML Pipelines at Stitch Fix&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/presentations/data-ml-pipelines-stitchfix&quot;&gt;InfoQ&lt;/a&gt; presentation about how Stitch Fix develops, schedules, and maintains their data and ML pipelines. Very interesting, it sure gave me some ideas!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/PyTorch-AI&quot;&gt;PyTorch 1.0 Announced for Research and Production AI Projects&lt;/a&gt;. This links to another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article. This article is about the introduction of PyTorch 1.0 and its new capabilities.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/05/18/getting-started-with-machine-learning-services-in-sql-server/&quot;&gt;Getting Started with Machine Learning Services in SQL Server&lt;/a&gt;. A blog-post which serves as an introduction to SQL Server Machine Learning Services. It looks somewhat like my &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt;, but this post has links to videos. Awesome!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. I finally managed to finish the post about &lt;code&gt;sp_execute_external_script&lt;/code&gt; and &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). That is the good news; the bad news is that I realised that there are quite a few things I do not understand about SQLCC, so I need to investigate more and also write more posts about SQLCC. Sigh - that is life!&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
