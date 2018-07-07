@@ -553,6 +553,10 @@
 <lastmod>2018-07-01T05:51:55+02:00</lastmod>
 </url>
 <url>
+<loc>http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/</loc>
+<lastmod>2018-07-07T10:54:21+02:00</lastmod>
+</url>
+<url>
 <loc>http://nielsberglund.com/about/</loc>
 </url>
 <url>
@@ -581,6 +585,9 @@
 </url>
 <url>
 <loc>http://nielsberglund.com/code/xact_abort/</loc>
+</url>
+<url>
+<loc>http://nielsberglund.com/series/spees_and_sql_compute_context/</loc>
 </url>
 <url>
 <loc>http://nielsberglund.com/series/sql_server_2k16_r_services/</loc>

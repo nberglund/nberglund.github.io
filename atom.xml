@@ -4,13 +4,358 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-01T11:38:26+02:00</updated>
+ <updated>2018-07-07T11:20:51+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>sp_execute_external_script and SQL Compute Context - II</title>
+   <link href="http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/"/>
+   <updated>2018-07-07T10:54:21+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II</id>
+   <content type="html">&lt;p&gt;I wrote the post &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works with &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES), as I wanted to correct some mistakes I did in the &lt;a href=&quot;/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/&quot;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.&lt;/p&gt;
+
+&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&quot;/series/spees_and_sql_compute_context&quot;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Recap&lt;/h2&gt;
+
+&lt;p&gt;In quite a few posts about &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; we have discussed how, as part of the functionality in RevoScaleR, you can define where a workload executes. By default, it executes on your local machine, but you can also set it to execute in the context of somewhere else: Hadoop, Spark and also SQL Server. So, in essence, you can run some code on your development machine and have it execute in the environments mentioned above.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt; post we saw that even when we executed from inside SQL Server, the compute context was the local context: &lt;code&gt;RxLocalSeq&lt;/code&gt;. If we want to use the SQLCC we used &lt;code&gt;RxInSqlServer&lt;/code&gt; and &lt;code&gt;rxSetComputeContext&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;SQLCC&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set up the connection string&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlServerConnString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Driver=SQL Server;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        server=.; # localhost
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        database=testParallel;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        uid=some_uid;pwd=some_pwd&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set up the context&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;sqlCtx&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxInSqlServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connectionString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlServerConnString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numTasks&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# set the compute context to be the sql context&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;rxSetComputeContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlCtx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Set up SQL Server Compute Context&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To setup the context we see in &lt;em&gt;Code Snippet 1&lt;/em&gt; how we use a connection string pointing to the SQL Server where we want to execute the code. In this case, it is the instance we are on.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The connection string is for where we want to execute, not necessarily where the data we use resides.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;We also see in &lt;em&gt;Figure 1&lt;/em&gt; how &lt;code&gt;RxInSqlServer&lt;/code&gt; has the &lt;code&gt;numTasks&lt;/code&gt; parameter for you to set the number of tasks (processes) to run for each computation. The parameter defines the maximum number of tasks SQL Server can use. SQL Server can, however, decide to start fewer processes. Finally in &lt;em&gt;Figure 1&lt;/em&gt; we call &lt;code&gt;rxSetComputeContext&lt;/code&gt; which ensures that any code with functions that support SQLCC, executes under the compute context.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt; post, we saw how when we execute inside of SQL Server via SPEES we by default run in the local context and only by setting the context as in &lt;em&gt;Code Snippet 1&lt;/em&gt; we can execute in SQLCC.&lt;/p&gt;
+
+&lt;p&gt;An interesting observation when we set the &lt;code&gt;numTasks&lt;/code&gt; parameter to a value greater than 1 is that when we run the code, we run it hosted in an &lt;code&gt;mpiexec.exe&lt;/code&gt; process:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_comp_mpi.png&quot; width=&quot;620&quot; height=&quot;500&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Parallel Execution in Compute Context&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 1&lt;/em&gt; we now see not only the &quot;usual&quot; RTerm and &lt;code&gt;BxlServer.exe&lt;/code&gt; processes but also a new hosting process, outlined in red, &lt;code&gt;mpiexec.exe&lt;/code&gt;. Underneath the &lt;code&gt;mpiexec.exe&lt;/code&gt; process we see the &lt;code&gt;smpd.exe&lt;/code&gt; process (outlined in green) and then four RTerm processes with &lt;code&gt;BxlServer.exe&lt;/code&gt; processes which handle the workload. So, &lt;code&gt;mpiexec.exe&lt;/code&gt; and &lt;code&gt;smpd.exe&lt;/code&gt; are parts of &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/bb524831%28v=vs.85%29.aspx?f=255&amp;amp;MSPPError=-2147217396&quot;&gt;&lt;strong&gt;Microsoft MPI&lt;/strong&gt;&lt;/a&gt; which is an implementation of MPI which is a communication protocol for programming parallel computers.&lt;/p&gt;
+
+&lt;p&gt;All this is somewhat interesting, but the most interesting thing (at least for me) is the performance difference we saw when executing the same code in the local context compared to the SQLCC. When executing with &lt;code&gt;numTasks&lt;/code&gt; set to 1 (as it would be under the local context) code that ran in ~40 seconds in the local context took ~30 seconds to run in SQLCC! Once again, we did not run it with multiple tasks in SQLCC, so just be running in SQLCC we received a performance gain of about 30%!&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The performance gain is of course not always 30%, it depends on data volumes.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;So, as I said at the beginning of this post - let us try and figure out why the performance is better using SQLCC.&lt;/p&gt;
+
+&lt;h2&gt;Housekeeping&lt;/h2&gt;
+
+&lt;p&gt;Before we &quot;dive&quot; into today's topics let us look at the code and the tools we use today. This section is here for those who want to follow along in what we are doing in the post.&lt;/p&gt;
+
+&lt;h4&gt;Helper Tools&lt;/h4&gt;
+
+&lt;p&gt;To help us figure out the things we want, we use &lt;em&gt;Process Monitor&lt;/em&gt; to filter TCP traffic.&lt;/p&gt;
+
+&lt;h4&gt;Code&lt;/h4&gt;
+
+&lt;p&gt;This is the database objects we use in this post:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Setup&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NOCOUNT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;USE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestParallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DROP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tb_Rand_50M&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tb_Rand_50M&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;RowID&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;INTO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dbo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tb_Rand_50M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TOP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='33' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;  &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CAST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ABS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CHECKSUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NEWID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='34' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='35' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='36' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o3&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='37' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;CROSS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;JOIN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='38' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='39' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Setup of Database, Table and Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We use more or less the same database and database object as in the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt; post:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A database: &lt;code&gt;TestParallel&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;A table: &lt;code&gt;dbo.tb_Rand_50M&lt;/code&gt;. This table contains the data we want to analyse.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;In addition to creating the database and the table &lt;em&gt;Code Snippet 2&lt;/em&gt; also loads 50 million records into the &lt;code&gt;dbo.tb_Rand_50M&lt;/code&gt;. Be aware that when you run the code in &lt;em&gt;Code Snippet 2&lt;/em&gt; it may take some time to finish due to the loading of the data. Yes, I know - the data is entirely useless, but it is a lot of it, and it helps to illustrate what we want to do.&lt;/p&gt;
+
+&lt;p&gt;The code we use is almost like what we used in &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Code&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isCtx&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numTasks&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      # set up the connection string
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      sqlServerConnString &amp;lt;- &quot;Driver=SQL Server;server=.;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              database=testParallel;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              uid=&amp;lt;username&amp;gt;;pwd=&amp;lt;userpwd&amp;gt;&quot;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      if(useContext == 1) &amp;#x7b;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        sqlCtx &amp;lt;- RxInSqlServer(connectionString = sqlServerConnString,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                numTasks = tasks)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        # set the compute context to be the sql context
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        rxSetComputeContext(sqlCtx)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &amp;#x7d;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      mydata &amp;lt;- RxSqlServerData(sqlQuery = &quot;SELECT y, rand1, rand2,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                            rand3, rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                            FROM dbo.tb_Rand_50M&quot;,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                connectionString = sqlServerConnString);
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      myModel &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                      data=mydata)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      OutputDataSet &amp;lt;- data.frame(nRows=myModel$nValidObs);'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'@tasks int, @useContext bit'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numTasks&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;useContext&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isCtx&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='31' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NumberRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='32' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DATEDIFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Test Code&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As we see in &lt;em&gt;Code Snippet 3&lt;/em&gt; we parameterize the &lt;code&gt;sp_execute_external_script&lt;/code&gt; call, and we have parameters for whether to use the SQLCC and also how many tasks to run when executing in the context. The default is to execute in the local context, and when executing in SQLCC &lt;code&gt;numTasks&lt;/code&gt; is 1.&lt;/p&gt;
+
+&lt;h2&gt;Performance Differences&lt;/h2&gt;
+
+&lt;p&gt;To start with, let us repeat - more or less - what we did in &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt; and compare execution times when running in the local context (&lt;code&gt;@isCtx = 0&lt;/code&gt;) and when in SQLCC  (&lt;code&gt;@isCtx = 1&lt;/code&gt;). In both cases, we execute with the default number of tasks (&lt;code&gt;numTasks = 1&lt;/code&gt;).&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Do a couple of executions in the local context as well as in the SQLCC to ensure you get representative numbers for both.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When I run the code on my SQL Server instance I get the following results:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Local context: ~40 seconds&lt;/li&gt;
+&lt;li&gt;SQLCC: ~24 seconds&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;So, the same workload shows an approximately 40% performance improvement when running in the SQLCC compared to the local context and this is in line with what we saw in &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt;. Why is this, we do the same things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We load data&lt;/li&gt;
+&lt;li&gt;We apply the &lt;code&gt;rxLinMod&lt;/code&gt; function.&lt;/li&gt;
+&lt;li&gt;We run with the same number of tasks (single threaded).&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;A question I have now is at what stage in the script, the script receives the 50 million rows? Comment out in the code, (&lt;em&gt;Code Snippet 3&lt;/em&gt;), the &lt;code&gt;myModel&lt;/code&gt; and &lt;code&gt;OutputDataSet&lt;/code&gt; lines of code. When you now execute in the local context, you see the execution time is ~ 1 second. When you do the same in the SQLCC the time is about the same. It seems like the actual loading of the data happens not in the &lt;code&gt;RxSqlServerData&lt;/code&gt; call, but in the call - in this case - to &lt;code&gt;rxLinMod&lt;/code&gt;. Hmm, I wonder what happens if we instead of pulling the data, pushed the data to the &lt;code&gt;rxLinMod&lt;/code&gt; call by using &lt;code&gt;@input_data_1&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Push&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isCtx&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numTasks&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;DECLARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      # set up the connection string
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      sqlServerConnString &amp;lt;- &quot;Driver=SQL Server;server=.;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              database=testParallel;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                              uid=&amp;lt;username&amp;gt;;pwd=&amp;lt;userpwd&amp;gt;&quot;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='11' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='12' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      if(useContext == 1) &amp;#x7b;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='13' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        sqlCtx &amp;lt;- RxInSqlServer(connectionString = sqlServerConnString,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='14' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                numTasks = tasks)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='15' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        # set the compute context to be the sql context
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='16' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;        rxSetComputeContext(sqlCtx)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='17' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      &amp;#x7d;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='18' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='19' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      myModel &amp;lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='20' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                         data=InputDataSet)
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='21' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line='22' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;      OutputDataSet &amp;lt;- data.frame(nRows=myModel$nValidObs);'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='23' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'SELECT y, rand1, rand2, rand3, rand4, rand5
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='24' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                        FROM dbo.tb_Rand_50M'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='25' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'@tasks int, @useContext bit'&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='26' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numTasks&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='27' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;    &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;useContext&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isCtx&lt;/span&gt;  &lt;br/&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='28' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NumberRows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='29' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DATEDIFF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SYSUTCDATETIME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='30' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;GO&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Pushing the Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 4&lt;/em&gt; we see how we push the data through the &lt;code&gt;@input_data_1&lt;/code&gt; straight to the &lt;code&gt;rxLinMod&lt;/code&gt; call via &lt;code&gt;InputDataSet&lt;/code&gt;. The code here does not look any different than from most of the other code used in many of my blog posts. When I execute it in the local context (&lt;code&gt;@isCtx bit = 0)&lt;/code&gt; however:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compctx_II_push_error.png&quot; width=&quot;405&quot; height=&quot;190&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Error Pushing Data&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh, it looks like we try to push too much data as we see, highlighted in &lt;em&gt;Figure 2&lt;/em&gt;, a memory issue. Ok, but this is what the SQLCC is all about - efficiently handling large volumes of data, so let us execute the same code but in the SQLCC (&lt;code&gt;@isCtx bit = 1&lt;/code&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compII_input_data_ctx_error.png&quot; width=&quot;525&quot; height=&quot;235&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Push and SQLCC Error&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ouch, it seems that to use SQLCC we need to pull data through &lt;code&gt;RxSqlServerData&lt;/code&gt;. Never mind, I still want to push large volumes of data, so I change &lt;code&gt;@input_data_1&lt;/code&gt; to do a &lt;code&gt;SELECT TOP(30000000) ...&lt;/code&gt; (30 million) from the table instead. When I push my 30 million rows in the local context the execution time is around  17 seconds. What are the timings if we execute the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; with a &lt;code&gt;TOP (30000000)&lt;/code&gt; both in the local context as well as SQLCC and compare execution times:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Local context push (&lt;em&gt;Code Snippet 4&lt;/em&gt; and &lt;code&gt;@isCtx = 0&lt;/code&gt;): ~ 17 seconds.&lt;/li&gt;
+&lt;li&gt;Local context pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 0&lt;/code&gt;): ~ 23 seconds.&lt;/li&gt;
+&lt;li&gt;SQLCC pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 1&lt;/code&gt;): ~ 15 seconds.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That was interesting, the timings between pushing the data in the local context are almost the same as pulling the data in SQLCC, and the push in the local context is much faster than the pull in the same context. What gives?&lt;/p&gt;
+
+&lt;p&gt;All we have done so far points to that the difference in performance comes from loading the data, so the question is what the difference is when loading it from the local context compared to the SQLCC, and is SQLCC always faster. Let us start with the last question first; is SQLCC always faster?&lt;/p&gt;
+
+&lt;p&gt;To test this change the &lt;code&gt;TOP&lt;/code&gt; clause to &lt;code&gt;TOP(50)&lt;/code&gt; and execute &lt;em&gt;Code Snippet 4&lt;/em&gt; (pushing the data) and &lt;em&gt;Code Snippet 3&lt;/em&gt; pulling the data both in the local context as well as SQLCC and take note of the timings:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Local context push (&lt;em&gt;Code Snippet 4&lt;/em&gt; and &lt;code&gt;@isCtx = 0&lt;/code&gt;): ~ 200 ms.&lt;/li&gt;
+&lt;li&gt;Local context pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 0&lt;/code&gt;): ~ 260 ms.&lt;/li&gt;
+&lt;li&gt;SQLCC pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 1&lt;/code&gt;): ~ 1.6 seconds.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;That was quite a difference and now, all of a sudden, SQLCC is slowest! Why is that? Let us use &lt;em&gt;Process Monitor&lt;/em&gt; to try to figure out why this is the case. However, before we do that let us recap a little bit about the internal workings when we execute &lt;em&gt;SPEES&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h4&gt;Internals&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The host for an external engine is &lt;code&gt;BxlServer.exe&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;When we execute &lt;em&gt;SPEES&lt;/em&gt; the SqlSatellite (loaded by the BxlServer) connects to SQL Server over a TCP connection.&lt;/li&gt;
+&lt;li&gt;Data is sent over the TCP connection from and to SQL Server.&lt;/li&gt;
+&lt;li&gt;The data sent among other things authentication data, script data (the actual external script) as well as the dataset.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;The figure below illustrates connections and so forth in a &quot;simple&quot; case where we push data to the SqlSatellite in the local context:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_r_services_ext_scriptIII_single_process.png&quot; width=&quot;800&quot; height=&quot;522&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Process Flow&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 4&lt;/em&gt; we see what happens when we execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; and the numbers in the figure stands for:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;We call &lt;code&gt;sp_execute_external_script&lt;/code&gt; and SQL Server calls into the launchpad service.&lt;/li&gt;
+&lt;li&gt;The launchpad service creates RTerm processes which in turn creates BxlServer processes. One process becomes the executing process.&lt;/li&gt;
+&lt;li&gt;A TCP connection from the SqlSatellite in the executing process gets established.&lt;/li&gt;
+&lt;li&gt;SQL server sends input data to the SqlSatellite.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;BxlServer.exe&lt;/code&gt; does the processing.&lt;/li&gt;
+&lt;li&gt;SQL Server receives data back from the SqlSatellite.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;The &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series covered in &quot;excruciating&quot; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest &lt;strong&gt;Internals&lt;/strong&gt; &lt;a href=&quot;/2017/08/29/microsoft-sql-server-r-services-internals-x/&quot;&gt;X&lt;/a&gt;, &lt;a href=&quot;/2017/10/20/microsoft-sql-server-r-services-internals-xi/&quot;&gt;XI&lt;/a&gt;, &lt;a href=&quot;/2017/10/31/microsoft-sql-server-r-services-internals-xii/&quot;&gt;XII&lt;/a&gt;, &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;XIV&lt;/a&gt; and &lt;a href=&quot;/2017/12/02/microsoft-sql-server-r-services-internals-xv/&quot;&gt;XV&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4&gt;Investigation using Performance Monitor&lt;/h4&gt;
+
+&lt;p&gt;To see what happens when we execute our three scenarios (local push, local pull, SQLCC pull) we set up some &lt;em&gt;Process Monitor&lt;/em&gt; event filters to capture TCP traffic from SQL Server to the SqlSatellite, where &lt;code&gt;BxlServer.exe&lt;/code&gt; is &quot;hosting&quot; the SqlSatellite. The filters we set up are for &quot;Process Name&quot; and &quot;Operation&quot;. We want the process to be &lt;code&gt;BxlServer.exe&lt;/code&gt; and the operation &quot;TCP Receive&quot;.&lt;/p&gt;
+
+&lt;p&gt;So, run &lt;em&gt;Process Monitor&lt;/em&gt; as admin. To set the filter; under the &lt;em&gt;Filter&lt;/em&gt; menu click the Filter menu item, and you see the &quot;Process Monitor Filter&quot; dialog. To create the filter we enter the conditions we want to match:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The &lt;em&gt;Process Name&lt;/em&gt; (from the first drop down) should be  &lt;em&gt;is&lt;/em&gt; (from the second drop-down): &lt;code&gt;bxlserver.exe&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Operation&lt;/em&gt; (first drop-down) &lt;em&gt;is&lt;/em&gt; (second dropdown): &quot;TCP Receive&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;You add and include the conditions included and added, and at this stage, the filter dialog looks something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compctx_II_procmon_filter.png&quot; width=&quot;370&quot; height=&quot;190&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Filters BxlServer&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;What the filter says is that any &quot;TCP Receive&quot; events for &lt;code&gt;bxlserver.exe&lt;/code&gt; should be monitored and displayed. When you have clicked &quot;OK&quot; out of the dialog box, we are ready to test this by executing the code for local context push (&lt;em&gt;Code Snippet 4&lt;/em&gt;), local context pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 0&lt;/code&gt;) and SQLCC pull (&lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;code&gt;@isCtx = 1&lt;/code&gt;). When executing we look at the &lt;em&gt;Process Monitor&lt;/em&gt; output, and the output for the local push is like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compctx_II_procmon_push2.png&quot; width=&quot;540&quot; height=&quot;220&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;TCP Receive Local Context Push&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We see in &lt;em&gt;Figure 6&lt;/em&gt; that the output looks quite &quot;tidy&quot; and by looking at the &lt;code&gt;Path&lt;/code&gt; column see a connection between SQL Server and the SqlSatellite on port 13273 (&lt;code&gt;win10-dev:13273&lt;/code&gt;). Furthermore, we see:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is one &lt;code&gt;BxlServer.exe&lt;/code&gt; process with a process id of 17260.&lt;/li&gt;
+&lt;li&gt;The data the BxlServer receives are what we covered in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series.&lt;/li&gt;
+&lt;li&gt;The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Ok, so onto the local context pull:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compctx_II_procmon_pull_loc_ctx2.png&quot; width=&quot;540&quot; height=&quot;415&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;TCP Receive Local Context Pull&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Looking at &lt;em&gt;Figure 7&lt;/em&gt; we see that there is quite a difference between when we push the data to the SqlSatellite. First, we see (highlighted in red) the usual connection between SQL Server and the SqlSatellite and how SQL Server sends data (authentication and script) to the SqlSatellite. Then, however, we see data going from SQL Server from a &quot;strange&quot; port: &lt;code&gt;ms-sql-s&lt;/code&gt;. That &quot;name&quot; is &lt;a href=&quot;http://www.t1shopper.com/tools/port-number/1433/&quot;&gt;&lt;em&gt;IANA&lt;/em&gt;'s&lt;/a&gt; (Internet Assigned Numbers Authority) definition for SQL Server's port 1433. As we know, port 1433 is the default port SQL uses for connections and retrieval of data. So it looks like that when we use pull, we connect to SQL Server over the default port and retrieves the data that way. Thinking about it, it makes sense as the connection is an ODBC connection. All the packets received by the SqlSatellite are the regular ODBC data packets. The actual 50 rows of data are in the packet outlined in blue with a length of 1358. As we use ODBC the protocol used to send the data is TDS.&lt;/p&gt;
+
+&lt;p&gt;Oh, TDS - that is probably a reason why the local pull is slower than local push, as the local push uses the &lt;a href=&quot;/2017/11/25/microsoft-sql-server-r-services-internals-xiv/&quot;&gt;&lt;strong&gt;Binary eXchange Language&lt;/strong&gt;&lt;/a&gt; protocol (BXL) which is very efficient for transferring data. Another reason why the local pull is slower than the local push, even with small datasets, is that for local pull there is much more happening, as we see in &lt;em&gt;Figure 7&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Right, then what about SQLCC pull:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_services_compctx_II_procmon_pull_sqlcc2.png&quot; width=&quot;540&quot; height=&quot;845&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;TCP Receive SQLCC Pull&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh my, that is a lot! As in &lt;em&gt;Figure 7&lt;/em&gt; the sections outlined in red is the connection between SQL Server and the SqlSatellite, and in blue it is the &quot;ODBC&quot; connection. What is noticeable is that there are multiple sections interleaved, as well that there are multiple &lt;code&gt;BxlServer.exe&lt;/code&gt; processes involved (process id's 2108, 13360 and 15340). Well, maybe that is not such a surprise as we spoke about it in &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;Context - I&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What is more interesting though is that we receive the dataset both via the ODBC connection outlined in blue (length 1358), as well as the way we do it in the local push context, outlined in purple (length 1392)! That means that SQL sends data using both the TDS protocol as well as the BXL protocol.&lt;/p&gt;
+
+&lt;p&gt;By seeing the amount of &quot;stuff&quot; happening in &lt;em&gt;Figure 8&lt;/em&gt; we do realise why the SQLCC pull is not as efficient as local push and local pull (1.6 s vs ~200 ms). Having seen all this, we probably ask ourselves why the SQLCC pull was a lot faster (~15 s) than local pull (~23 s) for a big dataset and somewhat faster than the local push (~17 s)?&lt;/p&gt;
+
+&lt;p&gt;Let us execute the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; and &lt;em&gt;Code Snippet 4&lt;/em&gt; with &lt;code&gt;TOP (30000000)&lt;/code&gt; (30 million) and see what &lt;em&gt;Process Monitor&lt;/em&gt; tells us. For local push, we see many packets with a size of 65495 which is the maximum size for BXL data package. When we execute the local pull, we see many TDS packets with a size of 4096 followed by many packages with sizes ranging from ~70,000 up to 2.5 Mb. For me, it looks like the local pull is nowhere as efficient as the local push. Finally, the SQLCC pull shows the same behaviour as local pull with many TDS 4096 packages. However, after the TDS packages follows BXL packages where most have the maximum size of 65495.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I do not know why, in the case of SQLCC, data is first loaded via TDS and then BXL. I also do not know why in the case of local pull we see multiple 4096 packages followed by packages with an arbitrary big size. I see if I can find answers to this, in which case update this post (or write a new).&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;This post set out to try to find out why SQLCC performs better than local context. I believe we found why this is the reason but not necessarily how it works.&lt;/p&gt;
+
+&lt;p&gt;What did we see:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Local push performs really, really well up until it does not :). It performs well up until you hit memory restrictions.&lt;/li&gt;
+&lt;li&gt;Some of the memory issues can be alleviated by using the &lt;code&gt;@r_rowsPerRead&lt;/code&gt; parameter (not shown in this post).&lt;/li&gt;
+&lt;li&gt;When pushing the data (&lt;code&gt;@input_data_1&lt;/code&gt;) we cannot use SQLCC.&lt;/li&gt;
+&lt;li&gt;Both local pull as well as SQLCC uses ODBC connections, and the data transfer protocol is TDS.&lt;/li&gt;
+&lt;li&gt;When using SQLCC the BXL protocol is also used.&lt;/li&gt;
+&lt;li&gt;By the use of BXL we get very efficient processing of data, and that is the reasons we see good performance.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;After writing this post, I have quite a few questions which I will try to answer in a future post.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 26</title>
@@ -1514,84 +1859,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 21</title>
-   <link href="http://nielsberglund.com/2018/05/27/interesting-stuff-week-21/"/>
-   <updated>2018-05-27T11:06:31+02:00</updated>
-   <id>http://nielsberglund.com/2018/05/27/interesting-stuff---week-21</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;SQL Server &amp;amp; Other Database Systems&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/2018/05/20/sql-server-on-linux-quick-performance-monitoring/&quot;&gt;SQL Server on Linux: Quick Performance Monitoring&lt;/a&gt;. A blog post by &lt;a href=&quot;https://blogs.msdn.microsoft.com/bobsql/&quot;&gt;Bob Dorr&lt;/a&gt; where he talks about how we can get a Performance Monitor like view on Linux for SQL Server.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/05/mysql8&quot;&gt;MySQL Version 8 Adds Document Store, Performance and Security Improvements&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article about new functionality in the latest version of MySQL. What caught my eye was the support for document store. I guess, depending on how it is done, having a combination of Document Store and a relational database can be very powerful.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/apache-flink-1-5-0-release-announcement&quot;&gt;Apache Flink 1.5.0 Release Announcement&lt;/a&gt;. This post announces the release of Flink version 1.5.0. There are quite a few new exciting features, among them: broadcast state, task-local state recovery and support for windowed outer equi-joins in the SQL and Table API's. I have just set up a new CentOS 7 virtual machine so I can check this out.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/confluent-cloud-pro-gcp/&quot;&gt;New Confluent Cloud Professional, and Ecosystem Expansion to Google Cloud Platform&lt;/a&gt;. I do not know if you knew this - but there is a rule saying that if there is an announcement from Flink, there also has to be an announcement from Kafka (and visa versa). So, the Kafka announcement is that the Confluent Cloud is now also available on the Google Cloud (in addition to AWS). I really hope to see Azure being in the mix in a not too distant future.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/articles/future-of-net-core&quot;&gt;Discussions on the Future of .NET Core&lt;/a&gt;. An [InfoQ] article where five industry veterans discuss the .NET Core platform. Some takeaways:
-
-&lt;ul&gt;
-&lt;li&gt;The .NET Core platform provides significant performance benefits as compared to the traditional .NET Framework.&lt;/li&gt;
-&lt;li&gt;.NET Core benefits from a server-centric design that is not Windows-focused.&lt;/li&gt;
-&lt;li&gt;.NET Core is now a stable platform suitable for new application development.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://medium.com/netflix-techblog/open-sourcing-zuul-2-82ea476cb2b3&quot;&gt;Open Sourcing Zuul 2&lt;/a&gt;. An announcement from Netflix, how they are now open-sourcing their cloud gateway: &lt;strong&gt;Zuul 2&lt;/strong&gt;. A very interesting point in the post was where it discussed anomaly detection and contextual alerting.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/paypal-data-service-fraud&quot;&gt;Data Pipelines for Real-time Fraud Prevention at Scale&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about the architecture of PayPal’s data service which combines a Big Data approach with providing data in real time for decision making in fraud detection.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/&quot;&gt;Pixie: a system for recommending 3+ billion items to 200+ million users in real-time&lt;/a&gt;. A white paper dissected by &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; describing how Pinterest has built a system for recommending 3+ billion items to 200+ million users in real-time!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/05/21/enterprise-deployment-tips-for-azure-data-science-virtual-machine-dsvm&quot;&gt;Enterprise Deployment Tips for Azure Data Science Virtual Machine (DSVM)&lt;/a&gt;. I came across this post thanks to &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis&lt;/a&gt; and his weekly &lt;a href=&quot;https://www.getrevue.co/profile/datascienceweekly/&quot;&gt;newsletter&lt;/a&gt;. The post he pointed to is about the Azure Data Science Virtual Machine (DSVM) and how to use and deploy in an enterprise environment. This topic is especially interesting right now as we at &lt;a href=&quot;/derivco&quot;&gt;Derivco&lt;/a&gt; is looking at the DSVM. Thanks &lt;a href=&quot;https://twitter.com/luis_de_sousa&quot;&gt;Luis&lt;/a&gt;!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;p&gt;In lasts week &lt;a href=&quot;/2018/05/20/interesting-stuff-week-20/&quot;&gt;roundup&lt;/a&gt; I mentioned how I probably have to write some follow up posts to the &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post I published a week ago. I have now started with the first follow up post, and I hope I can publish it in a week or two.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
