@@ -4,13 +4,86 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-07T11:29:08+02:00</updated>
+ <updated>2018-07-08T12:27:56+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 27</title>
+   <link href="http://nielsberglund.com/2018/07/08/interesting-stuff-week-27/"/>
+   <updated>2018-07-08T12:11:28+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/08/interesting-stuff---week-27</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/ip-filtering-for-event-hubs-and-service-bus/&quot;&gt;IP filtering for Event Hubs and Service Bus&lt;/a&gt;. A frequently asked for feature in Azure Event Hubs is the ability to restrict access to the Event Hubs to certain well-known sites, alternatively rejecting traffic from specific IP addresses. The Azure team has now announced a public preview of IP filtering.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://databricks.com/blog/2018/07/02/build-a-mobile-gaming-events-data-pipeline-with-databricks-delta.html&quot;&gt;Build a Mobile Gaming Events Data Pipeline with Databricks Delta&lt;/a&gt;. This blog post shows how to build a data pipeline in AWS using the &lt;a href=&quot;https://databricks.com/product/unified-analytics-platform&quot;&gt;Databricks Unified Analytics Platform&lt;/a&gt;. Even though they in the blog post use AWS it should be possible to do the same on Azure since Databricks is now available there as well.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://mattwarren.org/2018/07/05/.NET-JIT-and-CLR-Joined-at-the-Hip/&quot;&gt;.NET JIT and CLR - Joined at the Hip&lt;/a&gt;. This is another excellent blog post by &lt;a href=&quot;https://twitter.com/matthewwarren&quot;&gt;Matthew&lt;/a&gt;, looking at how the .NET JIT compiler works together with CLR.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/07/boner-events-first-microservices&quot;&gt;QCon NY: Jonas Bonér on Designing Events-First Microservices&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; article summarising a QCon talk by &lt;a href=&quot;http://jonasboner.com/&quot;&gt;Jonas Bonér&lt;/a&gt; of &lt;a href=&quot;https://akka.io/&quot;&gt;Akka&lt;/a&gt; fame. The main point Jonas makes is that events-first domain-driven design (DDD) and event streaming are critical in a microservices based architecture. Oh and by th way, if you are interested in event-driven systems and microservices go and download Jonas mini-book &lt;a href=&quot;https://www.lightbend.com/blog/reactive-microsystems-the-evolution-of-microservices-at-scale-free-oreilly-report-by-jonas-boner&quot;&gt;Reactive Microsystems - The Evolution Of Microservices At Scale&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/june-preview-release-confluent-plaform/&quot;&gt;June Preview Release: Packing Confluent Platform with the Features You Requested!&lt;/a&gt;. A blog post by the Confluent team announcing the latest preview release of Confluent Platform. This release packs quite a few new features, and I am especially interested in the KSQL support for nested data as well as the ability to join two streams together.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/news/2018/07/event-sourcing-kafka-streams&quot;&gt;Experiences from Building an Event-Sourced System with Kafka Streams&lt;/a&gt;. An article from &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about how engineers at &lt;a href=&quot;https://www.wix.com/&quot;&gt;Wix&lt;/a&gt; built an event sourced system using &lt;a href=&quot;https://kafka.apache.org/documentation/streams/&quot;&gt;Kafka Streams&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://towardsdatascience.com/a-feature-selection-tool-for-machine-learning-in-python-b64dd23710f0&quot;&gt;A Feature Selection Tool for Machine Learning in Python&lt;/a&gt;. This blog post is about a Python tool that helps with feature selection in a dataset.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://towardsdatascience.com/a-complete-machine-learning-walk-through-in-python-part-one-c62152f39420&quot;&gt;A Complete Machine Learning Project Walk-Through in Python: Part One&lt;/a&gt;. First post in a series walking through a complete Python machine learning solution.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/&quot;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt;. I finally published part 2 of the &lt;a href=&quot;/series/spees_and_sql_compute_context&quot;&gt;sp_execute_external_script and SQL Server Compute Context&lt;/a&gt; series. In the post, I tried to figure out why the performance is so much better when executing in a &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; in &lt;strong&gt;SQL Server ML Services&lt;/strong&gt; compared to executing in the local context (it is SQL Server after all). Even though I &quot;sort of&quot; figured it out, a few questions arose and hopefully I can answer those questions in a future post.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>sp_execute_external_script and SQL Compute Context - II</title>
@@ -1715,150 +1788,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>SQL Server Machine Learning Services and SQL Server 2017 CU7</title>
-   <link href="http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/"/>
-   <updated>2018-06-01T19:43:01+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7</id>
-   <content type="html">&lt;p&gt;This post is as much for you as it is for me to come back to when I wonder what to do when SQL Serer Machine Learning Services all of a sudden stops working after a SQL Server upgrade.&lt;/p&gt;
-
-&lt;h2&gt;Background&lt;/h2&gt;
-
-&lt;p&gt;Last week I did a complete reformat of my development box at home and installed the latest version of Windows 10: the 1803 build, also called the April 2018 update.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I usually try to reformat my box at least twice a year, to ensure it is not too &quot;bogged&quot; down by old &quot;cruft&quot;, and that it has the latest and greatest.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;After the reformat I installed all my necessary applications, among them SQL Server 2017 with the in-database analytics components (R and Python). After installation I tested that it all worked and made sure I could execute my usual test scripts for &lt;code&gt;sp_execute_external_script&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;R Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d &amp;lt;- 42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Test Script for R&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The &quot;moral&quot; equivalent to &lt;em&gt;Code Snippet 1&lt;/em&gt; in Python also worked without an issue:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Python Test&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;   &lt;span class=&quot;nd&quot;&gt;@language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Python'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'d = 42'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Test Script for Python&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Cool, all is &quot;A-OK&quot;! A couple of days go by, and I see that there is a Cumulative Update (CU) for SQL Server 2017 - CU7. I install it and does not think much about it. I mean: &quot;what can go wrong, how hard can it be?&quot;. A couple of days later and I am busy writing the follow-up post to &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; when I try to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and it falls over!&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you do not know what CU's are, you can read more about them &lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlreleaseservices/announcing-the-modern-servicing-model-for-sql-server/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;h2&gt;Exception&lt;/h2&gt;
-
-&lt;p&gt;The exception I received when I tried to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt; looked like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_error1.png&quot; width=&quot;405&quot; height=&quot;105&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Exception when Executing&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As we see in &lt;em&gt;Figure 1&lt;/em&gt; the exception has something to do with not being able to create a directory, which points to permission issues. This, kind of, resonated with me as I had in the back of my mind that something similar happened in the early days of SQL Server 2016 R Services when R stopped working after service packs were applied. Regardless I did some investigation around the issue (read I Googled) and found &lt;a href=&quot;http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/&quot;&gt;this&lt;/a&gt; post by Jon Culp and also a post by my old friend &lt;a href=&quot;https://blog.greglow.com/2018/05/16/machine-learning-testing-your-installation-of-r-and-python-in-sql-server-2017/&quot;&gt;Greg Low&lt;/a&gt;. Both posts mention the 8.3 file naming convention as the primary culprit for the error. However, seeing that this worked fine before I applied CU7, I did not believe that the 8.3 file names were the case.  Having said that, I did (to be sure) enable the 8.3 notation as per &lt;a href=&quot;http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/&quot;&gt;Jon Culp's&lt;/a&gt; post: &lt;code&gt;fsutil.exe behaviour set disable8dot3 0&lt;/code&gt;. Unfortunately, that did not change anything because when I executed the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; it still errored out with the error in &lt;em&gt;Figure 1&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;All this pointed me back to the error being due to permission issues.&lt;/p&gt;
-
-&lt;h2&gt;Permissions&lt;/h2&gt;
-
-&lt;p&gt;Ok, so above we said permission issues, but permissions on what?&lt;/p&gt;
-
-&lt;p&gt;If you read my series about &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server 2016 R Services&lt;/a&gt; you may remember that in &lt;a href=&quot;/2017/05/16/microsoft-sql-server-r-services-internals-vi/&quot;&gt;Internals - VI&lt;/a&gt; and &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt; we discussed how the Launchpad service and the RTerm processes create files and directories in the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In a default installation of SQL Server on a Windows box, the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory is located at &lt;code&gt;C:\&amp;lt;sql_instance_path&amp;gt;\MSSQL\ExtensibilityData&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;When you navigate the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory in &lt;em&gt;File Explorer&lt;/em&gt; and look at the &lt;em&gt;Advanced Security Settings for ExtensibilityData&lt;/em&gt; dialog you see something like so in an installation where everything works:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_permissions1.png&quot; width=&quot;755&quot; height=&quot;515&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Permissions on ExtensibilityData&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 2&lt;/em&gt; we see the various users, groups and roles that have access to the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and the highlighted part is the group that is of interest for this discussion. What is interesting is that when you look at this dialog before CU7 (when everything works) and after you deploy CU7, it looks the same. So, something is going on behind the scenes.&lt;/p&gt;
-
-&lt;p&gt;To further confirm that what I saw was a permission issue I used &lt;em&gt;Process Monitor&lt;/em&gt; to see what file operations happened when I tried to execute the code in &lt;em&gt;Code Snippet 1&lt;/em&gt;. After gradually filtering out events I ended up with was is shown in the figure below.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are interested in how you can use &lt;em&gt;Process Monitor&lt;/em&gt; I covered that in &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;Internals - VII&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_procmon1.png&quot; width=&quot;782&quot; height=&quot;192&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Process Monitor Output&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Remember how we in the &lt;strong&gt;Internals&lt;/strong&gt; posts &lt;a href=&quot;/2017/04/23/microsoft-sql-server-r-services-internals-iv/&quot;&gt;IV&lt;/a&gt; and &lt;a href=&quot;/2017/07/11/microsoft-sql-server-r-services-internals-vii/&quot;&gt;VII&lt;/a&gt; in the &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and its sub-directories. So what we see in &lt;em&gt;Figure 3&lt;/em&gt; is how the RTerm processes cannot write to the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and this is what ultimately causes the error in &lt;em&gt;Figure 1&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;What I saw when I filtered out events was that even though the RTerm processes could not write to the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory, they could write to subdirectories:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_procmon2.png&quot; width=&quot;801&quot; height=&quot;161&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Successful Writes&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So based on what we see in &lt;em&gt;Figure 3&lt;/em&gt; and &lt;em&gt;Figure 4&lt;/em&gt; it seems like something has gone awry with permissions for the root of the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory. How to fix this?&lt;/p&gt;
-
-&lt;h2&gt;Fix&lt;/h2&gt;
-
-&lt;p&gt;I must confess that I initially added &lt;em&gt;Everyone&lt;/em&gt; with &lt;em&gt;Full control&lt;/em&gt; to the security settings for the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and it all worked:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_permissions2.png&quot; width=&quot;755&quot; height=&quot;515&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Everyone Full Control&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;However that did not seem like the correct way to do it, so I started playing around with the &quot;Advanced&quot; security properties on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_sec_properties.png&quot; width=&quot;360&quot; height=&quot;485&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Security Properties&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Figure 6&lt;/em&gt; we see how I have right clicked on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory in &lt;em&gt;File Explorer&lt;/em&gt; and chosen properties and then clicked on the &lt;em&gt;Security&lt;/em&gt; (highlighted in the figure). The group that we work with is the &lt;code&gt;MSSQLLaunchpad&lt;/code&gt;, outlined in red.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you work on a SQL instance other than the default the group name is &lt;code&gt;MSSQLLaunchpad$instance_name&lt;/code&gt;.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;When I click on the &quot;Advanced&quot; button (also outlined in red in &lt;em&gt;Figure 6&lt;/em&gt;) I see something like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh.png&quot; width=&quot;765&quot; height=&quot;515&quot;  &gt;
-&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Advanced Security Settings&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the &quot;Advanced Security Settings&quot; dialog in &lt;em&gt;Figure 7&lt;/em&gt; I clicked on &quot;Enable inheritance&quot; (outlined in red) followed by &quot;Apply&quot;, which showed an error dialog:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh_1.png&quot; width=&quot;395&quot; height=&quot;220&quot;  &gt;
-&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Error Dialog&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I clicked on &quot;Continue&quot; and the error repeated for each subdirectory in the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory. After last error I was back in the &quot;Advanced Security Settings&quot; dialog where I saw something strange:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_enable_inh_2.png&quot; width=&quot;800&quot; height=&quot;580&quot;  &gt;
-&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;Additional Security Principals&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;What I saw was quite a few new security principals added to the security settings for the directory, and we see them outlined in red in &lt;em&gt;Figure 9&lt;/em&gt;. I clicked OK until I exited all dialogs. Now, when I tried to execute the R code, it succeeded. However, I was not happy with the added principals, so I went back into the &quot;Advanced Security Settings&quot; dialog:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_disable_inh_1.png&quot; width=&quot;750&quot; height=&quot;515&quot;  &gt;
-&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Disable Inheritance&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the dialog as we see in &lt;em&gt;Figure 10&lt;/em&gt; I clicked on the &quot;Disable inheritance&quot; button. When I clicked &quot;Apply&quot; the &quot;Block Inheritance&quot; dialog &quot;popped up&quot;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_sql_cu7_convert_inh_1.png&quot; width=&quot;510&quot; height=&quot;275&quot;  &gt;
-&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Block Inheritance&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the &quot;Block Inheritance&quot; dialog I clicked on the outlined part in &lt;em&gt;Figure 10&lt;/em&gt;: &quot;Convert inherited permissions ...&quot;, and the same error dialog as we see in &lt;em&gt;Figure 8&lt;/em&gt; came up. As I did above, I clicked through the errors through the &quot;Continue&quot; button, and when I was back in the &quot;Advanced Security Settings&quot; dialog I saw that the added security principals were no longer there. That is not true, one principal from the added ones was still there, and that was &lt;code&gt;MSSQLSERVER&lt;/code&gt;. I removed it and clicked OK out of the remaining dialogs. When I executed the code, it all worked, Yay!&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;Above we see how I managed to fix the issue how R did not work in SQL Server 2017 after I had applied CU7. The steps I took:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Right-click on the &lt;code&gt;ExtensibilityData&lt;/code&gt; directory and choose properties.&lt;/li&gt;
-&lt;li&gt;In properties click on the &quot;Security&quot; tab and then the &quot;Advanced&quot; button.&lt;/li&gt;
-&lt;li&gt;In the &quot;Advanced Security Settings&quot; dialog click &quot;Enable inheritance&quot; followed by &quot;Apply&quot;.&lt;/li&gt;
-&lt;li&gt;In the error dialogs that appear click continue until you are back in the &quot;Advanced Security Settings&quot; dialog, and there you click OK out of all dialogs.&lt;/li&gt;
-&lt;li&gt;At this stage, you can execute the R code without any exceptions.&lt;/li&gt;
-&lt;li&gt;Go back into the &quot;Advanced Security Settings&quot; dialog and click &quot;Disable inheritance&quot; and &quot;Apply&quot;.&lt;/li&gt;
-&lt;li&gt;In the &quot;Block Inheritance&quot; dialog chose &quot;Convert inherited permissions ...&quot;.&lt;/li&gt;
-&lt;li&gt;&quot;Continue&quot; through the error dialogs until you are back in the &quot;Advanced Security Settings&quot; dialog.&lt;/li&gt;
-&lt;li&gt;In the &quot;Advanced Security Settings&quot; dialog &quot;Remove&quot; the &lt;code&gt;MSSQLSERVER&lt;/code&gt; principal.&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;p&gt;Oh, and I can warmly recommend the blogs I mention above by &lt;a href=&quot;http://jonculp.com/&quot;&gt;Jon Culp&lt;/a&gt; and &lt;a href=&quot;https://blog.greglow.com/&quot;&gt;Greg Low&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
