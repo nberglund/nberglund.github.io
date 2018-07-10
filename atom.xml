@@ -4,7 +4,7 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-10T18:48:41+02:00</updated>
+ <updated>2018-07-10T18:58:02+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
@@ -17,7 +17,7 @@
    <link href="http://nielsberglund.com/2018/07/10/install-confluent-platform-kafka-on-windows/"/>
    <updated>2018-07-10T18:43:48+02:00</updated>
    <id>http://nielsberglund.com/2018/07/10/install-confluent-platform-kafka-on-windows</id>
-   <content type="html">&lt;p&gt;You who follows my blog and have read my weekly roundups you know that I am quite (that is an understatement) interested in Apache Kafka and I am curious to find out what &quot;cool&quot; things one can do with it. For that, I want to be able to test &quot;stuff&quot; quickly. When I test and try out new things, I usually do it on my development box which contains everything I need: &lt;strong&gt;SQL Server&lt;/strong&gt;, &lt;strong&gt;RabbitMQ&lt;/strong&gt;, &lt;strong&gt;RStudio&lt;/strong&gt;, &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;, &lt;em&gt;*Visual Studio&lt;/em&gt; and the list goes on.&lt;/p&gt;
+   <content type="html">&lt;p&gt;You who follows my blog and have read my weekly roundups you know that I am quite (that is an understatement) interested in Apache Kafka and I am curious to find out what &quot;cool&quot; things one can do with it. For that, I want to be able to test &quot;stuff&quot; quickly. When I test and try out new things, I usually do it on my development box which contains everything I need: &lt;strong&gt;SQL Server&lt;/strong&gt;, &lt;strong&gt;RabbitMQ&lt;/strong&gt;, &lt;strong&gt;RStudio&lt;/strong&gt;, &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;, &lt;strong&gt;Visual Studio&lt;/strong&gt; and the list goes on.&lt;/p&gt;
 
 &lt;p&gt;So seeing that I have most of my &quot;tools of the trade&quot; on my machine I obviously also would like to have Kafka on the box. Herein lies a problem, I am a Windows dude and Kafka, and Windows do not gel. Yes, some people are running Kafka on Windows, but it is a chore. OK, so what to do? Sure, I could potentially run Kafka on a virtual machine, or in a Docker image, but it is not as transparent as I would like it to be (yeah, I am lazy).&lt;/p&gt;
 
