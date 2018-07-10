@@ -4,13 +4,223 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-08T12:27:56+02:00</updated>
+ <updated>2018-07-10T18:48:41+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Install Confluent Platform (Kafka) on Windows</title>
+   <link href="http://nielsberglund.com/2018/07/10/install-confluent-platform-kafka-on-windows/"/>
+   <updated>2018-07-10T18:43:48+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/10/install-confluent-platform-kafka-on-windows</id>
+   <content type="html">&lt;p&gt;You who follows my blog and have read my weekly roundups you know that I am quite (that is an understatement) interested in Apache Kafka and I am curious to find out what &quot;cool&quot; things one can do with it. For that, I want to be able to test &quot;stuff&quot; quickly. When I test and try out new things, I usually do it on my development box which contains everything I need: &lt;strong&gt;SQL Server&lt;/strong&gt;, &lt;strong&gt;RabbitMQ&lt;/strong&gt;, &lt;strong&gt;RStudio&lt;/strong&gt;, &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;, &lt;em&gt;*Visual Studio&lt;/em&gt; and the list goes on.&lt;/p&gt;
+
+&lt;p&gt;So seeing that I have most of my &quot;tools of the trade&quot; on my machine I obviously also would like to have Kafka on the box. Herein lies a problem, I am a Windows dude and Kafka, and Windows do not gel. Yes, some people are running Kafka on Windows, but it is a chore. OK, so what to do? Sure, I could potentially run Kafka on a virtual machine, or in a Docker image, but it is not as transparent as I would like it to be (yeah, I am lazy).&lt;/p&gt;
+
+&lt;p&gt;Hmm, Microsoft did introduce the ability to run Linux binary executables (in ELF format) natively on Windows 10 in Windows 10 version 1607. The feature is called &lt;strong&gt;Windows Subsystem for Linux&lt;/strong&gt; (WSL), and since I am now running version 1803, maybe I should try and install Kafka in &lt;em&gt;WSL&lt;/em&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Pre-reqs&lt;/h2&gt;
+
+&lt;p&gt;To install and run the &lt;strong&gt;Confluent Platform&lt;/strong&gt;, (which contains Kafka), on &lt;em&gt;WSL&lt;/em&gt; there are some pre-reqs:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;WSL&lt;/em&gt; installed (fairly obvious).&lt;/li&gt;
+&lt;li&gt;Java 1.7 or later.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Windows Subsystem for Linux&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;WSL&lt;/em&gt; is primarily aimed at developers, and it allows you to run Linux environments directly on Windows in a native format and without the overhead of a virtual machine. Let us retake a look at that statement: &lt;em&gt;run Linux environments directly on Windows in a native format&lt;/em&gt;. Yes native format, &lt;em&gt;WSL&lt;/em&gt; is not a UNIX-like environment like Cygwin, which wraps non-Windows functionality in Win32 system calls but it serves Linux programs as special, isolated minimal processes (&lt;em&gt;pico-processes&lt;/em&gt;) attached to kernel-mode &lt;em&gt;pico-providers&lt;/em&gt;. If you want to read all the &quot;gory&quot; details about &lt;em&gt;WSL&lt;/em&gt;: &lt;a href=&quot;https://blogs.msdn.microsoft.com/wsl/2016/04/22/windows-subsystem-for-linux-overview/&quot;&gt;Windows Subsystem for Linux Overview&lt;/a&gt; gives you an excellent introduction.&lt;/p&gt;
+
+&lt;p&gt;Installing &lt;em&gt;WSL&lt;/em&gt; is very easy; you first enable &lt;em&gt;WSL&lt;/em&gt; either via a Powershell command: &lt;code&gt;Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux&lt;/code&gt; or by switching it on from &quot;Turn Windows features on or off&quot; via &quot;Control Panel | Programs and Features&quot;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_enable_wsl.png&quot; width=&quot;615&quot; height=&quot;315&quot;  &gt;
+&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Enable WSL&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You should restart the machine after enabling &lt;em&gt;WSL&lt;/em&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; So I have enabled &lt;em&gt;WSL&lt;/em&gt; a few times now, and some of the times I have not had to restart.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;When &lt;em&gt;WSL&lt;/em&gt; is enabled you need to download and install a distro from the Windows Store. When &lt;em&gt;WSL&lt;/em&gt; first was introduced the only distro available was Ubuntu, since then quite a few have been added, and now the distro list looks like so:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ubuntu&lt;/li&gt;
+&lt;li&gt;OpenSUSE&lt;/li&gt;
+&lt;li&gt;SLES&lt;/li&gt;
+&lt;li&gt;Kali Linux&lt;/li&gt;
+&lt;li&gt;Debian GNU/Linux&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;I started with &lt;em&gt;WSL&lt;/em&gt; when Ubuntu was the only distro available, so I have &quot;stuck&quot; with it, but I do not think the distros are that different. To continue, you choose a distro and let it install. Finally, you start the command shell for the distro from the Windows &quot;Start&quot; menu:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_start_distro.png&quot; width=&quot;685&quot; height=&quot;505&quot;  &gt;
+&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Start the Distro&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When you start up the distro for the first time the setup finishes, and you are prompted to enter a root password. Now is probably a good time to run &lt;code&gt;sudo apt-get update -y &amp;amp;&amp;amp; sudo apt-get upgrade -y&lt;/code&gt; where &lt;code&gt;sudo apt-get update -y&lt;/code&gt; updates the list of all current program packages in the repositories to determine which packages are candidates for upgrading. The command &lt;code&gt;sudo apt-get upgrade -y&lt;/code&gt; upgrades all current program packages in the operating system.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The above commands are for Ubuntu, so if you have another distro installed check the commands for that particular distro.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;h4&gt;Java&lt;/h4&gt;
+
+&lt;p&gt;When your distro is up and running, you can now install Java. When reading the documentation about &lt;a href=&quot;https://docs.confluent.io/current/installation/versions-interoperability.html#java&quot;&gt;supported Java versions&lt;/a&gt;, you see that &lt;strong&gt;Confluent Platform&lt;/strong&gt; 4.1 is the last version with support for Java 1.7. The &lt;strong&gt;Confluent Platform&lt;/strong&gt; version I use is the latest preview (version 5.x), so I install 1.8. Oh, and do not try with 1.9 -  it does not work.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://docs.confluent.io/current/installation/versions-interoperability.html#java&quot;&gt;docs&lt;/a&gt; mention the JDK, but I have found that the JRE works as well (since I am not writing any Java code) and I use the open source version of Java - OpenJDK. So to install you run the following from the bash shell:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;JRE&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openjdk-8-jre-headless &lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Install JRE&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As &lt;em&gt;WSL&lt;/em&gt; has no GUI, I choose to install the headless version of the JRE as we see in &lt;em&gt;Code Snippet 1&lt;/em&gt;. Finally, to check that it installed correctly I do &lt;code&gt;&amp;gt; java -version&lt;/code&gt; and the result is like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Java Version&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;openjdk version &lt;span class=&quot;s2&quot;&gt;&quot;1.8.0_171&quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;OpenJDK Runtime Environment &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 1.8.0_171-8u171-b11-0ubuntu0.18.04.1-b11&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;OpenJDK 64-Bit Server VM &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;build 25.171-b11, mixed mode&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; Java Version Output*.&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Code Snippet 2&lt;/em&gt; everything looks OK, so we can now go ahead with the main attraction.&lt;/p&gt;
+
+&lt;h2&gt;Confluent Platform&lt;/h2&gt;
+
+&lt;p&gt;By now you may ask yourself what is this thing &lt;strong&gt;Confluent Platform&lt;/strong&gt;? Well, &lt;a href=&quot;https://confluent.io&quot;&gt;Confluent&lt;/a&gt; is a company founded by the guys (and girls) that originally built Kafka back at LinkedIn. The company is now focusing on building a streaming platform to help other companies get easy access to enterprise data as real-time streams.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;Confluent Platform&lt;/strong&gt; improves Apache Kafka by expanding its integration capabilities, adding tools to optimise and manage Kafka clusters, and methods to ensure the streams are secure. &lt;strong&gt;Confluent Platform&lt;/strong&gt; makes Kafka easier to build and easier to operate. The &lt;strong&gt;Confluent Platform&lt;/strong&gt; comes in two flavours:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/product/confluent-open-source/&quot;&gt;Confluent Open Source&lt;/a&gt; is freely downloadable.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/product/confluent-enterprise/&quot;&gt;Confluent Enterprise&lt;/a&gt; is available on a subscription basis.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;Back in April Confluent started releasing preview versions of the &lt;strong&gt;Confluent Platform&lt;/strong&gt; with the latest and the greatest and that is what I am using. At the time I write this the June preview has just been released, and that is what I am installing here.&lt;/p&gt;
+
+&lt;h4&gt;Installation&lt;/h4&gt;
+
+&lt;p&gt;Before we can install, we need to download the install media which you do from &lt;a href=&quot;https://www.confluent.io/preview-release&quot;&gt;here&lt;/a&gt;. When clicking the &quot;Download ...&quot; button, a form &quot;pops up&quot; where you choose your download format and enter your details. I usually choose &lt;code&gt;tar.gz&lt;/code&gt;, and that is what I base the following instructions on. Download the file to your PC and then in the bash shell:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a directory where to extract the files to.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd&lt;/code&gt; to the download directory:&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_mkdir.png&quot; width=&quot;530&quot; height=&quot;85&quot;  &gt;
+&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Make Kafka Directory&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 3&lt;/em&gt; we see how I create the &lt;code&gt;/opt/kafka&lt;/code&gt; directory, and how I &lt;code&gt;cd&lt;/code&gt; to the Windows directory where my downloaded files are. One of the cool things with &lt;em&gt;WSL&lt;/em&gt; is that the local Windows drives gets automatically mounted under the &lt;code&gt;/mnt&lt;/code&gt; folder. I can now extract the files:&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The only reason I chose to create the &lt;code&gt;kafka&lt;/code&gt; directory under &lt;code&gt;/opt&lt;/code&gt; is that traditionally &lt;code&gt;/opt&lt;/code&gt; is for third-party applications.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_untar.png&quot; width=&quot;800&quot; height=&quot;225&quot;  &gt;
+&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Extract Files&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;So I &lt;code&gt;tar&lt;/code&gt; the files, and we see in &lt;em&gt;Figure 4&lt;/em&gt; how the files are extracted. To extract the files takes a couple of minutes and when done we can drill down into the extracted directories and files:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_kafka_dirs_files.png&quot; width=&quot;770&quot; height=&quot;560&quot;  &gt;
+&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;Directory and File Structure&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;Figure 5&lt;/em&gt; we see how directories and files ended up under a &lt;code&gt;confluent-version...&lt;/code&gt; directory (outlined in white) and when we &lt;code&gt;ls&lt;/code&gt; into that directory we see sub-directories (also outlined in white), and amongst them a &lt;code&gt;bin&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;When we drill down into the &lt;code&gt;bin&lt;/code&gt; directory and list the content we see a file named &lt;code&gt;confluent&lt;/code&gt;. This is an executable file, and we use this file to start and stop all the Confluent components. The &lt;code&gt;bin&lt;/code&gt; directory also contains executable files to start and stop individual components, such as &lt;code&gt;kafka-server-start&lt;/code&gt;, &lt;code&gt;kafka-server-stop&lt;/code&gt; and &lt;code&gt;zookeeper-server-start&lt;/code&gt;, and so forth.&lt;/p&gt;
+
+&lt;p&gt;Right, enough of this - let us see if we can get the show on the road and spin up all components:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_start_kafka.png&quot; width=&quot;710&quot; height=&quot;370&quot;  &gt;
+&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Start Confluent&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To start all the Confluent components, we use the command &lt;code&gt;sudo ./confluent start (from the&lt;/code&gt;bin` directory) and in &lt;em&gt;Figure 6&lt;/em&gt; we see how the various components startup, awesome!&lt;/p&gt;
+
+&lt;h4&gt;Control Center&lt;/h4&gt;
+
+&lt;p&gt;Part of the &lt;strong&gt;Confluent Platform&lt;/strong&gt; installation (Enterprise version) is the &lt;em&gt;Control Center&lt;/em&gt;. The &lt;em&gt;Control Center&lt;/em&gt; (I copied the text from the &lt;a href=&quot;https://www.confluent.io/confluent-control-center/&quot;&gt;Control Center&lt;/a&gt; site) &quot;gives the administrator monitoring and management capabilities, delivering automated, curated dashboards so that Kafka experts can easily understand what is happening without tweaking dashboards&quot;. So let us see if we can connect with the &lt;em&gt;Control Center&lt;/em&gt;. If we connect from the same machine as we installed &lt;strong&gt;Confluent Platform&lt;/strong&gt; on, the address is &lt;code&gt;http://localhost:9021&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_control_center.png&quot; width=&quot;785&quot; height=&quot;525&quot;  &gt;
+&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Confluent Control Center&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Cool, &lt;em&gt;Control Center&lt;/em&gt; seems to be up and running, let us now use it to create a &lt;em&gt;Topic&lt;/em&gt; so we can do a final test.&lt;/p&gt;
+
+&lt;h4&gt;Topics&lt;/h4&gt;
+
+&lt;p&gt;When you send messages to a Kafka broker, you typically send it to a &quot;Topic&quot;, which is like a collection point in the broker for &quot;like-minded&quot; messages. If you are a database dude like me, you can see it as a table in a database where you keep records of the same type.&lt;/p&gt;
+
+&lt;p&gt;Typically you create multiple topics in you Kafka cluster to cater for multiple message types, and &lt;em&gt;Control Center&lt;/em&gt; can help you with that. In &lt;em&gt;Figure 7&lt;/em&gt; we see at the bottom left corner, outlined in red, &quot;Topics&quot;. Click on that, and you see existing default topics. Click on, in the far right corner, the &quot;Create topic&quot; button and you see something like so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_create_topic.png&quot; width=&quot;700&quot; height=&quot;505&quot;  &gt;
+&lt;strong&gt;Figure 8:&lt;/strong&gt; &lt;em&gt;Topics&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the topic name box enter &quot;testing&quot; and then click &quot;Create with defaults&quot; and we are back seeing the existing topics as well as the newly created &quot;testing&quot; topic:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_topic_created.png&quot; width=&quot;720&quot; height=&quot;595&quot;  &gt;
+&lt;strong&gt;Figure 9:&lt;/strong&gt; &lt;em&gt;New Topic&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When we have a topic, we can now see whether we can publish and consume messages.&lt;/p&gt;
+
+&lt;h2&gt;Test Send &amp;amp; Receive&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Confluent Platform&lt;/strong&gt; is now up and running, and you can now start doing &quot;cool&quot; stuff. However, to make sure everything works let us use the built-in command line clients to send and receive some test messages.&lt;/p&gt;
+
+&lt;p&gt;What we do is that in the open bash shell we &lt;code&gt;cd&lt;/code&gt; to the &lt;code&gt;/opt/kafka/confluent-xxx/bin/&lt;/code&gt; directory. We use the command line producer &lt;code&gt;kafka-console-producer&lt;/code&gt; to send messages:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Produce&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; ./kafka-console-producer &lt;span class=&quot;nt&quot;&gt;--broker-list&lt;/span&gt; localhost:9092 &lt;span class=&quot;nt&quot;&gt;--topic&lt;/span&gt; testing
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;Hello World!
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;Life Is Awesome!
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;We Have Installed Kafka on Windows!&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Publishing Messages&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We see in &lt;em&gt;Code Snippet 3&lt;/em&gt; how we target the local broker on port 9092, and the topic we send to is the &quot;testing&quot; topic we created above. After hitting enter, we create one message after each other (hit enter in between).&lt;/p&gt;
+
+&lt;p&gt;To consume messages we open a second bash shell and &lt;code&gt;cd&lt;/code&gt; into the &lt;code&gt;/bin&lt;/code&gt; directory as before, and to receive messages we use the &lt;code&gt;kafka-console-consumer&lt;/code&gt; command line client:&lt;/p&gt;
+
+&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Consume&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; ./kafka-console-consumer &lt;span class=&quot;nt&quot;&gt;--bootstrap-server&lt;/span&gt; localhost:9092 &lt;span class=&quot;nt&quot;&gt;--topic&lt;/span&gt; testing &lt;span class=&quot;nt&quot;&gt;--from-beginning&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Hello World!
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;Life Is Awesome!
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;We Have Installed Kafka on Windows!&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Consume Messages&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When running the consumer we see in &lt;em&gt;Code Snippet 4&lt;/em&gt; how we receive the messages we just sent. If we were to go back to the publisher and create some more messages we immediately see them in the consumer bash shell. It works! So now we can start creating streaming applications using proper &lt;a href=&quot;https://cwiki.apache.org/confluence/display/KAFKA/Clients&quot;&gt;clients&lt;/a&gt;. If you write .NET applications, I suggest you look at the &lt;a href=&quot;https://github.com/confluentinc/confluent-kafka-dotnet&quot;&gt;Confluent client&lt;/a&gt; which is very feature rich.&lt;/p&gt;
+
+&lt;p&gt;When we are done with the &lt;strong&gt;Confluent Platform&lt;/strong&gt;, we stop it from the &lt;code&gt;/bin&lt;/code&gt; directory:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_stop_kafka.png&quot; width=&quot;700&quot; height=&quot;355&quot;  &gt;
+&lt;strong&gt;Figure 10:&lt;/strong&gt; &lt;em&gt;Stopping Kafka&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;We stop Kafka by calling &lt;code&gt;sudo ./confluent stop&lt;/code&gt; and then as &lt;em&gt;Figure 10&lt;/em&gt; shows, all components shut down in an orderly fashion.&lt;/p&gt;
+
+&lt;p&gt;We have installed &lt;strong&gt;Confluent Platform&lt;/strong&gt; on &lt;em&gt;WSL&lt;/em&gt;, started it, published and consumed some messages and stopped it. All is good! Or is it?&lt;/p&gt;
+
+&lt;h2&gt;ISSUE&lt;/h2&gt;
+
+&lt;p&gt;So what happens when you try to start the platform again:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/inst_kafka_wsl_start_error.png&quot; width=&quot;705&quot; height=&quot;230&quot;  &gt;
+&lt;strong&gt;Figure 11:&lt;/strong&gt; &lt;em&gt;Error at Start Up&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;That is not good! We get an error when we try to start the platform after a shutdown. What we see here is a &quot;half&quot; known issue which is most prevalent on Windows machines, and it has to do with Kafka trying to clean up old log files. If you drill down in the Kafka log files you see an error looking something like this: &lt;code&gt;FATAL Shutdown broker because all log dirs in &amp;lt;path_to_logs&amp;gt; have failed (kafka.log.LogManager)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;At the moment I do not have a solution for it other than that before each startup run something like so: &lt;code&gt;sudo rm -fr /tmp/confl*&lt;/code&gt; which removes all Kafka related log directories. This is obviously not a solution in a production environment or a &quot;proper&quot; test/dev environment but for us just wanting to do some &quot;quick and dirty&quot; testing on &lt;em&gt;WSL&lt;/em&gt; it is sufficient.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post, we discussed a little bit what &lt;em&gt;WSL&lt;/em&gt; is and how we can install &lt;strong&gt;Confluent Platform&lt;/strong&gt; on &lt;em&gt;WSL&lt;/em&gt;. We looked at we can test the installation by creating a topic and then publish and consume messages using the command line publish and consume clients.&lt;/p&gt;
+
+&lt;p&gt;Having &lt;strong&gt;Confluent Platform&lt;/strong&gt; installed we can now use a &lt;a href=&quot;https://cwiki.apache.org/confluence/display/KAFKA/Clients&quot;&gt;client of choice&lt;/a&gt; to start doing &quot;cool&quot; stuff. Keep an eye on my blog for future &lt;strong&gt;Confluent Platform&lt;/strong&gt; and Kafka posts!&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 27</title>
@@ -1717,73 +1927,6 @@
 &lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
 
 &lt;p&gt;I am still busy writing the follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from three weeks ago. The post is supposed to be about why executing code in the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; gives so much better performance than when executing in the local context. Initially, I thought it was straightforward; boy was I wrong.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 22</title>
-   <link href="http://nielsberglund.com/2018/06/03/interesting-stuff-week-22/"/>
-   <updated>2018-06-03T09:41:05+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/03/interesting-stuff---week-22</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/crdt-distributed-consistency&quot;&gt;CRDTs and the Quest for Distributed Consistency&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation by &lt;a href=&quot;https://twitter.com/martinkl&quot;&gt;Martin Kleppmann&lt;/a&gt; where he talks about how to ensure data consistency in distributed systems, especially in systems that don't have an authoritative leader. Very interesting! Oh, and if you have not read Martin's book &lt;a href=&quot;http://dataintensive.net/&quot;&gt;Designing Data Intensive Applications&lt;/a&gt;, shame on you - it is a &lt;strong&gt;MUST&lt;/strong&gt; read for anyone wanting to build scalable applications!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/async-event-arch&quot;&gt;Actors or Not: Async Event Architectures&lt;/a&gt;. A presentation, discussing two approaches to an asynchronous event-based architecture. The first is a &quot;classic&quot; style, protocol. The second is an actor-based approach.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/lambda-streams-delta&quot;&gt;Lambda Architectures: a Snapshot, a Stream, &amp;amp; a Bunch of Deltas&lt;/a&gt;. This link points to yet another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation. The presentation is about how event-sourced architectures can allow core services to reliably be able to share their information with other services asynchronously.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://mdavey.wordpress.com/2018/05/28/book-building-evolutionary-architectures/&quot;&gt;Book: Building Evolutionary Architectures&lt;/a&gt;. Some notes by [Matt Davey] about the book &lt;a href=&quot;https://www.thoughtworks.com/books/building-evolutionary-architectures&quot;&gt;Building Evolutionary Architectures&lt;/a&gt;. Need to get this book! Also, you really should follow &lt;a href=&quot;https://mdavey.wordpress.com/&quot;&gt;Matt's blog&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;.NET&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/05/30/announcing-net-core-2-1/&quot;&gt;Announcing .NET Core 2.1&lt;/a&gt;. I guess the title of the blog post says it all, the release of .NET Core 2.1!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://engineering.skybettingandgaming.com/2018/05/26/jmx-metrics-kafka-connect/&quot;&gt;JMX Metrics in Kafka Connect&lt;/a&gt;. It cannot be a weekly roundup without at least one link to something Kafka related. This post is about how to use &lt;a href=&quot;https://docs.oracle.com/cd/E28280_01/web.1111/e13729/understanding.htm#JMXPG114&quot;&gt;JMX&lt;/a&gt; to monitor Kafka Connect.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://tomaztsql.wordpress.com/2018/05/28/native-scoring-in-sql-server-2017-using-r/&quot;&gt;Native scoring in SQL Server 2017 using R&lt;/a&gt;. One of the things I wanted to write about related to &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; is how you do predictions. &lt;a href=&quot;https://twitter.com/tomaz_tsql&quot;&gt;Tomaz&lt;/a&gt; beat me to it with this interesting post.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/05/25/how-to-operationalize-keras-models-in-microsoft-machine-learning-server/&quot;&gt;How to operationalize Keras models in Microsoft Machine Learning Server&lt;/a&gt;. This post talks about how to operationalize Keras models as web services in R and Python in &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/06/01/sql-server-machine-learning-services-and-sql-server-2017-cu-7/&quot;&gt;SQL Server Machine Learning Services and SQL Server 2017 CU7&lt;/a&gt;. I was busy writing the follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from two weeks ago when, all of a sudden, I could not execute R code. I had applied &lt;strong&gt;SQL Server 2017 CU7&lt;/strong&gt; a couple of days before and it seems it &quot;messed&quot; with some permissions. So this post details how I fixed it.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
