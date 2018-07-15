@@ -4,13 +4,73 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-10T18:58:02+02:00</updated>
+ <updated>2018-07-15T06:50:43+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 28</title>
+   <link href="http://nielsberglund.com/2018/07/15/interesting-stuff-week-28/"/>
+   <updated>2018-07-15T06:15:28+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/15/interesting-stuff---week-28</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/07/09/system-io-pipelines-high-performance-io-in-net/&quot;&gt;System.IO.Pipelines: High performance IO in .NET&lt;/a&gt;. A blog post which announces &lt;code&gt;System.IO.Pipelines&lt;/code&gt; which is a new library that is designed to make it easier to do high performance IO in .NET. I wish it had been around when we wrote socket code, way back when.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/netflix-techblog/evolution-of-application-data-caching-from-ram-to-ssd-a33d6fa7a690&quot;&gt;Evolution of Application Data Caching : From RAM to SSD&lt;/a&gt;. A blog post about Netflix and how they move from purely RAM based caches to a hybrid between RAM and SSD. Very, very interesting!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/netflix-techblog/auto-scaling-production-services-on-titus-1f3cd49f5cd7&quot;&gt;Auto Scaling Production Services on Titus&lt;/a&gt;. This blog post, also from Netflix, discusses auto-scaling on their container management system &lt;a href=&quot;https://medium.com/netflix-techblog/titus-the-netflix-container-management-platform-is-now-open-source-f868c9fb5436&quot;&gt;Titus&lt;/a&gt;. It is interesting to read how the interaction happens between the AWS Auto Scaling engine and Titus.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/kafka-1-0-on-hdinsight-lights-up-real-time-analytics-scenarios/&quot;&gt;Kafka 1.0 on HDInsight lights up real-time analytics scenarios&lt;/a&gt;. This Microsoft blog post discusses the advantages that Kafka 1.0 on Azure HDInsight provides for data scientists and data analysts.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/07/10/install-confluent-platform-kafka-on-windows/&quot;&gt;Install Confluent Platform (Kafka) on Windows&lt;/a&gt;. This post from yours truly discusses we can install Kafka, in the guise of Confluent Platform, on Windows Subsystem for Linux (WSL). Useful if you, like me, is a Windows dude (or dudette) and you want to run Kafka locally on your development box.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/07/r-351-update-now-available-.html&quot;&gt;R 3.5.1 update now available&lt;/a&gt;. This post by &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; talks about the new version of R: 3.5.1.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/07/09/announcing-ml-net-0-3/&quot;&gt;Announcing ML.NET 0.3&lt;/a&gt;. At Build 2018 Microsoft released ML.NET 0.1, a cross-platform, open source machine learning framework for .NET developers, and I posted about it in the &lt;a href=&quot;/2018/05/13/interesting-stuff-week-19/&quot;&gt;week 19 roundup&lt;/a&gt;. A month or two later they released ML.NET 0.2 which I covered in the roundup for &lt;a href=&quot;/2018/06/10/interesting-stuff-week-23/&quot;&gt;week 23&lt;/a&gt;. It is now time for ML.NET 0.3 with quite a few new enhancements. What interests me is to see what &quot;cool&quot; new features application developers dreams up with this.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/r-framework-ai-apps&quot;&gt;R for AI developers&lt;/a&gt;. So, &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; is at it again. This time he did a presentation at QCon.ai where he makes a case for R as a platform for developing models for intelligent applications. The presentation is a must-see!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Install Confluent Platform (Kafka) on Windows</title>
@@ -1862,71 +1922,6 @@
 &lt;p&gt;At the moment I have two posts about &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; &quot;on the go&quot;. The first is the never-ending follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from four weeks ago. I can not seem to get that one done.&lt;/p&gt;
 
 &lt;p&gt;The second is a post about the options you have if you want to install R packages into &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;. For that one I have good hopes to be able to publish this coming week sometime.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 23</title>
-   <link href="http://nielsberglund.com/2018/06/10/interesting-stuff-week-23/"/>
-   <updated>2018-06-10T10:10:24+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/10/interesting-stuff---week-23</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Distributed Computing&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blog.acolyer.org/2018/06/05/servicefabric-a-distributed-platform-for-building-microservices-in-the-cloud/&quot;&gt;ServiceFabric: a distributed platform for building microservices in the cloud&lt;/a&gt;. &lt;strong&gt;Service Fabric&lt;/strong&gt; (SF) is Microsoft's platform to support microservices applications both in the cloud as well as on-prem. In this blog post &lt;a href=&quot;https://twitter.com/adriancolyer&quot;&gt;Adrian&lt;/a&gt; dissects a white paper about the internal workings of Service Fabric. As we in &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt; are using SF I have made this white paper recommended reading for my developers.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/channel/UCmZz-Gj3caLLzEWBtbYUXaA&quot;&gt;Confluent Kafka Videos&lt;/a&gt;. This link is to a YouTube video library of Kafka videos. If you are interested in Kafka, then I recommend you watch these videos.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Big Data / Cloud&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://azure.microsoft.com/en-us/blog/process-more-files-than-ever-and-use-parquet-with-azure-data-lake-analytics/&quot;&gt;Process more files than ever and use Parquet with Azure Data Lake Analytics&lt;/a&gt;. A blog post about how Azure Data Analytics now has capabilities for processing files of any formats including Parquet at tremendous scale.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/blog/microsoft-unveils-faster-key-value-store-large-state-management/&quot;&gt;Microsoft Unveils FASTER – a key-value store for large state management&lt;/a&gt;. &lt;strong&gt;FASTER&lt;/strong&gt; is a new embedded key-value store invented by Microsoft Research, and this blog post discusses how FASTER works.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/ml-dl-visualization&quot;&gt;Understanding ML/DL Models using Interactive Visualization Techniques&lt;/a&gt;. A presentation via &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; about how to use visualisation techniques to better understand machine learning and deep learning models. When I shared this with the data scientists at &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt;, they were keen on testing it out themselves.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/06/05/announcing-ml-net-0-2/&quot;&gt;Announcing ML.NET 0.2&lt;/a&gt;. A blog post announcing version 0.2 of &lt;strong&gt;ML.NET&lt;/strong&gt;, the .NET based cross-platform, open source machine learning framework. This release adds new ML tasks like clustering, making it easier to validate models, and also a brand-new repo for &lt;a href=&quot;https://github.com/dotnet/machinelearning/tree/master/test/Microsoft.ML.Tests&quot;&gt;ML.NET samples&lt;/a&gt;. Check it out!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://databricks.com/blog/2018/06/05/introducing-mlflow-an-open-source-machine-learning-platform.html&quot;&gt;Introducing MLflow: an Open Source Machine Learning Platform&lt;/a&gt;. A blog post about &lt;strong&gt;MLFlow&lt;/strong&gt;: an open source platform designed to manage the entire machine learning lifecycle and work with any machine learning library. It looks quite interesting, and at some stage, I may have a go at it.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/booking-dl-models&quot;&gt;Tools to Put Deep Learning Models in Production&lt;/a&gt;. A presentation about how Booking.com supports data scientists by making it easy to put their models in production, and how they optimise their model prediction infrastructure for latency or throughput.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/06/04/free-e-book-a-developers-guide-to-building-ai-applications/&quot;&gt;Free E-Book: A Developer’s Guide to Building AI Applications&lt;/a&gt;. A free e-book (requires registration though) which walks you through the process of building intelligent cloud-based bots.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;p&gt;I am still busy writing the follow-up post to my &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; post from three weeks ago. The post is supposed to be about why executing code in the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; gives so much better performance than when executing in the local context. Initially, I thought it was straightforward; boy was I wrong.&lt;/p&gt;
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
