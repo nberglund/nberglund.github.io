@@ -4,13 +4,82 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-07-22T16:12:44+02:00</updated>
+ <updated>2018-07-29T19:22:36+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 30</title>
+   <link href="http://nielsberglund.com/2018/07/29/interesting-stuff-week-30/"/>
+   <updated>2018-07-29T19:11:58+02:00</updated>
+   <id>http://nielsberglund.com/2018/07/29/interesting-stuff---week-30</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;Distributed Computing&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/chaos-engineering-autonous-vehicles&quot;&gt;Properties of Chaos&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation about how and why chaos engineering is being applied to autonomous vehicle safety, and how to advance chaos engineering practices to explore beyond basic properties like system availability and extend into verifying system correctness.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.pulumi.com/program-the-cloud-with-12-pulumi-pearls&quot;&gt;Program the Cloud with 12 Pulumi Pearls&lt;/a&gt;. In the &lt;a href=&quot;/2018/06/24/interesting-stuff-week-25/&quot;&gt;week 25&lt;/a&gt; roundup I wrote about &lt;a href=&quot;https://twitter.com/funcOfJoe&quot;&gt;Joe Duffy&lt;/a&gt; and his &lt;a href=&quot;http://pulumi.com/&quot;&gt;Pulumi&lt;/a&gt;. This blog post by &lt;a href=&quot;https://twitter.com/funcOfJoe&quot;&gt;Joe&lt;/a&gt; demonstrates some fun ways you can program the cloud using Pulumi. Very interesting!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/sqlserverstorageengine/2018/07/23/pearl-abyss-massive-scale-using-azure-sql-database/&quot;&gt;Pearl Abyss: Massive Scale using Azure SQL Database&lt;/a&gt;. A blog post, showing off how you can achieve a massive scale of SQL Server by using Azure SQL Database. 7,500 cores, 46 instances 500,000 queries per second! Can I have two of those, please!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=ExEWJVjj-RA&quot;&gt;Demo: Build a Streaming Application with KSQL&lt;/a&gt;. A YouTube video, illustrating how to build a streaming application using KSQL.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/ansible-playbooks-for-confluent-platform/&quot;&gt;Ansible Playbooks for Confluent Platform&lt;/a&gt;. This blog post covers how &lt;a href=&quot;https://www.confluent.io/&quot;&gt;Confluent&lt;/a&gt; wants to make it super easy to set up &lt;a href=&quot;https://www.confluent.io/product/confluent-platform/&quot;&gt;Confluent Platform&lt;/a&gt;. In this post, they introduce their first set of Ansible playbooks. It certainly seems easy!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science / AI&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/07/a-quick-tour-of-ai-services-in-azure.html&quot;&gt;A quick tour of AI services in Azure&lt;/a&gt;. A post by &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; talking about a video giving a quick overview of some of the services available in Azure to build AI-enabled applications. Watch the video if you are interested in AI and Azure.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/mlserver/2018/07/26/dockerizing-r-and-python-web-services/&quot;&gt;Dockerizing R and Python Web Services&lt;/a&gt;.  A post looking into how to build a Docker image containing &lt;strong&gt;Machine Learning Server 9.3&lt;/strong&gt;using Dockerfiles and how-to-perform Both R and Python operations.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;p&gt;I am close to finish the third post in the &lt;a href=&quot;/series/spees_and_sql_compute_context&quot;&gt;sp_execute_external_script and SQL Server Compute Context&lt;/a&gt; series. I hope to have it out by the end of this upcoming week.&lt;/p&gt;
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Interesting Stuff - Week 29</title>
@@ -1686,223 +1755,6 @@
 &lt;p&gt;That is it!&lt;/p&gt;
 
 &lt;p&gt;One final thing: if you want to read more about &lt;code&gt;sp_execute_external_script&lt;/code&gt;, &lt;a href=&quot;/series/sql_server_2k16_r_services&quot;&gt;SQL Server R Services&lt;/a&gt; series has some posts.&lt;/p&gt;
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Installing R Packages in SQL Server Machine Learning Services - I</title>
-   <link href="http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/"/>
-   <updated>2018-06-23T13:13:58+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i</id>
-   <content type="html">&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series.&lt;/p&gt;
-
-&lt;p&gt;To see other posts in the series go to &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As you may know, I am in the process of writing the follow-up post to &lt;a href=&quot;/2018/05/20/sp-execute-external-script-and-sql-compute-context/&quot;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when &lt;a href=&quot;https://www.linkedin.com/in/dane-bax/&quot;&gt;Dane Bax&lt;/a&gt;, a colleague of mine, contacted me a couple of days ago with a &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; problem, I jumped at the chance to help him, and also write a post about it.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.linkedin.com/in/dane-bax/&quot;&gt;Dane&lt;/a&gt; works for a sister company of &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt; as a data scientist and at both &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt; and the sister company - &lt;a href=&quot;https://www.microgaming.co.uk/&quot;&gt;Microgaming&lt;/a&gt; we are now looking at using SQL Server Machine Learning Services.&lt;/p&gt;
-
-&lt;p&gt;His problem was that he wanted to use a CRAN package - &lt;code&gt;bsts&lt;/code&gt; - which is not part of a standard SQL Server R installation. He tried a couple of things to get it installed but got errors, so he decided to get in touch with me.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The package name &lt;code&gt;bsts&lt;/code&gt; stands for &lt;em&gt;Bayesian Structural Time Series&lt;/em&gt; and it performs time series regression using dynamic linear models fit using MCMC.&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;h2&gt;Background&lt;/h2&gt;
-
-&lt;p&gt;First of all; why would we need to install R packages if I already have R, either on my local machine or via SQL Server ML Services? Well, the answer to that is that there are a multitude of packages &quot;in the wild&quot; who do not necessarily come with your R engine of choice, and &lt;code&gt;bsts&lt;/code&gt; is an excellent example of this.&lt;/p&gt;
-
-&lt;p&gt;If you are an R developer you are probably accustomed to installing packages on your R development environment at will, and - more or less - at whatever location you choose. When using SQL Server ML Services however, it does not work like that as SQL Server cannot load packages from external libraries, even if that library is on the same computer. So when using SQL Server ML Services, you can only install packages to a default library associated with the instance.&lt;/p&gt;
-
-&lt;p&gt;The installation of packages can be done in different ways which is what this post is about - but before that, let us look at something somewhat different: &lt;strong&gt;Rtools&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Rtools&lt;/h2&gt;
-
-&lt;p&gt;The cool thing with R is that it is open source and you can run it on multiple platforms (Windows, Mac, Linux). So in essence, whatever package you want to use you can run on your platform of choice. If you install a package on Mac or Windows, R downloads and installs a pre-compiled (for your OS) packet. On Linux, R downloads the source of the package and builds it on your machine. For the build, R requires some external tools: &lt;code&gt;make&lt;/code&gt;, &lt;code&gt;tar&lt;/code&gt;, &lt;code&gt;gzip&lt;/code&gt;, C/C++ compiler and so forth.&lt;/p&gt;
-
-&lt;p&gt;Why I mention this here is that certain packages do not have a binary built for Windows, and if you want to install such a package, you need to build the package from source on your environment. The problem with this is that most of the tools needed to build the package may not exist in the Windows environment.&lt;/p&gt;
-
-&lt;p&gt;To be able to compile from source on Windows, the people behind R have made available an installer which installs the required tools for compilation of packages: &lt;strong&gt;Rtools&lt;/strong&gt;. So if you think that you ever need to compile an R package from source, then ensure that you have &lt;em&gt;Rtools&lt;/em&gt; installed. Why I bring this up is that the &lt;code&gt;bsts&lt;/code&gt; package has a dependency on a package that needs to be compiled.&lt;/p&gt;
-
-&lt;h4&gt;Rtools Installation&lt;/h4&gt;
-
-&lt;p&gt;While you can install R packages to a remote machine, keep in mind that &lt;em&gt;Rtools&lt;/em&gt; is not an R package as such, and it is not installed into the engine - but onto the machine where R is. So, for us here, we need to be on the machine that hosts SQL Server ML Services and run the installation on that machine.&lt;/p&gt;
-
-&lt;p&gt;We need first to download the installer for &lt;em&gt;Rtools&lt;/em&gt;, and when you browse to the &lt;a href=&quot;https://cran.r-project.org/bin/windows/Rtools/index.html&quot;&gt;download page&lt;/a&gt;, you see there are multiple versions dependent on what version of R you have. To find the R version of your SQL Server ML Services installation you can run following code:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Version&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'print(R.Version()$version)'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 1:&lt;/strong&gt; &lt;em&gt;Retrieve R Version&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When I run the code in &lt;em&gt;Code Snippet 1&lt;/em&gt; on my SQL Server ML Services instance, I see that the R version is &lt;code&gt;3.3.3&lt;/code&gt;, so I download &lt;code&gt;Rtools35.exe&lt;/code&gt; to my SQL Server machine and run the installer. By default &lt;em&gt;Rtools&lt;/em&gt; installs to &lt;code&gt;C:\RTools&lt;/code&gt; and R looks for compilers in the default installation path. If you install anywhere else, you have to point R to the path of &lt;code&gt;gcc&lt;/code&gt;, &lt;code&gt;g++&lt;/code&gt; and &lt;code&gt;ld&lt;/code&gt;, by setting a variable called BINPREF. &lt;em&gt;Rtools&lt;/em&gt; installation instructions discuss this in detail. During the install ensure you check the checkbox for &quot;Add rtools to system PATH&quot;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_rtools_path.png&quot; width=&quot;500&quot; height=&quot;180&quot;  &gt;
-&lt;strong&gt;Figure 1:&lt;/strong&gt; &lt;em&gt;Adding Rtools to PATH&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;After having checked the box for editing the PATH as in &lt;em&gt;Figure 1&lt;/em&gt;, click through and let the install finish. After installation, it is a good practice to check that the PATH is set. You can do this by running &lt;code&gt;RTerm.exe&lt;/code&gt; (on the SQL Server box) and execute &lt;code&gt;Sys.getenv('PATH')&lt;/code&gt; from RTerm's command prompt. You find &lt;code&gt;RTerm.exe&lt;/code&gt; at the &lt;code&gt;R_SERVICES\bin\x64&lt;/code&gt; directory under the path to the SQL Server instance. For example: &lt;code&gt;C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\R_SERVICES\bin\x64&lt;/code&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Just a word of caution here. When I installed &lt;code&gt;Rtools35.exe&lt;/code&gt; I had to manually add to PATH the path to the compilers: &lt;code&gt;C:\Rtools\mingw_64\bin&lt;/code&gt;. So look out for that .&lt;/p&gt;&lt;/blockquote&gt;
-
-&lt;p&gt;You should also check that you can call the C++ compiler: &lt;code&gt;system('g++ -v')&lt;/code&gt; (this is how I realised the path was not correct). That should result in something like:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_rtools_g++.png&quot; width=&quot;515&quot; height=&quot;420&quot;  &gt;
-&lt;strong&gt;Figure 2:&lt;/strong&gt; &lt;em&gt;Checking for C++ Compiler&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If everything looks OK, &lt;em&gt;Rtools&lt;/em&gt; have now been installed, and the various instances of R (from SQL Server ML instances) can share the &lt;em&gt;Rtools&lt;/em&gt; toolchain.&lt;/p&gt;
-
-&lt;h2&gt;R Packages Installation&lt;/h2&gt;
-
-&lt;p&gt;When we install R packages for SQL Server ML Services we install them on a per SQL Server instance, and we can install these packages different in ways:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;R packet managers.&lt;/li&gt;
-&lt;li&gt;T-SQL.&lt;/li&gt;
-&lt;li&gt;RevoScaleR.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Regardless how we install the packages, they can only be installed to the default packet library for that instance. The file system folder for this library has restricted access and to write to this folder you need admin rights. Well, that is not entirely correct - with some configuration changes even non-admin can install packages via T-SQL and RevoScaleR. However, as we see later, the installation is against the current database.&lt;/p&gt;
-
-&lt;h4&gt;R Code for Installation&lt;/h4&gt;
-
-&lt;p&gt;Before we look at the ways we can install and the tools for installation; what does the code we use to do the installation look like?&lt;/p&gt;
-
-&lt;p&gt;As you probably know, the way to install R packages is through the &lt;code&gt;install.packages&lt;/code&gt; command. The command has quite a few parameters as you can see &lt;a href=&quot;https://www.rdocumentation.org/packages/utils/versions/3.5.0/topics/install.packages&quot;&gt;here&lt;/a&gt;, but when I install packages I use only a few of the parameters, regardless of the way I install the package:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Install&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;c1&quot;&gt;# get the library path&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;libPath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.libPaths&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;n&quot;&gt;install.packages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pkg_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;url_for_the_repo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Install Packages Command&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 2&lt;/em&gt; we see how I first retrieve the library path. This is where I install the package to, and once again - I can only install to the default instance directory. Then in the &lt;code&gt;install.packages&lt;/code&gt; call I use these parameters:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First parameter is always the name of the package(s) to install.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;lib&lt;/code&gt;: is for the library folder to install to.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;repos&lt;/code&gt;: the base URL(s) of the repositories to use. If left out, the repo used is the Microsoft MRAN repo, which may not be what you want.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dependencies&lt;/code&gt;: indicating whether to also install missing packages which these packages depend on/link to/import/suggest (and so on recursively).&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;So that is the code for installation of packages. What if you want to see what packages are installed on a particular instance of SQL Server ML Services? For that you can execute something like so from &lt;strong&gt;SQL Server Management Studio&lt;/strong&gt; (SSMS):&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Installed Packages&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='4' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    OutputDataSet &amp;lt;- data.frame(
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='5' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                    installed.packages()[,c(&quot;Package&quot;, &quot;Version&quot;,
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='6' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                        &quot;Depends&quot;, &quot;License&quot;,
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='7' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                                        &quot;Built&quot;, &quot;LibPath&quot;)]);'&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='8' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;RESULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SETS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Version&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='9' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;span class=&quot;n&quot;&gt;Depends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;License&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='10' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                   &lt;span class=&quot;n&quot;&gt;Built&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LibPath&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nvarchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)));&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 3:&lt;/strong&gt; &lt;em&gt;Retrieve Installed R Packages&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So now when we have seen some code how to install packages (and also see what packages already exists), in this post let us look at using R packet managers for the installation.&lt;/p&gt;
-
-&lt;h2&gt;R Packet Managers&lt;/h2&gt;
-
-&lt;p&gt;What is an R packet manager? It is an R command line tool or GUI installed on the SQL Server Machine Learning Services machine that can run with elevated permissions and target the R engine for the instance on which you want to install the package. The easiest is to use either of the R tools that come as part as part of SQL Server's R service:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The command line tool: &lt;code&gt;Rterm.exe&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The GUI: &lt;code&gt;Rgui.exe&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;Once again you need to be able to run them with elevated access, so you need admin rights on the machine, and they can only run locally.&lt;/p&gt;
-
-&lt;p&gt;So let us say that &lt;a href=&quot;https://www.linkedin.com/in/dane-bax/&quot;&gt;Dane&lt;/a&gt; (from above) wants to install the &lt;code&gt;bsts&lt;/code&gt; package mentioned above and he has admin rights on the machine SQL Server is installed on. The choice he has is to use &lt;code&gt;Rterm.exe&lt;/code&gt; or &lt;code&gt;Rgui.exe&lt;/code&gt;. Dane is not really into command line, so he uses &lt;code&gt;Rgui.exe&lt;/code&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;He logs onto the SQL Server machine either directly or via &lt;em&gt;Terminal Services&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;He navigates to where &lt;code&gt;Rgui.exe&lt;/code&gt; is (the same path as above for &lt;code&gt;Rterm.exe&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;He right clicks on &lt;code&gt;Rgui.exe&lt;/code&gt;:&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_rgui.png&quot; width=&quot;550&quot; height=&quot;365&quot;  &gt;
-&lt;strong&gt;Figure 3:&lt;/strong&gt; &lt;em&gt;Run Rgui as Admin&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When he clicks on &quot;Run as administrator&quot; the Rgui application starts up in the context of the R engine of the instance of SQL Server ML Services:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_rgui2.png&quot; width=&quot;465&quot; height=&quot;340&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Rgui&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the R Console in Rgui Dane now enters this code:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;bsts&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libPath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.libPaths&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;install.packages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bsts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://cloud.r-project.org/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;                  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 4:&lt;/strong&gt; &lt;em&gt;Install bsts&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;em&gt;Code Snippet 4&lt;/em&gt; we see that Dane uses the open source &lt;em&gt;CRAN&lt;/em&gt; repo which hosts &lt;code&gt;bsts&lt;/code&gt;. When he executes the code, it looks like so:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs.png&quot; width=&quot;600&quot; height=&quot;245&quot;  &gt;
-&lt;strong&gt;Figure 4:&lt;/strong&gt; &lt;em&gt;Execute install.packages&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;At the highlighted question in &lt;em&gt;Figure 4&lt;/em&gt; (at the bottom) it is best to answer no. Even though Dane said no to compilations, quite a lot of compilations happens for the &lt;code&gt;Boom&lt;/code&gt; package:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_compile.png&quot; width=&quot;550&quot; height=&quot;245&quot;  &gt;
-&lt;strong&gt;Figure 5:&lt;/strong&gt; &lt;em&gt;C++ Compilation&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The installation process runs for quite a while, due to the compilation of the &lt;code&gt;Boom&lt;/code&gt; package, but eventually, it finishes:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_success.png&quot; width=&quot;450&quot; height=&quot;285&quot;  &gt;
-&lt;strong&gt;Figure 6:&lt;/strong&gt; &lt;em&gt;Install Success&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Dane can now check and see if the &lt;code&gt;bsts&lt;/code&gt; package has installed and he executes the code in &lt;em&gt;Code Snippet 3&lt;/em&gt; to verify that &lt;code&gt;bsts&lt;/code&gt; is indeed installed together with the dependent packages. To further confirm that the package exists and functions he can try to load it from &lt;em&gt;SSMS&lt;/em&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;figure class='code-highlight-figure'&gt;&lt;figcaption class='code-highlight-caption'&gt;&lt;span class='code-highlight-caption-title'&gt;Load bsts&lt;/span&gt;&lt;/figcaption&gt;&lt;div class='code-highlight'&gt;&lt;pre class='code-highlight-pre'&gt;&lt;div data-line='1' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;&lt;span class=&quot;k&quot;&gt;EXEC&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp_execute_external_script&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='2' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'R'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line='3' class='code-highlight-row numbered'&gt;&lt;div class='code-highlight-line'&gt;                  &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'library(&quot;bsts&quot;)'&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Code Snippet 8:&lt;/strong&gt; &lt;em&gt;Loading the bsts Library&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Executing the code in &lt;em&gt;Code Snippet 8&lt;/em&gt; results in:&lt;/p&gt;
-
-&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/posts/sql_ml_install_r_pckgs_loading_bsts.png&quot; width=&quot;400&quot; height=&quot;325&quot;  &gt;
-&lt;strong&gt;Figure 7:&lt;/strong&gt; &lt;em&gt;Loading bsts&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;From &lt;em&gt;Figure 7&lt;/em&gt; it seems that everything has worked, sweet!&lt;/p&gt;
-
-&lt;p&gt;That is cool, no?! Well, there is one drawback with this: Dane has to have admin rights on the SQL Server box and, no offense Dane, but who in their right minds would give Dane those rights on a production SQL Server box!&lt;/p&gt;
-
-&lt;p&gt;Jokes aside, using an R packet manager may be too inconvenient, e.g. anytime a developer want to install packages, someone with admin rights on the box needs to install said packages. In coming posts we look at other options for installing packages.&lt;/p&gt;
-
-&lt;h2&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;In this post we covered:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;When you install packages sometimes they require compilation. For that, &lt;strong&gt;Rtools&lt;/strong&gt; should be on the box where SQL Server ML Services lives.&lt;/li&gt;
-&lt;li&gt;There are multiple ways we can install packages:
-
-&lt;ul&gt;
-&lt;li&gt;R packet managers.&lt;/li&gt;
-&lt;li&gt;T-SQL.&lt;/li&gt;
-&lt;li&gt;RevoScaleR.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;An R packet manager is an R command line tool or GUI installed on the SQL Server Machine Learning Services machine that can run with elevated permissions and target the R engine for the instance on which you want to install the package.&lt;/li&gt;
-&lt;li&gt;SQL Server ML Services ships with two R packet manager: &lt;code&gt;Rterm.exe&lt;/code&gt; and &lt;code&gt;Rgui.exe&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;These two packet managers lives in &lt;code&gt;\\&amp;lt;path_to_SQL_Server_instance&amp;gt;\R_SERVICES\bin\x64&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;When using a packet manager to install a package, you run the packet manager from an elevated command prompt.&lt;/li&gt;
-&lt;li&gt;You can use the R command &lt;code&gt;install.packages&lt;/code&gt; to install a package from the package manager.&lt;/li&gt;
-&lt;/ul&gt;
-
 
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
