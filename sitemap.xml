@@ -602,13 +602,13 @@
 <loc>http://nielsberglund.com/series/</loc>
 </url>
 <url>
-<loc>http://nielsberglund.com/code/errorhandling/</loc>
-</url>
-<url>
 <loc>http://nielsberglund.com/code/microsoft_r_server/</loc>
 </url>
 <url>
 <loc>http://nielsberglund.com/code/xact_abort/</loc>
+</url>
+<url>
+<loc>http://nielsberglund.com/code/errorhandling/</loc>
 </url>
 <url>
 <loc>http://nielsberglund.com/series/spees_and_sql_compute_context/</loc>
