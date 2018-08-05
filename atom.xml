@@ -4,13 +4,83 @@
  <title>Niels Berglund</title>
  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
  <link href="http://nielsberglund.com/"/>
- <updated>2018-08-05T05:10:23+02:00</updated>
+ <updated>2018-08-05T08:08:19+02:00</updated>
  <id>http://nielsberglund.com</id>
  <author>
    <name>Niels Berglund</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Interesting Stuff - Week 31</title>
+   <link href="http://nielsberglund.com/2018/08/05/interesting-stuff-week-31/"/>
+   <updated>2018-08-05T08:01:44+02:00</updated>
+   <id>http://nielsberglund.com/2018/08/05/interesting-stuff---week-31</id>
+   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+
+&lt;h2&gt;.NET&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2018/08/02/tiered-compilation-preview-in-net-core-2-1/&quot;&gt;Tiered Compilation Preview in .NET Core 2.1&lt;/a&gt;. A blog-post about a new feature in .NET Core 2.1: &lt;strong&gt;Tiered Compilation&lt;/strong&gt;. Tiered Compilation allows .NET to have multiple compilations for the same method that can be hot-swapped at runtime. This should improve compile times drastically!&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Streaming&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://charlla.com/whatsthat-kafka/&quot;&gt;Apache Kafka - Whats That&lt;/a&gt;. This post about Kafka is by a colleague and a good friend of mine, &lt;a href=&quot;https://twitter.com/charllamprecht&quot;&gt;Charl Lamprecht&lt;/a&gt;. In the post, he takes us through a very succinct overview of Kafka. Charl is &quot;Mr Kafka&quot; at &lt;a href=&quot;/Derivco&quot;&gt;Derivco&lt;/a&gt;, and he knows his &quot;stuff&quot;. Please be sure to follow his &lt;a href=&quot;https://charlla.com/&quot;&gt;blog&lt;/a&gt; for more about Kafka (Charl, no pressure, hey?!).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/decoupling-systems-with-apache-kafka-schema-registry-and-avro/&quot;&gt;Decoupling Systems with Apache Kafka, Schema Registry and Avro&lt;/a&gt;. An excellent post on how to decouple the systems you integrate via Kafka by using the &lt;a href=&quot;https://www.confluent.io/confluent-schema-registry/&quot;&gt;Confluent Schema Registry&lt;/a&gt;. An added bonus in this post is that the code is .NET code!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/a-practical-guide-to-broadcast-state-in-apache-flink&quot;&gt;A Practical Guide to Broadcast State in Apache Flink&lt;/a&gt;. This article discusses &lt;strong&gt;Broadcast State&lt;/strong&gt;, a new feature in Apache Flink 1.5. With Broadcast State you can evaluate dynamic patterns on event streams by combining and jointly process two streams of events in a specific way.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/introducing-confluent-platform-5-0/&quot;&gt;Introducing Confluent Platform 5.0&lt;/a&gt;. As the title says, this post introduces the latest version of Confluent Platform: 5.0. Lots and lots of new interesting features. Go and have a look!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/landing-page/microservices-online-talk-series/&quot;&gt;Apache Kafka for Microservices: A Confluent Online Talk Series&lt;/a&gt;. This post is a link to a three-part online talk series which introduces fundamental concepts, use cases and best practices for getting started with microservices and Kafka.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Big Data / Cloud&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://databricks.com/blog/2018/07/31/processing-petabytes-of-data-in-seconds-with-databricks-delta.html&quot;&gt;Processing Petabytes of Data in Seconds with Databricks Delta&lt;/a&gt;. In my roundups lately, I have covered Databricks Delta quite a bit and discussed how efficient it is processing lots and lots of data. This blog post takes a look under the hood and examines what makes Databricks Delta capable of sifting through petabytes of data within seconds. If you, like me, are interested in knowing how &quot;stuff&quot; works under the covers, then this post is a must-read!&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://eng.uber.com/databook/&quot;&gt;Databook: Turning Big Data into Knowledge with Metadata at Uber&lt;/a&gt;. This post is about &lt;strong&gt;Databook&lt;/strong&gt;, Uber’s in-house platform that surfaces and manages metadata about the internal locations and owners of specific datasets, and allows Uber to turn data into knowledge.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;Data Science / AI&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/08/r-python-in-sql-server.html&quot;&gt;Video: How to run R and Python in SQL Server from a Jupyter notebook&lt;/a&gt;. A short post by &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; linking to a video showing how to run Python and R from inside SQL Server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/minibooks/emag-real-world-machine-learning&quot;&gt;The InfoQ eMag: Real-World Machine Learning: Case Studies, Techniques and Risks&lt;/a&gt;. An &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; link to an eMag focusing on the current landscape of machine-learning technologies and real-world case studies of applied machine learning.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blogs.technet.microsoft.com/machinelearning/2018/07/31/3-steps-to-build-your-first-intelligent-app-conference-buddy/&quot;&gt;3 Steps to Build Your First Intelligent App – Conference Buddy&lt;/a&gt;. A blog-post which takes us through how to build an application utilising AI.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/&quot;&gt;sp_execute_external_script and SQL Compute Context - III&lt;/a&gt;. I finally managed to finish and publish the third post in the &lt;a href=&quot;/series/spees_and_sql_compute_context&quot;&gt;sp_execute_external_script and SQL Server Compute Context&lt;/a&gt; series. In this post we use WinDbg, Process Monitor and WireShark to look in detail what happens in SQL Server when we use RxSqlServerData to pull data.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;~ Finally&lt;/h2&gt;
+
+&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>sp_execute_external_script and SQL Compute Context - III</title>
@@ -1954,75 +2024,6 @@
 &lt;h2&gt;~ Finally&lt;/h2&gt;
 
 &lt;p&gt;If you have comments, questions etc., please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Interesting Stuff - Week 25</title>
-   <link href="http://nielsberglund.com/2018/06/24/interesting-stuff-week-25/"/>
-   <updated>2018-06-24T20:36:32+02:00</updated>
-   <id>http://nielsberglund.com/2018/06/24/interesting-stuff---week-25</id>
-   <content type="html">&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &quot;stuff&quot;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;p&gt;This blog-post is the &quot;roundup&quot; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-
-&lt;h2&gt;Cloud&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://joeduffyblog.com/2018/06/18/hello-pulumi/&quot;&gt;Hello, Pulumi!&lt;/a&gt;. Back in 2017, I wrote in &lt;a href=&quot;/2017/06/04/interesting-stuff-week-22/&quot;&gt;Weekly Roundup 22&lt;/a&gt; about Joe Duffy and his startup Pulumi. At that time, no one knew what Pulumi was all about. Well, that changed with today's linked post. Joe explains about Pulumi, and it does sound extremely exciting. Go forth and read all about it!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Databases&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/future-distributed-database-relational&quot;&gt;The Future of Distributed Databases Is Relational&lt;/a&gt;. This is an &lt;a href=&quot;https://www.infoq.com/presentations/future-distributed-database-relational&quot;&gt;InfoQ&lt;/a&gt; presentation about creating a more modern relational database. It is about Postgres and the journey to scale out and make it truly distributed. Fascinating!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Streaming&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.infoq.com/presentations/sql-streaming-apache-flink&quot;&gt;Streaming SQL to Unify Batch &amp;amp; Stream Processing w/ Apache Flink @Uber&lt;/a&gt;. Another &lt;a href=&quot;https://www.infoq.com/&quot;&gt;InfoQ&lt;/a&gt; presentation. This presentation is about exploring SQL’s role in the world of streaming data and its implementation in Apache Flink and covering streaming semantics, event time, and incremental results. Interesting!&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://data-artisans.com/blog/getting-started-with-da-platform-on-google-kubernetes-engine&quot;&gt;Getting Started with dA Platform on Google Kubernetes Engine&lt;/a&gt;. This article describes the setup of the &lt;a href=&quot;https://data-artisans.com/platform&quot;&gt;dA Platform&lt;/a&gt; using Google Cloud's Kubernetes engine.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/introducing-confluent-hub/&quot;&gt;Introducing Confluent Hub&lt;/a&gt;.  From the post: &quot;Confluent Hub is a place for the Apache Kafka and Confluent Platform community to come together and share the components the community needs to build better streaming data pipelines and event-driven applications.&quot;. Sounds intriguing!&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;Data Science&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://blogs.msdn.microsoft.com/buckwoody/2018/06/20/the-data-analysis-maturity-model-level-two-reliable-data-storage-and-query-systems/&quot;&gt;The Data Analysis Maturity Model – Level Two: Reliable Data Storage and Query Systems&lt;/a&gt;. The second post in a series by &lt;a href=&quot;https://twitter.com/BuckWoodyMSFT&quot;&gt;Buck Woody&lt;/a&gt; about defining a &lt;em&gt;Data Analysis Maturity Model&lt;/em&gt;. In this post, Buck discusses data storage and querying.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.revolutionanalytics.com/2018/06/pypl-programming-language-trends.html&quot;&gt;PYPL Language Rankings: Python ranks #1, R at #7 in popularity&lt;/a&gt;. A post by &lt;a href=&quot;https://twitter.com/revodavid&quot;&gt;David&lt;/a&gt; at &lt;a href=&quot;http://blog.revolutionanalytics.com&quot;&gt;Revolution Analytics&lt;/a&gt; about a popularity index of programming languages.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;SQL Server Machine Learning Services&lt;/h2&gt;
-
-&lt;p&gt;Boy, have I been a busy bee this week. I have managed to get two posts published, which must be a record. But none of the posts is the follow-up post to my [sp_execute_external_script and SQL Compute Context - I][ctx1] post from five weeks ago. This is getting stupid!&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services-i/&quot;&gt;Installing R Packages in SQL Server Machine Learning Services - I&lt;/a&gt;. This post, which is the first post in a &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;series&lt;/a&gt;, came about due to a mate of mine asking how he could install R packages into &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;. In this particular post, we look at using R packet managers to install packages.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2018/06/24/sp-execute-external-script-and-permissions/&quot;&gt;sp_execute_external_script and Permissions&lt;/a&gt;. While researching the &lt;a href=&quot;/series/sql_server_ml_services_install_packages&quot;&gt;Installing R Packages&lt;/a&gt; series I came about some issues related to permissions and &lt;code&gt;sp_execute_external_script&lt;/code&gt;. This post tries to clarify and explain how it works.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;h2&gt;~ Finally&lt;/h2&gt;
-
-&lt;p&gt;That's all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or &lt;a href=&quot;mailto:niels.it.berglund@gmail.com&quot;&gt;ping&lt;/a&gt; me.&lt;/p&gt;
 </content>
  </entry>
  
