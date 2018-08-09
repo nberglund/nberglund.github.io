@@ -1,96 +1,1225 @@
-<!DOCTYPE html> <html lang="en-us"> <head> <!-- Google Tag Manager --> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-K7B3642');</script> <!-- End Google Tag Manager --> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <meta name="description" content="We look in detail why we see performance differences when using SQL Server Compute Context."> <meta name="keywords" content="SQL Server R Services, SQL Server Machine Learning Services, R, Python, Launchpad, Process Monitor, SqlSatellite, Process Monitor, parallel, SQL Server Compute Context, sp_execute_external_script"/> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> sp_execute_external_script and SQL Compute Context - II &middot; Niels Berglund </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-e8a259b38492bb97421cc4e038981561.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.5.0 --> <title>sp_execute_external_script and SQL Compute Context - II | Niels Berglund</title> <meta name="generator" content="Jekyll v3.8.3" /> <meta property="og:title" content="sp_execute_external_script and SQL Compute Context - II" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="We look in detail why we see performance differences when using SQL Server Compute Context." /> <meta property="og:description" content="We look in detail why we see performance differences when using SQL Server Compute Context." /> <link rel="canonical" href="http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/" /> <meta property="og:url" content="http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/" /> <meta property="og:site_name" content="Niels Berglund" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2018-07-07T10:54:21+02:00" /> <script type="application/ld+json"> {"url":"http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/","headline":"sp_execute_external_script and SQL Compute Context - II","dateModified":"2018-07-07T10:54:21+02:00","datePublished":"2018-07-07T10:54:21+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/"},"author":{"@type":"Person","name":"nielsb"},"description":"We look in detail why we see performance differences when using SQL Server Compute Context.","@type":"BlogPosting","@context":"http://schema.org"}</script> <!-- End Jekyll SEO tag --> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-3005153158271538", enable_page_level_ads: true }); </script> </head> <body> <!-- Google Tag Manager (noscript) --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B3642" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <!-- End Google Tag Manager (noscript) --> <div class="sidebar"> <div class="container"> <div class="sidebar-about"> <h1> <a href="/"> Niels Berglund </a> </h1> <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Sidebar_rectangle --> <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-3005153158271538" data-ad-slot="7704601332"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> <a class="sidebar-nav-item" href="/categories/">Categories</a> <a class="sidebar-nav-item" href="/disclaimer/">Disclaimer</a> <a class="sidebar-nav-item" href="/series/">Blog Post Series</a> <a class="sidebar-nav-item" href="/tags/">Tags</a> </nav> <img class="center" src="/images/MVP_Logo_large.png" width="300" height="121" > <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <p>&copy; 2018. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">sp_execute_external_script and SQL Compute Context - II</h1> <div class="post-subheading"> <span class="post-date">07 Jul 2018</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> <a href="/categories/#SQL Server">SQL Server</a> <a href="/categories/#Microsoft R Server">Microsoft R Server</a> <a href="/categories/#Microsoft Machine Learning Server">Microsoft Machine Learning Server</a> <a href="/categories/#Data Science">Data Science</a> <a href="/categories/#SQL Server R Services">SQL Server R Services</a> <a href="/categories/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a> <span class="post-tagdesc">tags:</span> <a href="/tags/#SQL Server R Services">SQL Server R Services</a> <a href="/tags/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a> <a href="/tags/#R">R</a> <a href="/tags/#Python">Python</a> <a href="/tags/#Launchpad">Launchpad</a> <a href="/tags/#Process Monitor">Process Monitor</a> <a href="/tags/#SqlSatellite">SqlSatellite</a> <a href="/tags/#Process Monitor">Process Monitor</a> <a href="/tags/#parallel">parallel</a> <a href="/tags/#SQL Server Compute Context">SQL Server Compute Context</a> <a href="/tags/#sp_execute_external_script">sp_execute_external_script</a> </span> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad1 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="6668073777" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> <p>I wrote the post <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code>sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p> <p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p> <p>One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">post</a>, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.</p> <!--more--> <h2>Recap</h2> <p>In quite a few posts about <strong>SQL Server Machine Learning Services</strong> we have discussed how, as part of the functionality in RevoScaleR, you can define where a workload executes. By default, it executes on your local machine, but you can also set it to execute in the context of somewhere else: Hadoop, Spark and also SQL Server. So, in essence, you can run some code on your development machine and have it execute in the environments mentioned above.</p> <p>In the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post we saw that even when we executed from inside SQL Server, the compute context was the local context: <code>RxLocalSeq</code>. If we want to use the SQLCC we used <code>RxInSqlServer</code> and <code>rxSetComputeContext</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>SQLCC</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># set up the connection string</span><span class="w"></span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlServerConnString</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Driver=SQL Server;
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                        server=.; # localhost
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                        database=testParallel;
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>                        uid=some_uid;pwd=some_pwd"</span><span class="w">
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'></span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># set up the context</span><span class="w"></span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlCtx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">RxInSqlServer</span><span class="p">(</span><span class="n">connectionString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlServerConnString</span><span class="p">,</span><span class="w">
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>                        </span><span class="n">numTasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"></span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># set the compute context to be the sql context</span><span class="w"></span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">rxSetComputeContext</span><span class="p">(</span><span class="n">sqlCtx</span><span class="p">)</span><span class="w">    </span></div></div></pre></div></figure></p> <p><strong>Code Snippet 1:</strong> <em>Set up SQL Server Compute Context</em></p> <p>To setup the context we see in <em>Code Snippet 1</em> how we use a connection string pointing to the SQL Server where we want to execute the code. In this case, it is the instance we are on.</p> <blockquote><p><strong>NOTE:</strong> The connection string is for where we want to execute, not necessarily where the data we use resides.</p></blockquote> <p>We also see in <em>Figure 1</em> how <code>RxInSqlServer</code> has the <code>numTasks</code> parameter for you to set the number of tasks (processes) to run for each computation. The parameter defines the maximum number of tasks SQL Server can use. SQL Server can, however, decide to start fewer processes. Finally in <em>Figure 1</em> we call <code>rxSetComputeContext</code> which ensures that any code with functions that support SQLCC, executes under the compute context.</p> <p>In the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post, we saw how when we execute inside of SQL Server via SPEES we by default run in the local context and only by setting the context as in <em>Code Snippet 1</em> we can execute in SQLCC.</p> <p>An interesting observation when we set the <code>numTasks</code> parameter to a value greater than 1 is that when we run the code, we run it hosted in an <code>mpiexec.exe</code> process:</p> <p><img class="center" src="/images/posts/sql_ml_services_comp_mpi.png" width="620" height="500" > <strong>Figure 1:</strong> <em>Parallel Execution in Compute Context</em></p> <p>In <em>Figure 1</em> we now see not only the "usual" RTerm and <code>BxlServer.exe</code> processes but also a new hosting process, outlined in red, <code>mpiexec.exe</code>. Underneath the <code>mpiexec.exe</code> process we see the <code>smpd.exe</code> process (outlined in green) and then four RTerm processes with <code>BxlServer.exe</code> processes which handle the workload. So, <code>mpiexec.exe</code> and <code>smpd.exe</code> are parts of <a href="https://msdn.microsoft.com/en-us/library/bb524831%28v=vs.85%29.aspx?f=255&amp;MSPPError=-2147217396"><strong>Microsoft MPI</strong></a> which is an implementation of MPI which is a communication protocol for programming parallel computers.</p> <p>All this is somewhat interesting, but the most interesting thing (at least for me) is the performance difference we saw when executing the same code in the local context compared to the SQLCC. When executing with <code>numTasks</code> set to 1 (as it would be under the local context) code that ran in ~40 seconds in the local context took ~30 seconds to run in SQLCC! Once again, we did not run it with multiple tasks in SQLCC, so just be running in SQLCC we received a performance gain of about 30%!</p> <blockquote><p><strong>NOTE:</strong> The performance gain is of course not always 30%, it depends on data volumes.</p></blockquote> <p>So, as I said at the beginning of this post - let us try and figure out why the performance is better using SQLCC.</p> <h2>Housekeeping</h2> <p>Before we "dive" into today's topics let us look at the code and the tools we use today. This section is here for those who want to follow along in what we are doing in the post.</p> <h4>Helper Tools</h4> <p>To help us figure out the things we want, we use <em>Process Monitor</em> to filter TCP traffic.</p> <h4>Code</h4> <p>This is the database objects we use in this post:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Setup</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">TestParallel</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">TestParallel</span><span class="p">;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">USE</span> <span class="n">TestParallel</span><span class="p">;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">(</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">RowID</span> <span class="n">bigint</span> <span class="k">identity</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">y</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand1</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">rand2</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand3</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">rand4</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand5</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">);</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rand1</span><span class="p">,</span> <span class="n">rand2</span><span class="p">,</span> <span class="n">rand3</span><span class="p">,</span> <span class="n">rand4</span><span class="p">,</span> <span class="n">rand5</span><span class="p">)</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="n">TOP</span><span class="p">(</span><span class="mi">50000000</span><span class="p">)</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">14</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">20</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">25</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">14</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">50</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">100</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o1</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o2</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o3</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o4</span><span class="p">;</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div></pre></div></figure></p> <p><strong>Code Snippet 2:</strong> <em>Setup of Database, Table and Data</em></p> <p>We use more or less the same database and database object as in the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post:</p> <ul> <li>A database: <code>TestParallel</code>.</li> <li>A table: <code>dbo.tb_Rand_50M</code>. This table contains the data we want to analyse.</li> </ul> <p>In addition to creating the database and the table <em>Code Snippet 2</em> also loads 50 million records into the <code>dbo.tb_Rand_50M</code>. Be aware that when you run the code in <em>Code Snippet 2</em> it may take some time to finish due to the loading of the data. Yes, I know - the data is entirely useless, but it is a lot of it, and it helps to illustrate what we want to do.</p> <p>The code we use is almost like what we used in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Code</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">isCtx</span> <span class="n">bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">numTasks</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="k">start</span> <span class="n">datetime2</span> <span class="o">=</span> <span class="n">SYSUTCDATETIME</span><span class="p">();</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>      # set up the connection string
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>      sqlServerConnString &lt;- "Driver=SQL Server;server=.;
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>                              database=testParallel;
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;"
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>      if(useContext == 1) &#x7b;
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString,
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                                numTasks = tasks)
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        # set the compute context to be the sql context
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        rxSetComputeContext(sqlCtx)
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>      &#x7d;
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>      mydata &lt;- RxSqlServerData(sqlQuery = "SELECT y, rand1, rand2,
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                                            rand3, rand4, rand5
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>                                            FROM dbo.tb_Rand_50M",
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>                                connectionString = sqlServerConnString);
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>                      data=mydata)
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">params</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'@tasks int, @useContext bit'</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">tasks</span> <span class="o">=</span> <span class="o">@</span><span class="n">numTasks</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">useContext</span> <span class="o">=</span> <span class="o">@</span><span class="n">isCtx</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">WITH</span> <span class="k">RESULT</span> <span class="k">SETS</span> <span class="p">((</span><span class="n">NumberRows</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">));</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span> <span class="o">@</span><span class="k">start</span><span class="p">,</span> <span class="n">SYSUTCDATETIME</span><span class="p">())</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 3:</strong> <em>Test Code</em></p> <p>As we see in <em>Code Snippet 3</em> we parameterize the <code>sp_execute_external_script</code> call, and we have parameters for whether to use the SQLCC and also how many tasks to run when executing in the context. The default is to execute in the local context, and when executing in SQLCC <code>numTasks</code> is 1.</p> <h2>Performance Differences</h2> <p>To start with, let us repeat - more or less - what we did in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> and compare execution times when running in the local context (<code>@isCtx = 0</code>) and when in SQLCC (<code>@isCtx = 1</code>). In both cases, we execute with the default number of tasks (<code>numTasks = 1</code>).</p> <blockquote><p><strong>NOTE:</strong> Do a couple of executions in the local context as well as in the SQLCC to ensure you get representative numbers for both.</p></blockquote> <p>When I run the code on my SQL Server instance I get the following results:</p> <ul> <li>Local context: ~40 seconds</li> <li>SQLCC: ~24 seconds</li> </ul> <p>So, the same workload shows an approximately 40% performance improvement when running in the SQLCC compared to the local context and this is in line with what we saw in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>. Why is this, we do the same things:</p> <ul> <li>We load data</li> <li>We apply the <code>rxLinMod</code> function.</li> <li>We run with the same number of tasks (single threaded).</li> </ul> <p>A question I have now is at what stage in the script, the script receives the 50 million rows? Comment out in the code, (<em>Code Snippet 3</em>), the <code>myModel</code> and <code>OutputDataSet</code> lines of code. When you now execute in the local context, you see the execution time is ~ 1 second. When you do the same in the SQLCC the time is about the same. It seems like the actual loading of the data happens not in the <code>RxSqlServerData</code> call, but in the call - in this case - to <code>rxLinMod</code>. Hmm, I wonder what happens if we instead of pulling the data, pushed the data to the <code>rxLinMod</code> call by using <code>@input_data_1</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Push</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">isCtx</span> <span class="n">bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">numTasks</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="k">start</span> <span class="n">datetime2</span> <span class="o">=</span> <span class="n">SYSUTCDATETIME</span><span class="p">();</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>      # set up the connection string
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>      sqlServerConnString &lt;- "Driver=SQL Server;server=.;
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>                              database=testParallel;
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;"
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>      if(useContext == 1) &#x7b;
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString,
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                                numTasks = tasks)
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        # set the compute context to be the sql context
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        rxSetComputeContext(sqlCtx)
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>      &#x7d;
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                         data=InputDataSet)
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT y, rand1, rand2, rand3, rand4, rand5
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>                        FROM dbo.tb_Rand_50M'</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">params</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'@tasks int, @useContext bit'</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">tasks</span> <span class="o">=</span> <span class="o">@</span><span class="n">numTasks</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">,</span> <span class="o">@</span><span class="n">useContext</span> <span class="o">=</span> <span class="o">@</span><span class="n">isCtx</span>  <br/>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">WITH</span> <span class="k">RESULT</span> <span class="k">SETS</span> <span class="p">((</span><span class="n">NumberRows</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">));</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span> <span class="o">@</span><span class="k">start</span><span class="p">,</span> <span class="n">SYSUTCDATETIME</span><span class="p">())</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 4:</strong> <em>Pushing the Data</em></p> <p>In <em>Code Snippet 4</em> we see how we push the data through the <code>@input_data_1</code> straight to the <code>rxLinMod</code> call via <code>InputDataSet</code>. The code here does not look any different than from most of the other code used in many of my blog posts. When I execute it in the local context (<code>@isCtx bit = 0)</code> however:</p> <p><img class="center" src="/images/posts/sql_ml_services_compctx_II_push_error.png" width="405" height="190" > <strong>Figure 2:</strong> <em>Error Pushing Data</em></p> <p>Oh, it looks like we try to push too much data as we see, highlighted in <em>Figure 2</em>, a memory issue. Ok, but this is what the SQLCC is all about - efficiently handling large volumes of data, so let us execute the same code but in the SQLCC (<code>@isCtx bit = 1</code>):</p> <p><img class="center" src="/images/posts/sql_ml_services_compII_input_data_ctx_error.png" width="525" height="235" > <strong>Figure 3:</strong> <em>Push and SQLCC Error</em></p> <p>Ouch, it seems that to use SQLCC we need to pull data through <code>RxSqlServerData</code>. Never mind, I still want to push large volumes of data, so I change <code>@input_data_1</code> to do a <code>SELECT TOP(30000000) ...</code> (30 million) from the table instead. When I push my 30 million rows in the local context the execution time is around 17 seconds. What are the timings if we execute the code in <em>Code Snippet 3</em> with a <code>TOP (30000000)</code> both in the local context as well as SQLCC and compare execution times:</p> <ul> <li>Local context push (<em>Code Snippet 4</em> and <code>@isCtx = 0</code>): ~ 17 seconds.</li> <li>Local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>): ~ 23 seconds.</li> <li>SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>): ~ 15 seconds.</li> </ul> <p>That was interesting, the timings between pushing the data in the local context are almost the same as pulling the data in SQLCC, and the push in the local context is much faster than the pull in the same context. What gives?</p> <p>All we have done so far points to that the difference in performance comes from loading the data, so the question is what the difference is when loading it from the local context compared to the SQLCC, and is SQLCC always faster. Let us start with the last question first; is SQLCC always faster?</p> <p>To test this change the <code>TOP</code> clause to <code>TOP(50)</code> and execute <em>Code Snippet 4</em> (pushing the data) and <em>Code Snippet 3</em> pulling the data both in the local context as well as SQLCC and take note of the timings:</p> <ul> <li>Local context push (<em>Code Snippet 4</em> and <code>@isCtx = 0</code>): ~ 200 ms.</li> <li>Local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>): ~ 260 ms.</li> <li>SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>): ~ 1.6 seconds.</li> </ul> <p>That was quite a difference and now, all of a sudden, SQLCC is slowest! Why is that? Let us use <em>Process Monitor</em> to try to figure out why this is the case. However, before we do that let us recap a little bit about the internal workings when we execute <em>SPEES</em>.</p> <h4>Internals</h4> <ul> <li>The host for an external engine is <code>BxlServer.exe</code>.</li> <li>When we execute <em>SPEES</em> the SqlSatellite (loaded by the BxlServer) connects to SQL Server over a TCP connection.</li> <li>Data is sent over the TCP connection from and to SQL Server.</li> <li>The data sent among other things authentication data, script data (the actual external script) as well as the dataset.</li> </ul> <p>The figure below illustrates connections and so forth in a "simple" case where we push data to the SqlSatellite in the local context:</p> <p><img class="center" src="/images/posts/sql_r_services_ext_scriptIII_single_process.png" width="800" height="522" > <strong>Figure 4:</strong> <em>Process Flow</em></p> <p>In <em>Figure 4</em> we see what happens when we execute <code>sp_execute_external_script</code> and the numbers in the figure stands for:</p> <ol> <li>We call <code>sp_execute_external_script</code> and SQL Server calls into the launchpad service.</li> <li>The launchpad service creates RTerm processes which in turn creates BxlServer processes. One process becomes the executing process.</li> <li>A TCP connection from the SqlSatellite in the executing process gets established.</li> <li>SQL server sends input data to the SqlSatellite.</li> <li>The <code>BxlServer.exe</code> does the processing.</li> <li>SQL Server receives data back from the SqlSatellite.</li> </ol> <p>The <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series covered in "excruciating" details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services-internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services-internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services-internals-xv/">XV</a>.</p> <h4>Investigation using Performance Monitor</h4> <p>To see what happens when we execute our three scenarios (local push, local pull, SQLCC pull) we set up some <em>Process Monitor</em> event filters to capture TCP traffic from SQL Server to the SqlSatellite, where <code>BxlServer.exe</code> is "hosting" the SqlSatellite. The filters we set up are for "Process Name" and "Operation". We want the process to be <code>BxlServer.exe</code> and the operation "TCP Receive".</p> <p>So, run <em>Process Monitor</em> as admin. To set the filter; under the <em>Filter</em> menu click the Filter menu item, and you see the "Process Monitor Filter" dialog. To create the filter we enter the conditions we want to match:</p> <ul> <li>The <em>Process Name</em> (from the first drop down) should be <em>is</em> (from the second drop-down): <code>bxlserver.exe</code>.</li> <li><em>Operation</em> (first drop-down) <em>is</em> (second dropdown): "TCP Receive"</li> </ul> <p>You add and include the conditions included and added, and at this stage, the filter dialog looks something like so:</p> <p><img class="center" src="/images/posts/sql_ml_services_compctx_II_procmon_filter.png" width="370" height="190" > <strong>Figure 5:</strong> <em>Filters BxlServer</em></p> <p>What the filter says is that any "TCP Receive" events for <code>bxlserver.exe</code> should be monitored and displayed. When you have clicked "OK" out of the dialog box, we are ready to test this by executing the code for local context push (<em>Code Snippet 4</em>), local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>) and SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>). When executing we look at the <em>Process Monitor</em> output, and the output for the local push is like so:</p> <p><img class="center" src="/images/posts/sql_ml_services_compctx_II_procmon_push2.png" width="540" height="220" > <strong>Figure 6:</strong> <em>TCP Receive Local Context Push</em></p> <p>We see in <em>Figure 6</em> that the output looks quite "tidy" and by looking at the <code>Path</code> column see a connection between SQL Server and the SqlSatellite on port 13273 (<code>win10-dev:13273</code>). Furthermore, we see:</p> <ul> <li>There is one <code>BxlServer.exe</code> process with a process id of 17260.</li> <li>The data the BxlServer receives are what we covered in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series.</li> <li>The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.</li> </ul> <p>Ok, so onto the local context pull:</p> <p><img class="center" src="/images/posts/sql_ml_services_compctx_II_procmon_pull_loc_ctx2.png" width="540" height="415" > <strong>Figure 7:</strong> <em>TCP Receive Local Context Pull</em></p> <p>Looking at <em>Figure 7</em> we see that there is quite a difference between when we push the data to the SqlSatellite. First, we see (highlighted in red) the usual connection between SQL Server and the SqlSatellite and how SQL Server sends data (authentication and script) to the SqlSatellite. Then, however, we see data going from SQL Server from a "strange" port: <code>ms-sql-s</code>. That "name" is <a href="http://www.t1shopper.com/tools/port-number/1433/"><em>IANA</em>'s</a> (Internet Assigned Numbers Authority) definition for SQL Server's port 1433. As we know, port 1433 is the default port SQL uses for connections and retrieval of data. So it looks like that when we use pull, we connect to SQL Server over the default port and retrieves the data that way. Thinking about it, it makes sense as the connection is an ODBC connection. All the packets received by the SqlSatellite are the regular ODBC data packets. The actual 50 rows of data are in the packet outlined in blue with a length of 1358. As we use ODBC the protocol used to send the data is TDS.</p> <p>Oh, TDS - that is probably a reason why the local pull is slower than local push, as the local push uses the <a href="/2017/11/25/microsoft-sql-server-r-services-internals-xiv/"><strong>Binary eXchange Language</strong></a> protocol (BXL) which is very efficient for transferring data. Another reason why the local pull is slower than the local push, even with small datasets, is that for local pull there is much more happening, as we see in <em>Figure 7</em>.</p> <p>Right, then what about SQLCC pull:</p> <p><img class="center" src="/images/posts/sql_ml_services_compctx_II_procmon_pull_sqlcc2.png" width="540" height="845" > <strong>Figure 8:</strong> <em>TCP Receive SQLCC Pull</em></p> <p>Oh my, that is a lot! As in <em>Figure 7</em> the sections outlined in red is the connection between SQL Server and the SqlSatellite, and in blue it is the "ODBC" connection. What is noticeable is that there are multiple sections interleaved, as well that there are multiple <code>BxlServer.exe</code> processes involved (process id's 2108, 13360 and 15340). Well, maybe that is not such a surprise as we spoke about it in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>.</p> <p>What is more interesting though is that we receive the dataset both via the ODBC connection outlined in blue (length 1358), as well as the way we do it in the local push context, outlined in purple (length 1392)! That means that SQL sends data using both the TDS protocol as well as the BXL protocol.</p> <p>By seeing the amount of "stuff" happening in <em>Figure 8</em> we do realise why the SQLCC pull is not as efficient as local push and local pull (1.6 s vs ~200 ms). Having seen all this, we probably ask ourselves why the SQLCC pull was a lot faster (~15 s) than local pull (~23 s) for a big dataset and somewhat faster than the local push (~17 s)?</p> <p>Let us execute the code in <em>Code Snippet 3</em> and <em>Code Snippet 4</em> with <code>TOP (30000000)</code> (30 million) and see what <em>Process Monitor</em> tells us. For local push, we see many packets with a size of 65495 which is the maximum size for BXL data package. When we execute the local pull, we see many TDS packets with a size of 4096 followed by many packages with sizes ranging from ~70,000 up to 2.5 Mb. For me, it looks like the local pull is nowhere as efficient as the local push. Finally, the SQLCC pull shows the same behaviour as local pull with many TDS 4096 packages. However, after the TDS packages follows BXL packages where most have the maximum size of 65495.</p> <blockquote><p><strong>NOTE:</strong> I do not know why, in the case of SQLCC, data is first loaded via TDS and then BXL. I also do not know why in the case of local pull we see multiple 4096 packages followed by packages with an arbitrary big size. I see if I can find answers to this, in which case update this post (or write a new).</p></blockquote> <h2>Summary</h2> <p>This post set out to try to find out why SQLCC performs better than local context. I believe we found why this is the reason but not necessarily how it works.</p> <p>What did we see:</p> <ul> <li>Local push performs really, really well up until it does not :). It performs well up until you hit memory restrictions.</li> <li>Some of the memory issues can be alleviated by using the <code>@r_rowsPerRead</code> parameter (not shown in this post).</li> <li>When pushing the data (<code>@input_data_1</code>) we cannot use SQLCC.</li> <li>Both local pull as well as SQLCC uses ODBC connections, and the data transfer protocol is TDS.</li> <li>When using SQLCC the BXL protocol is also used.</li> <li>By the use of BXL we get very efficient processing of data, and that is the reasons we see good performance.</li> </ul> <p>After writing this post, I have quite a few questions which I will try to answer in a future post.</p> <h2>~ Finally</h2> <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/&text=sp_execute_external_script and SQL Compute Context - II&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2018/07/07/sp-execute-external-script-and-sql-compute-context-II/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/ &title=sp_execute_external_script and SQL Compute Context - II &summary=Blog post: We look in detail why we see performance differences when using SQL Server Compute Context. &source=http://www.nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> <br/> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad2 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="1158080725" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> </div> <div class="related"> <h2>Related Posts</h2> <div class="related-posts"> <h3><a href="/2018/08/05/interesting-stuff-week-31/"> Interesting Stuff - Week 31 <small> (05 Aug 2018)</small> </a></h3> </div> <div class="related-posts"> <h3><a href="/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/"> sp_execute_external_script and SQL Compute Context - III <small> (04 Aug 2018)</small> </a></h3> </div> <div class="related-posts"> <h3><a href="/2018/07/29/interesting-stuff-week-30/"> Interesting Stuff - Week 30 <small> (29 Jul 2018)</small> </a></h3> </div> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { /*DON'T EDIT BELOW THIS LINE*/ var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <title>
+    
+      sp_execute_external_script and SQL Compute Context - II &middot; Niels Berglund
+    
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+  <!-- Additional head bits without overriding original head -->
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        Niels Berglund
+      </a>
+    </div>
+    <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
+  </header>
+  <div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Sidebar_rectangle -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="7704601332"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  <br/>
+  
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/about/">About Me</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/archive/">Posts Archive</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/categories/">Categories</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/disclaimer/">Disclaimer</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/series/">Blog Post Series</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/tags/">Tags</a>
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+</nav>
+
+
+  
+  <br/>
+  <img src="/images/MVP_Logo_large.png"/>
+
+
+  <section>
+  <h3 style="color:#ffffff">Follow Me:</h3>
+  <ul>
+    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
+    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
+  </ul>
+</section>
+  
+  <p>
+  &copy; 2018.
+  <a href="/LICENSE.md">MIT License.</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">sp_execute_external_script and SQL Compute Context - II</h1>
+  <div class="post-subheading">
+  <span class="post-date">07 Jul 2018</span>
+
+  <span class="post-tag">
+    
+      <br/>
+      <span class="post-tagdesc">Categories:</span>
+    
+
+    
+     <a href="/categories/#SQL Server">SQL Server</a>
+    
+     <a href="/categories/#Microsoft R Server">Microsoft R Server</a>
+    
+     <a href="/categories/#Microsoft Machine Learning Server">Microsoft Machine Learning Server</a>
+    
+     <a href="/categories/#Data Science">Data Science</a>
+    
+     <a href="/categories/#SQL Server R Services">SQL Server R Services</a>
+    
+     <a href="/categories/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a>
+    
+
+      
+  </span>
+</div>
+  <br/>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="6668073777"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</header>
+<div class="content">
+  <div class="post-body">
+    <p>I wrote the post <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code class="highlighter-rouge">sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p>
+
+<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+
+<p>One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">post</a>, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.</p>
+
+<!--more-->
+
+<h2 id="recap">Recap</h2>
+
+<p>In quite a few posts about <strong>SQL Server Machine Learning Services</strong> we have discussed how, as part of the functionality in RevoScaleR, you can define where a workload executes. By default, it executes on your local machine, but you can also set it to execute in the context of somewhere else: Hadoop, Spark and also SQL Server. So, in essence, you can run some code on your development machine and have it execute in the environments mentioned above.</p>
+
+<p>In the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post we saw that even when we executed from inside SQL Server, the compute context was the local context: <code class="highlighter-rouge">RxLocalSeq</code>. If we want to use the SQLCC we used <code class="highlighter-rouge">RxInSqlServer</code> and <code class="highlighter-rouge">rxSetComputeContext</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># set up the connection string</span><span class="w">
+</span><span class="n">sqlServerConnString</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"Driver=SQL Server;
+                        server=.; # localhost
+                        database=testParallel;
+                        uid=some_uid;pwd=some_pwd"</span><span class="w">
+
+</span><span class="c1"># set up the context</span><span class="w">
+</span><span class="n">sqlCtx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">RxInSqlServer</span><span class="p">(</span><span class="n">connectionString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlServerConnString</span><span class="p">,</span><span class="w"> 
+                        </span><span class="n">numTasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># set the compute context to be the sql context</span><span class="w">
+</span><span class="n">rxSetComputeContext</span><span class="p">(</span><span class="n">sqlCtx</span><span class="p">)</span><span class="w">    
+</span></code></pre></div></div>
+<p><strong>Code Snippet 1:</strong> <em>Set up SQL Server Compute Context</em></p>
+
+<p>To setup the context we see in <em>Code Snippet 1</em> how we use a connection string pointing to the SQL Server where we want to execute the code. In this case, it is the instance we are on.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The connection string is for where we want to execute, not necessarily where the data we use resides.</p>
+</blockquote>
+
+<p>We also see in <em>Figure 1</em> how <code class="highlighter-rouge">RxInSqlServer</code> has the <code class="highlighter-rouge">numTasks</code> parameter for you to set the number of tasks (processes) to run for each computation. The parameter defines the maximum number of tasks SQL Server can use. SQL Server can, however, decide to start fewer processes. Finally in <em>Figure 1</em> we call <code class="highlighter-rouge">rxSetComputeContext</code> which ensures that any code with functions that support SQLCC, executes under the compute context.</p>
+
+<p>In the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post, we saw how when we execute inside of SQL Server via SPEES we by default run in the local context and only by setting the context as in <em>Code Snippet 1</em> we can execute in SQLCC.</p>
+
+<p>An interesting observation when we set the <code class="highlighter-rouge">numTasks</code> parameter to a value greater than 1 is that when we run the code, we run it hosted in an <code class="highlighter-rouge">mpiexec.exe</code> process:</p>
+
+<p><img src="/images/posts/sql_ml_services_comp_mpi.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Parallel Execution in Compute Context</em></p>
+
+<p>In <em>Figure 1</em> we now see not only the “usual” RTerm and <code class="highlighter-rouge">BxlServer.exe</code> processes but also a new hosting process, outlined in red, <code class="highlighter-rouge">mpiexec.exe</code>. Underneath the <code class="highlighter-rouge">mpiexec.exe</code> process we see the <code class="highlighter-rouge">smpd.exe</code> process (outlined in green) and then four RTerm processes with <code class="highlighter-rouge">BxlServer.exe</code> processes which handle the workload. So, <code class="highlighter-rouge">mpiexec.exe</code> and <code class="highlighter-rouge">smpd.exe</code> are parts of <a href="https://msdn.microsoft.com/en-us/library/bb524831%28v=vs.85%29.aspx?f=255&amp;MSPPError=-2147217396"><strong>Microsoft MPI</strong></a> which is an implementation of MPI which is a communication protocol for programming parallel computers.</p>
+
+<p>All this is somewhat interesting, but the most interesting thing (at least for me) is the performance difference we saw when executing the same code in the local context compared to the SQLCC. When executing with <code class="highlighter-rouge">numTasks</code> set to 1 (as it would be under the local context) code that ran in ~40 seconds in the local context took ~30 seconds to run in SQLCC! Once again, we did not run it with multiple tasks in SQLCC, so just be running in SQLCC we received a performance gain of about 30%!</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The performance gain is of course not always 30%, it depends on data volumes.</p>
+</blockquote>
+
+<p>So, as I said at the beginning of this post - let us try and figure out why the performance is better using SQLCC.</p>
+
+<h2 id="housekeeping">Housekeeping</h2>
+
+<p>Before we “dive” into today’s topics let us look at the code and the tools we use today. This section is here for those who want to follow along in what we are doing in the post.</p>
+
+<h4 id="helper-tools">Helper Tools</h4>
+
+<p>To help us figure out the things we want, we use <em>Process Monitor</em> to filter TCP traffic.</p>
+
+<h4 id="code">Code</h4>
+
+<p>This is the database objects we use in this post:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">TestParallel</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">TestParallel</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="n">USE</span> <span class="n">TestParallel</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span>
+<span class="k">GO</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span>
+<span class="p">(</span>
+  <span class="n">RowID</span> <span class="n">bigint</span> <span class="k">identity</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span> 
+  <span class="n">y</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand1</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> 
+  <span class="n">rand2</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand3</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> 
+  <span class="n">rand4</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">rand5</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+<span class="p">);</span>
+<span class="k">GO</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Rand_50M</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rand1</span><span class="p">,</span> <span class="n">rand2</span><span class="p">,</span> <span class="n">rand3</span><span class="p">,</span> <span class="n">rand4</span><span class="p">,</span> <span class="n">rand5</span><span class="p">)</span>
+<span class="k">SELECT</span> <span class="n">TOP</span><span class="p">(</span><span class="mi">50000000</span><span class="p">)</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">14</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span> 
+  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">20</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
+  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">25</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
+  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">14</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
+  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">50</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
+  <span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="k">ABS</span><span class="p">(</span><span class="n">CHECKSUM</span><span class="p">(</span><span class="n">NEWID</span><span class="p">()))</span> <span class="o">%</span> <span class="mi">100</span> <span class="k">AS</span> <span class="n">INT</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o1</span>
+<span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o2</span>
+<span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o3</span>
+<span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">objects</span> <span class="n">o4</span><span class="p">;</span>
+<span class="k">GO</span>
+
+</code></pre></div></div>
+<p><strong>Code Snippet 2:</strong> <em>Setup of Database, Table and Data</em></p>
+
+<p>We use more or less the same database and database object as in the <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> post:</p>
+
+<ul>
+  <li>A database: <code class="highlighter-rouge">TestParallel</code>.</li>
+  <li>A table: <code class="highlighter-rouge">dbo.tb_Rand_50M</code>. This table contains the data we want to analyse.</li>
+</ul>
+
+<p>In addition to creating the database and the table <em>Code Snippet 2</em> also loads 50 million records into the <code class="highlighter-rouge">dbo.tb_Rand_50M</code>. Be aware that when you run the code in <em>Code Snippet 2</em> it may take some time to finish due to the loading of the data. Yes, I know - the data is entirely useless, but it is a lot of it, and it helps to illustrate what we want to do.</p>
+
+<p>The code we use is almost like what we used in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DECLARE</span> <span class="o">@</span><span class="n">isCtx</span> <span class="n">bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">DECLARE</span> <span class="o">@</span><span class="n">numTasks</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">DECLARE</span> <span class="o">@</span><span class="k">start</span> <span class="n">datetime2</span> <span class="o">=</span> <span class="n">SYSUTCDATETIME</span><span class="p">();</span>
+<span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
+      <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'
+      # set up the connection string
+      sqlServerConnString &lt;- "Driver=SQL Server;server=.;
+                              database=testParallel;
+                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;"
+      
+      if(useContext == 1) {
+        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                                numTasks = tasks)
+        # set the compute context to be the sql context
+        rxSetComputeContext(sqlCtx)
+      }
+
+      mydata &lt;- RxSqlServerData(sqlQuery = "SELECT y, rand1, rand2, 
+                                            rand3, rand4, rand5 
+                                            FROM dbo.tb_Rand_50M",
+                                connectionString = sqlServerConnString);
+                        
+      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5, 
+                      data=mydata)
+
+      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">params</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'@tasks int, @useContext bit'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">tasks</span> <span class="o">=</span> <span class="o">@</span><span class="n">numTasks</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">useContext</span> <span class="o">=</span> <span class="o">@</span><span class="n">isCtx</span>
+<span class="k">WITH</span> <span class="k">RESULT</span> <span class="k">SETS</span> <span class="p">((</span><span class="n">NumberRows</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">));</span>
+<span class="k">SELECT</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span> <span class="o">@</span><span class="k">start</span><span class="p">,</span> <span class="n">SYSUTCDATETIME</span><span class="p">())</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 3:</strong> <em>Test Code</em></p>
+
+<p>As we see in <em>Code Snippet 3</em> we parameterize the <code class="highlighter-rouge">sp_execute_external_script</code> call, and we have parameters for whether to use the SQLCC and also how many tasks to run when executing in the context. The default is to execute in the local context, and when executing in SQLCC <code class="highlighter-rouge">numTasks</code> is 1.</p>
+
+<h2 id="performance-differences">Performance Differences</h2>
+
+<p>To start with, let us repeat - more or less - what we did in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a> and compare execution times when running in the local context (<code class="highlighter-rouge">@isCtx = 0</code>) and when in SQLCC  (<code class="highlighter-rouge">@isCtx = 1</code>). In both cases, we execute with the default number of tasks (<code class="highlighter-rouge">numTasks = 1</code>).</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> Do a couple of executions in the local context as well as in the SQLCC to ensure you get representative numbers for both.</p>
+</blockquote>
+
+<p>When I run the code on my SQL Server instance I get the following results:</p>
+
+<ul>
+  <li>Local context: ~40 seconds</li>
+  <li>SQLCC: ~24 seconds</li>
+</ul>
+
+<p>So, the same workload shows an approximately 40% performance improvement when running in the SQLCC compared to the local context and this is in line with what we saw in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>. Why is this, we do the same things:</p>
+
+<ul>
+  <li>We load data</li>
+  <li>We apply the <code class="highlighter-rouge">rxLinMod</code> function.</li>
+  <li>We run with the same number of tasks (single threaded).</li>
+</ul>
+
+<p>A question I have now is at what stage in the script, the script receives the 50 million rows? Comment out in the code, (<em>Code Snippet 3</em>), the <code class="highlighter-rouge">myModel</code> and <code class="highlighter-rouge">OutputDataSet</code> lines of code. When you now execute in the local context, you see the execution time is ~ 1 second. When you do the same in the SQLCC the time is about the same. It seems like the actual loading of the data happens not in the <code class="highlighter-rouge">RxSqlServerData</code> call, but in the call - in this case - to <code class="highlighter-rouge">rxLinMod</code>. Hmm, I wonder what happens if we instead of pulling the data, pushed the data to the <code class="highlighter-rouge">rxLinMod</code> call by using <code class="highlighter-rouge">@input_data_1</code>:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DECLARE</span> <span class="o">@</span><span class="n">isCtx</span> <span class="n">bit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">DECLARE</span> <span class="o">@</span><span class="n">numTasks</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">DECLARE</span> <span class="o">@</span><span class="k">start</span> <span class="n">datetime2</span> <span class="o">=</span> <span class="n">SYSUTCDATETIME</span><span class="p">();</span>
+<span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
+      <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'
+      # set up the connection string
+      sqlServerConnString &lt;- "Driver=SQL Server;server=.;
+                              database=testParallel;
+                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;"
+      
+      if(useContext == 1) {
+        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                                numTasks = tasks)
+        # set the compute context to be the sql context
+        rxSetComputeContext(sqlCtx)
+      }
+                      
+      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5, 
+                         data=InputDataSet)
+
+      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT y, rand1, rand2, rand3, rand4, rand5 
+                        FROM dbo.tb_Rand_50M'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">params</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'@tasks int, @useContext bit'</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">tasks</span> <span class="o">=</span> <span class="o">@</span><span class="n">numTasks</span>
+    <span class="p">,</span> <span class="o">@</span><span class="n">useContext</span> <span class="o">=</span> <span class="o">@</span><span class="n">isCtx</span>    
+<span class="k">WITH</span> <span class="k">RESULT</span> <span class="k">SETS</span> <span class="p">((</span><span class="n">NumberRows</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">));</span>
+<span class="k">SELECT</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span> <span class="o">@</span><span class="k">start</span><span class="p">,</span> <span class="n">SYSUTCDATETIME</span><span class="p">())</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 4:</strong> <em>Pushing the Data</em></p>
+
+<p>In <em>Code Snippet 4</em> we see how we push the data through the <code class="highlighter-rouge">@input_data_1</code> straight to the <code class="highlighter-rouge">rxLinMod</code> call via <code class="highlighter-rouge">InputDataSet</code>. The code here does not look any different than from most of the other code used in many of my blog posts. When I execute it in the local context (<code class="highlighter-rouge">@isCtx bit = 0)</code> however:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_push_error.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Error Pushing Data</em></p>
+
+<p>Oh, it looks like we try to push too much data as we see, highlighted in <em>Figure 2</em>, a memory issue. Ok, but this is what the SQLCC is all about - efficiently handling large volumes of data, so let us execute the same code but in the SQLCC (<code class="highlighter-rouge">@isCtx bit = 1</code>):</p>
+
+<p><img src="/images/posts/sql_ml_services_compII_input_data_ctx_error.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Push and SQLCC Error</em></p>
+
+<p>Ouch, it seems that to use SQLCC we need to pull data through <code class="highlighter-rouge">RxSqlServerData</code>. Never mind, I still want to push large volumes of data, so I change <code class="highlighter-rouge">@input_data_1</code> to do a <code class="highlighter-rouge">SELECT TOP(30000000) ...</code> (30 million) from the table instead. When I push my 30 million rows in the local context the execution time is around  17 seconds. What are the timings if we execute the code in <em>Code Snippet 3</em> with a <code class="highlighter-rouge">TOP (30000000)</code> both in the local context as well as SQLCC and compare execution times:</p>
+
+<ul>
+  <li>Local context push (<em>Code Snippet 4</em> and <code class="highlighter-rouge">@isCtx = 0</code>): ~ 17 seconds.</li>
+  <li>Local context pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 0</code>): ~ 23 seconds.</li>
+  <li>SQLCC pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 1</code>): ~ 15 seconds.</li>
+</ul>
+
+<p>That was interesting, the timings between pushing the data in the local context are almost the same as pulling the data in SQLCC, and the push in the local context is much faster than the pull in the same context. What gives?</p>
+
+<p>All we have done so far points to that the difference in performance comes from loading the data, so the question is what the difference is when loading it from the local context compared to the SQLCC, and is SQLCC always faster. Let us start with the last question first; is SQLCC always faster?</p>
+
+<p>To test this change the <code class="highlighter-rouge">TOP</code> clause to <code class="highlighter-rouge">TOP(50)</code> and execute <em>Code Snippet 4</em> (pushing the data) and <em>Code Snippet 3</em> pulling the data both in the local context as well as SQLCC and take note of the timings:</p>
+
+<ul>
+  <li>Local context push (<em>Code Snippet 4</em> and <code class="highlighter-rouge">@isCtx = 0</code>): ~ 200 ms.</li>
+  <li>Local context pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 0</code>): ~ 260 ms.</li>
+  <li>SQLCC pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 1</code>): ~ 1.6 seconds.</li>
+</ul>
+
+<p>That was quite a difference and now, all of a sudden, SQLCC is slowest! Why is that? Let us use <em>Process Monitor</em> to try to figure out why this is the case. However, before we do that let us recap a little bit about the internal workings when we execute <em>SPEES</em>.</p>
+
+<h4 id="internals">Internals</h4>
+
+<ul>
+  <li>The host for an external engine is <code class="highlighter-rouge">BxlServer.exe</code>.</li>
+  <li>When we execute <em>SPEES</em> the SqlSatellite (loaded by the BxlServer) connects to SQL Server over a TCP connection.</li>
+  <li>Data is sent over the TCP connection from and to SQL Server.</li>
+  <li>The data sent among other things authentication data, script data (the actual external script) as well as the dataset.</li>
+</ul>
+
+<p>The figure below illustrates connections and so forth in a “simple” case where we push data to the SqlSatellite in the local context:</p>
+
+<p><img src="/images/posts/sql_r_services_ext_scriptIII_single_process.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Process Flow</em></p>
+
+<p>In <em>Figure 4</em> we see what happens when we execute <code class="highlighter-rouge">sp_execute_external_script</code> and the numbers in the figure stands for:</p>
+
+<ol>
+  <li>We call <code class="highlighter-rouge">sp_execute_external_script</code> and SQL Server calls into the launchpad service.</li>
+  <li>The launchpad service creates RTerm processes which in turn creates BxlServer processes. One process becomes the executing process.</li>
+  <li>A TCP connection from the SqlSatellite in the executing process gets established.</li>
+  <li>SQL server sends input data to the SqlSatellite.</li>
+  <li>The <code class="highlighter-rouge">BxlServer.exe</code> does the processing.</li>
+  <li>SQL Server receives data back from the SqlSatellite.</li>
+</ol>
+
+<p>The <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series covered in “excruciating” details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services-internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services-internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services-internals-xv/">XV</a>.</p>
+
+<h4 id="investigation-using-performance-monitor">Investigation using Performance Monitor</h4>
+
+<p>To see what happens when we execute our three scenarios (local push, local pull, SQLCC pull) we set up some <em>Process Monitor</em> event filters to capture TCP traffic from SQL Server to the SqlSatellite, where <code class="highlighter-rouge">BxlServer.exe</code> is “hosting” the SqlSatellite. The filters we set up are for “Process Name” and “Operation”. We want the process to be <code class="highlighter-rouge">BxlServer.exe</code> and the operation “TCP Receive”.</p>
+
+<p>So, run <em>Process Monitor</em> as admin. To set the filter; under the <em>Filter</em> menu click the Filter menu item, and you see the “Process Monitor Filter” dialog. To create the filter we enter the conditions we want to match:</p>
+
+<ul>
+  <li>The <em>Process Name</em> (from the first drop down) should be  <em>is</em> (from the second drop-down): <code class="highlighter-rouge">bxlserver.exe</code>.</li>
+  <li><em>Operation</em> (first drop-down) <em>is</em> (second dropdown): “TCP Receive”</li>
+</ul>
+
+<p>You add and include the conditions included and added, and at this stage, the filter dialog looks something like so:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_filter.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>Filters BxlServer</em></p>
+
+<p>What the filter says is that any “TCP Receive” events for <code class="highlighter-rouge">bxlserver.exe</code> should be monitored and displayed. When you have clicked “OK” out of the dialog box, we are ready to test this by executing the code for local context push (<em>Code Snippet 4</em>), local context pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 0</code>) and SQLCC pull (<em>Code Snippet 3</em> and <code class="highlighter-rouge">@isCtx = 1</code>). When executing we look at the <em>Process Monitor</em> output, and the output for the local push is like so:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_push2.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>TCP Receive Local Context Push</em></p>
+
+<p>We see in <em>Figure 6</em> that the output looks quite “tidy” and by looking at the <code class="highlighter-rouge">Path</code> column see a connection between SQL Server and the SqlSatellite on port 13273 (<code class="highlighter-rouge">win10-dev:13273</code>). Furthermore, we see:</p>
+
+<ul>
+  <li>There is one <code class="highlighter-rouge">BxlServer.exe</code> process with a process id of 17260.</li>
+  <li>The data the BxlServer receives are what we covered in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
+  <li>The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.</li>
+</ul>
+
+<p>Ok, so onto the local context pull:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_pull_loc_ctx2.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>TCP Receive Local Context Pull</em></p>
+
+<p>Looking at <em>Figure 7</em> we see that there is quite a difference between when we push the data to the SqlSatellite. First, we see (highlighted in red) the usual connection between SQL Server and the SqlSatellite and how SQL Server sends data (authentication and script) to the SqlSatellite. Then, however, we see data going from SQL Server from a “strange” port: <code class="highlighter-rouge">ms-sql-s</code>. That “name” is <a href="http://www.t1shopper.com/tools/port-number/1433/"><em>IANA</em>’s</a> (Internet Assigned Numbers Authority) definition for SQL Server’s port 1433. As we know, port 1433 is the default port SQL uses for connections and retrieval of data. So it looks like that when we use pull, we connect to SQL Server over the default port and retrieves the data that way. Thinking about it, it makes sense as the connection is an ODBC connection. All the packets received by the SqlSatellite are the regular ODBC data packets. The actual 50 rows of data are in the packet outlined in blue with a length of 1358. As we use ODBC the protocol used to send the data is TDS.</p>
+
+<p>Oh, TDS - that is probably a reason why the local pull is slower than local push, as the local push uses the <a href="/2017/11/25/microsoft-sql-server-r-services-internals-xiv/"><strong>Binary eXchange Language</strong></a> protocol (BXL) which is very efficient for transferring data. Another reason why the local pull is slower than the local push, even with small datasets, is that for local pull there is much more happening, as we see in <em>Figure 7</em>.</p>
+
+<p>Right, then what about SQLCC pull:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_pull_sqlcc2.png" alt="" /></p>
+
+<p><strong>Figure 8:</strong> <em>TCP Receive SQLCC Pull</em></p>
+
+<p>Oh my, that is a lot! As in <em>Figure 7</em> the sections outlined in red is the connection between SQL Server and the SqlSatellite, and in blue it is the “ODBC” connection. What is noticeable is that there are multiple sections interleaved, as well that there are multiple <code class="highlighter-rouge">BxlServer.exe</code> processes involved (process id’s 2108, 13360 and 15340). Well, maybe that is not such a surprise as we spoke about it in <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">Context - I</a>.</p>
+
+<p>What is more interesting though is that we receive the dataset both via the ODBC connection outlined in blue (length 1358), as well as the way we do it in the local push context, outlined in purple (length 1392)! That means that SQL sends data using both the TDS protocol as well as the BXL protocol.</p>
+
+<p>By seeing the amount of “stuff” happening in <em>Figure 8</em> we do realise why the SQLCC pull is not as efficient as local push and local pull (1.6 s vs ~200 ms). Having seen all this, we probably ask ourselves why the SQLCC pull was a lot faster (~15 s) than local pull (~23 s) for a big dataset and somewhat faster than the local push (~17 s)?</p>
+
+<p>Let us execute the code in <em>Code Snippet 3</em> and <em>Code Snippet 4</em> with <code class="highlighter-rouge">TOP (30000000)</code> (30 million) and see what <em>Process Monitor</em> tells us. For local push, we see many packets with a size of 65495 which is the maximum size for BXL data package. When we execute the local pull, we see many TDS packets with a size of 4096 followed by many packages with sizes ranging from ~70,000 up to 2.5 Mb. For me, it looks like the local pull is nowhere as efficient as the local push. Finally, the SQLCC pull shows the same behaviour as local pull with many TDS 4096 packages. However, after the TDS packages follows BXL packages where most have the maximum size of 65495.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> I do not know why, in the case of SQLCC, data is first loaded via TDS and then BXL. I also do not know why in the case of local pull we see multiple 4096 packages followed by packages with an arbitrary big size. I see if I can find answers to this, in which case update this post (or write a new).</p>
+</blockquote>
+
+<h2 id="summary">Summary</h2>
+
+<p>This post set out to try to find out why SQLCC performs better than local context. I believe we found why this is the reason but not necessarily how it works.</p>
+
+<p>What did we see:</p>
+
+<ul>
+  <li>Local push performs really, really well up until it does not :). It performs well up until you hit memory restrictions.</li>
+  <li>Some of the memory issues can be alleviated by using the <code class="highlighter-rouge">@r_rowsPerRead</code> parameter (not shown in this post).</li>
+  <li>When pushing the data (<code class="highlighter-rouge">@input_data_1</code>) we cannot use SQLCC.</li>
+  <li>Both local pull as well as SQLCC uses ODBC connections, and the data transfer protocol is TDS.</li>
+  <li>When using SQLCC the BXL protocol is also used.</li>
+  <li>By the use of BXL we get very efficient processing of data, and that is the reasons we see good performance.</li>
+</ul>
+
+<p>After writing this post, I have quite a few questions which I will try to answer in a future post.</p>
+
+<h2 id="-finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+
+
+    
+<p>
+<h2>Share this Post:</h2> 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/&text=sp_execute_external_script and SQL Compute Context - II&via=nielsberglund" 
+   target="_blank">Twitter</a>
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2018/07/07/sp-execute-external-script-and-sql-compute-context-II/" 
+   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+    | Google+</a>
+<a href="https://www.linkedin.com/shareArticle?
+         mini=true
+         &url=http://www.nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/
+         &title=sp_execute_external_script and SQL Compute Context - II
+         &summary=Blog post: We look in detail why we see performance differences when using SQL Server Compute Context.
+         &source=http://www.nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/"> | LinkedIn</a> 
+
+</p>   
+   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
+
+
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/
+
+   -->
+
+
+
+    <p>
+<h2>Blog Feed:</h2>
+To automatically receive more posts like this, please
+<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
+
+
+    <br/>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="1158080725"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <br/>
+
+    
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    <h2>Post Tags:</h2>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags/#sql-server-r-services">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SQL Server R Services</span>
+    </a>
+  
+    
+    <a href="/tags/#sql-server-machine-learning-services">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SQL Server Machine Learning Services</span>
+    </a>
+  
+    
+    <a href="/tags/#r">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">R</span>
+    </a>
+  
+    
+    <a href="/tags/#python">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Python</span>
+    </a>
+  
+    
+    <a href="/tags/#launchpad">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Launchpad</span>
+    </a>
+  
+    
+    <a href="/tags/#process-monitor">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Process Monitor</span>
+    </a>
+  
+    
+    <a href="/tags/#sqlsatellite">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SqlSatellite</span>
+    </a>
+  
+    
+    <a href="/tags/#process-monitor">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Process Monitor</span>
+    </a>
+  
+    
+    <a href="/tags/#parallel">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">parallel</span>
+    </a>
+  
+    
+    <a href="/tags/#sql-server-compute-context">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SQL Server Compute Context</span>
+    </a>
+  
+    
+    <a href="/tags/#sp-execute-external-script">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">sp_execute_external_script</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/";
+    this.page.identifier = "" ||
+                           "http://nielsberglund.com/2018/07/07/sp-execute-external-script-and-sql-compute-context-II/";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//manageddata.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/2018/08/05/interesting-stuff-week-31/">
+            Interesting Stuff - Week 31
+            <small>05 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/">
+            sp_execute_external_script and SQL Compute Context - III
+            <small>04 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/07/29/interesting-stuff-week-30/">
+            Interesting Stuff - Week 30
+            <small>29 Jul 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-18914734-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Optional footer content -->
+
+  </body>
+</html>

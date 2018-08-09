@@ -1,104 +1,1208 @@
-<!DOCTYPE html> <html lang="en-us"> <head> <!-- Google Tag Manager --> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-K7B3642');</script> <!-- End Google Tag Manager --> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <meta name="description" content="When is SQL statements executed when executing external scripts?"> <meta name="keywords" content="SQL Server R Services, SQL Server Machine Learning Services, R, WinDbg, Launchpad, RTerm.exe, SqlSatellite, SqlSatellite.dll"/> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> Microsoft SQL Server R Services - Internals XIII &middot; Niels Berglund </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-e8a259b38492bb97421cc4e038981561.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.5.0 --> <title>Microsoft SQL Server R Services - Internals XIII | Niels Berglund</title> <meta name="generator" content="Jekyll v3.8.3" /> <meta property="og:title" content="Microsoft SQL Server R Services - Internals XIII" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="When is SQL statements executed when executing external scripts?" /> <meta property="og:description" content="When is SQL statements executed when executing external scripts?" /> <link rel="canonical" href="http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/" /> <meta property="og:url" content="http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/" /> <meta property="og:site_name" content="Niels Berglund" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2017-11-11T20:02:50+02:00" /> <script type="application/ld+json"> {"url":"http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/","headline":"Microsoft SQL Server R Services - Internals XIII","dateModified":"2017-11-11T20:02:50+02:00","datePublished":"2017-11-11T20:02:50+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/"},"author":{"@type":"Person","name":"nielsb"},"description":"When is SQL statements executed when executing external scripts?","@type":"BlogPosting","@context":"http://schema.org"}</script> <!-- End Jekyll SEO tag --> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-3005153158271538", enable_page_level_ads: true }); </script> </head> <body> <!-- Google Tag Manager (noscript) --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B3642" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <!-- End Google Tag Manager (noscript) --> <div class="sidebar"> <div class="container"> <div class="sidebar-about"> <h1> <a href="/"> Niels Berglund </a> </h1> <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Sidebar_rectangle --> <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-3005153158271538" data-ad-slot="7704601332"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> <a class="sidebar-nav-item" href="/categories/">Categories</a> <a class="sidebar-nav-item" href="/disclaimer/">Disclaimer</a> <a class="sidebar-nav-item" href="/series/">Blog Post Series</a> <a class="sidebar-nav-item" href="/tags/">Tags</a> </nav> <img class="center" src="/images/MVP_Logo_large.png" width="300" height="121" > <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <p>&copy; 2018. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">Microsoft SQL Server R Services - Internals XIII</h1> <div class="post-subheading"> <span class="post-date">11 Nov 2017</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> <a href="/categories/#SQL Server">SQL Server</a> <a href="/categories/#Microsoft R Server">Microsoft R Server</a> <a href="/categories/#Data Science">Data Science</a> <a href="/categories/#SQL Server R Services Series">SQL Server R Services Series</a> <a href="/categories/#SQL Server R Services">SQL Server R Services</a> <a href="/categories/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a> <span class="post-tagdesc">tags:</span> <a href="/tags/#SQL Server R Services">SQL Server R Services</a> <a href="/tags/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a> <a href="/tags/#R">R</a> <a href="/tags/#WinDbg">WinDbg</a> <a href="/tags/#Launchpad">Launchpad</a> <a href="/tags/#RTerm.exe">RTerm.exe</a> <a href="/tags/#SqlSatellite">SqlSatellite</a> <a href="/tags/#SqlSatellite.dll">SqlSatellite.dll</a> </span> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad1 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="6668073777" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> <p>This post is part of a series of blog-posts about Microsoft SQL Server R Services:</p> <ol> <li><a href="/2017/03/04/microsoft-sql-server-2016-r-services-installation/">Microsoft SQL Server 2016 R Services Installation</a></li> <li><a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Microsoft SQL Server R Services - Internals I</a></li> <li><a href="/2017/04/02/microsoft-sql-server-r-services-internals-ii/">Microsoft SQL Server R Services - Internals II</a></li> <li><a href="/2017/04/13/microsoft-sql-server-r-services-internals-iii/">Microsoft SQL Server R Services - Internals III</a></li> <li><a href="/2017/04/23/microsoft-sql-server-r-services-internals-iv/">Microsoft SQL Server R Services - Internals IV</a></li> <li><a href="/2017/05/01/microsoft-sql-server-r-services-internals-v/">Microsoft SQL Server R Services - Internals V</a></li> <li><a href="/2017/05/16/microsoft-sql-server-r-services-internals-vi/">Microsoft SQL Server R Services - Internals VI</a></li> <li><a href="/2017/07/11/microsoft-sql-server-r-services-internals-vii/">Microsoft SQL Server R Services - Internals VII</a></li> <li><a href="/2017/07/22/microsoft-sql-server-r-services-internals-viii/">Microsoft SQL Server R Services - Internals VIII</a></li> <li><a href="/2017/08/18/microsoft-sql-server-r-services-internals-ix/">Microsoft SQL Server R Services - Internals IX</a></li> <li><a href="/2017/08/29/microsoft-sql-server-r-services-internals-x/">Microsoft SQL Server R Services - Internals X</a></li> <li><a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">Microsoft SQL Server R Services - Internals XI</a></li> <li><a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Microsoft SQL Server R Services - Internals XII</a></li> <li>Microsoft SQL Server R Services - Internals XIII (this post)</li> <li><a href="/2017/11/25/microsoft-sql-server-r-services-internals-xiv/">Microsoft SQL Server R Services - Internals XIV</a></li> <li><a href="/2017/12/02/microsoft-sql-server-r-services-internals-xv/">Microsoft SQL Server R Services - Internals XV</a></li> <li><a href="/2017/12/24/microsoft-sql-server-r-services-internals-xvi/">Microsoft SQL Server R Services - Internals XVI</a></li> <li><a href="/2018/01/03/microsoft-sql-server-r-services-internals-xvii/">Microsoft SQL Server R Services - Internals XVII</a></li> <li><a href="/2018/01/10/microsoft-sql-server-r-services-internals-xviii/">Microsoft SQL Server R Services - Internals XVIII</a></li> <li><a href="/2018/01/20/microsoft-sql-server-r-services-internals-xix/">Microsoft SQL Server R Services - Internals XIX</a></li> <li><a href="/2018/02/02/microsoft-sql-server-r-services-internals-xx/">Microsoft SQL Server R Services - Internals XX</a></li> <li><a href="/2018/03/07/microsoft-sql-server-r-services-sp_execute_external_script-I/">Microsoft SQL Server R Services: sp_execute_external_script - I</a></li> <li><a href="/2018/03/11/microsoft-sql-server-r-services-sp-execute-external-script-ii/">Microsoft SQL Server R Services - sp_execute_external_script - II</a></li> <li><a href="/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/">Microsoft SQL Server R Services: sp_execute_external_script - III</a> <em>last post in the series</em></li> </ol> <p>This post is the fourteenth post about Microsoft SQL Server R Services, and the thirteenth post that drills down into the internal of how it works.</p> <p>Sorry guys, in my last post <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> I said we'd - in this post - look into the <strong>Binary eXchange Language</strong> protocol(<strong>BXL</strong>) which is used when sending data from SQL Server to the SqlSatellite. The protocol is also involved when we send one row of data containing 5 integers, and the packet size for that ends up being 6300 bytes.</p> <p>Well, we won't look at that in this post, I was once again led astray when researching how data is sent.</p> <!--more--> <p>What we will look into however is something we haven't really discussed at all before, and that is: when is the <code>SELECT</code> statement for the <code>@input_data_1</code> parameter executed?</p> <p>However, before we get into all this, let us do a recap.</p> <h2>Recap</h2> <p>In he last two "episodes" in the internals we have looked what packets are being sent between SQL server and the SqlSatellite. In <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">Internals - XI</a> we looked at how SQL Server connected to the launchpad process, and how that caused the SqlSatellite to open a socket connection to SqlServer. Connection of the socket caused two authentication packages to be sent to the SqlSatellite from SQL Server. The process was illustrated as in this figure:</p> <p><img class="center" src="/images/posts/sql_r_services_11_calls.png" width="800" height="532" > <strong>Figure 1:</strong> <em>Flow in SQL Server</em></p> <p>The numbered arrows shows the communication out from SQL Server, and in what order it happens:</p> <ol> <li><code>sqllang!CSQLSatelliteConnection::OpenNpConnection</code> - SQL Server opens named pipe connection to the launchpad service.</li> <li><code>sqllang!CSQLSatelliteConnection::WriteMessage</code> - Message sent to the launchpad service.</li> <li>After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.</li> <li>During <code>sqllang!CSQLSatelliteConnection::AuthenticateConnection</code> SQL Server sends the first packet to the SQL Satellite. The packet has something to do with authentication.</li> <li>After the first packet is sent, a second packet (still within <code>sqllang!CSQLSatelliteConnection::AuthenticateConnection</code>), which also is related to authentication, is sent on a separate thread to SqlSatellite.</li> </ol> <p>In essence, <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">Internals - XI</a> was all about connection and authentication. In [Internals - XII] we looked at what data packages were sent to the SqlSatellite from SQL Server, and we saw how both script as well as any result for <code>@input_data_1</code> was sent. We used following figure to illustrate how the data was sent, and from what routines:</p> <p><img class="center" src="/images/posts/sql_r_services_12_calls.png" width="800" height="519" > <strong>Figure 2:</strong> <em>Flow 2 in SQL Server</em></p> <p>The numbered arrows shows the communication out from SQL Server, and in what order it happens:</p> <ol> <li>SQL Server opens named pipe connection to the launchpad service.</li> <li>Message sent to the launchpad service.</li> <li>After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.</li> <li>SQL Server sends the first packet to the SQL Satellite for authentication purposes.</li> <li>A second authentication packet is sent to SqlSatellite.</li> <li>The script is sent from inside <code>sqllang!CSatelliteProxy::PostSetupMessage</code></li> <li>The data for <code>@input_data_1</code> is sent.</li> <li>The first end packet is sent.</li> <li>The second end packet is sent.</li> </ol> <h2>Helper Tools</h2> <p>To help us figure out the things we want, we will use <em>WinDbg</em> and <em>Process Monitor</em>:</p> <ul> <li><em>Process Monitor</em>, will be used it to filter TCP traffic. If you want to refresh your memory about how to do it, we covered that in <a href="/2017/08/29/microsoft-sql-server-r-services-internals-x/">Internals - X</a>.</li> <li>In <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> I mentioned about the new and more modern <a href="https://www.microsoft.com/en-us/store/p/windbg/9pgjgd53tn86">WinDbg</a>, and how I'd be using it going forward. Well, when writing this post I came across a scenario where I couldn't do what I wanted to do in the new <em>WinDbg</em>, so in this post I'll be using only the old version. If you need help with setting it up, that is covered in <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Internals - I</a>.</li> </ul> <blockquote><p><strong>NOTE:</strong> What I wanted to do in the new <em>WinDbg</em> was to set event filters. For the life of me I could not find out where and how to do it.</p></blockquote> <h2>Code</h2> <p>In most of the other posts in this series, the code we have executed haven't required a specific database or tables. In this post we'll use a specific database with some tables. The code to create the database, tables and populate data looks like this:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Creation</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">ResultData</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">ResultData</span><span class="p">;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">USE</span> <span class="n">ResultData</span><span class="p">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">(</span><span class="n">RowID</span> <span class="n">bigint</span> <span class="k">identity</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>                         <span class="n">ColInt</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColIntN</span> <span class="n">int</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColBigInt</span> <span class="n">bigint</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColBigIntN</span> <span class="n">bigint</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColDec</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColDecN</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColString</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColStringN</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColNString</span> <span class="n">nvarchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColNStringN</span> <span class="n">nvarchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColStringMax</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="n">ColStringMaxN</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)</span> <span class="k">NULL</span><span class="p">);</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">(</span><span class="n">ColInt</span><span class="p">,</span> <span class="n">ColIntN</span><span class="p">,</span> <span class="n">ColBigInt</span><span class="p">,</span> <span class="n">ColBigIntN</span><span class="p">,</span><br/>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="n">ColDec</span><span class="p">,</span> <span class="n">ColDecN</span><span class="p">,</span> <span class="n">ColString</span><span class="p">,</span> <span class="n">ColStringN</span><span class="p">,</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="n">ColNString</span><span class="p">,</span> <span class="n">ColNStringN</span><span class="p">,</span> <span class="n">ColStringMax</span><span class="p">,</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="n">ColStringMaxN</span><span class="p">)</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span> <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">3147483647</span><span class="p">,</span> <span class="mi">3147483647</span><span class="p">,</span> <span class="mi">134</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="mi">134</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="s1">'Hello 41'</span><span class="p">,</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s1">'Hello 41'</span><span class="p">,</span> <span class="n">N</span><span class="s1">'Hello 41'</span><span class="p">,</span> <span class="n">N</span><span class="s1">'Hello 41'</span><span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>           <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span><span class="mi">1000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span><span class="mi">1000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">))),</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="mi">4147483647</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="mi">135</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span>  <span class="s1">'Hello 42'</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="n">N</span><span class="s1">'Hello 42'</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span> <span class="mi">10000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span> <span class="k">NULL</span><span class="p">);</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><em>Code Snippet 1:** </em>Setup of Database*</p> <p>I haven't listed any execute statements, as they will differ throughout this post.</p> <h2>Execution of <code>SELECT</code> Statement for <code>@input_data_1</code></h2> <p>So in quite a few installments of the Internals series, data for the parameter <code>@input_data_1</code> has been sent to the SqlSatellite, and in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> we saw what routines were involved when sending it. What we haven't discussed however, is at what stage in the flow the statement in the parameter gets executed. The few times I have thought about it, I assumed it was sometime after the external script has opened, as I saw it being part of the script. Let's find out.</p> <p>To do this you need to run the old version of <em>WinDbg</em>, as we'll enable an event-filter so the debugger breaks at an <code>C++ EH</code> exception. In the <em>Event Filters</em> dialog you can set how that particular exception should be handled. We want it to be enabled, but not handled:</p> <p><img class="center" src="/images/posts/sql_r_services_windbg_eventfilters_enable.png" width="543" height="392" > <strong>Figure 3:</strong> <em>Enable C++ EH Exception</em></p> <p>The idea is that we will execute something with an invalid statement for the <code>@input_data_1</code> parameter, and after having set the <code>C++ EH</code>exception filter we will be able to see the call-stack leading up to the exception.</p> <p>So:</p> <ol> <li>Run the "old" <em>WinDbg</em> as admin.</li> <li>Attach to the <code>sqlserver.exe</code> process.</li> <li>Set the event filter as per above.</li> </ol> <p>Set also some breakpoints:</p> <ul> <li><code>bp sqllang!SpExecuteExternalScript</code>.</li> <li><code>bp sqllang!CUDXR_ExternalScript::Open</code>.</li> <li><code>bp sqllang!CUDXR_ExternalScript::ConnectToSatellite</code>.</li> <li><code>bp sqllang!CSQLSatelliteConnection::OpenNpConnection</code>.</li> </ul> <p>The code to execute looks like this:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Invalid</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span> <span class="p">,</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'Sys.sleep(10)
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                d&lt;-InputDataSet'</span><span class="p">,</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT RowID, ColInt3
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>                  FROM dbo.tb_Tab1 WHERE RowID = 1'</span><span class="p">;</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 2:</strong> <em>Invalid T-SQL Statement</em></p> <p>As you see in <em>Code Snippet 2</em> we are doing a <code>SELECT</code> and we are referencing a column - <code>ColInt3</code>- which does not exist in the table. When you execute you immediately hit the break-point at <code>sqllang!SpExecuteExternalScript</code>, and after you continue, you break for an exception. At this point, check the call-stack: <code>k</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Exception</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">KERNELBASE</span><span class="o">!</span><span class="n">RaiseException</span><span class="o">+</span><span class="mh">0x68</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">MSVCR120</span><span class="o">!</span><span class="n">_CxxThrowException</span><span class="o">+</span><span class="mh">0xb3</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="p">[</span><span class="n">f</span><span class="o">:</span><span class="err">\</span><span class="n">dd</span><span class="err">\</span><span class="n">vctools</span><span class="err">\</span><span class="n">crt</span><span class="err">\</span><span class="n">crtw32</span><span class="err">\</span><span class="n">eh</span><span class="err">\</span><span class="k">throw</span><span class="p">.</span><span class="n">cpp</span> <span class="err">@</span> <span class="mi">154</span><span class="p">]</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ExceptionBackout</span><span class="o">::</span><span class="n">GetCurrentException</span><span class="o">+</span><span class="mh">0x385</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise2</span><span class="o">+</span><span class="mh">0x52f</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise</span><span class="o">+</span><span class="mh">0xc4</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">FCompile</span><span class="o">+</span><span class="mh">0x230f</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">FCompWrapper</span><span class="o">+</span><span class="mh">0xce</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Transform</span><span class="o">+</span><span class="mh">0x556</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x3b0</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 3:</strong> <em>Call Stack at Exception</em></p> <p>Notice that the exception happens right after the <code>SpExecuteExternalScript</code> but before any of the other breakpoints. That would, sort of, indicate that my assumption about the statement being executed after the opening of the script be incorrect. When you look at the call-stack, it seems that the exception happens during something that has to do with compilation of the query: <code>sqllang!CSQLSource::FCompile</code>. I guess it makes sense that SQL Server would check if the query is syntactically correct and also that the objects exists (in our case there is no column named <code>ColInt3</code>).</p> <p>So what would happen if we executed a statement that caused a runtime exception. Let's say we did a <code>SELECT</code> with some computation that resulted in an exception, would we fail at the same stage as above? So let's see what happens if the code we execute looks like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Zero Division</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span> <span class="p">,</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'Sys.sleep(10)
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                d&lt;-InputDataSet'</span><span class="p">,</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT RowID,
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>                  1 / ISNULL(ColIntN, 0) AS Calc
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>                  FROM dbo.tb_Tab1'</span><span class="p">;</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 4:</strong> <em>Division By Zero</em></p> <p>In the <code>dbo.tb_Tab1</code> table there are some <code>NULL</code> values in the <code>ColIntN</code> column, so the code in <em>Code Snippet 4</em> will cause a divide by zero exception. Keep the break-points as before and execute the query. You see now how the <code>SpExecuteExternalScript</code> break-point is hit followed by: <code>sqllang!CUDXR_ExternalScript::Open</code>, <code>sqllang!CSQLSatelliteConnection::OpenNpConnection</code> and after <code>sqllang!CUDXR_ExternalScript::ConnectToSatellite</code> there is an exception. If we check the call-stack, it looks like so (from <code>SpExecuteExternalScript</code>):</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Exception</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">KERNELBASE</span><span class="o">!</span><span class="n">RaiseException</span><span class="o">+</span><span class="mh">0x68</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">MSVCR120</span><span class="o">!</span><span class="n">_CxxThrowException</span><span class="o">+</span><span class="mh">0xb3</span> <span class="p">[</span><span class="n">f</span><span class="o">:</span><span class="err">\</span><span class="n">dd</span><span class="err">\</span><span class="n">vctools</span><span class="err">\</span><span class="n">crt</span><span class="err">\</span><span class="n">crtw32</span><span class="err">\</span><span class="n">eh</span><span class="err">\</span><span class="k">throw</span><span class="p">.</span><span class="n">cpp</span> <span class="err">@</span> <span class="mi">154</span><span class="p">]</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ExceptionBackout</span><span class="o">::</span><span class="n">GetCurrentException</span><span class="o">+</span><span class="mh">0x385</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise2</span><span class="o">+</span><span class="mh">0x52f</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise</span><span class="o">+</span><span class="mh">0xc4</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlTsEs</span><span class="o">!</span><span class="n">ESArithErrorHandler</span><span class="o">+</span><span class="mh">0x159</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlTsEs</span><span class="o">!</span><span class="n">CTEsArith</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="o">&gt;::</span><span class="n">RsltArithArgArg</span><span class="o">+</span><span class="mh">0x94</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlTsEs</span><span class="o">!</span><span class="n">CEsExec</span><span class="o">::</span><span class="n">GeneralEval4</span><span class="o">+</span><span class="mh">0xe7</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushRow</span><span class="o">+</span><span class="mh">0x78</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">PushNextChildRow</span><span class="o">+</span><span class="mh">0x13b</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">GetRow</span><span class="o">+</span><span class="mh">0x79</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryScan</span><span class="o">::</span><span class="n">GetRow</span><span class="o">+</span><span class="mh">0x81</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ErsqExecuteQuery</span><span class="o">+</span><span class="mh">0x4dc</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtSelect</span><span class="o">::</span><span class="n">XretExecute</span><span class="o">+</span><span class="mh">0x322</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">ExecuteStmts</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;+</span><span class="mh">0x40d</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">FExecute</span><span class="o">+</span><span class="mh">0xa9e</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x983</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 5:</strong> <em>Call Stack at Divide by Zero</em></p> <p>When we compare the call-stacks in <em>Code Snippet 3</em> and <em>Code Snippet 5</em> we see how the paths are different. It seems that when having <code>@input_data_1</code>, some optimization and compilation of the statement happens first, and the statement is actually executed when the connection to the satellite has happened, and it looks like that happens inside <code>sqllang!CXStmtQuery::ErsqExecuteQuery</code>.</p> <p>If we think back to what we covered in Internals <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">XI</a> and <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">XII</a>, and we "merge" that what we have seen so far in this post, it seems that <code>sp_execute_external_script</code> has three distinct phases:</p> <ol> <li>Compilation and optimizing the <code>@input_data_1</code> statement</li> <li>Connecting to launchpad and SqlSatellite and sending the script to the SqlSatellite</li> <li>Executing the <code>@input_data_1</code> statement and sending the result to SqlSatellite.</li> </ol> <p>OK, if we let the code continue after having hit the exception and looked at the call-stack, we'll see something somewhat interesting (strange) in the message tab in <strong>SSMS</strong>:</p> <p><img class="center" src="/images/posts/sql_r_services_13_error.png" width="529" height="185" > <strong>Figure 1:</strong> <em>Error Message from SqlSatellite</em></p> <p>When looking at <em>Figure 1</em> it seems that SqlSatellite is confused about something, almost like it would have received a packet/something which it couldn't handle. That would make sense if a packet actually were sent to the SqlSatellite with the result from the <code>SELECT</code>, and potentially the data was corrupted due to the null exception.</p> <p>Let's start with looking at what packages are being sent to the SqlSatellite when executing the code in <em>Code Snippet 4</em>. For this we'll use <em>Process Monitor</em> and set it up as we did in [Internals - X], as well as in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a>, to filter TCP packets. When you have set up <em>Process Monitor</em> you are ready to execute the code in <em>Code Snippet 4</em>, but before you do that, disable all breakpoints in <em>WinDbg</em>. Execute the code and look at what <em>Process Monitor</em> outputs:</p> <p><img class="center" src="/images/posts/sql_r_services_13_error_procmon.png" width="650" height="190" > <strong>Figure 2:</strong> <em>Process Monitor Output at Error</em></p> <p>In <em>Figure 2</em> we initially see what we expect:</p> <ul> <li>Authentication packets (lengths 217 and 17).</li> <li>The script package (length 256).</li> </ul> <p>But after the script package we see a packet with the length of 28, what is that? Also, we do not see any packet that would be related to the data, so the idea that the SqlSatellite received a packet it could not handle may not be correct. So, where does the message about the SqlSatellite and data chunks in <em>Figure 1</em> come from?</p> <h4>Packet with Length 28</h4> <p>We'll start with the packet with a length of 28. In <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> we saw how packets with a length of 28 were sent as end of script, and end of data packets. Perhaps it is something similar here. We saw in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> how the end packets were sent in a flow looking something like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Flow</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ErsqExecuteQuery</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">PushNextChildRow</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendPackets</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendChunkEndMessage</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendChunkEndMessage</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 6:</strong> <em>Abbreviated Flow Result Data</em></p> <p>Let's set some breakpoints and see what we can figure out:</p> <ul> <li><code>bp sqlmin!CQScanUdx::PushNextChildRow</code>.</li> <li><code>bp sqllang!CUDXR_ExternalScript::PushEOS</code></li> <li><code>bp sqllang!CSatelliteCargoContext::SendChunkEndMessage</code>.</li> <li><code>bp sqllang!CUDXR_ExternalScript::PushRow</code></li> </ul> <p>When we execute we hit:</p> <ul> <li><code>sqlmin!CQScanUdx::PushNextChildRow</code> followed by</li> <li><code>sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li> <li><code>sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li> <li><code>(1a54.23c8): C++ EH exception - code e06d7363 (first chance)</code></li> </ul> <p>After the second <code>PushRow</code> we break at the exception, and when we let the code continue, we get the error message back, but we also see that a packet with a length of 28 is sent to the SqlSatellite. So, if the packet is not coming from the <code>SendChunkEndMessage</code> routine, where does it come from then? Let's do what we did in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> when we did not know from where a packet was sent - set a breakpoint at <code>mswsock!WSPSend</code>. The theory behind this is that, at one stage or another, a low level socket call needs to take place. After you have set the breakpoint, execute again and now the breakpoints are hit as follows:</p> <ul> <li><code>mswsock!WSPSend</code> three times in a row (the two authentication packets and the script packet)</li> <li><code>sqlmin!CQScanUdx::PushNextChildRow</code> followed by</li> <li><code>sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li> <li><code>sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li> <li><code>(1a54.23c8): C++ EH exception - code e06d7363 (first chance)</code></li> </ul> <blockquote><p><strong>NOTE:</strong> The reason we get two <code>PushRow</code> is that we are selecting two rows from the table.</p></blockquote> <p>Continuing after the exception we will hit <code>mswsock!WSPSend</code>, and checking the call-stack - it looks like this:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Call Stack Exception Packet</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">mswsock</span><span class="o">!</span><span class="n">WSPSend</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">WS2_32</span><span class="o">!</span><span class="n">WSASend</span><span class="o">+</span><span class="mh">0x16c</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">Tcp</span><span class="o">::</span><span class="n">WriteAsync</span><span class="o">+</span><span class="mh">0x174</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">SNIWriteAsync</span><span class="o">+</span><span class="mh">0xb0</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSatelliteConnection</span><span class="o">::</span><span class="n">WriteMessage</span><span class="o">+</span><span class="mh">0x7d</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSatelliteCommunication</span><span class="o">::</span><span class="n">SendAbort</span><span class="o">+</span><span class="mh">0x190</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">ShutdownService</span><span class="o">+</span><span class="mh">0x96</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CUDXR_ExternalScriptCleanup</span><span class="o">::</span><span class="n">Close</span><span class="o">+</span><span class="mh">0xe</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryExecContext</span><span class="o">::</span><span class="n">FinalCleanupNoX</span><span class="o">+</span><span class="mh">0x116</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryScan</span><span class="o">::</span><span class="n">DestroyQueryOnException</span><span class="o">+</span><span class="mh">0x129</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ShutdownOnException</span><span class="o">+</span><span class="mh">0xc8</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">FinishOnExceptionImp</span><span class="o">+</span><span class="mh">0x67</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n"><em>isa_available_init</span><span class="o">+</span><span class="mh">0xe8cf3</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">MSVCR120</span><span class="o">!</span><span class="n"></em>CallSettingFrame</span><span class="o">+</span><span class="mh">0x20</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">MSVCR120</span><span class="o">!</span><span class="n">__CxxCallCatchBlock</span><span class="o">+</span><span class="mh">0xf5</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">ntdll</span><span class="o">!</span><span class="n">RcConsolidateFrames</span><span class="o">+</span><span class="mh">0x3</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">FExecute</span><span class="o">+</span><span class="mh">0xa9e</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x983</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 7:</strong> <em>Call Stack at the Time a Packet is Sent</em></p> <p>Ah, from the call-stack in <em>Code Snippet 7</em> we can see how the exception brings us back to <code>sqllang!CMsqlExecContext::FExecute</code> and from there we go down a code path which eventually comes into the <code>sqllang!CSQLSatelliteCommunication::SendAbort</code> routine, which sends the packet with a length of 28.</p> <p>We have now an explanation to the packet with a length of 28, it is SQL Server telling the SqlSatellite, that it aborts the process. The question about the message we see about SqlSatellite not being able to read the data chunk is not as straight forward though.</p> <h4>SqlSatellite Data Chunk Message</h4> <p>Initially I thought the message came from inside SQL Server, but based on some tests I did, I believe the message originates in the SqlSatellite after the satellite has received the abort message. Reasoning behind this is based on that the message does not "smell" like a SQL Server Error message; it doesn't have an error number attached and it looks a lot like the output you'd get from the external script engine. Remember from <a href="/2017/07/11/microsoft-sql-server-r-services-internals-vii/">Internals - VII</a> where we discussed files and sub-directories created by the launchpad service as well as the external engine, how - by default - two files are created by the launchpad service:</p> <ul> <li><code>stdout0.txt</code> - for <code>cat</code> and <code>print</code> output from the engine.</li> <li><code>stderr0.txt</code> - for error logging from the engine.</li> </ul> <p>The tests I did was based on my thinking that if the message originates from SQL Server, then neither <code>stdout0.txt</code> nor <code>stderr0.txt</code> would contain anything. However if the message originated from the external engine, then I should see something in either of those two files.</p> <p>To be able to investigate this, I did what we did in <a href="/2017/07/11/microsoft-sql-server-r-services-internals-vii/">Internals - VII</a>:</p> <ol> <li>Stop the launchpad service.</li> <li>Delete any sub directories of the user account directories in the <code>C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code> directory. Do NOT delete the user account directories themselves.</li> <li>Open the <code>rlauncher.config</code> file in a text editor and change the value of <code>JOB_CLEANUP_ON_EXIT</code> to 0, and save the file (you need to do this as admin).</li> <li>Restart the launchpad service.</li> </ol> <blockquote><p><strong>NOTE:</strong> By setting the <code>JOB_CLEANUP_ON_EXIT</code> to 0 we tell the launchpad service to not delete any directories etc., after we have executed (the executing process will still be torn down though).</p></blockquote> <p>After executing the code in <em>Code Snippet 4</em> I browsed through the various subdirectories of the user account directory in <code>C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code> (most likely <em>MSSQLSERVER01</em>), to find the directory which the process executed under. This directory has four files in it and one sub directory (the other directories are either empty, or has three files and a sub directory):</p> <p><img class="center" src="/images/posts/sql_r_services_13_user_directory_err_file.png" width="520" height="154" > <strong>Figure 3:</strong> <em>Process Directory with stderr.txt</em></p> <p>As we can see in <em>Figure 3</em> the <code>stderr.txt</code> files has a size greater than 0, and when opening I could see the same message as in <em>SSMS</em>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Chunk Error</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">SqlSatellite</span> <span class="n">cannot</span> <span class="n">read</span> <span class="n">data</span> <span class="n">chunk</span><span class="p">.</span>  <span class="n">Error</span> <span class="n">code</span><span class="o">:</span><span class="mh">0x80004004</span><span class="p">.</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">Error</span> <span class="n">in</span> <span class="n">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">)</span> <span class="o">:</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">SqlSatellite</span> <span class="n">cannot</span> <span class="n">read</span> <span class="n">data</span> <span class="n">chunk</span><span class="p">.</span>  <span class="n">Error</span> <span class="n">code</span><span class="o">:</span><span class="mh">0x80004004</span><span class="p">.</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">Calls</span><span class="o">:</span> <span class="n">source</span> <span class="o">-&gt;</span> <span class="n">withVisible</span> <span class="o">-&gt;</span> <span class="n">eval</span> <span class="o">-&gt;</span> <span class="n">eval</span> <span class="o">-&gt;</span> <span class="p">.</span><span class="n">Call</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">Execution</span> <span class="n">halted</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 8:</strong> <em>Stderror.txt Content</em></p> <p>Based on this, it seems that particular message comes from the SqlSatellite and the external engine. Oh, when I executed the code in <em>Code Snippet 2</em> (fails during compilation), <code>stderr.txt</code> was not written to. E.g. the error happened before the SqlSatellite had been initialized. In a future post we will look more at what goes on when data - results as well as errors - come back to SQL Server.</p> <h2>Summary</h2> <p>In this post we set out to try to understand when and how the statement that makes up <code>@input_data_1</code> is executed. We saw:</p> <ul> <li>Before the SqlSatellite was initialized the statement is compiled.</li> <li>After the satellite has been initialized the statement is executed.</li> </ul> <p>We also saw that if an error happens after the satellite has been initialized, SQL Server sends an abort message to the satellite in the <code>sqllang!CSQLSatelliteCommunication::SendAbort</code> routine.</p> <h2>~ Finally</h2> <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&text=Microsoft SQL Server R Services - Internals XIII&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/11/11/microsoft-sql-server-r-services-internals-xiii/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/ &title=Microsoft SQL Server R Services - Internals XIII &summary=Blog post: When is SQL statements executed when executing external scripts? &source=http://www.nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> <br/> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad2 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="1158080725" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> </div> <div class="related"> <h2>Related Posts</h2> <div class="related-posts"> <h3><a href="/2018/08/05/interesting-stuff-week-31/"> Interesting Stuff - Week 31 <small> (05 Aug 2018)</small> </a></h3> </div> <div class="related-posts"> <h3><a href="/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/"> sp_execute_external_script and SQL Compute Context - III <small> (04 Aug 2018)</small> </a></h3> </div> <div class="related-posts"> <h3><a href="/2018/07/29/interesting-stuff-week-30/"> Interesting Stuff - Week 30 <small> (29 Jul 2018)</small> </a></h3> </div> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { /*DON'T EDIT BELOW THIS LINE*/ var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <title>
+    
+      Microsoft SQL Server R Services - Internals XIII &middot; Niels Berglund
+    
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+  <!-- Additional head bits without overriding original head -->
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        Niels Berglund
+      </a>
+    </div>
+    <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
+  </header>
+  <div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Sidebar_rectangle -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="7704601332"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  <br/>
+  
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/about/">About Me</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/archive/">Posts Archive</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/categories/">Categories</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/disclaimer/">Disclaimer</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/series/">Blog Post Series</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/tags/">Tags</a>
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+</nav>
+
+
+  
+  <br/>
+  <img src="/images/MVP_Logo_large.png"/>
+
+
+  <section>
+  <h3 style="color:#ffffff">Follow Me:</h3>
+  <ul>
+    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
+    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
+  </ul>
+</section>
+  
+  <p>
+  &copy; 2018.
+  <a href="/LICENSE.md">MIT License.</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">Microsoft SQL Server R Services - Internals XIII</h1>
+  <div class="post-subheading">
+  <span class="post-date">11 Nov 2017</span>
+
+  <span class="post-tag">
+    
+      <br/>
+      <span class="post-tagdesc">Categories:</span>
+    
+
+    
+     <a href="/categories/#SQL Server">SQL Server</a>
+    
+     <a href="/categories/#Microsoft R Server">Microsoft R Server</a>
+    
+     <a href="/categories/#Data Science">Data Science</a>
+    
+     <a href="/categories/#SQL Server R Services Series">SQL Server R Services Series</a>
+    
+     <a href="/categories/#SQL Server R Services">SQL Server R Services</a>
+    
+     <a href="/categories/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a>
+    
+
+      
+  </span>
+</div>
+  <br/>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="6668073777"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</header>
+<div class="content">
+  <div class="post-body">
+    <p>This is the fourteenth post in a series about <strong>Microsoft SQL Server R Services</strong>, and the thirteenth post that drills down into the internal of how it works. To see other posts (including this) in the series, go to <a href="/series/sql_server_2k16_r_services"><strong>SQL Server R Services</strong></a>.</p>
+
+<p>Sorry guys, in my last post <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> I said we’d - in this post - look into the <strong>Binary eXchange Language</strong> protocol(<strong>BXL</strong>) which is used when sending data from SQL Server to the SqlSatellite. The protocol is also involved when we send  one row of data containing 5 integers, and the packet size for that ends up being 6300 bytes.</p>
+
+<p>Well, we won’t look at that in this post, I was once again led astray when researching how data is sent.</p>
+
+<!--more-->
+
+<p>What we will look into however is something we haven’t really discussed at all before, and that is: when is the <code class="highlighter-rouge">SELECT</code> statement for the <code class="highlighter-rouge">@input_data_1</code> parameter executed?</p>
+
+<p>However, before we get into all this, let us do a recap.</p>
+
+<h2 id="recap">Recap</h2>
+
+<p>In he last two “episodes” in the internals we have looked what packets are being sent between SQL server and the SqlSatellite. In <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">Internals - XI</a> we looked at how SQL Server connected to the launchpad process, and how that caused the SqlSatellite to open a socket connection to SqlServer. Connection of the socket caused two authentication packages to be sent to the SqlSatellite from SQL Server. The process was illustrated as in this figure:</p>
+
+<p><img src="/images/posts/sql_r_services_11_calls.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Flow in SQL Server</em></p>
+
+<p>The numbered arrows shows the communication out from SQL Server, and in what order it happens:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">sqllang!CSQLSatelliteConnection::OpenNpConnection</code> - SQL Server opens named pipe connection to the launchpad service.</li>
+  <li><code class="highlighter-rouge">sqllang!CSQLSatelliteConnection::WriteMessage</code> - Message sent to the launchpad service.</li>
+  <li>After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.</li>
+  <li>During <code class="highlighter-rouge">sqllang!CSQLSatelliteConnection::AuthenticateConnection</code> SQL Server sends the first packet to the SQL Satellite. The packet has something to do with authentication.</li>
+  <li>After the first packet is sent, a second packet (still within <code class="highlighter-rouge">sqllang!CSQLSatelliteConnection::AuthenticateConnection</code>), which also is related to authentication, is sent on a separate thread to SqlSatellite.</li>
+</ol>
+
+<p>In essence, <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">Internals - XI</a> was all about connection and authentication. In [Internals - XII] we looked at what data packages were sent to the SqlSatellite from SQL Server, and we saw how both script as well as any result for <code class="highlighter-rouge">@input_data_1</code> was sent. We used following figure to illustrate how the data was sent, and from what routines:</p>
+
+<p><img src="/images/posts/sql_r_services_12_calls.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Flow 2 in SQL Server</em></p>
+
+<p>The numbered arrows shows the communication out from SQL Server, and in what order it happens:</p>
+
+<ol>
+  <li>SQL Server opens named pipe connection to the launchpad service.</li>
+  <li>Message sent to the launchpad service.</li>
+  <li>After the call above, the SqlSatellite opens a TCP/IP connection to SQL Server.</li>
+  <li>SQL Server sends the first packet to the SQL Satellite for authentication purposes.</li>
+  <li>A second authentication packet is sent to SqlSatellite.</li>
+  <li>The script is sent from inside <code class="highlighter-rouge">sqllang!CSatelliteProxy::PostSetupMessage</code></li>
+  <li>The data for <code class="highlighter-rouge">@input_data_1</code> is sent.</li>
+  <li>The first end packet is sent.</li>
+  <li>The second end packet is sent.</li>
+</ol>
+
+<h2 id="helper-tools">Helper Tools</h2>
+
+<p>To help us figure out the things we want, we will use <em>WinDbg</em> and <em>Process Monitor</em>:</p>
+
+<ul>
+  <li><em>Process Monitor</em>, will be used it to filter TCP traffic. If you want to refresh your memory about how to do it, we covered that in <a href="/2017/08/29/microsoft-sql-server-r-services-internals-x/">Internals - X</a>.</li>
+  <li>In <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> I mentioned about the new and more modern <a href="https://www.microsoft.com/en-us/store/p/windbg/9pgjgd53tn86">WinDbg</a>, and how I’d be using it going forward. Well, when writing this post I came across a scenario where I couldn’t do what I wanted to do in the new <em>WinDbg</em>, so in this post I’ll be using only the old version. If you need help with setting it up, that is covered in <a href="/2017/03/18/microsoft-sql-server-r-services-internals-i/">Internals - I</a>.</li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE:</strong> What I wanted to do in the new <em>WinDbg</em> was to set event filters. For the life of me I could not find out where and how to do it.</p>
+</blockquote>
+
+<h2 id="code">Code</h2>
+
+<p>In most of the other posts in this series, the code we have executed haven’t required a specific database or tables. In this post we’ll use a specific database with some tables. The code to create the database, tables and populate data looks like this:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">ResultData</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">ResultData</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="n">USE</span> <span class="n">ResultData</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">(</span><span class="n">RowID</span> <span class="n">bigint</span> <span class="k">identity</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+                         <span class="n">ColInt</span> <span class="n">int</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColIntN</span> <span class="n">int</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColBigInt</span> <span class="n">bigint</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColBigIntN</span> <span class="n">bigint</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColDec</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColDecN</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColString</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColStringN</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColNString</span> <span class="n">nvarchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColNStringN</span> <span class="n">nvarchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColStringMax</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+             <span class="n">ColStringMaxN</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)</span> <span class="k">NULL</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_Tab1</span><span class="p">(</span><span class="n">ColInt</span><span class="p">,</span> <span class="n">ColIntN</span><span class="p">,</span> <span class="n">ColBigInt</span><span class="p">,</span> <span class="n">ColBigIntN</span><span class="p">,</span>  
+                        <span class="n">ColDec</span><span class="p">,</span> <span class="n">ColDecN</span><span class="p">,</span> <span class="n">ColString</span><span class="p">,</span> <span class="n">ColStringN</span><span class="p">,</span> 
+                        <span class="n">ColNString</span><span class="p">,</span> <span class="n">ColNStringN</span><span class="p">,</span> <span class="n">ColStringMax</span><span class="p">,</span> 
+                        <span class="n">ColStringMaxN</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">3147483647</span><span class="p">,</span> <span class="mi">3147483647</span><span class="p">,</span> <span class="mi">134</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="mi">134</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="s1">'Hello 41'</span><span class="p">,</span> 
+        <span class="s1">'Hello 41'</span><span class="p">,</span> <span class="n">N</span><span class="s1">'Hello 41'</span><span class="p">,</span> <span class="n">N</span><span class="s1">'Hello 41'</span><span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
+           <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span><span class="mi">1000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span> 
+        <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
+        <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span><span class="mi">1000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">))),</span> 
+       <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="mi">4147483647</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="mi">135</span><span class="p">.</span><span class="mi">56789</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span>  <span class="s1">'Hello 42'</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> 
+       <span class="n">N</span><span class="s1">'Hello 42'</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="k">CAST</span><span class="p">(</span><span class="n">REPLICATE</span><span class="p">(</span>
+       <span class="k">CAST</span><span class="p">(</span><span class="s1">'Loads of data '</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span> <span class="mi">10000</span><span class="p">)</span> <span class="k">AS</span> <span class="n">varchar</span><span class="p">(</span><span class="k">max</span><span class="p">)),</span> <span class="k">NULL</span><span class="p">);</span>
+     
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><em>Code Snippet 1:** *Setup of Database</em></p>
+
+<p>I haven’t listed any execute statements, as they will differ throughout this post.</p>
+
+<h2 id="execution-of-select-statement-for-input_data_1">Execution of <code class="highlighter-rouge">SELECT</code> Statement for <code class="highlighter-rouge">@input_data_1</code></h2>
+
+<p>So in quite a few installments of the Internals series, data for the parameter <code class="highlighter-rouge">@input_data_1</code> has been sent to the SqlSatellite, and in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> we saw what routines were involved when sending it. What we haven’t discussed however, is at what stage in the flow the statement in the parameter gets executed. The few times I have thought about it, I assumed it was sometime after the external script has opened, as I saw it being part of the script. Let’s find out.</p>
+
+<p>To do this you need to run the old version of <em>WinDbg</em>, as we’ll enable an event-filter so the debugger breaks at an <code class="highlighter-rouge">C++ EH</code> exception. In the <em>Event Filters</em> dialog you can set how that particular exception should be handled. We want it to be enabled, but not handled:</p>
+
+<p><img src="/images/posts/sql_r_services_windbg_eventfilters_enable.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Enable C++ EH Exception</em></p>
+
+<p>The idea is that we will execute something with an invalid statement for the <code class="highlighter-rouge">@input_data_1</code> parameter, and after having set the <code class="highlighter-rouge">C++ EH</code>exception filter we will be able to see the call-stack leading up to the exception.</p>
+
+<p>So:</p>
+
+<ol>
+  <li>Run the “old” <em>WinDbg</em> as admin.</li>
+  <li>Attach to the <code class="highlighter-rouge">sqlserver.exe</code> process.</li>
+  <li>Set the event filter as per above.</li>
+</ol>
+
+<p>Set also some breakpoints:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">bp sqllang!SpExecuteExternalScript</code>.</li>
+  <li><code class="highlighter-rouge">bp sqllang!CUDXR_ExternalScript::Open</code>.</li>
+  <li><code class="highlighter-rouge">bp sqllang!CUDXR_ExternalScript::ConnectToSatellite</code>.</li>
+  <li><code class="highlighter-rouge">bp sqllang!CSQLSatelliteConnection::OpenNpConnection</code>.</li>
+</ul>
+
+<p>The code to execute looks like this:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
+                <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span> <span class="p">,</span>
+                <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'Sys.sleep(10)
+                d&lt;-InputDataSet'</span><span class="p">,</span>
+                <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT RowID, ColInt3 
+                  FROM dbo.tb_Tab1 WHERE RowID = 1'</span><span class="p">;</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 2:</strong> <em>Invalid T-SQL Statement</em></p>
+
+<p>As you see in <em>Code Snippet 2</em> we are doing a <code class="highlighter-rouge">SELECT</code> and we are referencing a column - <code class="highlighter-rouge">ColInt3</code>- which does not exist in the table. When you execute you immediately hit the break-point at <code class="highlighter-rouge">sqllang!SpExecuteExternalScript</code>, and after you continue, you break for an exception. At this point, check the call-stack: <code class="highlighter-rouge">k</code>:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">KERNELBASE</span><span class="o">!</span><span class="n">RaiseException</span><span class="o">+</span><span class="mh">0x68</span>
+<span class="n">MSVCR120</span><span class="o">!</span><span class="n">_CxxThrowException</span><span class="o">+</span><span class="mh">0xb3</span> 
+       <span class="p">[</span><span class="n">f</span><span class="o">:</span><span class="err">\</span><span class="n">dd</span><span class="err">\</span><span class="n">vctools</span><span class="err">\</span><span class="n">crt</span><span class="err">\</span><span class="n">crtw32</span><span class="err">\</span><span class="n">eh</span><span class="err">\</span><span class="k">throw</span><span class="p">.</span><span class="n">cpp</span> <span class="err">@</span> <span class="mi">154</span><span class="p">]</span> 
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ExceptionBackout</span><span class="o">::</span><span class="n">GetCurrentException</span><span class="o">+</span><span class="mh">0x385</span>
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise2</span><span class="o">+</span><span class="mh">0x52f</span>
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise</span><span class="o">+</span><span class="mh">0xc4</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">FCompile</span><span class="o">+</span><span class="mh">0x230f</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">FCompWrapper</span><span class="o">+</span><span class="mh">0xce</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Transform</span><span class="o">+</span><span class="mh">0x556</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x3b0</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 3:</strong> <em>Call Stack at Exception</em></p>
+
+<p>Notice that the exception happens right after the <code class="highlighter-rouge">SpExecuteExternalScript</code> but before any of the other breakpoints. That would, sort of, indicate that my assumption about the statement being executed after the opening of the script be incorrect. When you look at the call-stack, it seems that the exception happens during something that has to do with compilation of the query: <code class="highlighter-rouge">sqllang!CSQLSource::FCompile</code>. I guess it makes sense that SQL Server would check if the query is syntactically correct and also that the objects exists (in our case there is no column named <code class="highlighter-rouge">ColInt3</code>).</p>
+
+<p>So what would happen if we executed a statement that caused a runtime exception. Let’s say we did a <code class="highlighter-rouge">SELECT</code> with some computation that resulted in an exception, would we fail at the same stage as above? So let’s see what happens if the code we execute looks like so:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">EXEC</span> <span class="n">sp_execute_external_script</span>
+                <span class="o">@</span><span class="k">language</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'R'</span> <span class="p">,</span>
+                <span class="o">@</span><span class="n">script</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'Sys.sleep(10)
+                d&lt;-InputDataSet'</span><span class="p">,</span>
+                <span class="o">@</span><span class="n">input_data_1</span> <span class="o">=</span> <span class="n">N</span><span class="s1">'SELECT RowID, 
+                  1 / ISNULL(ColIntN, 0) AS Calc 
+                  FROM dbo.tb_Tab1'</span><span class="p">;</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 4:</strong> <em>Division By Zero</em></p>
+
+<p>In the <code class="highlighter-rouge">dbo.tb_Tab1</code> table there are some <code class="highlighter-rouge">NULL</code> values in the <code class="highlighter-rouge">ColIntN</code> column, so the code in <em>Code Snippet 4</em> will cause a divide by zero exception. Keep the break-points as before and execute the query. You see now how the <code class="highlighter-rouge">SpExecuteExternalScript</code> break-point is hit followed by: <code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::Open</code>, <code class="highlighter-rouge">sqllang!CSQLSatelliteConnection::OpenNpConnection</code> and after <code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::ConnectToSatellite</code> there is an exception. If we check the call-stack, it looks like so (from <code class="highlighter-rouge">SpExecuteExternalScript</code>):</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">KERNELBASE</span><span class="o">!</span><span class="n">RaiseException</span><span class="o">+</span><span class="mh">0x68</span>
+<span class="n">MSVCR120</span><span class="o">!</span><span class="n">_CxxThrowException</span><span class="o">+</span><span class="mh">0xb3</span> <span class="p">[</span><span class="n">f</span><span class="o">:</span><span class="err">\</span><span class="n">dd</span><span class="err">\</span><span class="n">vctools</span><span class="err">\</span><span class="n">crt</span><span class="err">\</span><span class="n">crtw32</span><span class="err">\</span><span class="n">eh</span><span class="err">\</span><span class="k">throw</span><span class="p">.</span><span class="n">cpp</span> <span class="err">@</span> <span class="mi">154</span><span class="p">]</span> 
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ExceptionBackout</span><span class="o">::</span><span class="n">GetCurrentException</span><span class="o">+</span><span class="mh">0x385</span>
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise2</span><span class="o">+</span><span class="mh">0x52f</span>
+<span class="n">sqldk</span><span class="o">!</span><span class="n">ex_raise</span><span class="o">+</span><span class="mh">0xc4</span>
+<span class="n">sqlTsEs</span><span class="o">!</span><span class="n">ESArithErrorHandler</span><span class="o">+</span><span class="mh">0x159</span>
+<span class="n">sqlTsEs</span><span class="o">!</span><span class="n">CTEsArith</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="o">&gt;::</span><span class="n">RsltArithArgArg</span><span class="o">+</span><span class="mh">0x94</span>
+<span class="n">sqlTsEs</span><span class="o">!</span><span class="n">CEsExec</span><span class="o">::</span><span class="n">GeneralEval4</span><span class="o">+</span><span class="mh">0xe7</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushRow</span><span class="o">+</span><span class="mh">0x78</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">PushNextChildRow</span><span class="o">+</span><span class="mh">0x13b</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">GetRow</span><span class="o">+</span><span class="mh">0x79</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryScan</span><span class="o">::</span><span class="n">GetRow</span><span class="o">+</span><span class="mh">0x81</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ErsqExecuteQuery</span><span class="o">+</span><span class="mh">0x4dc</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtSelect</span><span class="o">::</span><span class="n">XretExecute</span><span class="o">+</span><span class="mh">0x322</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">ExecuteStmts</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;+</span><span class="mh">0x40d</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">FExecute</span><span class="o">+</span><span class="mh">0xa9e</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x983</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 5:</strong> <em>Call Stack at Divide by Zero</em></p>
+
+<p>When we compare the call-stacks in <em>Code Snippet 3</em> and <em>Code Snippet 5</em> we see how the paths are different. It seems that when having <code class="highlighter-rouge">@input_data_1</code>, some optimization and compilation of the statement happens first, and the statement is actually executed when the connection to the satellite has happened, and it looks like that happens inside <code class="highlighter-rouge">sqllang!CXStmtQuery::ErsqExecuteQuery</code>.</p>
+
+<p>If we think back to what we covered in Internals <a href="/2017/10/20/microsoft-sql-server-r-services-internals-xi/">XI</a> and <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">XII</a>, and we “merge” that what we have seen so far in this post, it seems that <code class="highlighter-rouge">sp_execute_external_script</code> has three distinct phases:</p>
+
+<ol>
+  <li>Compilation and optimizing the <code class="highlighter-rouge">@input_data_1</code> statement</li>
+  <li>Connecting to launchpad and SqlSatellite and sending the script to the SqlSatellite</li>
+  <li>Executing the <code class="highlighter-rouge">@input_data_1</code> statement and sending the result to SqlSatellite.</li>
+</ol>
+
+<p>OK, if we let the code continue after having hit the exception and looked at the call-stack, we’ll see something somewhat interesting (strange) in the message tab in <strong>SSMS</strong>:</p>
+
+<p><img src="/images/posts/sql_r_services_13_error.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Error Message from SqlSatellite</em></p>
+
+<p>When looking at <em>Figure 4</em> it seems that SqlSatellite is confused about something, almost like it would have received a packet/something which it couldn’t handle. That would make sense if a packet actually were sent to the SqlSatellite with the result from the <code class="highlighter-rouge">SELECT</code>, and potentially the data was corrupted due to the null exception.</p>
+
+<p>Let’s start with looking at what packages are being sent to the SqlSatellite when executing the code in <em>Code Snippet 4</em>. For this we’ll use <em>Process Monitor</em> and set it up as we did in [Internals - X], as well as in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a>, to filter TCP packets. When you have set up <em>Process Monitor</em> you are ready to execute the code in <em>Code Snippet 4</em>, but before you do that, disable all breakpoints in <em>WinDbg</em>. Execute the code and look at what <em>Process Monitor</em> outputs:</p>
+
+<p><img src="/images/posts/sql_r_services_13_error_procmon.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>Process Monitor Output at Error</em></p>
+
+<p>In <em>Figure 5</em> we initially see what we expect:</p>
+
+<ul>
+  <li>Authentication packets (lengths 217 and 17).</li>
+  <li>The script package (length 256).</li>
+</ul>
+
+<p>But after the script package we see a packet with the length of 28, what is that? Also, we do not see any packet that would be related to the data, so the idea that the SqlSatellite received a packet it could not handle may not be correct. So, where does the message about the SqlSatellite and data chunks in <em>Figure 4</em> come from?</p>
+
+<h4 id="packet-with-length-28">Packet with Length 28</h4>
+
+<p>We’ll start with the packet with a length of 28. In <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> we saw how packets with a length of 28 were sent as end of script, and end of data packets. Perhaps it is something similar here. We saw in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> how the end packets were sent in a flow looking something like so:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ErsqExecuteQuery</span>
+  <span class="n">sqlmin</span><span class="o">!</span><span class="n">CQScanUdx</span><span class="o">::</span><span class="n">PushNextChildRow</span>
+    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
+      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendPackets</span>
+    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
+      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendChunkEndMessage</span>
+    <span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">PushEOS</span>
+      <span class="n">sqllang</span><span class="o">!</span><span class="n">CSatelliteCargoContext</span><span class="o">::</span><span class="n">SendChunkEndMessage</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 6:</strong> <em>Abbreviated Flow Result Data</em></p>
+
+<p>Let’s set some breakpoints and see what we can figure out:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">bp sqlmin!CQScanUdx::PushNextChildRow</code>.</li>
+  <li><code class="highlighter-rouge">bp sqllang!CUDXR_ExternalScript::PushEOS</code></li>
+  <li><code class="highlighter-rouge">bp sqllang!CSatelliteCargoContext::SendChunkEndMessage</code>.</li>
+  <li><code class="highlighter-rouge">bp sqllang!CUDXR_ExternalScript::PushRow</code></li>
+</ul>
+
+<p>When we execute we hit:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">sqlmin!CQScanUdx::PushNextChildRow</code> followed by</li>
+  <li><code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li>
+  <li><code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li>
+  <li><code class="highlighter-rouge">(1a54.23c8): C++ EH exception - code e06d7363 (first chance)</code></li>
+</ul>
+
+<p>After the second <code class="highlighter-rouge">PushRow</code> we break at the exception, and when we let the code continue, we get the error message back, but we also see that a packet with a length of 28 is sent to the SqlSatellite. So, if the packet is not coming from the <code class="highlighter-rouge">SendChunkEndMessage</code> routine, where does it come from then? Let’s do what we did in <a href="/2017/10/31/microsoft-sql-server-r-services-internals-xii/">Internals - XII</a> when we did not know from where a packet was sent - set a breakpoint at <code class="highlighter-rouge">mswsock!WSPSend</code>. The theory behind this is that, at one stage or another, a low level socket call needs to take place. After you have set the breakpoint, execute again and now the breakpoints are hit as follows:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">mswsock!WSPSend</code> three times in a row (the two authentication packets and the script packet)</li>
+  <li><code class="highlighter-rouge">sqlmin!CQScanUdx::PushNextChildRow</code> followed by</li>
+  <li><code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li>
+  <li><code class="highlighter-rouge">sqllang!CUDXR_ExternalScript::PushRow</code> followed by</li>
+  <li><code class="highlighter-rouge">(1a54.23c8): C++ EH exception - code e06d7363 (first chance)</code></li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The reason we get two <code class="highlighter-rouge">PushRow</code> is that we are selecting two rows from the table.</p>
+</blockquote>
+
+<p>Continuing after the exception we will hit <code class="highlighter-rouge">mswsock!WSPSend</code>, and checking the call-stack - it looks like this:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mswsock</span><span class="o">!</span><span class="n">WSPSend</span>
+<span class="n">WS2_32</span><span class="o">!</span><span class="n">WSASend</span><span class="o">+</span><span class="mh">0x16c</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">Tcp</span><span class="o">::</span><span class="n">WriteAsync</span><span class="o">+</span><span class="mh">0x174</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">SNIWriteAsync</span><span class="o">+</span><span class="mh">0xb0</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSatelliteConnection</span><span class="o">::</span><span class="n">WriteMessage</span><span class="o">+</span><span class="mh">0x7d</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSatelliteCommunication</span><span class="o">::</span><span class="n">SendAbort</span><span class="o">+</span><span class="mh">0x190</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CUDXR_ExternalScript</span><span class="o">::</span><span class="n">ShutdownService</span><span class="o">+</span><span class="mh">0x96</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CUDXR_ExternalScriptCleanup</span><span class="o">::</span><span class="n">Close</span><span class="o">+</span><span class="mh">0xe</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryExecContext</span><span class="o">::</span><span class="n">FinalCleanupNoX</span><span class="o">+</span><span class="mh">0x116</span>
+<span class="n">sqlmin</span><span class="o">!</span><span class="n">CQueryScan</span><span class="o">::</span><span class="n">DestroyQueryOnException</span><span class="o">+</span><span class="mh">0x129</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">ShutdownOnException</span><span class="o">+</span><span class="mh">0xc8</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CXStmtQuery</span><span class="o">::</span><span class="n">FinishOnExceptionImp</span><span class="o">+</span><span class="mh">0x67</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">_isa_available_init</span><span class="o">+</span><span class="mh">0xe8cf3</span>
+<span class="n">MSVCR120</span><span class="o">!</span><span class="n">_CallSettingFrame</span><span class="o">+</span><span class="mh">0x20</span> 
+<span class="n">MSVCR120</span><span class="o">!</span><span class="n">__CxxCallCatchBlock</span><span class="o">+</span><span class="mh">0xf5</span>
+<span class="n">ntdll</span><span class="o">!</span><span class="n">RcConsolidateFrames</span><span class="o">+</span><span class="mh">0x3</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CMsqlExecContext</span><span class="o">::</span><span class="n">FExecute</span><span class="o">+</span><span class="mh">0xa9e</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">CSQLSource</span><span class="o">::</span><span class="n">Execute</span><span class="o">+</span><span class="mh">0x983</span>
+<span class="n">sqllang</span><span class="o">!</span><span class="n">SpExecuteExternalScript</span><span class="o">+</span><span class="mh">0x140e</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 7:</strong> <em>Call Stack at the Time a Packet is Sent</em></p>
+
+<p>Ah, from the call-stack in <em>Code Snippet 7</em> we can see how the exception brings us back to <code class="highlighter-rouge">sqllang!CMsqlExecContext::FExecute</code> and from there we go down a code path which eventually comes into the <code class="highlighter-rouge">sqllang!CSQLSatelliteCommunication::SendAbort</code> routine, which sends the packet with a length of 28.</p>
+
+<p>We have now an explanation to the packet with a length of 28, it is SQL Server telling the SqlSatellite, that it aborts the process. The question about the message we see about SqlSatellite not being able to read the data chunk is not as straight forward though.</p>
+
+<h4 id="sqlsatellite-data-chunk-message">SqlSatellite Data Chunk Message</h4>
+
+<p>Initially I thought the message came from inside SQL Server, but based on some tests I did, I believe the message originates in the SqlSatellite after the satellite has received the abort message. Reasoning behind this is based on that the message does not “smell” like a SQL Server Error message; it doesn’t have an error number attached and it looks a lot like the output you’d get from the external script engine. Remember from <a href="/2017/07/11/microsoft-sql-server-r-services-internals-vii/">Internals - VII</a> where we discussed files and sub-directories created by the launchpad service as well as the external engine, how - by default - two files are created by the launchpad service:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">stdout0.txt</code> - for <code class="highlighter-rouge">cat</code> and <code class="highlighter-rouge">print</code> output from the engine.</li>
+  <li><code class="highlighter-rouge">stderr0.txt</code> - for error logging from the engine.</li>
+</ul>
+
+<p>The tests I did was based on my thinking that if the message originates from SQL Server, then neither <code class="highlighter-rouge">stdout0.txt</code> nor <code class="highlighter-rouge">stderr0.txt</code> would contain anything. However if the message originated from the external engine, then I should see something in either of those two files.</p>
+
+<p>To be able to investigate this, I did what we did in <a href="/2017/07/11/microsoft-sql-server-r-services-internals-vii/">Internals - VII</a>:</p>
+
+<ol>
+  <li>Stop the launchpad service.</li>
+  <li>Delete any sub directories of the user account directories in the <code class="highlighter-rouge">C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code> directory. Do NOT delete the user account directories themselves.</li>
+  <li>Open the <code class="highlighter-rouge">rlauncher.config</code> file in a text editor and change the value of <code class="highlighter-rouge">JOB_CLEANUP_ON_EXIT</code> to 0, and save the file (you need to do this as admin).</li>
+  <li>Restart the launchpad service.</li>
+</ol>
+
+<blockquote>
+  <p><strong>NOTE:</strong> By setting the <code class="highlighter-rouge">JOB_CLEANUP_ON_EXIT</code> to 0 we tell the launchpad service to not delete any directories etc., after we have executed (the executing process will still be torn down though).</p>
+</blockquote>
+
+<p>After executing the code in <em>Code Snippet 4</em> I browsed through the various subdirectories of the user account directory in <code class="highlighter-rouge">C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code> (most likely <em>MSSQLSERVER01</em>), to find the directory which the process executed under. This directory has four files in it and one sub directory (the other directories are either empty, or has three files and a sub directory):</p>
+
+<p><img src="/images/posts/sql_r_services_13_user_directory_err_file.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>Process Directory with stderr.txt</em></p>
+
+<p>As we can see in <em>Figure 6</em> the <code class="highlighter-rouge">stderr.txt</code> files has a size greater than 0, and when opening I could see the same message as in <em>SSMS</em>:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SqlSatellite</span> <span class="n">cannot</span> <span class="n">read</span> <span class="n">data</span> <span class="n">chunk</span><span class="p">.</span>  <span class="n">Error</span> <span class="n">code</span><span class="o">:</span><span class="mh">0x80004004</span><span class="p">.</span>
+<span class="n">Error</span> <span class="n">in</span> <span class="n">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">)</span> <span class="o">:</span> 
+  <span class="n">SqlSatellite</span> <span class="n">cannot</span> <span class="n">read</span> <span class="n">data</span> <span class="n">chunk</span><span class="p">.</span>  <span class="n">Error</span> <span class="n">code</span><span class="o">:</span><span class="mh">0x80004004</span><span class="p">.</span>
+<span class="n">Calls</span><span class="o">:</span> <span class="n">source</span> <span class="o">-&gt;</span> <span class="n">withVisible</span> <span class="o">-&gt;</span> <span class="n">eval</span> <span class="o">-&gt;</span> <span class="n">eval</span> <span class="o">-&gt;</span> <span class="p">.</span><span class="n">Call</span>
+<span class="n">Execution</span> <span class="n">halted</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 8:</strong> <em>Stderror.txt Content</em></p>
+
+<p>Based on this, it seems that particular message comes from the SqlSatellite and the external engine. Oh, when I executed the code in <em>Code Snippet 2</em> (fails during compilation), <code class="highlighter-rouge">stderr.txt</code> was not written to. E.g. the error happened before the SqlSatellite had been initialized. In a future post we will look more at what goes on when data - results as well as errors - come back to SQL Server.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post we set out to try to understand when and how the statement that makes up <code class="highlighter-rouge">@input_data_1</code> is executed. We saw:</p>
+
+<ul>
+  <li>Before the SqlSatellite was initialized the statement is compiled.</li>
+  <li>After the satellite has been initialized the statement is executed.</li>
+</ul>
+
+<p>We also saw that if an error happens after the satellite has been initialized, SQL Server sends an abort message to the satellite in the <code class="highlighter-rouge">sqllang!CSQLSatelliteCommunication::SendAbort</code> routine.</p>
+
+<h2 id="-finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+
+
+    
+<p>
+<h2>Share this Post:</h2> 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/&text=Microsoft SQL Server R Services - Internals XIII&via=nielsberglund" 
+   target="_blank">Twitter</a>
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/11/11/microsoft-sql-server-r-services-internals-xiii/" 
+   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+    | Google+</a>
+<a href="https://www.linkedin.com/shareArticle?
+         mini=true
+         &url=http://www.nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/
+         &title=Microsoft SQL Server R Services - Internals XIII
+         &summary=Blog post: When is SQL statements executed when executing external scripts?
+         &source=http://www.nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/"> | LinkedIn</a> 
+
+</p>   
+   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
+
+
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/
+
+   -->
+
+
+
+    <p>
+<h2>Blog Feed:</h2>
+To automatically receive more posts like this, please
+<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
+
+
+    <br/>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="1158080725"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <br/>
+
+    
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    <h2>Post Tags:</h2>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags/#sql-server-r-services">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SQL Server R Services</span>
+    </a>
+  
+    
+    <a href="/tags/#sql-server-machine-learning-services">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SQL Server Machine Learning Services</span>
+    </a>
+  
+    
+    <a href="/tags/#r">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">R</span>
+    </a>
+  
+    
+    <a href="/tags/#windbg">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">WinDbg</span>
+    </a>
+  
+    
+    <a href="/tags/#launchpad">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">Launchpad</span>
+    </a>
+  
+    
+    <a href="/tags/#rterm-exe">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">RTerm.exe</span>
+    </a>
+  
+    
+    <a href="/tags/#sqlsatellite">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SqlSatellite</span>
+    </a>
+  
+    
+    <a href="/tags/#sqlsatellite-dll">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">SqlSatellite.dll</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/";
+    this.page.identifier = "" ||
+                           "http://nielsberglund.com/2017/11/11/microsoft-sql-server-r-services-internals-xiii/";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//manageddata.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/2018/08/05/interesting-stuff-week-31/">
+            Interesting Stuff - Week 31
+            <small>05 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/">
+            sp_execute_external_script and SQL Compute Context - III
+            <small>04 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/07/29/interesting-stuff-week-30/">
+            Interesting Stuff - Week 30
+            <small>29 Jul 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-18914734-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Optional footer content -->
+
+  </body>
+</html>

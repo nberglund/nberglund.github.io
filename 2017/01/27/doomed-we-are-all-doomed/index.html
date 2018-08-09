@@ -1,162 +1,1210 @@
-<!DOCTYPE html> <html lang="en-us"> <head> <!-- Google Tag Manager --> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-K7B3642');</script> <!-- End Google Tag Manager --> <link href="http://gmpg.org/xfn/11" rel="profile"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <meta name="description" content="SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE()"> <meta name="keywords" content="transactions, error handling, XACT_STATE(), XACT-ABORT()"/> <!-- Enable responsiveness on mobile devices--> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"> <title> Doomed, We are All Doomed I Say! &middot; Niels Berglund </title> <!-- CSS --> <link rel="stylesheet" href="/public/css/poole.css"> <link rel="stylesheet" href="/public/css/syntax.css"> <link rel="stylesheet" href="/public/css/hyde.css"> <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"> <!-- Icons --> <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png"> <link rel="shortcut icon" href="/public/favicon.ico"> <!-- RSS --> <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> <link href='/stylesheets/all-e8a259b38492bb97421cc4e038981561.css' media='all' rel='stylesheet' type='text/css'> <!-- Begin Jekyll SEO tag v2.5.0 --> <title>Doomed, We are All Doomed I Say! | Niels Berglund</title> <meta name="generator" content="Jekyll v3.8.3" /> <meta property="og:title" content="Doomed, We are All Doomed I Say!" /> <meta name="author" content="nielsb" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE()" /> <meta property="og:description" content="SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE()" /> <link rel="canonical" href="http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/" /> <meta property="og:url" content="http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/" /> <meta property="og:site_name" content="Niels Berglund" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2017-01-27T18:58:40+02:00" /> <script type="application/ld+json"> {"url":"http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/","headline":"Doomed, We are All Doomed I Say!","dateModified":"2017-01-27T18:58:40+02:00","datePublished":"2017-01-27T18:58:40+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/"},"author":{"@type":"Person","name":"nielsb"},"description":"SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE()","@type":"BlogPosting","@context":"http://schema.org"}</script> <!-- End Jekyll SEO tag --> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-3005153158271538", enable_page_level_ads: true }); </script> </head> <body> <!-- Google Tag Manager (noscript) --> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B3642" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <!-- End Google Tag Manager (noscript) --> <div class="sidebar"> <div class="container"> <div class="sidebar-about"> <h1> <a href="/"> Niels Berglund </a> </h1> <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Sidebar_rectangle --> <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-3005153158271538" data-ad-slot="7704601332"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <nav class="sidebar-nav"> <a class="sidebar-nav-item" href="/">Home</a> <a class="sidebar-nav-item" href="/about/">About</a> <a class="sidebar-nav-item" href="/archive/">Posts Archive</a> <a class="sidebar-nav-item" href="/categories/">Categories</a> <a class="sidebar-nav-item" href="/disclaimer/">Disclaimer</a> <a class="sidebar-nav-item" href="/series/">Blog Post Series</a> <a class="sidebar-nav-item" href="/tags/">Tags</a> </nav> <img class="center" src="/images/MVP_Logo_large.png" width="300" height="121" > <section> <h3 style="color:#ffffff">Follow Me:</h3> <ul> <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li> <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li> </ul> </section> <p>&copy; 2018. All rights reserved.</p> <div class="sidebar-social"> <div><a href="https://github.com/nberglund"> GitHub </a></div> <div><a href="https://twitter.com/nielsberglund"> Twitter </a></div> <div><a href="https://za.linkedin.com/in/niels-berglund-0122593"> LinkedIn </a></div> <div><a href="https://plus.google.com/u/0/109374849138720664008"> Google+ </a></div> </div> </div> </div> <div class="content container"> <div class="post"> <h1 class="post-title">Doomed, We are All Doomed I Say!</h1> <div class="post-subheading"> <span class="post-date">27 Jan 2017</span> <span class="post-tag"> <span class="post-tagdesc">in categories:</span> <a href="/categories/#SQL Server">SQL Server</a> <span class="post-tagdesc">tags:</span> <a href="/tags/#transactions">transactions</a> <a href="/tags/#error handling">error handling</a> <a href="/tags/#XACT_STATE()">XACT_STATE()</a> <a href="/tags/#XACT-ABORT()">XACT-ABORT()</a> </span> </div> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad1 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="6668073777" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> <p>Just to set things straight, the title of this post has nothing to do with US politics, but the infinitely more important (and exciting) subject of transactions in <strong>SQL Server</strong> and the concept of <strong>doomed</strong> transactions. Why I came across the idea for this post was due to a discussion I had with a colleague of mine - Sameer Chunilall - who didn't agree with my <a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">post</a> a while ago about <code>XACT_ABORT</code>, he believes it is a good thing (mostly), where I believe it is a bad thing (mostly).</p> <!--more--> <p>We <del>argued</del> discussed at length, and then decided that we both were right. Or rather I decided I was right, and he decided he was right :). Jokes aside, during the discussions the concept of <strong>doomed</strong> transactions were brought up, and that led me to writing this blog post.</p> <p>Before we go any further, I have written a couple (three actually) posts that deal with transactions and/or error-handling in SQL Server, so if you want to refresh your memory they can be found here (in chronological order):</p> <ul> <li><a href="/2011/09/11/transactions-in-sql-server-take-2956/">Transactions in SQL Server (take 2956)</a></li> <li><a href="/2016/12/31/sql-server-error-handling-gotchas/">SQL Server Error Handling Gotchas</a></li> <li><a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!</a></li> </ul> <p>Before we start talking about doomed transactions, let's look at something that has a definitive impact if a transaction will be doomed or not.</p> <blockquote><p><strong>NOTE</strong>: There is no special demo code for this blog post, if you want you can <a href="/downloads/code/xact_abort.zip">download the code from the <code>XACT_ABORT</code> blog post</a>, and edit according to the code snippets here.</p></blockquote> <h2>Statement, Scope and Batch Termination</h2> <p>In SQL Server you execute statements and batches. A statement is what it says it is, a single T-SQL statement, like:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Statement Execution</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">);</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 1:</strong> <em>T-SQL Statement</em></p> <p>A batch is what is executed at a point in time from an application (SSMS, ADO.NET, etc.):</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Batch Execution</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Details for Invalid OrderID'</span><span class="p">);</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Details for OrderID 3'</span><span class="p">);</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 2:</strong> <em>T-SQL Batch</em></p> <blockquote><p><strong>NOTE:</strong> The <code>GO</code> statement in <em>Code Snippet 2</em>, is an SSMS "thing". When executing code from a script, the<code>GO</code> statement denotes batches.</p></blockquote> <p>When executing a stored procedure, that is also a batch. If a procedure calls other procedures, they are all executing inside the same batch. The code below shows 4 procedures we will use going forward:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Procedures</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- the DROP ... IF EXISTS only works on SQL SERVER 2016+</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Details for OrderID 3'</span><span class="p">)</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--this should just work</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'Details for OrderID 2'</span><span class="p">);</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- this should cause a fk exception</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--VALUES(5, 'Details for Invalid OrderID');</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- invalid object name </span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--SELECT * FROM dbo.tb_MyTable;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- Conversion failure</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- DECLARE @n int;</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='43' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
-</div></div><div data-line='44' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='45' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='46' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='47' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_1: Before Insert'</span>
-</div></div><div data-line='48' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='49' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">)</span>
-</div></div><div data-line='50' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_1: Before EXEC dbo.pr_2'</span>
-</div></div><div data-line='51' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span><span class="p">;</span>
-</div></div><div data-line='52' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='53' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='54' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='55' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
-</div></div><div data-line='56' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='58' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='59' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Begin TX'</span>
-</div></div><div data-line='60' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRANSACTION</span>
-</div></div><div data-line='61' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before EXEC dbo.pr_1'</span>
-</div></div><div data-line='62' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
-</div></div><div data-line='63' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Commit TX'</span>
-</div></div><div data-line='64' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">COMMIT</span>
-</div></div><div data-line='65' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='66' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 3:</strong> <em>Call Chain of Procedures</em></p> <p>As we can see, <code>dbo.pr_Caller</code> starts a transaction, calls <code>dbo.pr_1</code>, which in turn calls <code>dbo.pr_2</code>, which finally calls <code>dbo.pr_3</code>. When all is "said and done", <code>dbo.pr_Caller</code> commits the transaction. The procedure <code>dbo.pr_2</code> is the "dodgy" procedure in this call chain, and we will use it to simulate some error conditions that will result in various termination types. As you can see in <em>Code Snippet 3</em>, <code>dbo.pr_2</code> has some commented out code, and it is this code that will cause terminations. Initially we'll execute the code as is, and this should not cause any errors:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Execution of Procedures</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 4</strong>: <em>Batch Executions</em></p> <blockquote><p><strong>NOTE:</strong> The code above starts with <code>TRUNCATE TABLE</code> we do that just to make sure everything is cleaned up before execution. Oh, and BTW - how many batches are executed above? Answer in comments or <a href="mailto:niels.it.berglund@gmail.com">email</a>.</p></blockquote> <p>When executing the above you should see three rows coming back from the <code>SELECT</code> statement, all is good:</p> <p><img class="center" src="/images/posts/batch_no_errors.png" width="300" height="124" > <strong>Figure 1:</strong> <em>Procedure Execution No Errors</em></p> <p>So what happens now if we were to <code>ALTER</code> proc 2 a bit, comment out the insert for <code>OrderID</code> 2, and uncomment the insert for <code>OrderID</code> 5. There is no order with that id, so it should result in a foreign key constraint error. The proc should look like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Alter Proc</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">----this should just work</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- this should cause a fk exception</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">VALUES</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Details for Invalid OrderID'</span><span class="p">);</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- invalid object name </span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--SELECT * FROM dbo.tb_MyTable;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- Conversion failure</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- DECLARE @n int;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 5:</strong> <em>Proc Which Will Cause FK Violation</em></p> <p>After <code>ALTER</code>:ing the proc and executing as in <em>Code Snippet 4</em>, we get something like:</p> <p><img class="center" src="/images/posts/fk_error.png" width="685" height="235" > <strong>Figure 2:</strong> <em>FK Error After Procedure Execution</em></p> <p>So we got a FK violation error, but we can also see that we continued the execution in <code>dbo.pr_2</code>, and called <code>dbo.pr_3</code>. Furthermore, the result gives us two rows back, from <code>dbo.pr_1</code> and <code>dbo_pr_3</code>:</p> <p><img class="center" src="/images/posts/result_after_fk.png" width="300" height="105" > <strong>Figure 3:</strong> <em>Result After FK Error</em></p> <h3>Statement Termination</h3> <p>What we just have seen is <strong>statement termination</strong>. The statement causing an error stopped executing, but we continued executing - even within the same proc - straight after that statement. Furthermore, the error had no <em>negative</em> impact on the transaction. This may or may not be what you expect and want.</p> <p>I guess that most of you who read this have heard about statement termination before, so what we just have done should not come as any surprise.</p> <p>Some of the errors that can cause statement termination are:</p> <ul> <li>Most of <code>CONSTRAINT</code> errors: <ul> <li><code>NOT NULL</code></li> <li><code>PRIMARY KEY</code> and <code>FOREIGN KEY</code> errors</li> <li><code>CHECK CONSTRAINT</code></li> </ul> </li> <li>Errors raised by the user</li> <li>Quite a few more :)</li> </ul> <h3>Scope Termination</h3> <p><strong>Scope Termination</strong> is probably not as well known as statement termination. A scope termination is when SQL Server terminates the statement that caused the exception and subsequent execution within the same <em>scope</em>. In the examples we are using, <em>scope</em> would be an individual procedure. So, let us have a look at an scope termination example, let us <code>ALTER</code> our "naughty" procedure <code>dbo.pr_2</code> and comment out the statement which caused the FK violation, and un-comment where the procedure does a <code>SELECT</code> from the non-existent table <code>dbo.tb_MyTable</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Alter For Scope Termination</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">----this should just work</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- this should cause a fk exception</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--VALUES(5, 'Details for Invalid OrderID');</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- invalid object name </span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_MyTable</span><span class="p">;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- Conversion failure</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- DECLARE @n int;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 6</strong>: <em>SELECT from Non-Existent Table</em></p> <p>When you execute as in <em>Code Snippet 4</em>, the outcome is:</p> <p><img class="center" src="/images/posts/scope_abort.png" width="584" height="165" > <strong>Figure 4:</strong> <em>Scope Abort Error</em></p> <p>As expected an error happened, but compared to the statement termination example, <code>dbo.pr_2</code> did not continue executing (we did not see <code>dbo.pr_2: Before EXEC dbo.pr_3</code>). The statement that caused the error was terminated <strong>AND</strong> all subsequent statements within that scope (procedure). However, the batch continues and <code>dbo.pr_Caller</code> committed the transaction. When you look at the <em>Results</em> tab in SSMS you will see one row returning from the <code>SELECT</code> statement; the insert done by <code>dbo.pr_1</code>.</p> <p>So, what causes scope termination? I have tried to look into that, but so far the only error type I have found termination the scope is when you try to access a missing object. If you know more types, please <a href="mailto:niels.it.berglund@gmail.com">email</a> me, and I can update this post.</p> <blockquote><p><strong>NOTE:</strong> Neither statement termination, nor scope termination have any effect on a transaction.</p></blockquote> <h4>Error Handling and Scope Termination</h4> <p>An interesting aspect of scope termination is how it is being handled (or not) by error handling. From my previous posts about errors, (<a href="/2016/12/31/sql-server-error-handling-gotchas/">gotchas</a>, and <a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">XACT_ABORT</a>), we see how either <code>IF(@@ERROR &lt;&gt; 0 )</code>, or <code>TRY ... CATCH</code> catch exceptions. How about scope termination errors? You would expect them to be handled the same way as statement termination errors, as they do have the same severity (16), as can be seen from <em>Figure 3</em>, and <em>Figure 4</em>. In fact that is not the case! It turns out that an <code>IF(@@ERROR &lt;&gt; 0)</code> will not catch the error, whereas a <code>TRY ... CATCH</code> block will!</p> <h3>Batch Termination</h3> <p>After having covered statement termination and scope termination above, I do think that it is pretty clear what <strong>batch</strong> termination is. Some code to show this; once again in <code>dbo.pr_2</code>, comment out the <code>SELECT</code> statement against the no existing table and un-comment the part where we try to do a <code>CAST</code> conversion:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Alter Proc for Batch Termination</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">----this should just work</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- this should cause a fk exception</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- VALUES(5, 'Details for Invalid OrderID');</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">---- invalid object name </span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">-- SELECT * FROM dbo.tb_MyTable;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">--- Conversion failure</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">DECLARE</span> <span class="o">@</span><span class="n">n</span> <span class="n">int</span><span class="p">;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SELECT</span> <span class="o">@</span><span class="n">n</span> <span class="o">=</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">int</span><span class="p">,</span><span class="s1">'ABC'</span><span class="p">);</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 7:</strong> <em>Proc Which Will Cause CAST Conversion Error</em></p> <p>When executing this (once again a in <em>Code Snippet 4</em>), this is what we get:</p> <p><img class="center" src="/images/posts/batch_termination.png" width="580" height="165" > <strong>Figure 5:</strong> <em>Batch Termination Error</em></p> <p>When looking at the output as per in <em>Figure 5</em>, we can see that no more execution happened in <code>dbo.pr_2</code>, as was also the case in scope-termination and <em>Figure 4</em>, <strong>BUT</strong> we do not see any further execution in <code>dbo.pr_Caller</code> either! The batch completely terminated. But wait a second; what about the transaction that was originally started in <code>dbo.pr_Caller</code>? That transaction has been rolled back automatically, when we exited the batch (more about that later).</p> <p>Errors that can cause batch termination are:</p> <ul> <li>Conversion errors</li> <li>Deadlocks</li> </ul> <h4>Error Handling and Batch Termination</h4> <p>As with scope termination, <code>IF(@@ERROR &lt;&gt; 0)</code> will not catch the error that caused the batch termination, but <code>TRY ... CATCH</code> will. So, let's see what happens when we introduce <code>TRY ... CATCH</code> in <code>dbo.pr_Caller</code>:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Proc With TRY ... CATCH Block</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Begin TX'</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">BEGIN</span> <span class="n">TRANSACTION</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before EXEC dbo.pr_1'</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Commit TX'</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">COMMIT</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">TRY</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">CATCH</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'In catch block'</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">GO</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 8:</strong> <em>TRY ... CATCH and Batch Termination</em></p> <p>We <code>ALTER</code> <code>dbo.pr_Caller</code> to have a <code>TRY ... CATCH</code>, but we do not do anything other than a <code>PRINT</code> statement. Remember, when we didn't have any <code>TRY ... CATCH</code>, the transaction was automatically rolled back. It is a little bit different now when we execute it as in <em>Code Snippet 4</em>:</p> <p><img class="center" src="/images/posts/uncommitable_tx.png" width="610" height="250" > <strong>Figure 5:</strong> <em>Uncommittable Transaction</em></p> <p>What happened here? All of a sudden we get quite a few error messages, and what is this about <em>Uncommittable transaction</em> at the very end? The short story is that as soon as you introduce <code>TRY ... CATCH</code> and you have active transactions - you need to decide what to do with that transaction.</p> <p>OK makes sense. In this case, I don't really care what went wrong, and I want to commit the transaction anyway. I conveniently don't pay any attention to the part of <em>uncommittable</em> in the error message. After all - this is what I can do if I get a statement termination or scope termination, so why not do it here too! I <code>ALTER</code> the procedure to do <code>COMMIT TRAN</code> in the <code>CATCH</code> block straight after the <code>PRINT</code> statement, and then I execute:</p> <p><img class="center" src="/images/posts/current_tx_cannot_be_committed.png" width="635" height="290" > <strong>Figure 6:</strong> <em>Current Transaction Cannot be Committed</em></p> <p>I am in trouble now. This time I am <strong>really</strong> told that I am doing something wrong: "<em>The current transaction cannot be committed and cannot support operations that write to the log file. Roll back the transaction</em>". What is this?</p> <h2>Doomed (a.k.a. "Oh, Oh, I am so up the cr33k")</h2> <p>The errors we see in both <em>Figure 5</em> as well as in <em>Figure 6</em> are due to that SQL Server decides - for one reason or another - that it cannot commit the transaction. The transaction is <strong>doomed</strong>, and the only thing that can be done is to roll it back. It is not straight forward when an error causes a doomed transaction as the way SQL Server handles errors are case by case. Rule of thumb though is that in most cases a doomed transaction is due to some error that has caused a batch termination.</p> <blockquote><p><strong>NOTE:</strong> To further drive home that SQL handles errors on a case by case basis, all errors we have seen so far (caused by statement, scope and batch terminations), have had a <em>severity</em> of 16.</p></blockquote> <p>Just to prove that we can recover from a batch termination without errors, we <code>ALTER</code> the <code>dbo.pr_Caller</code> procedure, replace the <code>COMMIT TRAN</code> with <code>ROLLBACK TRAN</code>, and execute. The outcome will be completely different:</p> <p><img class="center" src="/images/posts/rollback_tran.png" width="305" height="150" > <strong>Figure 6:</strong> <em>Rollback Doomed Transaction</em></p> <p>As <em>Figure 6</em> shows, no "nasty" errors - all is OK! So what do we do if we sometimes want to commit the transaction if it is not doomed even if there has been an error, or rather - how can we figure out whether a transaction can be committed or not?</p> <h3>XACT_STATE()</h3> <p>The way to determine if a transaction can be committed or not is to use <code>XACT_STATE()</code>. The <code>XACT_STATE()</code> is a scalar function and it reports on the state of the current transaction. There are 3 possible return values:</p> <ul> <li>-1: a user transaction is active, but it is <em>doomed</em>, and it can only be rolled back</li> <li>0: no user transaction is active</li> <li>1: a user transaction is active, it can be committed or rolled back.</li> </ul> <p>To see an example of this <code>ALTER</code> the <code>dbo.pr_Caller</code> proc's <code>CATCH</code> block to look something like <em>Code Snippet 9</em> below and then execute.</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>XACT_STATE</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">CATCH</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">DECLARE</span> <span class="o">@</span><span class="k">state</span> <span class="n">smallint</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">XACT_STATE</span><span class="p">());</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">PRINT</span> <span class="s1">'In catch block and XACT_STATE = '</span> <span class="o">+</span> <span class="k">CAST</span><span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">IF</span><span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">BEGIN</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">PRINT</span> <span class="s1">'We are rolling back'</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">ROLLBACK</span> <span class="n">TRAN</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">END</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">ELSE</span> <span class="n">IF</span> <span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">BEGIN</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">PRINT</span> <span class="s1">'We are committing'</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">COMMIT</span> <span class="n">TRAN</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">END</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">ELSE</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">PRINT</span> <span class="s1">'No transaction available'</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">END</span> <span class="n">CATCH</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 9:</strong> <em>Using XACT_STATE()</em></p> <p>After execution the output would be like so:</p> <p><img class="center" src="/images/posts/xact_state.png" width="315" height="165" > <strong>Figure 7:</strong> <em>Rollback Doomed Transaction</em></p> <p>As we see from <em>Figure 7</em>, we ended up in the <code>CATCH</code> block, <code>XACT_STATE</code> was -1, and the transaction was rolled back. You can if you want <code>ALTER</code> the "naughty" proc <code>dbo.pr_2</code>, and comment out the statement causing the batch termination and un-comment the statement which creates the statement termination. When executing, you should now get an output like so:</p> <p><img class="center" src="/images/posts/xact_state_1.png" width="285" height="170" > <strong>Figure 8:</strong> <em>Rollback Doomed Transaction</em></p> <p>Here we had decided that even if an exception was raised, we wanted to commit the transaction, unless it was doomed.</p> <blockquote><p><strong>NOTE:</strong> <code>XACT_STATE</code> can be used outside <code>TRY ... CATCH</code>, so you can use it even with "old style" error handling.</p></blockquote> <h2>XACT_ABORT</h2> <p>I started this blog-post by talking about <code>XACT_ABORT</code>, and how I discussed with Sameer if it was good or bad. We have now come full circle and we are back to <code>XACT_ABORT</code>. You are probably asking yourself how that fits into here?</p> <p>The answer to that is that if you switch on <code>XACT_ABORT</code>, even statement termination errors will cause the transaction to be doomed! To test this, <code>ALTER</code> the calling proc <code>dbo.pr_Caller</code> and insert a <code>SET XACT ABORT ON</code> at the beginning of the proc, underneath the <code>SET NOCOUNT ON</code>. The first few lines of the proc should look like so:</p> <p><figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>XACT_ABORT ON</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">AS</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">SET</span> <span class="n">XACT_ABORT</span> <span class="k">ON</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">BEGIN</span> <span class="n">TRY</span></div></div></pre></div></figure></p> <p><strong>Code Snippet 10:</strong> <em>Setting XACT_ABORT ON</em></p> <p>If you haven't already <code>ALTER</code>:ed <code>dbo.pr_2</code> to cause a foreign key exception (statement termination and not a "doomable" error), do so - as discussed between <em>Figure 7</em> and <em>Figure 8</em>. When you now execute you will get the same output as in <em>Figure 7</em>.</p> <p>Finally, it is quite common to hear that triggers can be an issue, as they are rolling back transactions if an error happens in the trigger. The reason for this is that when a trigger executes, it automatically sets <code>XACT_ABORT ON</code>.</p> <p>I am not completely certain of the reason for this, but I guess it is a good "defensive" measure. So, if you don't want this behavior, you can do a <code>SET XACT_ABORT OFF</code> in your triggers.</p> <h2>Summary</h2> <p>Transactions are doomed:</p> <ul> <li>When an exception happens which causes a batch termination</li> <li>For any exception when <code>XACT_ABORT</code> is <code>ON</code>.</li> <li>When SQL Server feels like it. :)</li> </ul> <p>Exception handling in SQL Server is <strong>NOT</strong> straight forward, especially when mixed with transactions!</p> <p> <h2>Share this Post:</h2> <a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/&text=Doomed, We are All Doomed I Say!&via=nielsberglund" target="_blank">Twitter</a> <a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/27/doomed-we-are-all-doomed/" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"> | Google+</a> <a href="https://www.linkedin.com/shareArticle? mini=true &url=http://www.nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/ &title=Doomed, We are All Doomed I Say! &summary=Blog post: SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE() &source=http://www.nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/"> | LinkedIn</a> </p> <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/ --> <p> <h2>Blog Feed:</h2> To automatically receive more posts like this, please <a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p> <br/> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <!-- Ad2 --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3005153158271538" data-ad-slot="1158080725" data-ad-format="auto"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> <br/> </div> <div class="related"> <h2>Related Posts</h2> </div> <div id="disqus_thread"></div> <script> var disqus_developer = 1; (function() { /*DON'T EDIT BELOW THIS LINE*/ var d = document, s = d.createElement('script'); s.src = '//manageddata.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-18914734-2', 'auto'); ga('send', 'pageview'); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+  <title>
+    
+      Doomed, We are All Doomed I Say! &middot; Niels Berglund
+    
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
+
+  <!-- Additional head bits without overriding original head -->
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        Niels Berglund
+      </a>
+    </div>
+    <p class="lead">Technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more.</p>
+  </header>
+  <div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Sidebar_rectangle -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="7704601332"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+  <br/>
+  
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/about/">About Me</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/archive/">Posts Archive</a>
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/categories/">Categories</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/disclaimer/">Disclaimer</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+      <a class="page-link "
+          href="/series/">Blog Post Series</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="page-link "
+          href="/tags/">Tags</a>
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  
+
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+</nav>
+
+
+  
+  <br/>
+  <img src="/images/MVP_Logo_large.png"/>
+
+
+  <section>
+  <h3 style="color:#ffffff">Follow Me:</h3>
+  <ul>
+    <li><a href="https://twitter.com/nielsberglund" target="_blank">Twitter</a></li>
+    <li><a href="http://feeds.feedburner.com/manageddata/" target="_blank">RSS/Atom Feed</a></li>
+  </ul>
+</section>
+  
+  <p>
+  &copy; 2018.
+  <a href="/LICENSE.md">MIT License.</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">Doomed, We are All Doomed I Say!</h1>
+  <div class="post-subheading">
+  <span class="post-date">27 Jan 2017</span>
+
+  <span class="post-tag">
+    
+      <br/>
+      <span class="post-tagdesc">Categories:</span>
+    
+
+    
+     <a href="/categories/#SQL Server">SQL Server</a>
+    
+
+      
+  </span>
+</div>
+  <br/>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="6668073777"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</header>
+<div class="content">
+  <div class="post-body">
+    <p>Just to set things straight, the title of this post has nothing to do with US politics, but the infinitely more important (and exciting) subject of transactions in <strong>SQL Server</strong> and the concept of <strong>doomed</strong> transactions. Why I came across the idea for this post was due to a discussion I had with a colleague of mine - Sameer Chunilall - who didn’t agree with my <a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">post</a> a while ago about <code class="highlighter-rouge">XACT_ABORT</code>, he believes it is a good thing (mostly), where I believe it is a bad thing (mostly).</p>
+
+<!--more-->
+
+<p>We <del>argued</del> discussed at length, and then decided that we both were right. Or rather I decided I was right, and he decided he was right :). Jokes aside, during the discussions the concept of <strong>doomed</strong> transactions were brought up, and that led me to writing this blog post.</p>
+
+<p>Before we go any further, I have written a couple (three actually) posts that deal with transactions and/or error-handling in SQL Server, so if you want to refresh your memory they can be found here (in chronological order):</p>
+
+<ul>
+  <li><a href="/2011/09/11/transactions-in-sql-server-take-2956/">Transactions in SQL Server (take 2956)</a></li>
+  <li><a href="/2016/12/31/sql-server-error-handling-gotchas/">SQL Server Error Handling Gotchas</a></li>
+  <li><a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">Abort, Abort, We Are XACT_ABORT:ing, Or Are We?!</a></li>
+</ul>
+
+<p>Before we start talking about doomed transactions, let’s look at something that has a definitive impact if a transaction will be doomed or not.</p>
+
+<blockquote>
+  <p><strong>NOTE</strong>: There is no special demo code for this blog post, if you want you can <a href="/downloads/code/xact_abort.zip">download the code from the <code class="highlighter-rouge">XACT_ABORT</code> blog post</a>, and edit according to the code snippets here.</p>
+</blockquote>
+
+<h2 id="statement-scope-and-batch-termination">Statement, Scope and Batch Termination</h2>
+
+<p>In SQL Server you execute statements and batches. A statement is what it says it is, a single T-SQL statement, like:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">);</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 1:</strong> <em>T-SQL Statement</em></p>
+
+<p>A batch is what is executed at a point in time from an application (SSMS, ADO.NET, etc.):</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Details for Invalid OrderID'</span><span class="p">);</span> 
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Details for OrderID 3'</span><span class="p">);</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 2:</strong> <em>T-SQL Batch</em></p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The <code class="highlighter-rouge">GO</code> statement in <em>Code Snippet 2</em>, is an SSMS “thing”. When executing code from a script, the<code class="highlighter-rouge">GO</code> statement denotes batches.</p>
+</blockquote>
+
+<p>When executing a stored procedure, that is also a batch. If a procedure calls other procedures, they are all executing inside the same batch. The code below shows 4 procedures we will use going forward:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- the DROP ... IF EXISTS only works on SQL SERVER 2016+</span>
+<span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
+<span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+<span class="k">GO</span>
+
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Details for OrderID 3'</span><span class="p">)</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
+
+<span class="c1">--this should just work</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'Details for OrderID 2'</span><span class="p">);</span>
+
+<span class="c1">---- this should cause a fk exception</span>
+<span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">--VALUES(5, 'Details for Invalid OrderID');</span>
+
+<span class="c1">---- invalid object name </span>
+<span class="c1">--SELECT * FROM dbo.tb_MyTable;</span>
+
+<span class="c1">---- Conversion failure</span>
+<span class="c1">-- DECLARE @n int;</span>
+<span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
+
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_1: Before Insert'</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Details for Order 1'</span><span class="p">)</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_1: Before EXEC dbo.pr_2'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span><span class="p">;</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Begin TX'</span>
+<span class="k">BEGIN</span> <span class="n">TRANSACTION</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before EXEC dbo.pr_1'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Commit TX'</span>
+<span class="k">COMMIT</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 3:</strong> <em>Call Chain of Procedures</em></p>
+
+<p>As we can see, <code class="highlighter-rouge">dbo.pr_Caller</code> starts a transaction, calls <code class="highlighter-rouge">dbo.pr_1</code>, which in turn calls <code class="highlighter-rouge">dbo.pr_2</code>, which finally calls <code class="highlighter-rouge">dbo.pr_3</code>. When all is “said and done”, <code class="highlighter-rouge">dbo.pr_Caller</code> commits the transaction. The procedure <code class="highlighter-rouge">dbo.pr_2</code> is the “dodgy” procedure in this call chain, and we will use it to simulate some error conditions that will result in various termination types. As you can see in <em>Code Snippet 3</em>, <code class="highlighter-rouge">dbo.pr_2</code> has some commented out code, and it is this code that will cause terminations. Initially we’ll execute the code as is, and this should not cause any errors:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">;</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 4</strong>: <em>Batch Executions</em></p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> The code above starts with <code class="highlighter-rouge">TRUNCATE TABLE</code> we do that just to make sure everything is cleaned up before execution. Oh, and BTW - how many batches are executed above? Answer in comments or <a href="mailto:niels.it.berglund@gmail.com">email</a>.</p>
+</blockquote>
+
+<p>When executing the above you should see three rows coming back from the <code class="highlighter-rouge">SELECT</code> statement, all is good:</p>
+
+<p><img src="/images/posts/batch_no_errors.png" alt="" />
+<strong>Figure 1:</strong> <em>Procedure Execution No Errors</em></p>
+
+<p>So what happens now if we were to <code class="highlighter-rouge">ALTER</code> proc 2 a bit, comment out the insert for <code class="highlighter-rouge">OrderID</code> 2, and uncomment the insert for <code class="highlighter-rouge">OrderID</code> 5. There is no order with that id, so it should result in a foreign key constraint error. The proc should look like so:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
+
+<span class="c1">----this should just work</span>
+<span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
+
+<span class="c1">-- this should cause a fk exception</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_OrderDetail</span><span class="p">(</span><span class="n">OrderID</span><span class="p">,</span> <span class="n">SomeDetail</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Details for Invalid OrderID'</span><span class="p">);</span>
+
+<span class="c1">---- invalid object name </span>
+<span class="c1">--SELECT * FROM dbo.tb_MyTable;</span>
+
+<span class="c1">---- Conversion failure</span>
+<span class="c1">-- DECLARE @n int;</span>
+<span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
+
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 5:</strong> <em>Proc Which Will Cause FK Violation</em></p>
+
+<p>After <code class="highlighter-rouge">ALTER</code>:ing the proc and executing as in <em>Code Snippet 4</em>, we get something like:</p>
+
+<p><img src="/images/posts/fk_error.png" alt="" />
+<strong>Figure 2:</strong> <em>FK Error After Procedure Execution</em></p>
+
+<p>So we got a FK violation error, but we can also see that we continued the execution in <code class="highlighter-rouge">dbo.pr_2</code>, and called <code class="highlighter-rouge">dbo.pr_3</code>. Furthermore, the result gives us two rows back, from <code class="highlighter-rouge">dbo.pr_1</code> and <code class="highlighter-rouge">dbo_pr_3</code>:</p>
+
+<p><img src="/images/posts/result_after_fk.png" alt="" />
+<strong>Figure 3:</strong> <em>Result After FK Error</em></p>
+
+<h3 id="statement-termination">Statement Termination</h3>
+
+<p>What we just have seen is <strong>statement termination</strong>. The statement causing an error stopped executing, but we continued executing - even within the same proc - straight after that statement. Furthermore, the error had no <em>negative</em> impact on the transaction. This may or may not be what you expect and want.</p>
+
+<p>I guess that most of you who read this have heard about statement termination before, so what we just have done should not come as any surprise.</p>
+
+<p>Some of the errors that can cause statement termination are:</p>
+
+<ul>
+  <li>Most of <code class="highlighter-rouge">CONSTRAINT</code> errors:
+    <ul>
+      <li><code class="highlighter-rouge">NOT NULL</code></li>
+      <li><code class="highlighter-rouge">PRIMARY KEY</code> and <code class="highlighter-rouge">FOREIGN KEY</code> errors</li>
+      <li><code class="highlighter-rouge">CHECK CONSTRAINT</code></li>
+    </ul>
+  </li>
+  <li>Errors raised by the user</li>
+  <li>Quite a few more :)</li>
+</ul>
+
+<h3 id="scope-termination">Scope Termination</h3>
+
+<p><strong>Scope Termination</strong> is probably not as well known as statement termination. A scope termination is when SQL Server terminates the statement that caused the exception and subsequent execution within the same <em>scope</em>. In the examples we are using, <em>scope</em> would be an individual procedure. So, let us have a look at an scope termination example, let us <code class="highlighter-rouge">ALTER</code> our “naughty” procedure <code class="highlighter-rouge">dbo.pr_2</code> and comment out the statement which caused the FK violation, and un-comment where the procedure does a <code class="highlighter-rouge">SELECT</code> from the non-existent table <code class="highlighter-rouge">dbo.tb_MyTable</code>:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
+
+<span class="c1">----this should just work</span>
+<span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
+
+<span class="c1">---- this should cause a fk exception</span>
+<span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">--VALUES(5, 'Details for Invalid OrderID');</span>
+
+<span class="c1">-- invalid object name </span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">dbo</span><span class="p">.</span><span class="n">tb_MyTable</span><span class="p">;</span>
+
+<span class="c1">---- Conversion failure</span>
+<span class="c1">-- DECLARE @n int;</span>
+<span class="c1">-- SELECT @n = CONVERT(int,'ABC');</span>
+
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 6</strong>: <em>SELECT from Non-Existent Table</em></p>
+
+<p>When you execute as in <em>Code Snippet 4</em>, the outcome is:</p>
+
+<p><img src="/images/posts/scope_abort.png" alt="" />
+<strong>Figure 4:</strong> <em>Scope Abort Error</em></p>
+
+<p>As expected an error happened, but compared to the statement termination example, <code class="highlighter-rouge">dbo.pr_2</code> did not continue executing (we did not see <code class="highlighter-rouge">dbo.pr_2: Before EXEC dbo.pr_3</code>). The statement that caused the error was terminated <strong>AND</strong> all subsequent statements within that scope (procedure). However, the batch continues and <code class="highlighter-rouge">dbo.pr_Caller</code> committed the transaction. When you look at the <em>Results</em> tab in SSMS you will see one row returning from the <code class="highlighter-rouge">SELECT</code> statement; the insert done by <code class="highlighter-rouge">dbo.pr_1</code>.</p>
+
+<p>So, what causes scope termination? I have tried to look into that, but so far the only error type I have found termination the scope is when you try to access a missing object. If you know more types, please <a href="mailto:niels.it.berglund@gmail.com">email</a> me, and I can update this post.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> Neither statement termination, nor scope termination have any effect on a transaction.</p>
+</blockquote>
+
+<h4 id="error-handling-and-scope-termination">Error Handling and Scope Termination</h4>
+
+<p>An interesting aspect of scope termination is how it is being handled (or not) by error handling. From my previous posts about errors, (<a href="/2016/12/31/sql-server-error-handling-gotchas/">gotchas</a>, and <a href="/2017/01/08/abort-abort-we-re-xact-aborting-or-are-we/">XACT_ABORT</a>), we see how either <code class="highlighter-rouge">IF(@@ERROR &lt;&gt; 0 )</code>, or <code class="highlighter-rouge">TRY ... CATCH</code> catch exceptions. How about scope termination errors? You would expect them to be handled the same way as statement termination errors, as they do have the same severity (16), as can be seen from <em>Figure 3</em>, and <em>Figure 4</em>. In fact that is not the case! It turns out that an <code class="highlighter-rouge">IF(@@ERROR &lt;&gt; 0)</code> will not catch the error, whereas a <code class="highlighter-rouge">TRY ... CATCH</code> block will!</p>
+
+<h3 id="batch-termination">Batch Termination</h3>
+
+<p>After having covered statement termination and scope termination above, I do think that it is pretty clear what <strong>batch</strong> termination is. Some code to show this; once again in <code class="highlighter-rouge">dbo.pr_2</code>, comment out the <code class="highlighter-rouge">SELECT</code> statement against the no existing table and un-comment the part where we try to do a <code class="highlighter-rouge">CAST</code> conversion:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_2</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before Insert'</span>
+
+<span class="c1">----this should just work</span>
+<span class="c1">--INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">--VALUES(2, 'Details for OrderID 2');</span>
+
+<span class="c1">---- this should cause a fk exception</span>
+<span class="c1">-- INSERT INTO dbo.tb_OrderDetail(OrderID, SomeDetail)</span>
+<span class="c1">-- VALUES(5, 'Details for Invalid OrderID');</span>
+
+<span class="c1">---- invalid object name </span>
+<span class="c1">-- SELECT * FROM dbo.tb_MyTable;</span>
+
+<span class="c1">--- Conversion failure</span>
+<span class="k">DECLARE</span> <span class="o">@</span><span class="n">n</span> <span class="n">int</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="o">@</span><span class="n">n</span> <span class="o">=</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">int</span><span class="p">,</span><span class="s1">'ABC'</span><span class="p">);</span>
+
+<span class="n">PRINT</span> <span class="s1">'dbo.pr_2: Before EXEC dbo.pr_3'</span>
+<span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_3</span><span class="p">;</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 7:</strong> <em>Proc Which Will Cause CAST Conversion Error</em></p>
+
+<p>When executing this (once again a in <em>Code Snippet 4</em>), this is what we get:</p>
+
+<p><img src="/images/posts/batch_termination.png" alt="" />
+<strong>Figure 5:</strong> <em>Batch Termination Error</em></p>
+
+<p>When looking at the output as per in <em>Figure 5</em>, we can see that no more execution happened in <code class="highlighter-rouge">dbo.pr_2</code>, as was also the case in scope-termination and <em>Figure 4</em>, <strong>BUT</strong> we do not see any further execution in <code class="highlighter-rouge">dbo.pr_Caller</code> either! The batch completely terminated. But wait a second; what about the transaction that was originally started in <code class="highlighter-rouge">dbo.pr_Caller</code>? That transaction has been rolled back automatically, when we exited the batch (more about that later).</p>
+
+<p>Errors that can cause batch termination are:</p>
+
+<ul>
+  <li>Conversion errors</li>
+  <li>Deadlocks</li>
+</ul>
+
+<h4 id="error-handling-and-batch-termination">Error Handling and Batch Termination</h4>
+
+<p>As with scope termination, <code class="highlighter-rouge">IF(@@ERROR &lt;&gt; 0)</code> will not catch the error that caused the batch termination, but <code class="highlighter-rouge">TRY ... CATCH</code> will. So, let’s see what happens when we introduce <code class="highlighter-rouge">TRY ... CATCH</code> in <code class="highlighter-rouge">dbo.pr_Caller</code>:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">BEGIN</span> <span class="n">TRY</span>
+  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Begin TX'</span>
+  <span class="k">BEGIN</span> <span class="n">TRANSACTION</span>
+  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before EXEC dbo.pr_1'</span>
+  <span class="k">EXEC</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_1</span><span class="p">;</span>
+  <span class="n">PRINT</span> <span class="s1">'dbo.pr_Caller: Before Commit TX'</span>
+  <span class="k">COMMIT</span>
+<span class="k">END</span> <span class="n">TRY</span>
+<span class="k">BEGIN</span> <span class="n">CATCH</span>
+  <span class="n">PRINT</span> <span class="s1">'In catch block'</span>
+<span class="k">END</span> <span class="n">CATCH</span>
+<span class="k">END</span>
+<span class="k">GO</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 8:</strong> <em>TRY … CATCH and Batch Termination</em></p>
+
+<p>We <code class="highlighter-rouge">ALTER</code> <code class="highlighter-rouge">dbo.pr_Caller</code> to have a <code class="highlighter-rouge">TRY ... CATCH</code>, but we do not do anything other than a <code class="highlighter-rouge">PRINT</code> statement. Remember, when we didn’t have any <code class="highlighter-rouge">TRY ... CATCH</code>, the transaction was automatically rolled back. It is a little bit different now when we execute it as in <em>Code Snippet 4</em>:</p>
+
+<p><img src="/images/posts/uncommitable_tx.png" alt="" />
+<strong>Figure 5:</strong> <em>Uncommittable Transaction</em></p>
+
+<p>What happened here? All of a sudden we get quite a few error messages, and what is this about <em>Uncommittable transaction</em> at the very end? The short story is that as soon as you introduce <code class="highlighter-rouge">TRY ... CATCH</code> and you have active transactions - you need to decide what to do with that transaction.</p>
+
+<p>OK makes sense. In this case, I don’t really care what went wrong, and I want to commit the transaction anyway. I conveniently don’t pay any attention to the part of <em>uncommittable</em> in the error message. After all - this is what I can do if I get a statement termination or scope termination, so why not do it here too! I <code class="highlighter-rouge">ALTER</code> the procedure to do <code class="highlighter-rouge">COMMIT TRAN</code> in the <code class="highlighter-rouge">CATCH</code> block straight after the <code class="highlighter-rouge">PRINT</code> statement, and then I execute:</p>
+
+<p><img src="/images/posts/current_tx_cannot_be_committed.png" alt="" />
+<strong>Figure 6:</strong> <em>Current Transaction Cannot be Committed</em></p>
+
+<p>I am in trouble now. This time I am <strong>really</strong> told that I am doing something wrong: “<em>The current transaction cannot be committed and cannot support operations
+that write to the log file. Roll back the transaction</em>”. What is this?</p>
+
+<h2 id="doomed-aka-oh-oh-i-am-so-up-the-cr33k">Doomed (a.k.a. “Oh, Oh, I am so up the cr33k”)</h2>
+
+<p>The errors we see in both <em>Figure 5</em> as well as in <em>Figure 6</em> are due to that SQL Server decides - for one reason or another - that it cannot commit the transaction. The transaction is <strong>doomed</strong>, and the only thing that can be done is to roll it back. It is not straight forward when an error causes a doomed transaction as the way SQL Server handles errors are case by case. Rule of thumb though is that in most cases a doomed transaction is due to some error that has caused a batch termination.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> To further drive home that SQL handles errors on a case by case basis, all errors we have seen so far (caused by statement, scope and batch terminations), have had a <em>severity</em> of 16.</p>
+</blockquote>
+
+<p>Just to prove that we can recover from a batch termination without errors, we <code class="highlighter-rouge">ALTER</code> the <code class="highlighter-rouge">dbo.pr_Caller</code> procedure, replace the <code class="highlighter-rouge">COMMIT TRAN</code> with <code class="highlighter-rouge">ROLLBACK TRAN</code>, and execute. The outcome will be completely different:</p>
+
+<p><img src="/images/posts/rollback_tran.png" alt="" />
+<strong>Figure 6:</strong> <em>Rollback Doomed Transaction</em></p>
+
+<p>As <em>Figure 6</em> shows, no “nasty” errors - all is OK! So what do we do if we sometimes want to commit the transaction if it is not doomed even if there has been an error, or rather - how can we figure out whether a transaction can be committed or not?</p>
+
+<h3 id="xact_state">XACT_STATE()</h3>
+
+<p>The way to determine if a transaction can be committed or not is to use <code class="highlighter-rouge">XACT_STATE()</code>. The <code class="highlighter-rouge">XACT_STATE()</code> is a scalar function and it reports on the state of the current transaction. There are 3 possible return values:</p>
+
+<ul>
+  <li>-1: a user transaction is active, but it is <em>doomed</em>, and it can only be rolled back</li>
+  <li>0: no user transaction is active</li>
+  <li>1: a user transaction is active, it can be committed or rolled back.</li>
+</ul>
+
+<p>To see an example of this <code class="highlighter-rouge">ALTER</code> the <code class="highlighter-rouge">dbo.pr_Caller</code> proc’s <code class="highlighter-rouge">CATCH</code> block to look something like <em>Code Snippet 9</em> below and then execute.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">BEGIN</span> <span class="n">CATCH</span>
+  <span class="k">DECLARE</span> <span class="o">@</span><span class="k">state</span> <span class="n">smallint</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">XACT_STATE</span><span class="p">());</span>
+  <span class="n">PRINT</span> <span class="s1">'In catch block and XACT_STATE = '</span> <span class="o">+</span> <span class="k">CAST</span><span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="k">as</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+  <span class="n">IF</span><span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">BEGIN</span>
+    <span class="n">PRINT</span> <span class="s1">'We are rolling back'</span>
+    <span class="k">ROLLBACK</span> <span class="n">TRAN</span><span class="p">;</span>
+  <span class="k">END</span>
+  <span class="k">ELSE</span> <span class="n">IF</span> <span class="p">(</span><span class="o">@</span><span class="k">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">BEGIN</span>
+    <span class="n">PRINT</span> <span class="s1">'We are committing'</span>
+  <span class="k">COMMIT</span> <span class="n">TRAN</span>
+  <span class="k">END</span>
+  <span class="k">ELSE</span>
+    <span class="n">PRINT</span> <span class="s1">'No transaction available'</span>
+    
+<span class="k">END</span> <span class="n">CATCH</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 9:</strong> <em>Using XACT_STATE()</em></p>
+
+<p>After execution the output would be like so:</p>
+
+<p><img src="/images/posts/xact_state.png" alt="" />
+<strong>Figure 7:</strong> <em>Rollback Doomed Transaction</em></p>
+
+<p>As we see from <em>Figure 7</em>, we ended up in the <code class="highlighter-rouge">CATCH</code> block, <code class="highlighter-rouge">XACT_STATE</code> was -1, and the transaction was rolled back. You can if you want <code class="highlighter-rouge">ALTER</code> the “naughty” proc <code class="highlighter-rouge">dbo.pr_2</code>, and comment out the statement causing the batch termination and un-comment the statement which creates the statement termination. When executing, you should now get an output like so:</p>
+
+<p><img src="/images/posts/xact_state_1.png" alt="" />
+<strong>Figure 8:</strong> <em>Rollback Doomed Transaction</em></p>
+
+<p>Here we had decided that even if an exception was raised, we wanted to commit the transaction, unless it was doomed.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> <code class="highlighter-rouge">XACT_STATE</code> can be used outside <code class="highlighter-rouge">TRY ... CATCH</code>, so you can use it even with “old style” error handling.</p>
+</blockquote>
+
+<h2 id="xact_abort">XACT_ABORT</h2>
+
+<p>I started this blog-post by talking about <code class="highlighter-rouge">XACT_ABORT</code>, and how I discussed with Sameer if it was good or bad. We have now come full circle and we are back to <code class="highlighter-rouge">XACT_ABORT</code>. You are probably asking yourself how that fits into here?</p>
+
+<p>The answer to that is that if you switch on <code class="highlighter-rouge">XACT_ABORT</code>, even statement termination errors will cause the transaction to be doomed! To test this, <code class="highlighter-rouge">ALTER</code> the calling proc <code class="highlighter-rouge">dbo.pr_Caller</code> and insert a <code class="highlighter-rouge">SET XACT ABORT ON</code> at the beginning of the proc, underneath the <code class="highlighter-rouge">SET NOCOUNT ON</code>. The first few lines of the proc should look like so:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ALTER</span> <span class="k">PROCEDURE</span> <span class="n">dbo</span><span class="p">.</span><span class="n">pr_Caller</span>
+<span class="k">AS</span>
+<span class="k">BEGIN</span>
+<span class="k">SET</span> <span class="n">NOCOUNT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">SET</span> <span class="n">XACT_ABORT</span> <span class="k">ON</span><span class="p">;</span>
+<span class="k">BEGIN</span> <span class="n">TRY</span>
+</code></pre></div></div>
+<p><strong>Code Snippet 10:</strong> <em>Setting XACT_ABORT ON</em></p>
+
+<p>If you haven’t already <code class="highlighter-rouge">ALTER</code>:ed <code class="highlighter-rouge">dbo.pr_2</code> to cause a foreign key exception (statement termination and not a “doomable” error), do so - as discussed between <em>Figure 7</em> and <em>Figure 8</em>. When you now execute you will get the same output as in <em>Figure 7</em>.</p>
+
+<p>Finally, it is quite common to hear that triggers can be an issue, as they are rolling back transactions if an error happens in the trigger. The reason for this is that when a trigger executes, it automatically sets <code class="highlighter-rouge">XACT_ABORT ON</code>.</p>
+
+<p>I am not completely certain of the reason for this, but I guess it is a good “defensive” measure. So, if you don’t want this behavior, you can do a <code class="highlighter-rouge">SET XACT_ABORT OFF</code> in your triggers.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Transactions are doomed:</p>
+
+<ul>
+  <li>When an exception happens which causes a batch termination</li>
+  <li>For any exception when <code class="highlighter-rouge">XACT_ABORT</code> is <code class="highlighter-rouge">ON</code>.</li>
+  <li>When SQL Server feels like it. :)</li>
+</ul>
+
+<p>Exception handling in SQL Server is <strong>NOT</strong> straight forward, especially when mixed with transactions!</p>
+
+
+
+    
+<p>
+<h2>Share this Post:</h2> 
+<a href="https://twitter.com/intent/tweet?url=http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/&text=Doomed, We are All Doomed I Say!&via=nielsberglund" 
+   target="_blank">Twitter</a>
+<a href="https://plus.google.com/share?url=http://www.nielsberglund.com//2017/01/27/doomed-we-are-all-doomed/" 
+   onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+    | Google+</a>
+<a href="https://www.linkedin.com/shareArticle?
+         mini=true
+         &url=http://www.nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/
+         &title=Doomed, We are All Doomed I Say!
+         &summary=Blog post: SQL Server and XACT_STATE(). A blog-post about doomed transactions in SQL Server and XACT_STATE()
+         &source=http://www.nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/"> | LinkedIn</a> 
+
+</p>   
+   <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+   http://www.linkedin.com/shareArticle?mini=true&url=<URL>&title=<TITILE>&summary=<DESCRIPTION>&sourc
+
+
+   https://www.linkedin.com/shareArticle?mini=true&url=http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/
+
+   -->
+
+
+
+    <p>
+<h2>Blog Feed:</h2>
+To automatically receive more posts like this, please
+<a href="http://feeds.feedburner.com/manageddata/" target="_blank"> subscribe to my RSS/Atom feed</a> in your feed reader!</p>
+
+
+    <br/>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Ad2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3005153158271538"
+     data-ad-slot="1158080725"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <br/>
+
+    
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    <h2>Post Tags:</h2>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags/#transactions">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">transactions</span>
+    </a>
+  
+    
+    <a href="/tags/#error-handling">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">error handling</span>
+    </a>
+  
+    
+    <a href="/tags/#xact-state">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">XACT_STATE()</span>
+    </a>
+  
+    
+    <a href="/tags/#xact-abort">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">XACT-ABORT()</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/";
+    this.page.identifier = "" ||
+                           "http://nielsberglund.com/2017/01/27/doomed-we-are-all-doomed/";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//manageddata.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/2018/08/05/interesting-stuff-week-31/">
+            Interesting Stuff - Week 31
+            <small>05 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/08/04/sp-execute-external-script-and-sql-compute-context-iii/">
+            sp_execute_external_script and SQL Compute Context - III
+            <small>04 Aug 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/07/29/interesting-stuff-week-30/">
+            Interesting Stuff - Week 30
+            <small>29 Jul 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-18914734-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Optional footer content -->
+
+  </body>
+</html>
