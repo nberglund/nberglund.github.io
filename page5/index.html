@@ -482,6 +482,64 @@
   
   <article class="post-body">
     <h2 class="post-title">
+      <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">
+        sp_execute_external_script and SQL Compute Context - I
+      </a>
+    </h2>
+    <div class="post-subheading">
+  <span class="post-date">20 May 2018</span>
+
+  <span class="post-tag">
+    
+      <br/>
+      <span class="post-tagdesc">Categories:</span>
+    
+
+    
+     <a href="/categories/#SQL Server">SQL Server</a>
+    
+     <a href="/categories/#Microsoft R Server">Microsoft R Server</a>
+    
+     <a href="/categories/#Microsoft Machine Learning Server">Microsoft Machine Learning Server</a>
+    
+     <a href="/categories/#Data Science">Data Science</a>
+    
+     <a href="/categories/#SQL Server R Services">SQL Server R Services</a>
+    
+     <a href="/categories/#SQL Server Machine Learning Services">SQL Server Machine Learning Services</a>
+    
+
+      
+  </span>
+</div>
+
+    
+      <p>The last <a href="/2018/03/21/microsoft-sql-server-r-services-sp-execute-external-script-iii/">blog post</a> in the <a href="/series/sql_server_2k16_r_services">Microsoft SQL Server R Services</a> series covered some performance related parameters of <code class="highlighter-rouge">sp_execute_external_script</code>, (<code class="highlighter-rouge">@parallel</code> and <code class="highlighter-rouge">@r_rowsPerRead</code>), and it touched a little bit on <strong>SQL Server Compute Context</strong>.</p>
+
+<p>After I published the post, I received an email from <a href="https://www.linkedin.com/in/umachandarjayachandran/">Umachandar Jayachandran</a> who is a Principal Program Manager in the SQL Server team and is working on integration of R, Python and other runtimes into SQL Server (basically, he knows this “stuff”). In the mail, he said that I was somewhat incorrect in what I said about how the <strong>SQL Server Compute Context</strong> (SQLCC) works.</p>
+
+<p>So I decided to write a post to correct my mistakes, and this is it. While I wrote this post I realized that there are more to the SQL compute context that meets ones eye, so I will - in all likelihood - write more posts about SQLCC.</p>
+
+<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+
+<p>Before I begin I want to say a very big <strong>THANK YOU</strong> to <a href="https://www.linkedin.com/in/umachandarjayachandran/">Umachandar</a> as well as <a href="https://twitter.com/nelliegson">Nellie Gustafsson</a> who also is a SQL Server Program Manager at Microsoft. Without them making me see the “errors of my way” I would not have been able to write this post.</p>
+
+
+    
+
+    
+      
+      
+      
+
+      
+        <a href="/2018/05/20/sp-execute-external-script-and-sql-compute-context/">More &hellip;</a>
+      
+    
+  </article>
+  
+  <article class="post-body">
+    <h2 class="post-title">
       <a href="/2018/05/13/interesting-stuff-week-19/">
         Interesting Stuff - Week 19
       </a>
@@ -680,57 +738,6 @@
 
       
         <a href="/2018/04/22/interesting-stuff-week-16/">More &hellip;</a>
-      
-    
-  </article>
-  
-  <article class="post-body">
-    <h2 class="post-title">
-      <a href="/2018/04/15/interesting-stuff-week-15/">
-        Interesting Stuff - Week 15
-      </a>
-    </h2>
-    <div class="post-subheading">
-  <span class="post-date">15 Apr 2018</span>
-
-  <span class="post-tag">
-    
-      <br/>
-      <span class="post-tagdesc">Categories:</span>
-    
-
-    
-     <a href="/categories/#roundup">roundup</a>
-    
-
-      
-  </span>
-</div>
-
-    
-      <p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-  <li>data science</li>
-  <li>data in general</li>
-  <li>distributed computing</li>
-  <li>SQL Server</li>
-  <li>transactions (both db as well as non db)</li>
-  <li>and other “stuff”</li>
-</ul>
-
-<p>This blog-post is the “roundup” of the things that have been most interesting to me, for the week just ending.</p>
-
-
-    
-
-    
-      
-      
-      
-
-      
-        <a href="/2018/04/15/interesting-stuff-week-15/">More &hellip;</a>
       
     
   </article>
