@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Niels Berglund</title>
+    <link>http://nielsberglund.com/categories/</link>
+    <description>Recent content in Categories on Niels Berglund</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 18 Nov 2010 09:27:56 +0200</lastBuildDate>
+    
+	<atom:link href="http://nielsberglund.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>.Net</title>
+      <link>http://nielsberglund.com/categories/.net/</link>
+      <pubDate>Thu, 18 Nov 2010 09:27:56 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/.net/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blogging</title>
+      <link>http://nielsberglund.com/categories/blogging/</link>
+      <pubDate>Fri, 17 Aug 2018 19:19:46 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/blogging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cep</title>
+      <link>http://nielsberglund.com/categories/cep/</link>
+      <pubDate>Sun, 07 Nov 2010 09:27:56 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/cep/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Clr</title>
+      <link>http://nielsberglund.com/categories/clr/</link>
+      <pubDate>Sat, 13 Nov 2010 09:27:56 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/clr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Confluent Platform</title>
+      <link>http://nielsberglund.com/categories/confluent-platform/</link>
+      <pubDate>Tue, 10 Jul 2018 18:43:48 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/confluent-platform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Science</title>
+      <link>http://nielsberglund.com/categories/data-science/</link>
+      <pubDate>Sat, 04 Aug 2018 16:05:46 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Derivco</title>
+      <link>http://nielsberglund.com/categories/derivco/</link>
+      <pubDate>Tue, 29 Oct 2013 20:13:56 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/derivco/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kafka</title>
+      <link>http://nielsberglund.com/categories/kafka/</link>
+      <pubDate>Tue, 10 Jul 2018 18:43:48 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Microsoft Machine Learning Server</title>
+      <link>http://nielsberglund.com/categories/microsoft-machine-learning-server/</link>
+      <pubDate>Sat, 04 Aug 2018 16:05:46 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/microsoft-machine-learning-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Microsoft R Server</title>
+      <link>http://nielsberglund.com/categories/microsoft-r-server/</link>
+      <pubDate>Sat, 04 Aug 2018 16:05:46 +0200</pubDate>
+      
+      <guid>http://nielsberglund.com/categories/microsoft-r-server/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
