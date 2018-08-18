@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Azure Data Factory on Niels Berglund</title>
-    <link>http://nielsberglund.com/tags/azure-data-factory/</link>
+    <link>/tags/azure-data-factory/</link>
     <description>Recent content in Azure Data Factory on Niels Berglund</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Sun, 22 Apr 2018 16:45:06 +0200</lastBuildDate>
     
-	<atom:link href="http://nielsberglund.com/tags/azure-data-factory/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/azure-data-factory/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Interesting Stuff - Week 16</title>
-      <link>http://nielsberglund.com/2018/04/interesting-stuff---week-16/</link>
+      <link>/2018/04/interesting-stuff---week-16/</link>
       <pubDate>Sun, 22 Apr 2018 16:45:06 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/04/interesting-stuff---week-16/</guid>
+      <guid>/2018/04/interesting-stuff---week-16/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -36,10 +36,10 @@
     
     <item>
       <title>Interesting Stuff - Week 43</title>
-      <link>http://nielsberglund.com/2017/10/interesting-stuff---week-43/</link>
+      <link>/2017/10/interesting-stuff---week-43/</link>
       <pubDate>Sun, 29 Oct 2017 19:29:49 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2017/10/interesting-stuff---week-43/</guid>
+      <guid>/2017/10/interesting-stuff---week-43/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;

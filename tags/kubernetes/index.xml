@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kubernetes on Niels Berglund</title>
-    <link>http://nielsberglund.com/tags/kubernetes/</link>
+    <link>/tags/kubernetes/</link>
     <description>Recent content in Kubernetes on Niels Berglund</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Sun, 08 Apr 2018 16:04:25 +0200</lastBuildDate>
     
-	<atom:link href="http://nielsberglund.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Interesting Stuff - Week 14</title>
-      <link>http://nielsberglund.com/2018/04/interesting-stuff---week-14/</link>
+      <link>/2018/04/interesting-stuff---week-14/</link>
       <pubDate>Sun, 08 Apr 2018 16:04:25 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/04/interesting-stuff---week-14/</guid>
+      <guid>/2018/04/interesting-stuff---week-14/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -36,10 +36,10 @@
     
     <item>
       <title>Interesting Stuff - Week 6</title>
-      <link>http://nielsberglund.com/2018/02/interesting-stuff---week-6/</link>
+      <link>/2018/02/interesting-stuff---week-6/</link>
       <pubDate>Sun, 11 Feb 2018 06:57:25 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/02/interesting-stuff---week-6/</guid>
+      <guid>/2018/02/interesting-stuff---week-6/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -58,10 +58,10 @@
     
     <item>
       <title>Interesting Stuff - Week 36</title>
-      <link>http://nielsberglund.com/2017/09/interesting-stuff---week-36/</link>
+      <link>/2017/09/interesting-stuff---week-36/</link>
       <pubDate>Sun, 10 Sep 2017 08:56:44 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2017/09/interesting-stuff---week-36/</guid>
+      <guid>/2017/09/interesting-stuff---week-36/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;

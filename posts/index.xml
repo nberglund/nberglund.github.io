@@ -2,38 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Niels Berglund</title>
-    <link>http://nielsberglund.com/posts/</link>
+    <link>/posts/</link>
     <description>Recent content in Posts on Niels Berglund</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Fri, 17 Aug 2018 19:19:46 +0200</lastBuildDate>
     
-	<atom:link href="http://nielsberglund.com/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Goodbye Jekyll, Welcome Hugo!</title>
-      <link>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</link>
+      <link>/2018/08/goodbye-jekyll-welcome-hugo/</link>
       <pubDate>Fri, 17 Aug 2018 19:19:46 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</guid>
-      <description>&lt;p&gt;Back in 2013 I wrote a &lt;a href=&#34;http://nielsberglund.com/2013/10/moving-to-a-new-blog-engine/&#34;&gt;post&lt;/a&gt; about how I moved from a self hosted &lt;strong&gt;WordPress&lt;/strong&gt; blog to a static blog; &lt;a href=&#34;http://octopress.org&#34;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt;. OctoPress spoke to my &amp;ldquo;geeky&amp;rdquo; side, as the foundation of it is the static blog-generator &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;strong&gt;Jekyll&lt;/strong&gt;&lt;/a&gt;, which in turn is Ruby based. In fact, OctoPress is more or less just some extra Ruby plugins on top of Jekyll, and to generate sites with OctoPress / Ruby you need Ruby installed on you machine.&lt;/p&gt;
-
-&lt;p&gt;I thought that by changing the blog platform, I might write more posts just due to the &amp;ldquo;geekiness&amp;rdquo; of the blog engine. Fast forward to the end of 2016, and the number of posts I had written since the switch came to a grand total of three. Those three includes the post where I announced the switch. Yeah, switching increased indeed my productivity - NOT!&lt;/p&gt;
-
-&lt;p&gt;So what does this have to do with anything?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Goodbye Jekyll, Welcome Hugo!</title>
-      <link>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</link>
-      <pubDate>Fri, 17 Aug 2018 19:19:46 +0200</pubDate>
-      
-      <guid>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</guid>
-      <description>&lt;p&gt;Back in 2013 I wrote a &lt;a href=&#34;http://nielsberglund.com/2013/10/moving-to-a-new-blog-engine/&#34;&gt;post&lt;/a&gt; about how I moved from a self hosted &lt;strong&gt;WordPress&lt;/strong&gt; blog to a static blog; &lt;a href=&#34;http://octopress.org&#34;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt;. OctoPress spoke to my &amp;ldquo;geeky&amp;rdquo; side, as the foundation of it is the static blog-generator &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;strong&gt;Jekyll&lt;/strong&gt;&lt;/a&gt;, which in turn is Ruby based. In fact, OctoPress is more or less just some extra Ruby plugins on top of Jekyll, and to generate sites with OctoPress / Ruby you need Ruby installed on you machine.&lt;/p&gt;
+      <guid>/2018/08/goodbye-jekyll-welcome-hugo/</guid>
+      <description>&lt;p&gt;Back in 2013 I wrote a &lt;a href=&#34;/2013/10/moving-to-a-new-blog-engine/&#34;&gt;post&lt;/a&gt; about how I moved from a self hosted &lt;strong&gt;WordPress&lt;/strong&gt; blog to a static blog; &lt;a href=&#34;http://octopress.org&#34;&gt;&lt;strong&gt;OctoPress&lt;/strong&gt;&lt;/a&gt;. OctoPress spoke to my &amp;ldquo;geeky&amp;rdquo; side, as the foundation of it is the static blog-generator &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;strong&gt;Jekyll&lt;/strong&gt;&lt;/a&gt;, which in turn is Ruby based. In fact, OctoPress is more or less just some extra Ruby plugins on top of Jekyll, and to generate sites with OctoPress / Ruby you need Ruby installed on you machine.&lt;/p&gt;
 
 &lt;p&gt;I thought that by changing the blog platform, I might write more posts just due to the &amp;ldquo;geekiness&amp;rdquo; of the blog engine. Fast forward to the end of 2016, and the number of posts I had written since the switch came to a grand total of three. Those three includes the post where I announced the switch. Yeah, switching increased indeed my productivity - NOT!&lt;/p&gt;
 
@@ -44,10 +29,10 @@
     
     <item>
       <title>Interesting Stuff - Week 32</title>
-      <link>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</link>
+      <link>/2018/08/interesting-stuff---week-32/</link>
       <pubDate>Sun, 12 Aug 2018 12:02:02 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</guid>
+      <guid>/2018/08/interesting-stuff---week-32/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -66,10 +51,10 @@
     
     <item>
       <title>Interesting Stuff - Week 31</title>
-      <link>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</link>
+      <link>/2018/08/interesting-stuff---week-31/</link>
       <pubDate>Sun, 05 Aug 2018 08:01:44 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</guid>
+      <guid>/2018/08/interesting-stuff---week-31/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -88,13 +73,13 @@
     
     <item>
       <title>sp_execute_external_script and SQL Compute Context - III</title>
-      <link>http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</link>
+      <link>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</link>
       <pubDate>Sat, 04 Aug 2018 16:05:46 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</guid>
-      <description>&lt;p&gt;In the &lt;a href=&#34;http://nielsberglund.com/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post I wrote about &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES) and the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: &lt;a href=&#34;http://nielsberglund.com/2018/05/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; where I tried to correct my mistakes from the &lt;a href=&#34;http://nielsberglund.com/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;initial post&lt;/a&gt;. That post led to &lt;a href=&#34;http://nielsberglund.com/2018/07/sp_execute_external_script-and-sql-compute-context---ii/&#34;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt; and now we have a mini-series.&lt;/p&gt;
+      <guid>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</guid>
+      <description>&lt;p&gt;In the &lt;a href=&#34;/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post I wrote about &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES) and the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: &lt;a href=&#34;/2018/05/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; where I tried to correct my mistakes from the &lt;a href=&#34;/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;initial post&lt;/a&gt;. That post led to &lt;a href=&#34;/2018/07/sp_execute_external_script-and-sql-compute-context---ii/&#34;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt; and now we have a mini-series.&lt;/p&gt;
 
-&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;http://nielsberglund.com/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In the previous post in this series, we looked at how data is sent to the SqlSatellite from SQL Server when we are in the SQLCC. This post was meant to look at what goes on inside SQL Server when we execute in SQLCC, but I realised that it would make more sense if, before we look at the internal working when in SQLCC, I covered what happens when pulling data in the local context. So that is what this post is all about.&lt;/p&gt;
 
@@ -103,10 +88,10 @@
     
     <item>
       <title>Interesting Stuff - Week 30</title>
-      <link>http://nielsberglund.com/2018/07/interesting-stuff---week-30/</link>
+      <link>/2018/07/interesting-stuff---week-30/</link>
       <pubDate>Sun, 29 Jul 2018 19:11:58 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/07/interesting-stuff---week-30/</guid>
+      <guid>/2018/07/interesting-stuff---week-30/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -125,10 +110,10 @@
     
     <item>
       <title>Interesting Stuff - Week 29</title>
-      <link>http://nielsberglund.com/2018/07/interesting-stuff---week-29/</link>
+      <link>/2018/07/interesting-stuff---week-29/</link>
       <pubDate>Sun, 22 Jul 2018 16:06:58 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/07/interesting-stuff---week-29/</guid>
+      <guid>/2018/07/interesting-stuff---week-29/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -147,10 +132,10 @@
     
     <item>
       <title>Interesting Stuff - Week 28</title>
-      <link>http://nielsberglund.com/2018/07/interesting-stuff---week-28/</link>
+      <link>/2018/07/interesting-stuff---week-28/</link>
       <pubDate>Sun, 15 Jul 2018 06:15:28 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/07/interesting-stuff---week-28/</guid>
+      <guid>/2018/07/interesting-stuff---week-28/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -169,10 +154,10 @@
     
     <item>
       <title>Install Confluent Platform (Kafka) on Windows</title>
-      <link>http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/</link>
+      <link>/2018/07/install-confluent-platform-kafka-on-windows/</link>
       <pubDate>Tue, 10 Jul 2018 18:43:48 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/</guid>
+      <guid>/2018/07/install-confluent-platform-kafka-on-windows/</guid>
       <description>&lt;p&gt;You who follows my blog and have read my weekly roundups you know that I am quite (that is an understatement) interested in Apache Kafka and I am curious to find out what &amp;ldquo;cool&amp;rdquo; things one can do with it. For that, I want to be able to test &amp;ldquo;stuff&amp;rdquo; quickly. When I test and try out new things, I usually do it on my development box which contains everything I need: &lt;strong&gt;SQL Server&lt;/strong&gt;, &lt;strong&gt;RabbitMQ&lt;/strong&gt;, &lt;strong&gt;RStudio&lt;/strong&gt;, &lt;strong&gt;Microsoft Machine Learning Server&lt;/strong&gt;, &lt;strong&gt;Visual Studio&lt;/strong&gt; and the list goes on.&lt;/p&gt;
 
 &lt;p&gt;So seeing that I have most of my &amp;ldquo;tools of the trade&amp;rdquo; on my machine I obviously also would like to have Kafka on the box. Herein lies a problem, I am a Windows dude and Kafka, and Windows do not gel. Yes, some people are running Kafka on Windows, but it is a chore. OK, so what to do? Sure, I could potentially run Kafka on a virtual machine, or in a Docker image, but it is not as transparent as I would like it to be (yeah, I am lazy).&lt;/p&gt;
@@ -184,10 +169,10 @@
     
     <item>
       <title>Interesting Stuff - Week 27</title>
-      <link>http://nielsberglund.com/2018/07/interesting-stuff---week-27/</link>
+      <link>/2018/07/interesting-stuff---week-27/</link>
       <pubDate>Sun, 08 Jul 2018 12:11:28 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/07/interesting-stuff---week-27/</guid>
+      <guid>/2018/07/interesting-stuff---week-27/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -200,6 +185,21 @@
 &lt;/ul&gt;
 
 &lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>sp_execute_external_script and SQL Compute Context - II</title>
+      <link>/2018/07/sp_execute_external_script-and-sql-compute-context---ii/</link>
+      <pubDate>Sat, 07 Jul 2018 10:54:21 +0200</pubDate>
+      
+      <guid>/2018/07/sp_execute_external_script-and-sql-compute-context---ii/</guid>
+      <description>&lt;p&gt;I wrote the post &lt;a href=&#34;/2018/05/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works with &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES), as I wanted to correct some mistakes I did in the &lt;a href=&#34;/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.&lt;/p&gt;
+
+&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&#34;/2018/05/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Flink on Niels Berglund</title>
-    <link>http://nielsberglund.com/tags/flink/</link>
+    <link>/tags/flink/</link>
     <description>Recent content in Flink on Niels Berglund</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Sun, 12 Aug 2018 12:02:02 +0200</lastBuildDate>
     
-	<atom:link href="http://nielsberglund.com/tags/flink/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/flink/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Interesting Stuff - Week 32</title>
-      <link>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</link>
+      <link>/2018/08/interesting-stuff---week-32/</link>
       <pubDate>Sun, 12 Aug 2018 12:02:02 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</guid>
+      <guid>/2018/08/interesting-stuff---week-32/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -36,10 +36,10 @@
     
     <item>
       <title>Interesting Stuff - Week 31</title>
-      <link>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</link>
+      <link>/2018/08/interesting-stuff---week-31/</link>
       <pubDate>Sun, 05 Aug 2018 08:01:44 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</guid>
+      <guid>/2018/08/interesting-stuff---week-31/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -58,10 +58,10 @@
     
     <item>
       <title>Interesting Stuff - Week 25</title>
-      <link>http://nielsberglund.com/2018/06/interesting-stuff---week-25/</link>
+      <link>/2018/06/interesting-stuff---week-25/</link>
       <pubDate>Sun, 24 Jun 2018 20:36:32 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/06/interesting-stuff---week-25/</guid>
+      <guid>/2018/06/interesting-stuff---week-25/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -80,10 +80,10 @@
     
     <item>
       <title>Interesting Stuff - Week 21</title>
-      <link>http://nielsberglund.com/2018/05/interesting-stuff---week-21/</link>
+      <link>/2018/05/interesting-stuff---week-21/</link>
       <pubDate>Sun, 27 May 2018 11:06:31 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/05/interesting-stuff---week-21/</guid>
+      <guid>/2018/05/interesting-stuff---week-21/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -102,10 +102,10 @@
     
     <item>
       <title>Interesting Stuff - Week 18</title>
-      <link>http://nielsberglund.com/2018/05/interesting-stuff---week-18/</link>
+      <link>/2018/05/interesting-stuff---week-18/</link>
       <pubDate>Sun, 06 May 2018 19:27:40 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/05/interesting-stuff---week-18/</guid>
+      <guid>/2018/05/interesting-stuff---week-18/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -124,10 +124,10 @@
     
     <item>
       <title>Interesting Stuff - Week 13</title>
-      <link>http://nielsberglund.com/2018/03/interesting-stuff---week-13/</link>
+      <link>/2018/03/interesting-stuff---week-13/</link>
       <pubDate>Sat, 31 Mar 2018 19:12:05 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/03/interesting-stuff---week-13/</guid>
+      <guid>/2018/03/interesting-stuff---week-13/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -146,10 +146,10 @@
     
     <item>
       <title>Interesting Stuff - Week 11</title>
-      <link>http://nielsberglund.com/2018/03/interesting-stuff---week-11/</link>
+      <link>/2018/03/interesting-stuff---week-11/</link>
       <pubDate>Sun, 18 Mar 2018 20:20:08 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/03/interesting-stuff---week-11/</guid>
+      <guid>/2018/03/interesting-stuff---week-11/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -168,10 +168,10 @@
     
     <item>
       <title>Interesting Stuff - Week 8</title>
-      <link>http://nielsberglund.com/2018/02/interesting-stuff---week-8/</link>
+      <link>/2018/02/interesting-stuff---week-8/</link>
       <pubDate>Sun, 25 Feb 2018 11:06:52 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/02/interesting-stuff---week-8/</guid>
+      <guid>/2018/02/interesting-stuff---week-8/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -191,10 +191,10 @@
     
     <item>
       <title>Interesting Stuff - Week 7</title>
-      <link>http://nielsberglund.com/2018/02/interesting-stuff---week-7/</link>
+      <link>/2018/02/interesting-stuff---week-7/</link>
       <pubDate>Sun, 18 Feb 2018 13:33:05 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/02/interesting-stuff---week-7/</guid>
+      <guid>/2018/02/interesting-stuff---week-7/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -213,10 +213,10 @@
     
     <item>
       <title>Interesting Stuff - Week 6</title>
-      <link>http://nielsberglund.com/2018/02/interesting-stuff---week-6/</link>
+      <link>/2018/02/interesting-stuff---week-6/</link>
       <pubDate>Sun, 11 Feb 2018 06:57:25 +0200</pubDate>
       
-      <guid>http://nielsberglund.com/2018/02/interesting-stuff---week-6/</guid>
+      <guid>/2018/02/interesting-stuff---week-6/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;

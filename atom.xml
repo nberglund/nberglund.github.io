@@ -1,66 +1,15 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
-  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
-  <link href="http://nielsberglund.com/"/>
+  <link href="/atom.xml" rel="self"/>
+  <link href="/"/>
   <updated>2018-08-17T19:19:46+02:00</updated>
-  <id>http://nielsberglund.com/</id>
+  <id>/</id>
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
     <title type="html"><![CDATA[Goodbye Jekyll, Welcome Hugo!]]></title>
-    <link href="http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/"/>
-    <id>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-08-17T19:19:46+02:00</published>
-    <updated>2018-08-17T19:19:46+02:00</updated>
-    <content type="html"><![CDATA[<p>Back in 2013 I wrote a <a href="/2013/10/moving-to-a-new-blog-engine/">post</a> about how I moved from a self hosted <strong>WordPress</strong> blog to a static blog; <a href="http://octopress.org"><strong>OctoPress</strong></a>. OctoPress spoke to my &ldquo;geeky&rdquo; side, as the foundation of it is the static blog-generator <a href="https://jekyllrb.com/"><strong>Jekyll</strong></a>, which in turn is Ruby based. In fact, OctoPress is more or less just some extra Ruby plugins on top of Jekyll, and to generate sites with OctoPress / Ruby you need Ruby installed on you machine.</p>
-
-<p>I thought that by changing the blog platform, I might write more posts just due to the &ldquo;geekiness&rdquo; of the blog engine. Fast forward to the end of 2016, and the number of posts I had written since the switch came to a grand total of three. Those three includes the post where I announced the switch. Yeah, switching increased indeed my productivity - NOT!</p>
-
-<p>So what does this have to do with anything?</p>
-
-<p></p>
-
-<p>Before I get into the reason for this post, let us look at what a static site generator is.</p>
-
-<h2 id="static-site">Static Site</h2>
-
-<p>A static site generator is a framework that takes source files and generates an entirely static website. We deploy the files that make up the site to the web server, and when a user requests a page, the web server returns that page to the user. This opposed to something like WordPress, where WordPress builds the page from a number of templates, gets the content and other site data from the database and sends the complete HTML page back to the user.</p>
-
-<p>The advantages of a static site are that it is usually less complicated than a dynamic site; no templates, no database and so forth. Quite often serving a page to the user is better performing as the page is not dynamically created.</p>
-
-<p>The downside of a static site is that you build it for each time you do a change to a page, adding a post, and so on, and depending on the size of your site (number of pages etc.), the build can take a while. So that is where my problem lies and the reason for this post.</p>
-
-<h2 id="problem">Problem</h2>
-
-<p>I mentioned above how I didn&rsquo;t manage to write any blog posts up to the end of 2016. Since then, however, I have been reasonably productive in my writing - and managed at least one post per week. It helps when you have cool stuff like <strong>SQL Server Machine Learning Services</strong> to write about. While it is cool that I produce posts, what I noticed was that the build time of the site took longer and longer. I did not think much about it until a couple of weeks ago when I had just finished the <a href="/2018/08/sp_execute_external_script-and-sql-compute-context---iii/">sp_execute_external_script and SQL Compute Context - III</a> post and tried to generate the site. It did not work; it just hung, what to do?</p>
-
-<p>I ended up removing all OctoPress plugins and edited all files that referenced the plugins, to be able to run a bare-bones Jekyll generated site. I eventually managed to get it to work again, but this made me look around for other site generators.</p>
-
-<h2 id="hugo">Hugo</h2>
-
-<p>In my looking around for static site generators I came across <a href="https://gohugo.io/">Hugo</a>. Like Jekyll it is an open source static site generator, but it is built on <a href="https://golang.org/"><strong>Go</strong></a> instead of Ruby. One of the differences between Hugo and Jekyll is that when you generate a site with Jekyll you execute Ruby commands, and, as I mentioned above, you need Ruby installed. Hugo, on the other hand, comes as an executable <code>Hugo.exe</code> and you do not need Go installed at all. That Hugo is a self contained executable is a big plus in my book, since I have had versioning issues with Ruby a couple of times.</p>
-
-<p>The most significant difference between Jekyll and Hugo though is speed when generating a site, or at least that is what the Hugo website says: &ldquo;<em>The world’s fastest framework for building websites</em>&rdquo;.</p>
-
-<p>With the above points in mind, I decided to try and convert this blog from Jekyll to Hugo.</p>
-
-<h2 id="blog-conversion">Blog Conversion</h2>
-
-<p>So, I spent a couple of hours a day for around a week converting my posts and pages to Hugo, and it was not that difficult. The biggest issue was how Jekyll refers to posts: <code>{% post_url 2018-08-04-sp-execute-external-script-and-sql-compute-context---iii %}</code> versus <code>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</code>, and I had a lot of those. I eventually wrote a small <code>C#</code> console application that trawled through the posts and did the conversion. Apart from that everything is pretty straightforward. Obviously there are differences, but nothing earthshattering, as far as I can tell.</p>
-
-<p>What about the speed then? Well, to build the Jekyll site took around 20 seconds, to build the site using Hugo takes around 2 seconds! Based on this, I decided to switch to Hugo, and this is the first post that I publish using Hugo as blog site generator. I hope I have not missed anything and that all is Ok. If not, well then, hopefully, you, my readers, <a href="mailto:niels.it.berglund@gmail.com">tell me</a> if you notice something amiss.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-  </entry>
-  <entry>
-    <title type="html"><![CDATA[Goodbye Jekyll, Welcome Hugo!]]></title>
-    <link href="http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/"/>
-    <id>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</id>
+    <link href="/2018/08/goodbye-jekyll-welcome-hugo/"/>
+    <id>/2018/08/goodbye-jekyll-welcome-hugo/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -110,8 +59,8 @@
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 32]]></title>
-    <link href="http://nielsberglund.com/2018/08/interesting-stuff---week-32/"/>
-    <id>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</id>
+    <link href="/2018/08/interesting-stuff---week-32/"/>
+    <id>/2018/08/interesting-stuff---week-32/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -180,8 +129,8 @@
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 31]]></title>
-    <link href="http://nielsberglund.com/2018/08/interesting-stuff---week-31/"/>
-    <id>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</id>
+    <link href="/2018/08/interesting-stuff---week-31/"/>
+    <id>/2018/08/interesting-stuff---week-31/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -253,8 +202,8 @@
   </entry>
   <entry>
     <title type="html"><![CDATA[sp_execute_external_script and SQL Compute Context - III]]></title>
-    <link href="http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/"/>
-    <id>http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</id>
+    <link href="/2018/08/sp_execute_external_script-and-sql-compute-context---iii/"/>
+    <id>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -728,8 +677,8 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 30]]></title>
-    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-30/"/>
-    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-30/</id>
+    <link href="/2018/07/interesting-stuff---week-30/"/>
+    <id>/2018/07/interesting-stuff---week-30/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -800,8 +749,8 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 29]]></title>
-    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-29/"/>
-    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-29/</id>
+    <link href="/2018/07/interesting-stuff---week-29/"/>
+    <id>/2018/07/interesting-stuff---week-29/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -859,8 +808,8 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 28]]></title>
-    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-28/"/>
-    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-28/</id>
+    <link href="/2018/07/interesting-stuff---week-28/"/>
+    <id>/2018/07/interesting-stuff---week-28/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -923,8 +872,8 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
   </entry>
   <entry>
     <title type="html"><![CDATA[Install Confluent Platform (Kafka) on Windows]]></title>
-    <link href="http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/"/>
-    <id>http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/</id>
+    <link href="/2018/07/install-confluent-platform-kafka-on-windows/"/>
+    <id>/2018/07/install-confluent-platform-kafka-on-windows/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -1157,8 +1106,8 @@ We Have Installed Kafka on Windows!
   </entry>
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 27]]></title>
-    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-27/"/>
-    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-27/</id>
+    <link href="/2018/07/interesting-stuff---week-27/"/>
+    <id>/2018/07/interesting-stuff---week-27/</id>
     <author>
       <name>nielsb</name>
     </author>
@@ -1227,5 +1176,374 @@ We Have Installed Kafka on Windows!
 <!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
 
 <!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->]]></content>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[sp_execute_external_script and SQL Compute Context - II]]></title>
+    <link href="/2018/07/sp_execute_external_script-and-sql-compute-context---ii/"/>
+    <id>/2018/07/sp_execute_external_script-and-sql-compute-context---ii/</id>
+    <author>
+      <name>nielsb</name>
+    </author>
+    <published>2018-07-07T10:54:21+02:00</published>
+    <updated>2018-07-07T10:54:21+02:00</updated>
+    <content type="html"><![CDATA[<p>I wrote the post <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code>sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p>
+
+<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+
+<p>One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">post</a>, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.</p>
+
+<p></p>
+
+<h2 id="recap">Recap</h2>
+
+<p>In quite a few posts about <strong>SQL Server Machine Learning Services</strong> we have discussed how, as part of the functionality in RevoScaleR, you can define where a workload executes. By default, it executes on your local machine, but you can also set it to execute in the context of somewhere else: Hadoop, Spark and also SQL Server. So, in essence, you can run some code on your development machine and have it execute in the environments mentioned above.</p>
+
+<p>In the <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a> post we saw that even when we executed from inside SQL Server, the compute context was the local context: <code>RxLocalSeq</code>. If we want to use the SQLCC we used <code>RxInSqlServer</code> and <code>rxSetComputeContext</code>:</p>
+
+<pre><code class="language-r"># set up the connection string
+sqlServerConnString &lt;- &quot;Driver=SQL Server;
+                        server=.; # localhost
+                        database=testParallel;
+                        uid=some_uid;pwd=some_pwd&quot;
+
+# set up the context
+sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                        numTasks = 1)
+# set the compute context to be the sql context
+rxSetComputeContext(sqlCtx)    
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Set up SQL Server Compute Context</em></p>
+
+<p>To setup the context we see in <em>Code Snippet 1</em> how we use a connection string pointing to the SQL Server where we want to execute the code. In this case, it is the instance we are on.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> The connection string is for where we want to execute, not necessarily where the data we use resides.</p>
+</blockquote>
+
+<p>We also see in <em>Figure 1</em> how <code>RxInSqlServer</code> has the <code>numTasks</code> parameter for you to set the number of tasks (processes) to run for each computation. The parameter defines the maximum number of tasks SQL Server can use. SQL Server can, however, decide to start fewer processes. Finally in <em>Figure 1</em> we call <code>rxSetComputeContext</code> which ensures that any code with functions that support SQLCC, executes under the compute context.</p>
+
+<p>In the <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a> post, we saw how when we execute inside of SQL Server via SPEES we by default run in the local context and only by setting the context as in <em>Code Snippet 1</em> we can execute in SQLCC.</p>
+
+<p>An interesting observation when we set the <code>numTasks</code> parameter to a value greater than 1 is that when we run the code, we run it hosted in an <code>mpiexec.exe</code> process:</p>
+
+<p><img src="/images/posts/sql_ml_services_comp_mpi.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Parallel Execution in Compute Context</em></p>
+
+<p>In <em>Figure 1</em> we now see not only the &ldquo;usual&rdquo; RTerm and <code>BxlServer.exe</code> processes but also a new hosting process, outlined in red, <code>mpiexec.exe</code>. Underneath the <code>mpiexec.exe</code> process we see the <code>smpd.exe</code> process (outlined in green) and then four RTerm processes with <code>BxlServer.exe</code> processes which handle the workload. So, <code>mpiexec.exe</code> and <code>smpd.exe</code> are parts of <a href="https://msdn.microsoft.com/en-us/library/bb524831%28v=vs.85%29.aspx?f=255&amp;MSPPError=-2147217396"><strong>Microsoft MPI</strong></a> which is an implementation of MPI which is a communication protocol for programming parallel computers.</p>
+
+<p>All this is somewhat interesting, but the most interesting thing (at least for me) is the performance difference we saw when executing the same code in the local context compared to the SQLCC. When executing with <code>numTasks</code> set to 1 (as it would be under the local context) code that ran in ~40 seconds in the local context took ~30 seconds to run in SQLCC! Once again, we did not run it with multiple tasks in SQLCC, so just be running in SQLCC we received a performance gain of about 30%!</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> The performance gain is of course not always 30%, it depends on data volumes.</p>
+</blockquote>
+
+<p>So, as I said at the beginning of this post - let us try and figure out why the performance is better using SQLCC.</p>
+
+<h2 id="housekeeping">Housekeeping</h2>
+
+<p>Before we &ldquo;dive&rdquo; into today&rsquo;s topics let us look at the code and the tools we use today. This section is here for those who want to follow along in what we are doing in the post.</p>
+
+<h4 id="helper-tools">Helper Tools</h4>
+
+<p>To help us figure out the things we want, we use <em>Process Monitor</em> to filter TCP traffic.</p>
+
+<h4 id="code">Code</h4>
+
+<p>This is the database objects we use in this post:</p>
+
+<pre><code class="language-sql">USE master;
+GO
+
+SET NOCOUNT ON;
+GO
+
+DROP DATABASE IF EXISTS TestParallel;
+GO
+
+CREATE DATABASE TestParallel;
+GO
+
+USE TestParallel;
+GO
+
+DROP TABLE IF EXISTS dbo.tb_Rand_50M
+GO
+CREATE TABLE dbo.tb_Rand_50M
+(
+  RowID bigint identity PRIMARY KEY, 
+  y int NOT NULL, rand1 int NOT NULL, 
+  rand2 int NOT NULL, rand3 int NOT NULL, 
+  rand4 int NOT NULL, rand5 int NOT NULL,
+);
+GO
+
+INSERT INTO dbo.tb_Rand_50M(y, rand1, rand2, rand3, rand4, rand5)
+SELECT TOP(50000000) CAST(ABS(CHECKSUM(NEWID())) % 14 AS INT) 
+  , CAST(ABS(CHECKSUM(NEWID())) % 20 AS INT)
+  , CAST(ABS(CHECKSUM(NEWID())) % 25 AS INT)
+  , CAST(ABS(CHECKSUM(NEWID())) % 14 AS INT)
+  , CAST(ABS(CHECKSUM(NEWID())) % 50 AS INT)
+  , CAST(ABS(CHECKSUM(NEWID())) % 100 AS INT)
+FROM sys.objects o1
+CROSS JOIN sys.objects o2
+CROSS JOIN sys.objects o3
+CROSS JOIN sys.objects o4;
+GO
+
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Setup of Database, Table and Data</em></p>
+
+<p>We use more or less the same database and database object as in the <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a> post:</p>
+
+<ul>
+<li>A database: <code>TestParallel</code>.</li>
+<li>A table: <code>dbo.tb_Rand_50M</code>. This table contains the data we want to analyse.</li>
+</ul>
+
+<p>In addition to creating the database and the table <em>Code Snippet 2</em> also loads 50 million records into the <code>dbo.tb_Rand_50M</code>. Be aware that when you run the code in <em>Code Snippet 2</em> it may take some time to finish due to the loading of the data. Yes, I know - the data is entirely useless, but it is a lot of it, and it helps to illustrate what we want to do.</p>
+
+<p>The code we use is almost like what we used in <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a>:</p>
+
+<pre><code class="language-sql">DECLARE @isCtx bit = 0;
+DECLARE @numTasks int = 1;
+DECLARE @start datetime2 = SYSUTCDATETIME();
+EXEC sp_execute_external_script
+      @language = N'R'
+    , @script = N'
+      # set up the connection string
+      sqlServerConnString &lt;- &quot;Driver=SQL Server;server=.;
+                              database=testParallel;
+                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;&quot;
+      
+      if(useContext == 1) {
+        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                                numTasks = tasks)
+        # set the compute context to be the sql context
+        rxSetComputeContext(sqlCtx)
+      }
+
+      mydata &lt;- RxSqlServerData(sqlQuery = &quot;SELECT y, rand1, rand2, 
+                                            rand3, rand4, rand5 
+                                            FROM dbo.tb_Rand_50M&quot;,
+                                connectionString = sqlServerConnString);
+                        
+      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5, 
+                      data=mydata)
+
+      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'
+    , @params = N'@tasks int, @useContext bit'
+    , @tasks = @numTasks
+    , @useContext = @isCtx
+WITH RESULT SETS ((NumberRows int NOT NULL));
+SELECT DATEDIFF(ms, @start, SYSUTCDATETIME())
+</code></pre>
+
+<p><strong>Code Snippet 3:</strong> <em>Test Code</em></p>
+
+<p>As we see in <em>Code Snippet 3</em> we parameterize the <code>sp_execute_external_script</code> call, and we have parameters for whether to use the SQLCC and also how many tasks to run when executing in the context. The default is to execute in the local context, and when executing in SQLCC <code>numTasks</code> is 1.</p>
+
+<h2 id="performance-differences">Performance Differences</h2>
+
+<p>To start with, let us repeat - more or less - what we did in <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a> and compare execution times when running in the local context (<code>@isCtx = 0</code>) and when in SQLCC  (<code>@isCtx = 1</code>). In both cases, we execute with the default number of tasks (<code>numTasks = 1</code>).</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> Do a couple of executions in the local context as well as in the SQLCC to ensure you get representative numbers for both.</p>
+</blockquote>
+
+<p>When I run the code on my SQL Server instance I get the following results:</p>
+
+<ul>
+<li>Local context: ~40 seconds</li>
+<li>SQLCC: ~24 seconds</li>
+</ul>
+
+<p>So, the same workload shows an approximately 40% performance improvement when running in the SQLCC compared to the local context and this is in line with what we saw in <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a>. Why is this, we do the same things:</p>
+
+<ul>
+<li>We load data</li>
+<li>We apply the <code>rxLinMod</code> function.</li>
+<li>We run with the same number of tasks (single threaded).</li>
+</ul>
+
+<p>A question I have now is at what stage in the script, the script receives the 50 million rows? Comment out in the code, (<em>Code Snippet 3</em>), the <code>myModel</code> and <code>OutputDataSet</code> lines of code. When you now execute in the local context, you see the execution time is ~ 1 second. When you do the same in the SQLCC the time is about the same. It seems like the actual loading of the data happens not in the <code>RxSqlServerData</code> call, but in the call - in this case - to <code>rxLinMod</code>. Hmm, I wonder what happens if we instead of pulling the data, pushed the data to the <code>rxLinMod</code> call by using <code>@input_data_1</code>:</p>
+
+<pre><code class="language-sql">DECLARE @isCtx bit = 0;
+DECLARE @numTasks int = 1;
+DECLARE @start datetime2 = SYSUTCDATETIME();
+EXEC sp_execute_external_script
+      @language = N'R'
+    , @script = N'
+      # set up the connection string
+      sqlServerConnString &lt;- &quot;Driver=SQL Server;server=.;
+                              database=testParallel;
+                              uid=&lt;username&gt;;pwd=&lt;userpwd&gt;&quot;
+      
+      if(useContext == 1) {
+        sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                                numTasks = tasks)
+        # set the compute context to be the sql context
+        rxSetComputeContext(sqlCtx)
+      }
+                      
+      myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5, 
+                         data=InputDataSet)
+
+      OutputDataSet &lt;- data.frame(nRows=myModel$nValidObs);'
+    , @input_data_1 = N'SELECT y, rand1, rand2, rand3, rand4, rand5 
+                        FROM dbo.tb_Rand_50M'
+    , @params = N'@tasks int, @useContext bit'
+    , @tasks = @numTasks
+    , @useContext = @isCtx    
+WITH RESULT SETS ((NumberRows int NOT NULL));
+SELECT DATEDIFF(ms, @start, SYSUTCDATETIME())
+GO
+</code></pre>
+
+<p><strong>Code Snippet 4:</strong> <em>Pushing the Data</em></p>
+
+<p>In <em>Code Snippet 4</em> we see how we push the data through the <code>@input_data_1</code> straight to the <code>rxLinMod</code> call via <code>InputDataSet</code>. The code here does not look any different than from most of the other code used in many of my blog posts. When I execute it in the local context (<code>@isCtx bit = 0)</code> however:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_push_error.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Error Pushing Data</em></p>
+
+<p>Oh, it looks like we try to push too much data as we see, highlighted in <em>Figure 2</em>, a memory issue. Ok, but this is what the SQLCC is all about - efficiently handling large volumes of data, so let us execute the same code but in the SQLCC (<code>@isCtx bit = 1</code>):</p>
+
+<p><img src="/images/posts/sql_ml_services_compII_input_data_ctx_error.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Push and SQLCC Error</em></p>
+
+<p>Ouch, it seems that to use SQLCC we need to pull data through <code>RxSqlServerData</code>. Never mind, I still want to push large volumes of data, so I change <code>@input_data_1</code> to do a <code>SELECT TOP(30000000) ...</code> (30 million) from the table instead. When I push my 30 million rows in the local context the execution time is around  17 seconds. What are the timings if we execute the code in <em>Code Snippet 3</em> with a <code>TOP (30000000)</code> both in the local context as well as SQLCC and compare execution times:</p>
+
+<ul>
+<li>Local context push (<em>Code Snippet 4</em> and <code>@isCtx = 0</code>): ~ 17 seconds.</li>
+<li>Local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>): ~ 23 seconds.</li>
+<li>SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>): ~ 15 seconds.</li>
+</ul>
+
+<p>That was interesting, the timings between pushing the data in the local context are almost the same as pulling the data in SQLCC, and the push in the local context is much faster than the pull in the same context. What gives?</p>
+
+<p>All we have done so far points to that the difference in performance comes from loading the data, so the question is what the difference is when loading it from the local context compared to the SQLCC, and is SQLCC always faster. Let us start with the last question first; is SQLCC always faster?</p>
+
+<p>To test this change the <code>TOP</code> clause to <code>TOP(50)</code> and execute <em>Code Snippet 4</em> (pushing the data) and <em>Code Snippet 3</em> pulling the data both in the local context as well as SQLCC and take note of the timings:</p>
+
+<ul>
+<li>Local context push (<em>Code Snippet 4</em> and <code>@isCtx = 0</code>): ~ 200 ms.</li>
+<li>Local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>): ~ 260 ms.</li>
+<li>SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>): ~ 1.6 seconds.</li>
+</ul>
+
+<p>That was quite a difference and now, all of a sudden, SQLCC is slowest! Why is that? Let us use <em>Process Monitor</em> to try to figure out why this is the case. However, before we do that let us recap a little bit about the internal workings when we execute <em>SPEES</em>.</p>
+
+<h4 id="internals">Internals</h4>
+
+<ul>
+<li>The host for an external engine is <code>BxlServer.exe</code>.</li>
+<li>When we execute <em>SPEES</em> the SqlSatellite (loaded by the BxlServer) connects to SQL Server over a TCP connection.</li>
+<li>Data is sent over the TCP connection from and to SQL Server.</li>
+<li>The data sent among other things authentication data, script data (the actual external script) as well as the dataset.</li>
+</ul>
+
+<p>The figure below illustrates connections and so forth in a &ldquo;simple&rdquo; case where we push data to the SqlSatellite in the local context:</p>
+
+<p><img src="/images/posts/sql_r_services_ext_scriptIII_single_process.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Process Flow</em></p>
+
+<p>In <em>Figure 4</em> we see what happens when we execute <code>sp_execute_external_script</code> and the numbers in the figure stands for:</p>
+
+<ol>
+<li>We call <code>sp_execute_external_script</code> and SQL Server calls into the launchpad service.</li>
+<li>The launchpad service creates RTerm processes which in turn creates BxlServer processes. One process becomes the executing process.</li>
+<li>A TCP connection from the SqlSatellite in the executing process gets established.</li>
+<li>SQL server sends input data to the SqlSatellite.</li>
+<li>The <code>BxlServer.exe</code> does the processing.</li>
+<li>SQL Server receives data back from the SqlSatellite.</li>
+</ol>
+
+<p>The <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series covered in &ldquo;excruciating&rdquo; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/microsoft-sql-server-r-services---internals-x/">X</a>, <a href="/2017/10/microsoft-sql-server-r-services---internals-xi/">XI</a>, <a href="/2017/10/microsoft-sql-server-r-services---internals-xii/">XII</a>, <a href="/2017/11/microsoft-sql-server-r-services---internals-xiv/">XIV</a> and <a href="/2017/12/microsoft-sql-server-r-services---internals-xv/">XV</a>.</p>
+
+<h4 id="investigation-using-performance-monitor">Investigation using Performance Monitor</h4>
+
+<p>To see what happens when we execute our three scenarios (local push, local pull, SQLCC pull) we set up some <em>Process Monitor</em> event filters to capture TCP traffic from SQL Server to the SqlSatellite, where <code>BxlServer.exe</code> is &ldquo;hosting&rdquo; the SqlSatellite. The filters we set up are for &ldquo;Process Name&rdquo; and &ldquo;Operation&rdquo;. We want the process to be <code>BxlServer.exe</code> and the operation &ldquo;TCP Receive&rdquo;.</p>
+
+<p>So, run <em>Process Monitor</em> as admin. To set the filter; under the <em>Filter</em> menu click the Filter menu item, and you see the &ldquo;Process Monitor Filter&rdquo; dialog. To create the filter we enter the conditions we want to match:</p>
+
+<ul>
+<li>The <em>Process Name</em> (from the first drop down) should be  <em>is</em> (from the second drop-down): <code>bxlserver.exe</code>.</li>
+<li><em>Operation</em> (first drop-down) <em>is</em> (second dropdown): &ldquo;TCP Receive&rdquo;</li>
+</ul>
+
+<p>You add and include the conditions included and added, and at this stage, the filter dialog looks something like so:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_filter.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>Filters BxlServer</em></p>
+
+<p>What the filter says is that any &ldquo;TCP Receive&rdquo; events for <code>bxlserver.exe</code> should be monitored and displayed. When you have clicked &ldquo;OK&rdquo; out of the dialog box, we are ready to test this by executing the code for local context push (<em>Code Snippet 4</em>), local context pull (<em>Code Snippet 3</em> and <code>@isCtx = 0</code>) and SQLCC pull (<em>Code Snippet 3</em> and <code>@isCtx = 1</code>). When executing we look at the <em>Process Monitor</em> output, and the output for the local push is like so:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_push2.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>TCP Receive Local Context Push</em></p>
+
+<p>We see in <em>Figure 6</em> that the output looks quite &ldquo;tidy&rdquo; and by looking at the <code>Path</code> column see a connection between SQL Server and the SqlSatellite on port 13273 (<code>win10-dev:13273</code>). Furthermore, we see:</p>
+
+<ul>
+<li>There is one <code>BxlServer.exe</code> process with a process id of 17260.</li>
+<li>The data the BxlServer receives are what we covered in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
+<li>The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.</li>
+</ul>
+
+<p>Ok, so onto the local context pull:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_pull_loc_ctx2.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>TCP Receive Local Context Pull</em></p>
+
+<p>Looking at <em>Figure 7</em> we see that there is quite a difference between when we push the data to the SqlSatellite. First, we see (highlighted in red) the usual connection between SQL Server and the SqlSatellite and how SQL Server sends data (authentication and script) to the SqlSatellite. Then, however, we see data going from SQL Server from a &ldquo;strange&rdquo; port: <code>ms-sql-s</code>. That &ldquo;name&rdquo; is <a href="http://www.t1shopper.com/tools/port-number/1433/"><em>IANA</em>&rsquo;s</a> (Internet Assigned Numbers Authority) definition for SQL Server&rsquo;s port 1433. As we know, port 1433 is the default port SQL uses for connections and retrieval of data. So it looks like that when we use pull, we connect to SQL Server over the default port and retrieves the data that way. Thinking about it, it makes sense as the connection is an ODBC connection. All the packets received by the SqlSatellite are the regular ODBC data packets. The actual 50 rows of data are in the packet outlined in blue with a length of 1358. As we use ODBC the protocol used to send the data is TDS.</p>
+
+<p>Oh, TDS - that is probably a reason why the local pull is slower than local push, as the local push uses the <a href="/2017/11/microsoft-sql-server-r-services---internals-xiv/"><strong>Binary eXchange Language</strong></a> protocol (BXL) which is very efficient for transferring data. Another reason why the local pull is slower than the local push, even with small datasets, is that for local pull there is much more happening, as we see in <em>Figure 7</em>.</p>
+
+<p>Right, then what about SQLCC pull:</p>
+
+<p><img src="/images/posts/sql_ml_services_compctx_II_procmon_pull_sqlcc2.png" alt="" /></p>
+
+<p><strong>Figure 8:</strong> <em>TCP Receive SQLCC Pull</em></p>
+
+<p>Oh my, that is a lot! As in <em>Figure 7</em> the sections outlined in red is the connection between SQL Server and the SqlSatellite, and in blue it is the &ldquo;ODBC&rdquo; connection. What is noticeable is that there are multiple sections interleaved, as well that there are multiple <code>BxlServer.exe</code> processes involved (process id&rsquo;s 2108, 13360 and 15340). Well, maybe that is not such a surprise as we spoke about it in <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">Context - I</a>.</p>
+
+<p>What is more interesting though is that we receive the dataset both via the ODBC connection outlined in blue (length 1358), as well as the way we do it in the local push context, outlined in purple (length 1392)! That means that SQL sends data using both the TDS protocol as well as the BXL protocol.</p>
+
+<p>By seeing the amount of &ldquo;stuff&rdquo; happening in <em>Figure 8</em> we do realise why the SQLCC pull is not as efficient as local push and local pull (1.6 s vs ~200 ms). Having seen all this, we probably ask ourselves why the SQLCC pull was a lot faster (~15 s) than local pull (~23 s) for a big dataset and somewhat faster than the local push (~17 s)?</p>
+
+<p>Let us execute the code in <em>Code Snippet 3</em> and <em>Code Snippet 4</em> with <code>TOP (30000000)</code> (30 million) and see what <em>Process Monitor</em> tells us. For local push, we see many packets with a size of 65495 which is the maximum size for BXL data package. When we execute the local pull, we see many TDS packets with a size of 4096 followed by many packages with sizes ranging from ~70,000 up to 2.5 Mb. For me, it looks like the local pull is nowhere as efficient as the local push. Finally, the SQLCC pull shows the same behaviour as local pull with many TDS 4096 packages. However, after the TDS packages follows BXL packages where most have the maximum size of 65495.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> I do not know why, in the case of SQLCC, data is first loaded via TDS and then BXL. I also do not know why in the case of local pull we see multiple 4096 packages followed by packages with an arbitrary big size. I see if I can find answers to this, in which case update this post (or write a new).</p>
+</blockquote>
+
+<h2 id="summary">Summary</h2>
+
+<p>This post set out to try to find out why SQLCC performs better than local context. I believe we found why this is the reason but not necessarily how it works.</p>
+
+<p>What did we see:</p>
+
+<ul>
+<li>Local push performs really, really well up until it does not :). It performs well up until you hit memory restrictions.</li>
+<li>Some of the memory issues can be alleviated by using the <code>@r_rowsPerRead</code> parameter (not shown in this post).</li>
+<li>When pushing the data (<code>@input_data_1</code>) we cannot use SQLCC.</li>
+<li>Both local pull as well as SQLCC uses ODBC connections, and the data transfer protocol is TDS.</li>
+<li>When using SQLCC the BXL protocol is also used.</li>
+<li>By the use of BXL we get very efficient processing of data, and that is the reasons we see good performance.</li>
+</ul>
+
+<p>After writing this post, I have quite a few questions which I will try to answer in a future post.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
   </entry>
 </feed>
