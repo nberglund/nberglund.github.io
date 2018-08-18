@@ -20,7 +20,7 @@
       <guid>/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/</guid>
       <description>&lt;p&gt;In the &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post I wrote about &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES) and the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; where I tried to correct my mistakes from the &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;initial post&lt;/a&gt;. That post led to &lt;a href=&#34;/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/&#34;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt; and now we have a mini-series.&lt;/p&gt;
 
-&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In the previous post in this series, we looked at how data is sent to the SqlSatellite from SQL Server when we are in the SQLCC. This post was meant to look at what goes on inside SQL Server when we execute in SQLCC, but I realised that it would make more sense if, before we look at the internal working when in SQLCC, I covered what happens when pulling data in the local context. So that is what this post is all about.&lt;/p&gt;
 
@@ -101,7 +101,7 @@
       <guid>/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/</guid>
       <description>&lt;p&gt;I wrote the post &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works with &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES), as I wanted to correct some mistakes I did in the &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.&lt;/p&gt;
 
-&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
 
@@ -116,7 +116,7 @@
       <guid>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</guid>
       <description>&lt;p&gt;This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.&lt;/p&gt;
 
-&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/series/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
 
@@ -129,7 +129,7 @@
       <pubDate>Sun, 24 Jun 2018 14:36:36 +0200</pubDate>
       
       <guid>/2018/06/24/sp_execute_external_script-and-permissions/</guid>
-      <description>&lt;p&gt;This post will (hopefully) be short and sweet. It came about as I was testing out &amp;ldquo;stuff&amp;rdquo; for the &lt;a href=&#34;/series/sql_server_ml_services_install_packages&#34;&gt;Install R Packages in SQL Server ML Services&lt;/a&gt; series of posts and I could not get it to work as I had expected.&lt;/p&gt;
+      <description>&lt;p&gt;This post will (hopefully) be short and sweet. It came about as I was testing out &amp;ldquo;stuff&amp;rdquo; for the &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;Install R Packages in SQL Server ML Services&lt;/a&gt; series of posts and I could not get it to work as I had expected.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
@@ -142,7 +142,7 @@
       <guid>/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/</guid>
       <description>&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series.&lt;/p&gt;
 
-&lt;p&gt;To see other posts in the series go to &lt;a href=&#34;/series/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see other posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As you may know, I am in the process of writing the follow-up post to &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane Bax&lt;/a&gt;, a colleague of mine, contacted me a couple of days ago with a &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; problem, I jumped at the chance to help him, and also write a post about it.&lt;/p&gt;
 

@@ -20,7 +20,7 @@
       <guid>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</guid>
       <description>&lt;p&gt;This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.&lt;/p&gt;
 
-&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/series/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
 
@@ -78,7 +78,7 @@
       <guid>/2017/03/04/microsoft-sql-server-2016-r-services-installation/</guid>
       <description>&lt;p&gt;A couple of weeks beck I wrote a &lt;a href=&#34;/2017/02/25/microsoft-r-server/&#34;&gt;blog-post where I compared CRAN R with Microsoft R Server&lt;/a&gt;. The comparison was basically how large data sets are handled. In the post I mentioned that SQL Server 2016 (and later) is the delivery mechanism for Microsoft R Server on the Windows platform. In this post we will look at how to install and enable SQL Server R Services.&lt;/p&gt;
 
-&lt;p&gt;This post is the first in a series of posts about SQL Server R Services and to see other posts (including this) in the series, go to &lt;a href=&#34;/series/sql_server_2k16_r_services&#34;&gt;&lt;strong&gt;SQL Server R Services&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This post is the first in a series of posts about SQL Server R Services and to see other posts (including this) in the series, go to &lt;a href=&#34;/sql_server_2k16_r_services&#34;&gt;&lt;strong&gt;SQL Server R Services&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

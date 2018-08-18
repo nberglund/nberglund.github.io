@@ -2,10 +2,32 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-08-18T05:03:30+02:00</updated>
+  <updated>2018-08-18T09:38:50+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Test Post and Feed Apologies]]></title>
+    <link href="http://nielsberglund.com/2018/08/18/test-post-and-feed-apologies/" rel="alternate" type="text/html"/>
+    <updated>2018-08-18T09:38:50+02:00</updated>
+    <id>http://nielsberglund.com/2018/08/18/test-post-and-feed-apologies/</id>
+    <content type="html"><![CDATA[<p>In my <a href="/2018/08/18/goodbye-jekyll-welcome-hugo/">Goodbye Jekyll, Welcome Hugo!</a> post I wrote how I have changed blog engine from Jekyll to Hugo, and how everything seemed to work. Saying that obviously jinxed it, as after I deployed to the hosting site my Atom feed was completely hosed.</p>
+
+<p>I have now spent 4 hours trying to fix everything, but I am not sure I have succeeded. So this is a test post to see if things look OK.</p>
+
+<p></p>
+
+<p>I also want to apologise if I have messed up your feeds, as at one stage I saw in my feeds a lot of duplicates posts from me. Sorry!</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Goodbye Jekyll, Welcome Hugo!]]></title>
@@ -119,7 +141,7 @@
 
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
-<p>I have started on the third post in the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I hope to be able to publish it in a week or so.</p>
+<p>I have started on the third post in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I hope to be able to publish it in a week or so.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -184,18 +206,18 @@
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
 <ul>
-<li><a href="/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/">sp_execute_external_script and SQL Compute Context - III</a>. I finally managed to finish and publish the third post in the <a href="/series/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. In this post we use WinDbg, Process Monitor and WireShark to look in detail what happens in SQL Server when we use RxSqlServerData to pull data.</li>
+<li><a href="/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/">sp_execute_external_script and SQL Compute Context - III</a>. I finally managed to finish and publish the third post in the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. In this post we use WinDbg, Process Monitor and WireShark to look in detail what happens in SQL Server when we use RxSqlServerData to pull data.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
     <author>
@@ -211,7 +233,7 @@
     <id>http://nielsberglund.com/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/</id>
     <content type="html"><![CDATA[<p>In the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post I wrote about <code>sp_execute_external_script</code> (SPEES) and the <strong>SQL Server Compute Context</strong> (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> where I tried to correct my mistakes from the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">initial post</a>. That post led to <a href="/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/">sp_execute_external_script and SQL Compute Context - II</a> and now we have a mini-series.</p>
 
-<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+<p>To see other posts (including this) in the series, go to <a href="/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
 
 <p>In the previous post in this series, we looked at how data is sent to the SqlSatellite from SQL Server when we are in the SQLCC. This post was meant to look at what goes on inside SQL Server when we execute in SQLCC, but I realised that it would make more sense if, before we look at the internal working when in SQLCC, I covered what happens when pulling data in the local context. So that is what this post is all about.</p>
 
@@ -667,11 +689,11 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
     <author>
@@ -734,17 +756,17 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
-<p>I am close to finish the third post in the <a href="/series/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. I hope to have it out by the end of this upcoming week.</p>
+<p>I am close to finish the third post in the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. I hope to have it out by the end of this upcoming week.</p>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
     <author>
@@ -794,17 +816,17 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
-<p>I am <del>busy</del> struggling with writing a couple of posts in the <a href="/series/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series, as well as the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I do hope to have at least one out in a weeks time (or so).</p>
+<p>I am <del>busy</del> struggling with writing a couple of posts in the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series, as well as the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I do hope to have at least one out in a weeks time (or so).</p>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
     <author>
@@ -1169,18 +1191,18 @@ We Have Installed Kafka on Windows!
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
 <ul>
-<li><a href="/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/">sp_execute_external_script and SQL Compute Context - II</a>. I finally published part 2 of the <a href="/series/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. In the post, I tried to figure out why the performance is so much better when executing in a <strong>SQL Server Compute Context</strong> in <strong>SQL Server ML Services</strong> compared to executing in the local context (it is SQL Server after all). Even though I &ldquo;sort of&rdquo; figured it out, a few questions arose and hopefully I can answer those questions in a future post.</li>
+<li><a href="/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/">sp_execute_external_script and SQL Compute Context - II</a>. I finally published part 2 of the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. In the post, I tried to figure out why the performance is so much better when executing in a <strong>SQL Server Compute Context</strong> in <strong>SQL Server ML Services</strong> compared to executing in the local context (it is SQL Server after all). Even though I &ldquo;sort of&rdquo; figured it out, a few questions arose and hopefully I can answer those questions in a future post.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->]]></content>
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 
@@ -1194,7 +1216,7 @@ We Have Installed Kafka on Windows!
     <id>http://nielsberglund.com/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/</id>
     <content type="html"><![CDATA[<p>I wrote the post <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code>sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p>
 
-<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+<p>To see other posts (including this) in the series, go to <a href="/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
 
 <p>One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">post</a>, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.</p>
 
@@ -1470,7 +1492,7 @@ GO
 <li>SQL Server receives data back from the SqlSatellite.</li>
 </ol>
 
-<p>The <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series covered in &ldquo;excruciating&rdquo; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services---internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services---internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services---internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services---internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services---internals-xv/">XV</a>.</p>
+<p>The <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series covered in &ldquo;excruciating&rdquo; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services---internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services---internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services---internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services---internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services---internals-xv/">XV</a>.</p>
 
 <h4 id="investigation-using-performance-monitor">Investigation using Performance Monitor</h4>
 
@@ -1499,7 +1521,7 @@ GO
 
 <ul>
 <li>There is one <code>BxlServer.exe</code> process with a process id of 17260.</li>
-<li>The data the BxlServer receives are what we covered in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
+<li>The data the BxlServer receives are what we covered in the <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
 <li>The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.</li>
 </ul>
 
@@ -1607,16 +1629,16 @@ GO
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
 <ul>
-<li><a href="/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/">Installing R Packages in SQL Server Machine Learning Services - II</a>. I published part 2 of the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services Series</a>. In this post, we discussed how to use functionality in RevoScaleR to install packages on a remote <strong>SQL Server ML Services</strong> instance.</li>
+<li><a href="/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/">Installing R Packages in SQL Server Machine Learning Services - II</a>. I published part 2 of the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services Series</a>. In this post, we discussed how to use functionality in RevoScaleR to install packages on a remote <strong>SQL Server ML Services</strong> instance.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> (/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+<!-- [series2]: <> (/sql_server_ml_services_install_packages) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 
@@ -1630,7 +1652,7 @@ GO
     <id>http://nielsberglund.com/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</id>
     <content type="html"><![CDATA[<p>This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.</p>
 
-<p>To see all posts in the series go to <a href="/series/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
+<p>To see all posts in the series go to <a href="/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
 
 <p>Why this series came about is a colleague of mine <a href="https://www.linkedin.com/in/dane-bax/">Dane</a> pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&rsquo;t think it would be more posts than one, but here we are.</p>
 
@@ -2366,17 +2388,17 @@ rxInstallPackages(pkgs = pkgs, verbose = TRUE, scope = &quot;shared&quot;, compu
 <p>Boy, have I been a busy bee this week. I have managed to get two posts published, which must be a record. But none of the posts is the follow-up post to my [sp_execute_external_script and SQL Compute Context - I][ctx1] post from five weeks ago. This is getting stupid!</p>
 
 <ul>
-<li><a href="/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/">Installing R Packages in SQL Server Machine Learning Services - I</a>. This post, which is the first post in a <a href="/series/sql_server_ml_services_install_packages">series</a>, came about due to a mate of mine asking how he could install R packages into <strong>SQL Server Machine Learning Services</strong>. In this particular post, we look at using R packet managers to install packages.</li>
-<li><a href="/2018/06/24/sp_execute_external_script-and-permissions/">sp_execute_external_script and Permissions</a>. While researching the <a href="/series/sql_server_ml_services_install_packages">Installing R Packages</a> series I came about some issues related to permissions and <code>sp_execute_external_script</code>. This post tries to clarify and explain how it works.</li>
+<li><a href="/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/">Installing R Packages in SQL Server Machine Learning Services - I</a>. This post, which is the first post in a <a href="/sql_server_ml_services_install_packages">series</a>, came about due to a mate of mine asking how he could install R packages into <strong>SQL Server Machine Learning Services</strong>. In this particular post, we look at using R packet managers to install packages.</li>
+<li><a href="/2018/06/24/sp_execute_external_script-and-permissions/">sp_execute_external_script and Permissions</a>. While researching the <a href="/sql_server_ml_services_install_packages">Installing R Packages</a> series I came about some issues related to permissions and <code>sp_execute_external_script</code>. This post tries to clarify and explain how it works.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> (/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+<!-- [series2]: <> (/sql_server_ml_services_install_packages) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 
@@ -2388,13 +2410,13 @@ rxInstallPackages(pkgs = pkgs, verbose = TRUE, scope = &quot;shared&quot;, compu
     <link href="http://nielsberglund.com/2018/06/24/sp_execute_external_script-and-permissions/" rel="alternate" type="text/html"/>
     <updated>2018-06-24T14:36:36+02:00</updated>
     <id>http://nielsberglund.com/2018/06/24/sp_execute_external_script-and-permissions/</id>
-    <content type="html"><![CDATA[<p>This post will (hopefully) be short and sweet. It came about as I was testing out &ldquo;stuff&rdquo; for the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series of posts and I could not get it to work as I had expected.</p>
+    <content type="html"><![CDATA[<p>This post will (hopefully) be short and sweet. It came about as I was testing out &ldquo;stuff&rdquo; for the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series of posts and I could not get it to work as I had expected.</p>
 
 <p></p>
 
 <h2 id="background">Background</h2>
 
-<p>Usually, when I work with <strong>SQL Server Machine Learning Services</strong>, I execute code in the context of admin (yeah I know, do not do that :)). In the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series I used non-admin accounts, and all of a sudden nothing worked.</p>
+<p>Usually, when I work with <strong>SQL Server Machine Learning Services</strong>, I execute code in the context of admin (yeah I know, do not do that :)). In the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series I used non-admin accounts, and all of a sudden nothing worked.</p>
 
 <p>I tried to research (read Google) the issue, but I could not find a definitive answer, just tidbits here and there. So when I finally realised what the issues were, I decided to write a blog post about it.</p>
 
@@ -2576,15 +2598,15 @@ EXECUTE sp_execute_external_script
 
 <p>That is it!</p>
 
-<p>One final thing: if you want to read more about <code>sp_execute_external_script</code>, <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series has some posts.</p>
+<p>One final thing: if you want to read more about <code>sp_execute_external_script</code>, <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series has some posts.</p>
 
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> (/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+<!-- [series2]: <> (/sql_server_ml_services_install_packages) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 
@@ -2598,7 +2620,7 @@ EXECUTE sp_execute_external_script
     <id>http://nielsberglund.com/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/</id>
     <content type="html"><![CDATA[<p>This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in <strong>SQL Server Machine Learning Services</strong> and this is the first post in the series.</p>
 
-<p>To see other posts in the series go to <a href="/series/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
+<p>To see other posts in the series go to <a href="/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
 
 <p>As you may know, I am in the process of writing the follow-up post to <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a>. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when <a href="https://www.linkedin.com/in/dane-bax/">Dane Bax</a>, a colleague of mine, contacted me a couple of days ago with a <strong>SQL Server Machine Learning Services</strong> problem, I jumped at the chance to help him, and also write a post about it.</p>
 
@@ -3070,7 +3092,7 @@ WITH RESULT SETS ((Package nvarchar(255), Version nvarchar(100),
 
 <p>Ok, so above we said permission issues, but permissions on what?</p>
 
-<p>If you read my series about <a href="/series/sql_server_2k16_r_services">SQL Server 2016 R Services</a> you may remember that in <a href="/2017/05/16/microsoft-sql-server-r-services---internals-vi/">Internals - VI</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a> we discussed how the Launchpad service and the RTerm processes create files and directories in the <code>ExtensibilityData</code> directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.</p>
+<p>If you read my series about <a href="/sql_server_2k16_r_services">SQL Server 2016 R Services</a> you may remember that in <a href="/2017/05/16/microsoft-sql-server-r-services---internals-vi/">Internals - VI</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a> we discussed how the Launchpad service and the RTerm processes create files and directories in the <code>ExtensibilityData</code> directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.</p>
 
 <blockquote>
 <p><strong>NOTE:</strong> In a default installation of SQL Server on a Windows box, the <code>ExtensibilityData</code> directory is located at <code>C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code>.</p>
@@ -3094,7 +3116,7 @@ WITH RESULT SETS ((Package nvarchar(255), Version nvarchar(100),
 
 <p><strong>Figure 3:</strong> <em>Process Monitor Output</em></p>
 
-<p>Remember how we in the <strong>Internals</strong> posts <a href="/2017/04/23/microsoft-sql-server-r-services---internals-iv/">IV</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">VII</a> in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the <code>ExtensibilityData</code> directory and its sub-directories. So what we see in <em>Figure 3</em> is how the RTerm processes cannot write to the root of the <code>ExtensibilityData</code> directory and this is what ultimately causes the error in <em>Figure 1</em>.</p>
+<p>Remember how we in the <strong>Internals</strong> posts <a href="/2017/04/23/microsoft-sql-server-r-services---internals-iv/">IV</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">VII</a> in the <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the <code>ExtensibilityData</code> directory and its sub-directories. So what we see in <em>Figure 3</em> is how the RTerm processes cannot write to the root of the <code>ExtensibilityData</code> directory and this is what ultimately causes the error in <em>Figure 1</em>.</p>
 
 <p>What I saw when I filtered out events was that even though the RTerm processes could not write to the root of the <code>ExtensibilityData</code> directory, they could write to subdirectories:</p>
 
@@ -3177,79 +3199,6 @@ WITH RESULT SETS ((Package nvarchar(255), Version nvarchar(100),
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 21]]></title>
-    <link href="http://nielsberglund.com/2018/05/27/interesting-stuff---week-21/" rel="alternate" type="text/html"/>
-    <updated>2018-05-27T11:06:31+02:00</updated>
-    <id>http://nielsberglund.com/2018/05/27/interesting-stuff---week-21/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="sql-server-other-database-systems">SQL Server &amp; Other Database Systems</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/bobsql/2018/05/20/sql-server-on-linux-quick-performance-monitoring/">SQL Server on Linux: Quick Performance Monitoring</a>. A blog post by <a href="https://blogs.msdn.microsoft.com/bobsql/">Bob Dorr</a> where he talks about how we can get a Performance Monitor like view on Linux for SQL Server.</li>
-<li><a href="https://www.infoq.com/news/2018/05/mysql8">MySQL Version 8 Adds Document Store, Performance and Security Improvements</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about new functionality in the latest version of MySQL. What caught my eye was the support for document store. I guess, depending on how it is done, having a combination of Document Store and a relational database can be very powerful.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://data-artisans.com/blog/apache-flink-1-5-0-release-announcement">Apache Flink 1.5.0 Release Announcement</a>. This post announces the release of Flink version 1.5.0. There are quite a few new exciting features, among them: broadcast state, task-local state recovery and support for windowed outer equi-joins in the SQL and Table API&rsquo;s. I have just set up a new CentOS 7 virtual machine so I can check this out.</li>
-<li><a href="https://www.confluent.io/blog/confluent-cloud-pro-gcp/">New Confluent Cloud Professional, and Ecosystem Expansion to Google Cloud Platform</a>. I do not know if you knew this - but there is a rule saying that if there is an announcement from Flink, there also has to be an announcement from Kafka (and visa versa). So, the Kafka announcement is that the Confluent Cloud is now also available on the Google Cloud (in addition to AWS). I really hope to see Azure being in the mix in a not too distant future.</li>
-</ul>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/articles/future-of-net-core">Discussions on the Future of .NET Core</a>. An [InfoQ] article where five industry veterans discuss the .NET Core platform. Some takeaways:
-
-<ul>
-<li>The .NET Core platform provides significant performance benefits as compared to the traditional .NET Framework.</li>
-<li>.NET Core benefits from a server-centric design that is not Windows-focused.</li>
-<li>.NET Core is now a stable platform suitable for new application development.</li>
-</ul></li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://medium.com/netflix-techblog/open-sourcing-zuul-2-82ea476cb2b3">Open Sourcing Zuul 2</a>. An announcement from Netflix, how they are now open-sourcing their cloud gateway: <strong>Zuul 2</strong>. A very interesting point in the post was where it discussed anomaly detection and contextual alerting.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/paypal-data-service-fraud">Data Pipelines for Real-time Fraud Prevention at Scale</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation about the architecture of PayPal’s data service which combines a Big Data approach with providing data in real time for decision making in fraud detection.</li>
-<li><a href="https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/">Pixie: a system for recommending 3+ billion items to 200+ million users in real-time</a>. A white paper dissected by <a href="https://twitter.com/adriancolyer">Adrian</a> describing how Pinterest has built a system for recommending 3+ billion items to 200+ million users in real-time!</li>
-<li><a href="https://blogs.technet.microsoft.com/machinelearning/2018/05/21/enterprise-deployment-tips-for-azure-data-science-virtual-machine-dsvm">Enterprise Deployment Tips for Azure Data Science Virtual Machine (DSVM)</a>. I came across this post thanks to <a href="https://twitter.com/luis_de_sousa">Luis</a> and his weekly <a href="https://www.getrevue.co/profile/datascienceweekly/">newsletter</a>. The post he pointed to is about the Azure Data Science Virtual Machine (DSVM) and how to use and deploy in an enterprise environment. This topic is especially interesting right now as we at <a href="/derivco">Derivco</a> is looking at the DSVM. Thanks <a href="https://twitter.com/luis_de_sousa">Luis</a>!</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>In lasts week <a href="/2018/05/20/interesting-stuff---week-20/">roundup</a> I mentioned how I probably have to write some follow up posts to the <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post I published a week ago. I have now started with the first follow up post, and I hope I can publish it in a week or two.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 

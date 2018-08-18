@@ -20,7 +20,7 @@
       <guid>/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/</guid>
       <description>&lt;p&gt;This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; and this is the first post in the series.&lt;/p&gt;
 
-&lt;p&gt;To see other posts in the series go to &lt;a href=&#34;/series/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see other posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As you may know, I am in the process of writing the follow-up post to &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt;. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane Bax&lt;/a&gt;, a colleague of mine, contacted me a couple of days ago with a &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; problem, I jumped at the chance to help him, and also write a post about it.&lt;/p&gt;
 

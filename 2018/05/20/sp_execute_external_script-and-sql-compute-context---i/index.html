@@ -296,13 +296,13 @@
 </script>
   </header>
   <div class="post">
-    <p>The last <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">blog post</a> in the <a href="/series/sql_server_2k16_r_services">Microsoft SQL Server R Services</a> series covered some performance related parameters of <code>sp_execute_external_script</code>, (<code>@parallel</code> and <code>@r_rowsPerRead</code>), and it touched a little bit on <strong>SQL Server Compute Context</strong>.</p>
+    <p>The last <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">blog post</a> in the <a href="/sql_server_2k16_r_services">Microsoft SQL Server R Services</a> series covered some performance related parameters of <code>sp_execute_external_script</code>, (<code>@parallel</code> and <code>@r_rowsPerRead</code>), and it touched a little bit on <strong>SQL Server Compute Context</strong>.</p>
 
 <p>After I published the post, I received an email from <a href="https://www.linkedin.com/in/umachandarjayachandran/">Umachandar Jayachandran</a> who is a Principal Program Manager in the SQL Server team and is working on integration of R, Python and other runtimes into SQL Server (basically, he knows this &ldquo;stuff&rdquo;). In the mail, he said that I was somewhat incorrect in what I said about how the <strong>SQL Server Compute Context</strong> (SQLCC) works.</p>
 
 <p>So I decided to write a post to correct my mistakes, and this is it. While I wrote this post I realized that there are more to the SQL compute context that meets ones eye, so I will - in all likelihood - write more posts about SQLCC.</p>
 
-<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+<p>To see other posts (including this) in the series, go to <a href="/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
 
 <p>Before I begin I want to say a very big <strong>THANK YOU</strong> to <a href="https://www.linkedin.com/in/umachandarjayachandran/">Umachandar</a> as well as <a href="https://twitter.com/nelliegson">Nellie Gustafsson</a> who also is a SQL Server Program Manager at Microsoft. Without them making me see the &ldquo;errors of my way&rdquo; I would not have been able to write this post.</p>
 
@@ -546,7 +546,7 @@ myModel &lt;- rxLinMod(y ~ rand1 + rand2 + rand3 + rand4 + rand5,
 
 <h2 id="sql-server-and-sql-server-compute-context">SQL Server and SQL Server Compute Context</h2>
 
-<p>So the question is now that if we execute from inside of SQL Server, is that not automatically within a SQLCC? It is a valid question since what we see in <em>Figure 4</em> looks exactly what we saw in quite a few of the posts in the <a href="/series/sql_server_2k16_r_services">Internals</a> series. In there we saw how the <code>Launchpad.exe</code> process is hosting, via <code>RTerm.exe</code>, a <code>BxlServer.exe</code> server process which processes the data. So let us switch over to SQL Server and <em>SQL Server Management Studio</em> <em>SSMS</em> and try to see if we execute in the SQLCC or not.</p>
+<p>So the question is now that if we execute from inside of SQL Server, is that not automatically within a SQLCC? It is a valid question since what we see in <em>Figure 4</em> looks exactly what we saw in quite a few of the posts in the <a href="/sql_server_2k16_r_services">Internals</a> series. In there we saw how the <code>Launchpad.exe</code> process is hosting, via <code>RTerm.exe</code>, a <code>BxlServer.exe</code> server process which processes the data. So let us switch over to SQL Server and <em>SQL Server Management Studio</em> <em>SSMS</em> and try to see if we execute in the SQLCC or not.</p>
 
 <p>You see in <em>Code Snippet 4</em> how we use the function <code>rxSetComputeContext()</code> to set the compute context. There is also a function to retrieve the compute context you are in: <code>rxGetComputeContext()</code> (in Python it is <code>rx_get_compute_context</code>) which we now use:</p>
 
@@ -699,7 +699,7 @@ SELECT DATEDIFF(ss, @start, SYSUTCDATETIME())
 
 <h4 id="flow">Flow</h4>
 
-<p>We execute <code>sp_execute_external_script</code> and that &ldquo;spins up&rdquo; the usual RTerm and BxlServer process which we discussed in quite a few <a href="/series/sql_server_2k16_r_services">Internals</a> posts. SQL Server creates the compute context via another <code>sp_execute_external_script</code> call to the Launchpad service.</p>
+<p>We execute <code>sp_execute_external_script</code> and that &ldquo;spins up&rdquo; the usual RTerm and BxlServer process which we discussed in quite a few <a href="/sql_server_2k16_r_services">Internals</a> posts. SQL Server creates the compute context via another <code>sp_execute_external_script</code> call to the Launchpad service.</p>
 
 <blockquote>
 <p><strong>NOTE:</strong> Above I say <em>another <code>sp_execute_external_script</code> call</em>, it is in fact two calls. Hopefully a future post covers why and how there are multiple calls</p>

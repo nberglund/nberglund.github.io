@@ -55,8 +55,8 @@ tbody tr:nth-child(odd) th {
 
 .container {
   max-width: 38rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   margin-left: auto;
   margin-right: auto; }
 
@@ -225,7 +225,7 @@ a {
   color: white;
   color: rgba(255, 255, 255, 0.5);
   padding: 2rem 1rem;
-  text-align: left; }
+  text-align: center; }
   .sidebar a {
     color: #f9f9f9;
     border: none; }
@@ -520,9 +520,9 @@ body .gist td {
     bottom: 0;
     left: 0;
     position: fixed;
-    text-align: center;
+    text-align: left;
     top: 0;
-    width: 22rem;
+    width: 20rem;
     overflow: auto; }
   .sidebar-sticky {
     left: 1rem;
@@ -530,7 +530,7 @@ body .gist td {
     right: 1rem;
     top: 1rem; }
   .content {
-    margin-left: 24rem;
+    margin-left: 22rem;
     margin-right: 2rem;
     max-width: 38rem; }
   .layout-reverse .sidebar {
@@ -538,7 +538,7 @@ body .gist td {
     right: 0; }
   .layout-reverse .content {
     margin-left: 2rem;
-    margin-right: 22rem; }
+    margin-right: 24rem; }
   .col-sm-8 {
     width: 66.66666667%; }
   .project__title {

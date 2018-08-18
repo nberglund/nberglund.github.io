@@ -298,7 +298,7 @@
   <div class="post">
     <p>I wrote the post <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code>sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p>
 
-<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+<p>To see other posts (including this) in the series, go to <a href="/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
 
 <p>One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">post</a>, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.</p>
 
@@ -574,7 +574,7 @@ GO
 <li>SQL Server receives data back from the SqlSatellite.</li>
 </ol>
 
-<p>The <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series covered in &ldquo;excruciating&rdquo; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services---internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services---internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services---internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services---internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services---internals-xv/">XV</a>.</p>
+<p>The <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series covered in &ldquo;excruciating&rdquo; details what data SQL Server sends to the BxlServer. If you want to read up on it I suggest <strong>Internals</strong> <a href="/2017/08/29/microsoft-sql-server-r-services---internals-x/">X</a>, <a href="/2017/10/20/microsoft-sql-server-r-services---internals-xi/">XI</a>, <a href="/2017/10/31/microsoft-sql-server-r-services---internals-xii/">XII</a>, <a href="/2017/11/25/microsoft-sql-server-r-services---internals-xiv/">XIV</a> and <a href="/2017/12/02/microsoft-sql-server-r-services---internals-xv/">XV</a>.</p>
 
 <h4 id="investigation-using-performance-monitor">Investigation using Performance Monitor</h4>
 
@@ -603,7 +603,7 @@ GO
 
 <ul>
 <li>There is one <code>BxlServer.exe</code> process with a process id of 17260.</li>
-<li>The data the BxlServer receives are what we covered in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
+<li>The data the BxlServer receives are what we covered in the <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series.</li>
 <li>The 50 rows we pushed to the BxlServer is the outlined (in blue) row with a length of 1392.</li>
 </ul>
 

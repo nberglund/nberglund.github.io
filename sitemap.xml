@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/08/18/test-post-and-feed-apologies/</loc>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/08/18/goodbye-jekyll-welcome-hugo/</loc>
     <lastmod>2018-08-18T05:03:30+02:00</lastmod>
   </url>
@@ -960,7 +965,7 @@
   
   <url>
     <loc>/categories/blogging/</loc>
-    <lastmod>2018-08-18T05:03:30+02:00</lastmod>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1227,12 +1232,18 @@
   </url>
   
   <url>
+    <loc>/tags/hyde/</loc>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/sql_server_ml_services_install_packages/</loc>
   </url>
   
   <url>
     <loc>/tags/jekyll/</loc>
-    <lastmod>2018-08-18T05:03:30+02:00</lastmod>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1436,7 +1447,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-08-18T05:03:30+02:00</lastmod>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1502,7 +1513,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-08-18T05:03:30+02:00</lastmod>
+    <lastmod>2018-08-18T09:38:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   

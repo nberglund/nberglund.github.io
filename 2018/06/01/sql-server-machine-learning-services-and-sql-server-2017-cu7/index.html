@@ -334,7 +334,7 @@
 
 <p>Ok, so above we said permission issues, but permissions on what?</p>
 
-<p>If you read my series about <a href="/series/sql_server_2k16_r_services">SQL Server 2016 R Services</a> you may remember that in <a href="/2017/05/16/microsoft-sql-server-r-services---internals-vi/">Internals - VI</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a> we discussed how the Launchpad service and the RTerm processes create files and directories in the <code>ExtensibilityData</code> directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.</p>
+<p>If you read my series about <a href="/sql_server_2k16_r_services">SQL Server 2016 R Services</a> you may remember that in <a href="/2017/05/16/microsoft-sql-server-r-services---internals-vi/">Internals - VI</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a> we discussed how the Launchpad service and the RTerm processes create files and directories in the <code>ExtensibilityData</code> directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.</p>
 
 <blockquote>
 <p><strong>NOTE:</strong> In a default installation of SQL Server on a Windows box, the <code>ExtensibilityData</code> directory is located at <code>C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code>.</p>
@@ -358,7 +358,7 @@
 
 <p><strong>Figure 3:</strong> <em>Process Monitor Output</em></p>
 
-<p>Remember how we in the <strong>Internals</strong> posts <a href="/2017/04/23/microsoft-sql-server-r-services---internals-iv/">IV</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">VII</a> in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the <code>ExtensibilityData</code> directory and its sub-directories. So what we see in <em>Figure 3</em> is how the RTerm processes cannot write to the root of the <code>ExtensibilityData</code> directory and this is what ultimately causes the error in <em>Figure 1</em>.</p>
+<p>Remember how we in the <strong>Internals</strong> posts <a href="/2017/04/23/microsoft-sql-server-r-services---internals-iv/">IV</a> and <a href="/2017/07/11/microsoft-sql-server-r-services---internals-vii/">VII</a> in the <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the <code>ExtensibilityData</code> directory and its sub-directories. So what we see in <em>Figure 3</em> is how the RTerm processes cannot write to the root of the <code>ExtensibilityData</code> directory and this is what ultimately causes the error in <em>Figure 1</em>.</p>
 
 <p>What I saw when I filtered out events was that even though the RTerm processes could not write to the root of the <code>ExtensibilityData</code> directory, they could write to subdirectories:</p>
 

@@ -307,7 +307,7 @@
   <div class="post">
     <p>In the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post I wrote about <code>sp_execute_external_script</code> (SPEES) and the <strong>SQL Server Compute Context</strong> (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> where I tried to correct my mistakes from the <a href="/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/">initial post</a>. That post led to <a href="/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/">sp_execute_external_script and SQL Compute Context - II</a> and now we have a mini-series.</p>
 
-<p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
+<p>To see other posts (including this) in the series, go to <a href="/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
 
 <p>In the previous post in this series, we looked at how data is sent to the SqlSatellite from SQL Server when we are in the SQLCC. This post was meant to look at what goes on inside SQL Server when we execute in SQLCC, but I realised that it would make more sense if, before we look at the internal working when in SQLCC, I covered what happens when pulling data in the local context. So that is what this post is all about.</p>
 
@@ -763,11 +763,11 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
 
-<!-- [series1]: <> [SQL Server R Services](/series/sql_server_2k16_r_services) -->
+<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
 
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/series/sql_server_ml_services_install_packages) -->
+<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
 
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->
+<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->
     <br/>
