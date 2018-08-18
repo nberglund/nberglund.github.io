@@ -14,10 +14,10 @@
     
     <item>
       <title>Beginners F# Resources</title>
-      <link>/2010/11/beginners-f#-resources/</link>
+      <link>/2010/11/13/beginners-f#-resources/</link>
       <pubDate>Sat, 13 Nov 2010 09:27:56 +0200</pubDate>
       
-      <guid>/2010/11/beginners-f#-resources/</guid>
+      <guid>/2010/11/13/beginners-f#-resources/</guid>
       <description>This post is more as a reminder to myself where to find online resources when learning F#. If anyone else can find it useful, so much better. And, if anyone out there has other online, resources, please leave a comment and I will include it. So, in no particular order:
  Introductory article by Luke Hoban in MSDN Magazine. An online book about F#. Tutorial, by Dejan Jelovic, about getting started with F# from a C# developers perspective.</description>
     </item>

@@ -14,10 +14,10 @@
     
     <item>
       <title>SQL Server 2005 and DMV&#39;s</title>
-      <link>/2006/08/sql-server-2005-and-dmvs/</link>
+      <link>/2006/08/23/sql-server-2005-and-dmvs/</link>
       <pubDate>Wed, 23 Aug 2006 09:27:56 +0200</pubDate>
       
-      <guid>/2006/08/sql-server-2005-and-dmvs/</guid>
+      <guid>/2006/08/23/sql-server-2005-and-dmvs/</guid>
       <description>&lt;p&gt;One of the first thing I usually do after having installed a new version of SQL Server is to snoop around at the system tables to see what new tables there are and what they can give me information about.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

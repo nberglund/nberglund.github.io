@@ -14,10 +14,10 @@
     
     <item>
       <title>Facebook Prophet and Microsoft R Server</title>
-      <link>/2017/05/facebook-prophet-and-microsoft-r-server/</link>
+      <link>/2017/05/20/facebook-prophet-and-microsoft-r-server/</link>
       <pubDate>Sat, 20 May 2017 11:31:37 +0200</pubDate>
       
-      <guid>/2017/05/facebook-prophet-and-microsoft-r-server/</guid>
+      <guid>/2017/05/20/facebook-prophet-and-microsoft-r-server/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Time_series&#34;&gt;Time series&lt;/a&gt; data is being used more and more in all industries, and of course we want to be able to forecast and predict future values. There are however a variety of challenges that come with producing a large number of forecasts across a variety of time series.&lt;/p&gt;
 
 &lt;p&gt;The &lt;a href=&#34;https://research.fb.com/category/data-science/&#34;&gt;Facebook&amp;rsquo;s data science team&lt;/a&gt; has worked with time series forecasting for quite a while, and recently they open-sourced an internal tool for this type of forecasting: &lt;a href=&#34;https://facebookincubator.github.io/prophet/&#34;&gt;Facebook Prophet&lt;/a&gt;.&lt;/p&gt;
@@ -29,10 +29,10 @@
     
     <item>
       <title>Interesting Stuff - Week 12</title>
-      <link>/2017/03/interesting-stuff---week-12/</link>
+      <link>/2017/03/26/interesting-stuff---week-12/</link>
       <pubDate>Sun, 26 Mar 2017 19:59:37 +0200</pubDate>
       
-      <guid>/2017/03/interesting-stuff---week-12/</guid>
+      <guid>/2017/03/26/interesting-stuff---week-12/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -51,10 +51,10 @@
     
     <item>
       <title>Interesting Stuff - Week 10</title>
-      <link>/2017/03/interesting-stuff---week-10/</link>
+      <link>/2017/03/12/interesting-stuff---week-10/</link>
       <pubDate>Sun, 12 Mar 2017 07:39:45 +0200</pubDate>
       
-      <guid>/2017/03/interesting-stuff---week-10/</guid>
+      <guid>/2017/03/12/interesting-stuff---week-10/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;
@@ -73,10 +73,10 @@
     
     <item>
       <title>Interesting Stuff - Week 8</title>
-      <link>/2017/02/interesting-stuff---week-8/</link>
+      <link>/2017/02/26/interesting-stuff---week-8/</link>
       <pubDate>Sun, 26 Feb 2017 07:11:45 +0200</pubDate>
       
-      <guid>/2017/02/interesting-stuff---week-8/</guid>
+      <guid>/2017/02/26/interesting-stuff---week-8/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, etc., that has to do with things that interest me&lt;/p&gt;
 
 &lt;ul&gt;

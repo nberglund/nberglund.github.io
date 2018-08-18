@@ -14,11 +14,11 @@
     
     <item>
       <title>sp_execute_external_script and SQL Compute Context - III</title>
-      <link>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</link>
+      <link>/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/</link>
       <pubDate>Sat, 04 Aug 2018 16:05:46 +0200</pubDate>
       
-      <guid>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</guid>
-      <description>&lt;p&gt;In the &lt;a href=&#34;/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post I wrote about &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES) and the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: &lt;a href=&#34;/2018/05/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; where I tried to correct my mistakes from the &lt;a href=&#34;/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;initial post&lt;/a&gt;. That post led to &lt;a href=&#34;/2018/07/sp_execute_external_script-and-sql-compute-context---ii/&#34;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt; and now we have a mini-series.&lt;/p&gt;
+      <guid>/2018/08/04/sp_execute_external_script-and-sql-compute-context---iii/</guid>
+      <description>&lt;p&gt;In the &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;Microsoft SQL Server R Services - sp_execute_external_script - III&lt;/a&gt; post I wrote about &lt;code&gt;sp_execute_external_script&lt;/code&gt; (SPEES) and the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; where I tried to correct my mistakes from the &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;initial post&lt;/a&gt;. That post led to &lt;a href=&#34;/2018/07/07/sp_execute_external_script-and-sql-compute-context---ii/&#34;&gt;sp_execute_external_script and SQL Compute Context - II&lt;/a&gt; and now we have a mini-series.&lt;/p&gt;
 
 &lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/series/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
