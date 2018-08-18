@@ -1,20 +1,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
-  <link href="/atom.xml" rel="self"/>
-  <link href="/"/>
+  <link href="http://nielsberglund.com/atom.xml" rel="self"/>
+  <link href="http://nielsberglund.com"/>
   <updated>2018-08-18T05:03:30+02:00</updated>
-  <id>/</id>
-  <generator>Hugo -- gohugo.io</generator>
+  <id>http://nielsberglund.com</id>
+  <generator uri="http://gohugo.io/">Hugo</generator>
+
   
   <entry>
     <title type="html"><![CDATA[Goodbye Jekyll, Welcome Hugo!]]></title>
-    <link href="/2018/08/goodbye-jekyll-welcome-hugo/"/>
-    <id>/2018/08/goodbye-jekyll-welcome-hugo/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-08-18T05:03:30+02:00</published>
+    <link href="http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/"/>
     <updated>2018-08-18T05:03:30+02:00</updated>
+    <id>http://nielsberglund.com/2018/08/goodbye-jekyll-welcome-hugo/</id>
     <content type="html"><![CDATA[<p>Back in 2013 I wrote a <a href="/2013/10/moving-to-a-new-blog-engine/">post</a> about how I moved from a self hosted <strong>WordPress</strong> blog to a static blog; <a href="http://octopress.org"><strong>OctoPress</strong></a>. OctoPress spoke to my &ldquo;geeky&rdquo; side, as the foundation of it is the static blog-generator <a href="https://jekyllrb.com/"><strong>Jekyll</strong></a>, which in turn is Ruby based. In fact, OctoPress is more or less just some extra Ruby plugins on top of Jekyll, and to generate sites with OctoPress / Ruby you need Ruby installed on you machine.</p>
 
 <p>I thought that by changing the blog platform, I might write more posts just due to the &ldquo;geekiness&rdquo; of the blog engine. Fast forward to the end of 2016, and the number of posts I had written since the switch came to a grand total of three. Those three includes the post where I announced the switch. Yeah, switching increased indeed my productivity - NOT!</p>
@@ -57,15 +54,12 @@
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 32]]></title>
-    <link href="/2018/08/interesting-stuff---week-32/"/>
-    <id>/2018/08/interesting-stuff---week-32/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-08-12T12:02:02+02:00</published>
+    <link href="http://nielsberglund.com/2018/08/interesting-stuff---week-32/"/>
     <updated>2018-08-12T12:02:02+02:00</updated>
+    <id>http://nielsberglund.com/2018/08/interesting-stuff---week-32/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -127,15 +121,12 @@
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 31]]></title>
-    <link href="/2018/08/interesting-stuff---week-31/"/>
-    <id>/2018/08/interesting-stuff---week-31/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-08-05T08:01:44+02:00</published>
+    <link href="http://nielsberglund.com/2018/08/interesting-stuff---week-31/"/>
     <updated>2018-08-05T08:01:44+02:00</updated>
+    <id>http://nielsberglund.com/2018/08/interesting-stuff---week-31/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -200,15 +191,12 @@
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[sp_execute_external_script and SQL Compute Context - III]]></title>
-    <link href="/2018/08/sp_execute_external_script-and-sql-compute-context---iii/"/>
-    <id>/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-08-04T16:05:46+02:00</published>
+    <link href="http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/"/>
     <updated>2018-08-04T16:05:46+02:00</updated>
+    <id>http://nielsberglund.com/2018/08/sp_execute_external_script-and-sql-compute-context---iii/</id>
     <content type="html"><![CDATA[<p>In the <a href="/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post I wrote about <code>sp_execute_external_script</code> (SPEES) and the <strong>SQL Server Compute Context</strong> (SQLCC). Afterwards I realised I had some things wrong, so I wrote a followup post: <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> where I tried to correct my mistakes from the <a href="/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/">initial post</a>. That post led to <a href="/2018/07/sp_execute_external_script-and-sql-compute-context---ii/">sp_execute_external_script and SQL Compute Context - II</a> and now we have a mini-series.</p>
 
 <p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
@@ -675,15 +663,12 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 30]]></title>
-    <link href="/2018/07/interesting-stuff---week-30/"/>
-    <id>/2018/07/interesting-stuff---week-30/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-29T19:11:58+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-30/"/>
     <updated>2018-07-29T19:11:58+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-30/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -747,15 +732,12 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 29]]></title>
-    <link href="/2018/07/interesting-stuff---week-29/"/>
-    <id>/2018/07/interesting-stuff---week-29/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-22T16:06:58+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-29/"/>
     <updated>2018-07-22T16:06:58+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-29/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -806,15 +788,12 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 28]]></title>
-    <link href="/2018/07/interesting-stuff---week-28/"/>
-    <id>/2018/07/interesting-stuff---week-28/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-15T06:15:28+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-28/"/>
     <updated>2018-07-15T06:15:28+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-28/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -870,15 +849,12 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 
 <!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Install Confluent Platform (Kafka) on Windows]]></title>
-    <link href="/2018/07/install-confluent-platform-kafka-on-windows/"/>
-    <id>/2018/07/install-confluent-platform-kafka-on-windows/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-10T18:43:48+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/"/>
     <updated>2018-07-10T18:43:48+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/install-confluent-platform-kafka-on-windows/</id>
     <content type="html"><![CDATA[<p>You who follows my blog and have read my weekly roundups you know that I am quite (that is an understatement) interested in Apache Kafka and I am curious to find out what &ldquo;cool&rdquo; things one can do with it. For that, I want to be able to test &ldquo;stuff&rdquo; quickly. When I test and try out new things, I usually do it on my development box which contains everything I need: <strong>SQL Server</strong>, <strong>RabbitMQ</strong>, <strong>RStudio</strong>, <strong>Microsoft Machine Learning Server</strong>, <strong>Visual Studio</strong> and the list goes on.</p>
 
 <p>So seeing that I have most of my &ldquo;tools of the trade&rdquo; on my machine I obviously also would like to have Kafka on the box. Herein lies a problem, I am a Windows dude and Kafka, and Windows do not gel. Yes, some people are running Kafka on Windows, but it is a chore. OK, so what to do? Sure, I could potentially run Kafka on a virtual machine, or in a Docker image, but it is not as transparent as I would like it to be (yeah, I am lazy).</p>
@@ -1104,15 +1080,12 @@ We Have Installed Kafka on Windows!
 
 <!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 27]]></title>
-    <link href="/2018/07/interesting-stuff---week-27/"/>
-    <id>/2018/07/interesting-stuff---week-27/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-08T12:11:28+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-27/"/>
     <updated>2018-07-08T12:11:28+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-27/</id>
     <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
 
 <ul>
@@ -1177,15 +1150,12 @@ We Have Installed Kafka on Windows!
 
 <!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/series/spees_and_sql_compute_context) -->]]></content>
   </entry>
+  
   <entry>
     <title type="html"><![CDATA[sp_execute_external_script and SQL Compute Context - II]]></title>
-    <link href="/2018/07/sp_execute_external_script-and-sql-compute-context---ii/"/>
-    <id>/2018/07/sp_execute_external_script-and-sql-compute-context---ii/</id>
-    <author>
-      <name>nielsb</name>
-    </author>
-    <published>2018-07-07T10:54:21+02:00</published>
+    <link href="http://nielsberglund.com/2018/07/sp_execute_external_script-and-sql-compute-context---ii/"/>
     <updated>2018-07-07T10:54:21+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/sp_execute_external_script-and-sql-compute-context---ii/</id>
     <content type="html"><![CDATA[<p>I wrote the post <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> about how the <strong>SQL Server Compute Context</strong> (SQLCC) works with <code>sp_execute_external_script</code> (SPEES), as I wanted to correct some mistakes I did in the <a href="/2018/03/microsoft-sql-server-r-services---sp_execute_external_script---iii/">Microsoft SQL Server R Services - sp_execute_external_script - III</a> post. I initially thought one post would be enough, but quite soon I realised I was too optimistic, and at least one more post would be needed, if not more. So this is the first followup post about SPEES and SQLCC.</p>
 
 <p>To see other posts (including this) in the series, go to <a href="/series/spees_and_sql_compute_context"><strong>sp_execute_external_script and SQL Server Compute Context</strong></a>.</p>
@@ -1546,4 +1516,1665 @@ GO
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
   </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 26]]></title>
+    <link href="http://nielsberglund.com/2018/07/interesting-stuff---week-26/"/>
+    <updated>2018-07-01T05:51:55+02:00</updated>
+    <id>http://nielsberglund.com/2018/07/interesting-stuff---week-26/</id>
+    <content type="html"><![CDATA[<p>Geez, does time fly or what? We are already past the halfway mark of the year! Anyway, throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="databases">Databases</h2>
+
+<ul>
+<li><a href="https://www.allthingsdistributed.com/2018/06/purpose-built-databases-in-aws.html">A one size fits all database doesn&rsquo;t fit anyone</a>. A very interesting post by <a href="https://en.wikipedia.org/wiki/Werner_Vogels">Werner Vogels</a>, CTO at Amazon, where he argues that (from the article): <em>The days of the one-size-fits-all monolithic database are behind us, and developers are now building highly distributed applications using a multitude of purpose-built databases.</em>. As I said, a very interesting read!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/real-time-syslog-processing-apache-kafka-ksql-enriching-events-with-external-data/">We ❤ syslogs: Real-time syslog processing with Apache Kafka and KSQL—Part 3: Enriching events with external data</a>. This article is the third in the series about syslog processing and Apache Kafka. In this episode <a href="https://twitter.com/rmoff">Robin Moffat</a> discusses how the inbound streams of syslog data can be enriched. Awesome article!</li>
+</ul>
+
+<h2 id="big-data-cloud">Big Data / Cloud</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/structured-streaming-with-databricks-into-power-bi-cosmos-db/">Structured streaming with Azure Databricks into Power BI &amp; Cosmos DB</a>. A post, discussing the concept of Structured Streaming and how a data ingestion path can be built using <a href="https://docs.microsoft.com/en-gb/azure/azure-databricks/what-is-azure-databricks">Azure Databricks</a> to enable the streaming of data in near-real-time. The post also talks about how Databricks can be connected directly into Power BI for reporting etc., and to Cosmos DB for persistence.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/the-emerging-big-data-architectural-pattern/">The emerging big data architectural pattern</a>. A very interesting blog post, discussing the popularity and success of the <a href="https://en.wikipedia.org/wiki/Lambda_architecture">Lambda</a> architecture as well as some of the shortcomings. The post then goes on to talk about how some of the shortcomings of Lambda can be solved by the use of Azure and <a href="https://azure.microsoft.com/en-gb/services/cosmos-db/">Azure Cosmos DB</a>. In essence, the post discusses how we can implement the <a href="http://dataottam.com/2016/06/02/understand-kappa-architecture-in-2-minutes/">Kappa</a> architecture in Azure.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/a-closer-look-at-azure-data-lake-storage-gen2/">A closer look at Azure Data Lake Storage Gen2</a>. Microsoft recently announced <a href="https://azure.microsoft.com/en-us/services/storage/data-lake-storage/">Azure Data Lake Storage Gen2</a> and this post discusses some of the new features and capabilities.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://databricks.com/blog/2018/06/27/rstudio-integration.html">Announcing RStudio and Databricks Integration</a>. This post announces the integration of RStudio with the <a href="https://databricks.com/glossary/what-is-unified-analytics">Databricks Unified Analytics Platform</a>. Databricks &ldquo;pops up&rdquo; all over the place lately. I really need to look into it!</li>
+<li><a href="https://blogs.msdn.microsoft.com/buckwoody/2018/06/28/the-data-analysis-maturity-model-level-three-distributed-consistent-reporting-systems/">The Data Analysis Maturity Model – Level Three: Distributed, consistent reporting systems</a>. The third &ldquo;episode&rdquo; in <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody&rsquo;s</a> series about data analysis maturity levels. In this post, Buck talks about distributed and consistent reporting systems.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<ul>
+<li><a href="/2018/06/installing-r-packages-in-sql-server-machine-learning-services---ii/">Installing R Packages in SQL Server Machine Learning Services - II</a>. I published part 2 of the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services Series</a>. In this post, we discussed how to use functionality in RevoScaleR to install packages on a remote <strong>SQL Server ML Services</strong> instance.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+
+<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Installing R Packages in SQL Server Machine Learning Services - II]]></title>
+    <link href="http://nielsberglund.com/2018/06/installing-r-packages-in-sql-server-machine-learning-services---ii/"/>
+    <updated>2018-06-30T16:57:01+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/installing-r-packages-in-sql-server-machine-learning-services---ii/</id>
+    <content type="html"><![CDATA[<p>This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.</p>
+
+<p>To see all posts in the series go to <a href="/series/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
+
+<p>Why this series came about is a colleague of mine <a href="https://www.linkedin.com/in/dane-bax/">Dane</a> pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&rsquo;t think it would be more posts than one, but here we are.</p>
+
+<p></p>
+
+<h2 id="recap">Recap</h2>
+
+<p>In <a href="/2018/06/installing-r-packages-in-sql-server-machine-learning-services---i/">Installing R Packages in SQL Server Machine Learning Services - I</a> we introduced <a href="https://www.linkedin.com/in/dane-bax/">Dane</a> and how he wanted to install some R packages into SQL Server Machine Learning Service instance. I said that before you start installing packages into SQL Server Machine Learning Services, you should make sure you have <strong>Rtools</strong> installed on the machine SQL Server ML Services runs on.</p>
+
+<p>You need <em>RTools</em> if you ever need to compile R packages from source, as <em>Rtools</em> contains compilers and utilities to do this. You do not install <em>Rtools</em> for each SQL Server ML Services instance you have on the server, but just once, and you need to install it from an account with elevated permissions.</p>
+
+<p>In the first post I said that there were three ways to install packages into SQL Server ML Services:</p>
+
+<ul>
+<li>R packet managers</li>
+<li>T-SQL</li>
+<li>RevoScaleR</li>
+</ul>
+
+<p>So in the first post, I covered R packet managers, where an R packet manager is an R command line tool or GUI installed on the SQL Server Machine Learning Services machine. The packet manager should be run with elevated permissions and target the R engine for the instance on which you want to install the package. The easiest is to use either of the R tools that come as part as part of SQL Server&rsquo;s R service:</p>
+
+<ul>
+<li>The command line tool: <code>Rterm.exe</code>.</li>
+<li>The GUI: <code>Rgui.exe</code>.</li>
+</ul>
+
+<p>These two packet managers lives in the <code>\\&lt;path_to_SQL_Server_instance&gt;\R_SERVICES\bin\x64</code> directory. When you install packages via an R packet manager, they can only be installed to the default packet library for that instance. The file system folder for this library has restricted access and to write to this folder you need elevated permissions. Typical code for installing packages from a packet manager can look like so:</p>
+
+<pre><code class="language-r"># get the library path
+libPath &lt;- .libPaths()[1]
+install.packages(&quot;pkg_name&quot;, lib = libPath, 
+                  repos = &quot;url_for_the_repo&quot;, 
+                  dependencies = TRUE)
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Install Packages Command</em></p>
+
+<p>In <em>Code Snippet 1</em> we see how I first retrieve the library path. The library path is where I install the package to, and once again - I can only install to the default instance directory. Then in the <code>install.packages</code> call I use these parameters:</p>
+
+<ul>
+<li>First parameter is always the name of the package(s) to install.</li>
+<li><code>lib</code>: is for the library folder to install to.</li>
+<li><code>repos</code>: the base URL(s) of the repositories to use. If left out, the repo used is the Microsoft MRAN repo, which may not be what you want.</li>
+<li><code>dependencies</code>: indicating whether to also install missing packages which these packages depend on/link to/import/suggest (and so on recursively).</li>
+</ul>
+
+<p>The big drawback with using an R packet manager is that the user who does it need to be able to run the chosen packet manager from an elevated prompt and from the box SQL Server is installed on!</p>
+
+<p>In this post, we look at how we can install without being admin, and without having to be logged onto the box as admin.</p>
+
+<h2 id="housekeeping">Housekeeping</h2>
+
+<p>Before we &ldquo;dive&rdquo; into today&rsquo;s topics let us look at the code we use today. This section is here for those of who want to follow along in what we are doing in the post.</p>
+
+<pre><code class="language-sql">IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'dane')
+BEGIN
+  CREATE LOGIN dane
+  WITH PASSWORD = 'password1234$';
+END
+
+IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'nielsb')
+BEGIN
+  CREATE LOGIN nielsb
+  WITH PASSWORD = 'password1234$';
+END
+
+IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'user1')
+BEGIN
+  CREATE LOGIN user1
+  WITH PASSWORD = 'password1234$';
+END
+
+IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'user2')
+BEGIN
+  CREATE LOGIN user2
+  WITH PASSWORD = 'password1234$';
+END
+
+IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'user3')
+BEGIN
+  CREATE LOGIN user3
+  WITH PASSWORD = 'password1234$';
+END
+
+DROP DATABASE IF EXISTS DataScienceDB;
+GO
+
+CREATE DATABASE DataScienceDB;
+GO
+
+USE DataScienceDB;
+GO
+
+CREATE USER dane
+FROM LOGIN dane;
+
+CREATE USER nielsb
+FROM LOGIN nielsb;
+
+CREATE USER user1
+FROM LOGIN user1;
+
+CREATE USER user2
+FROM LOGIN user2;
+
+CREATE USER user3
+FROM LOGIN user3;
+GO
+
+ALTER ROLE db_owner
+  ADD MEMBER nielsb;
+GO
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Create Logins, Database and Users</em></p>
+
+<p>In <em>Code Snippet 2</em> we create some logins as well as a database and in that database users for the logins. As you see, we do continue with the &ldquo;theme&rdquo; of Dane the data scientist wanting to do &ldquo;stuff&rdquo; in the database. As <code>nielsb</code> is seen to be &ldquo;trustworthy&rdquo; (take that Dane), we add him to the <code>db_owner</code> role.</p>
+
+<h2 id="permissions-and-sp-execute-external-script">Permissions and sp_execute_external_script</h2>
+
+<p>This topic is not directly related to installing R packages via RevoScaleR, but unless you get the permissions right for users that want to call <code>sp_execute_external_script</code> (SPEES), the rest of the post will not make any sense anyhow. Fortunately I wrote a <a href="/2018/06/sp_execute_external_script-and-permissions/">blog post</a> about <em>SPEES</em> and the permissions required, so let us follow what is in that post and set the permissions for the users we created in <em>Code Snippet 2</em>. The code below must be run by <code>sysadmin</code>:</p>
+
+<pre><code class="language-sql">-- the grant to execute SPEES to public only 
+-- needs to be run once on the instance
+USE master;
+GO
+
+GRANT EXECUTE ON sp_execute_external_script TO public;
+GO
+
+USE DataScienceDB;
+GO
+
+GRANT EXECUTE ANY EXTERNAL SCRIPT TO dane;
+GRANT EXECUTE ANY EXTERNAL SCRIPT TO user1;
+GRANT EXECUTE ANY EXTERNAL SCRIPT TO user2;
+GRANT EXECUTE ANY EXTERNAL SCRIPT TO user3;
+GO
+</code></pre>
+
+<p><strong>Code Snippet 3:</strong> <em>Grant Execute Permissions to Users</em></p>
+
+<p>We see how the code in <em>Code Snippet 3</em> first, from within the <code>master</code> database, grants execution rights on <em>SPEES</em> to <code>public</code>. This only needs to be run once, and arguably this should be part of enabling <em>SPEES</em>.</p>
+
+<p>We then switch over to the database where the users exist, and we grant the <code>EXECUTE ANY EXTERNAL SCRIPT</code> rights to the individual users that should be able to use <em>SPEES</em>. However, what about <code>nielsb</code>, should he not be granted the permission as well? No, as he is part of <code>db_owner</code> he automatically has the necessary permissions.</p>
+
+<h2 id="revoscaler-package-management">RevoScaleR Package Management</h2>
+
+<p>In the recap above I mentioned about being able to install from a remote box and not being an admin on the SQL Server box, and that is what RevoScaleR gives you. RevoScaleR 9.0.1 and later includes functions for R package management where these functions can be used by remote, non-administrators to install packages on SQL Server without direct access to the server. To install you can use both remote R clients as well as <code>sp_execute_external_script</code> from <em>SSMS</em>. To install using RevoScaleR functions you need to execute inside a <strong>SQL Server Compute Context</strong> (SQLCC).</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> To read more about <em>SQLCC</em> look at the <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post.</p>
+</blockquote>
+
+<p>Remember from my <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/"><em>SQLCC</em> post</a> how we set up an <em>SQLCC</em>:</p>
+
+<pre><code class="language-r"># set up the connection string
+sqlServerConnString &lt;- &quot;Driver=SQL Server;server=&lt;instance&gt;;
+                        database=&lt;the_db&gt;;
+                        uid=&lt;the user id&gt;;pwd=&lt;the password&gt;&quot;
+
+# set up a compute context
+sqlCtx &lt;- RxInSqlServer(connectionString = sqlServerConnString, 
+                        numTasks = 1)
+# set the compute context to be the sql context
+rxSetComputeContext(sqlCtx)
+</code></pre>
+
+<p><strong>Code Snippet 4:</strong> <em>R Code - SQL Server Compute Context</em></p>
+
+<p>In <em>Code Snippet 4</em> we see how we set up an <em>SQLCC</em> by defining a connection string which then implies that any R package installation is specific to a SQL Server instance as well as a database.</p>
+
+<h4 id="configuration">Configuration</h4>
+
+<p>Above I wrote that even non-admins could install R packages but that requires configuration and to use RevoScaleR you need to enable remote management of R packages both on the SQL Server instance as well as for a particular database. To enable, an admin on the SQL Server box uses a RevoScaleR command line utility: <code>RegisterRext.exe</code>. The same utility can also be used to disable package management on a database and/or instance level.</p>
+
+<p>The location for <code>RegisterRext.exe</code> is at: <code>&lt;path_to_sql_instance&gt;\R_SERVICES\library\RevoScaleR\rxLibs\x64\RegisterRext.exe</code> and when you run it you need to run it as admin. These are the available commands when executing:</p>
+
+<ul>
+<li><code>/install</code> - copies the launcher binaries to the right location for a SQL server instance. Not applicable in this post.</li>
+<li><code>/uninstall</code> - removes the launcher binaries from the SQL server instance. Not applicable in this post.</li>
+<li><code>/installpkgmgmt</code> - installs package management support for given SQL server instance and database also if specified.</li>
+<li><code>/uninstallpkgmgmt</code> - uninstalls package management support from given SQL server instance and database also if specified.</li>
+<li><code>/installrts</code> - installs real time scoring support for given SQL server instance and database. Topic for a future post.</li>
+<li><code>/uninstallrts</code> - uninstalls real time scoring support for given SQL server instance and database. Topic for a future post.</li>
+</ul>
+
+<p>We send in parameters to tell RegisterRext where to execute:</p>
+
+<ul>
+<li><code>/instance:value</code> is an optional parameter, we use <code>&lt;value&gt;</code> as the instance name, else the commands are performed on the default instance. Please note that the name is just that; not <code>/instance:server_name\instance_name</code> but <code>/instance:instance_name</code>. It took me a while to figure that out.</li>
+<li><code>/database:value</code> is an optional parameter where <code>&lt;value&gt;</code> indicates what database to run on.<br /></li>
+<li><code>/user:username</code> is an optional parameter, and we use the <code>&lt;username</code>&gt; specified to connect via the SQL authentication mode. Note that once this parameter is specified, <code>/password:&lt;value&gt;</code> is a required parameter.</li>
+<li><code>/password: * | &lt;password&gt;</code> is a required parameter once the <code>/user</code> parameter is provided. You can use <code>/password:*</code> in order to be prompted for the password when running the tool instead of providing it in cleartext as a parameter. Note that providing the password without the user is ignored.</li>
+</ul>
+
+<p>If no username and password is supplied, then Windows authentication is used (in the context of the user which is logged on to the SQL Server box and runs <code>RegisterRext.exe</code>).</p>
+
+<p>Let us go back to <a href="https://www.linkedin.com/in/dane-bax/">Dane</a> and his situation and see what we can do. Admin of the SQL Server instance Dane <del>plays on</del> works hard on has created a database for Dane with a lot of data where Dane now want to do data science &ldquo;things&rdquo;. Part of the things Dane want to do requires packages that are not part of a SQL Server ML Services installation.</p>
+
+<p>So the admin decides to enable Dane&rsquo;s database for remote package management. As this is the first time a database on the instance is enabled, the admin needs to enable the instance itself before the database.</p>
+
+<p>To enable the instance a user with admin rights on the box, logs on and runs <code>RegisterRext.exe</code> from an elevated command prompt:</p>
+
+<pre><code class="language-bash">&gt; RegisterRext.exe /installpkgmgmt
+</code></pre>
+
+<p><strong>Code Snippet 5:</strong> <em>Enable Default Instance</em></p>
+
+<p>In <em>Code Snippet 5</em> we enable packet management on the default instance (as that is where Dane&rsquo;s database is), and we enable it using Windows Authentication. Regardless of type of authentication, the user has to have <code>VIEW SERVER STATE</code> permissions on the SQL Server instance. The output from <em>Code Snippet 5</em> is like so (edited for readability):</p>
+
+<pre><code class="language-bash">&gt;RegisterRExt /installpkgmgmt
+
+Source directory to pick the RExtension binaries determined 
+to be &quot;C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\
+R_SERVICES\library\RevoScaleR\rxLibs\x64\&quot;.
+
+Connecting to SQL server...
+
+Sql server binn directory is 
+&quot;C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn&quot;.
+
+Stopping service MSSQLLaunchpad...
+Copied RLauncher.dll from C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\R_SERVICES\library\RevoScaleR\rxLibs\x64\ 
+to C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn.
+
+Installing SQL R services package management for instance ''
+
+Installing version 1.0 artifacts
+
+Creating package management account MSSQLSERVERPKG...
+
+Saving package management user account configuration...
+
+Working directory long path:'C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData' and short path:
+'C:\PROGRA~1\MICROS~1\MSSQL1~1.MSS\MSSQL\EXTENS~1'.
+
+Working directory long path:'C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData' and short path:
+'C:\PROGRA~1\MICROS~1\MSSQL1~1.MSS\MSSQL\EXTENS~1'.
+
+Working directory long path:'C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData' and short path:
+'C:\PROGRA~1\MICROS~1\MSSQL1~1.MSS\MSSQL\EXTENS~1'.
+
+Configuring security for folder C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData...
+
+SQL R services package management installed successfully.
+
+Starting service MSSQLLaunchpad...
+</code></pre>
+
+<p><strong>Code Snippet 6:</strong> <em>Output Enable Instance</em></p>
+
+<p>A couple of interesting points from what we see in <em>Code Snippet 6</em>:</p>
+
+<ul>
+<li>The launchpad service is stopped when the install process starts and at the end restarted.</li>
+<li>The install process creates a new packet management account. This account appears together with the worker accounts in the <em>user accounts</em> pool that you find in the <code>ExtensibilityData</code> folder.</li>
+</ul>
+
+<blockquote>
+<p><strong>NOTE:</strong> As the instance only is enabled once, this could potentially be part of when we enable an instance for external scripts.</p>
+</blockquote>
+
+<p>Having enabled the instance, admin can now go ahead and enable the database:</p>
+
+<pre><code class="language-bash">&gt; RegisterRext.exe /installpkgmgmt /database:DataScienceDB
+</code></pre>
+
+<p><strong>Code Snippet 7:</strong> <em>Enable Database</em></p>
+
+<p>In <em>Code Snippet 7</em> we see how we enable packet management on the <code>DataScienceDB</code> database, once again using Windows Authentication. Whereas enabling an instance requires <code>VIEW SERVER STATE</code> permissions for the authenticated user, when enabling a database the user needs both <code>VIEW SERVER STATE</code> as well as being part of the <code>db_owner</code> database role.</p>
+
+<p>The output from <em>Code Snippet 7</em> is like so:</p>
+
+<pre><code class="language-bash">&gt;RegisterRExt /installpkgmgmt /database:DataScienceDB
+
+Source directory to pick the RExtension binaries determined 
+to be &quot;C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\
+R_SERVICES\library\RevoScaleR\rxLibs\x64\&quot;.
+
+Connecting to SQL server...
+
+Sql server binn directory is &quot;C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn&quot;.
+
+Installing SQL R services package management for database 'DataScienceDB'
+
+Installing version 1.0 artifacts
+
+Working directory long path:'C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData' and short path:
+'C:\PROGRA~1\MICROS~1\MSSQL1~1.MSS\MSSQL\EXTENS~1'.
+
+Creating package management folder C:\Program Files\Microsoft SQL Server\
+MSSQL14.MSSQLSERVER\MSSQL\ExtensibilityData\
+rpkgs\4ecd5724-d180-47da-a8e0-01d6c1b9bd0f...
+
+Creating package management table rpackages...
+
+Creating package management role rpkgs-users...
+
+Creating package management role rpkgs-private...
+
+Creating package management role rpkgs-shared...
+
+Creating package management stored procedures ...
+
+Installing version 1.1 artifacts
+
+Altering package management table rpackages to include attributes flags...
+
+Creating package management stored procedures ...
+
+SQL R services package management installed successfully for database 'DataScienceDB'
+</code></pre>
+
+<p><strong>Code Snippet 8:</strong> <em>Output Enable Database</em></p>
+
+<p>As with the output from enabling an instance (<em>Code Snippet 6</em>) we see some interesting things in <em>Code Snippet 8</em> for when enabling a database, and we see how the process:</p>
+
+<ul>
+<li>Creates a table: <code>rpackages</code>.</li>
+<li>Creates roles.</li>
+<li>Creates stored procedures:</li>
+</ul>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_procedures.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Stored Procedures Created</em></p>
+
+<p>In <em>Figure 1</em> we see the procedures that the enabling process created. In a future post, we talk more about these procedures</p>
+
+<h2 id="revoscaler-functions-scopes-roles">RevoScaleR Functions, Scopes &amp; Roles</h2>
+
+<p>RevoScaleR exposes functions similar to CRAN R functions for package management:</p>
+
+<ul>
+<li><code>rxSqlLibPaths</code>: Retrieves the path of the instance library on the remote server.</li>
+<li><code>rxFindPackage</code>: retrieves the path for one or more packages on the remote SQL Server.</li>
+<li><code>rxInstallPackages</code>: Install packages and their dependencies in an SQLCC from a remote client. You can specify which repo to install from or also install from locally saved zipped packages.</li>
+<li><code>rxInstalledPackages</code>:  Retrieves a list of packages installed in the specified compute context.</li>
+<li><code>rxSyncPackages</code>:  Copy information about a package library between the file system and database.</li>
+<li><code>rxRemovePackages</code>:  Removes packages from a specified compute context. It also removes dependencies if other packages on SQL Server no longer use them.</li>
+</ul>
+
+<p>Back to our &ldquo;hero&rdquo; Dane. Admin has just told him that the SQL Server instance together with his database are now package management enabled, so he can begin to do his awesome &ldquo;stuff&rdquo;. So what Dane first want to do is to see what packages are available to him in his database, and he does not really want to use <em>SSMS</em>, but instead use his R client of choice; Visual Studio together with <strong>Microsoft R Client</strong>:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_VS1.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Visual Studio with Microsoft R Client</em></p>
+
+<p>In <em>Figure 2</em> we see how Dane&rsquo;s R project in Visual Studio targets  Microsoft R Client. Dane now wants to use the following code to see packages available on his database:</p>
+
+<pre><code class="language-r">&gt; sqlCCConnString &lt;- &quot;Driver=SQL Server; server=&lt;server_name&gt;; 
+                     database=daneb; uid=daneb; pwd=&lt;danes_pwd&gt;&quot;
+&gt; sqlCC &lt;- RxInSqlServer(connectionString = sqlCCConnString, numTasks = 1)
+&gt; rxSetComputeContext(sqlCC)
+&gt; sqlPackages &lt;- rxInstalledPackages(computeContext = sqlCC)
+&gt; sqlPackages
+</code></pre>
+
+<p><strong>Code Snippet 9:</strong></p>
+
+<p>In <em>Code Snippet 9</em> we see how Dane:</p>
+
+<ul>
+<li>Sets up a connection string pointing to his database for the SQLCC.</li>
+<li>Creates the SQLCC and sets it.</li>
+<li>Calls <code>rxInstalledPackages</code> to retrieve packages.</li>
+</ul>
+
+<p>When Dane executes the code in <em>Code Snippet 9</em> it does not go as he wants - he gets an error at the <code>rxInstalledPackages</code> call:</p>
+
+<pre><code class="language-r">Error in rxCheckPackageManagementVersion
+     (connectionString = computeContext@connectionString) : 
+  The package management feature is not enabled for the current 
+  user or not supported on SQL Server version 14.0.1000.169
+</code></pre>
+
+<p><strong>Code Snippet 10:</strong> <em>Execution Error</em></p>
+
+<p>Hmm, the error we see in <em>Code Snippet 10</em> says something about &ldquo;The package management feature is not enabled&hellip;&rdquo;  What is this all about?</p>
+
+<h4 id="scopes-roles">Scopes &amp; Roles</h4>
+
+<p>The error above is related to what happened when we enabled the database. Remember how the process created roles in the database and the user that tries to execute some of the package management functions need to be in some of the roles unless the user is part of <code>db_owner</code>. In <em>Code Snippet 8</em> we see the roles, and there is a role named <code>rpkgs-users</code>. When I see that role, it seems like a good candidate for Dane to be part of, so I add Dane to the role:</p>
+
+<pre><code class="language-sql">ALTER ROLE [rpkgs-users] 
+  ADD MEMBER dane;
+</code></pre>
+
+<p><strong>Code Snippet 11:</strong> <em>Add Member to Role</em></p>
+
+<p>Notice in <em>Code Snippet 11</em> how I have to enclose the role name in brackets([]) as the name has a hyphen in it. When Dane now tries to execute the code:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_scope_error.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Error</em></p>
+
+<p>Ok, we seem to be a little bit further than before, and it seems we now can execute, but there is still an error, and it looks related to &ldquo;scope&rdquo;, whatever that is.</p>
+
+<p>Scopes has to do with installation of packages via the <em>SQLCC</em> and the usage of those packages. There are two scopes:</p>
+
+<ul>
+<li>Shared: shares packages with other users in the database.</li>
+<li>Private: accessible only to the user installing the package.</li>
+</ul>
+
+<p>Scope and the roles we see above are related in that the roles define what the user can do and in what scope:</p>
+
+<ul>
+<li><code>rpkgs-users</code>: users in this role can use packages installed by users belonging to the <code>rpkgs-shared</code> role. Cannot read via the <code>rx...</code> functions.</li>
+<li><code>rpkgs-private</code>: this role has all permissions as the <code>rpkgs-users</code> role has. A user in this role can furthermore, install, remove and use private packages installed by the user in question.</li>
+<li><code>rpkgs-shared</code>: The same permissions as the <code>rpkgs-private</code> role. Users in this role can install, remove, and use shared packages.</li>
+</ul>
+
+<p>So, let us now see what we can do with these roles:</p>
+
+<pre><code class="language-sql">ALTER ROLE [rpkgs-users] 
+  ADD MEMBER user1;
+
+ALTER ROLE [rpkgs-shared] 
+  ADD MEMBER dane;
+
+ALTER ROLE [rpkgs-shared] 
+  ADD MEMBER user2;
+
+ALTER ROLE [rpkgs-private] 
+  ADD MEMBER user3;
+
+</code></pre>
+
+<p><strong>Code Snippet 12:</strong> <em>Add Users to Roles</em></p>
+
+<p>After we have added users to various roles, let us see what happens when different users want to install packages.</p>
+
+<h2 id="revoscaler-package-installation">RevoScaleR Package Installation</h2>
+
+<p>In the following examples, I have chosen a package <code>abc</code> mostly due to it not having too many dependencies, which makes it quicker to install. The <code>abc</code> package contains tools for &ldquo;Approximate Bayesian Computation&rdquo; (ABC).</p>
+
+<p>Something to think about are the versions of <em>RevoScaleR</em> on your development box vs the version on the remote SQL Server. My, admittedly, limited investigations lead me to believe that the version on the local machine cannot be an earlier version than on the remote SQL Server. If the version is earlier on the local machine, you get permission errors. From what I can tell, the local version can be the same, or newer.</p>
+
+<p>Ok, so to install packages we use <code>rxInstallPackagaes()</code>:</p>
+
+<pre><code class="language-r">rxInstallPackages(pkgs, skipMissing = FALSE, 
+                  repos = getOption(&quot;repos&quot;), 
+                  verbose = getOption(&quot;verbose&quot;), 
+                  scope = &quot;private&quot;, owner = '', 
+                  computeContext = rxGetOption(&quot;computeContext&quot;))
+</code></pre>
+
+<p><strong>Code Snippet 13:</strong> <em>Signature rxInstallPackages</em></p>
+
+<p>Let us look at the parameters we see in <em>Code Snippet 13</em>:</p>
+
+<p><strong><code>pkgs</code>:</strong></p>
+
+<p>String array of the packages you want to download and install. By default, it downloads the latest version of the package(s). When installing through an <strong>SQLCC</strong> the arrays can be .zip files as well as URL&rsquo;s, <code>http://</code> and <code>file://</code>. If the URL is a file, the location must be available to SQL Server.</p>
+
+<p><strong><code>skipMissing</code>:</strong></p>
+
+<p>Boolean (<code>TRUE</code>, <code>FALSE</code>) indicating whether not to download dependent packages. The argument defaults to false.</p>
+
+<p><strong><code>repos</code>:</strong></p>
+
+<p>String array of base URL&rsquo;s of repos to use. It defaults to the MRAN repo. If you want to install from local files <code>repos</code> has to be explicitly set to <code>NULL</code>.</p>
+
+<p><strong><code>verbose</code>:</strong></p>
+
+<p>Boolean (<code>TRUE</code>, <code>FALSE</code>) indicating whether to output progress during installation.</p>
+
+<p><strong><code>scope</code>:</strong></p>
+
+<p>Related to what I said above about <code>scope</code>. The <code>scope</code> argument indicates whether to install packages, so they are available for other users on the database: <code>shared</code>, or only accessible to the user calling <code>rxInstallPackages</code>: <code>private</code>. The default value is <code>private</code>. To install to <code>shared</code> scope the user has to be in the <code>rpkgs-shared</code> or <code>db_owner</code> role.</p>
+
+<p><strong><code>owner</code>:</strong></p>
+
+<p>A user in the <code>db_owner</code> role can install packages on behalf of other users, and set the <code>owner</code> parameter to a valid database user account.</p>
+
+<p><strong><code>computeContext</code>:</strong></p>
+
+<p>The compute context to install under.</p>
+
+<h4 id="install-already">Install Already</h4>
+
+<p>Finally, we can talk about actually installing a package. Dane now wants to install the <code>abc</code> package:</p>
+
+<pre><code class="language-r">sqlCCConnString &lt;- &quot;Driver=SQL Server; 
+                    server=192.168.57.3;
+                    database=DataScienceDB; 
+                    uid=dane; pwd=password1234$&quot;
+sqlCC &lt;- RxInSqlServer(connectionString = sqlCCConnString, numTasks = 1)
+rxSetComputeContext(sqlCC)
+pkgs &lt;- c(&quot;abc&quot;)
+rxInstallPackages(pkgs = pkgs, verbose = TRUE, computeContext = sqlCC)
+</code></pre>
+
+<p><strong>Code Snippet 14:</strong> <em>Install R Package</em></p>
+
+<p>In <em>Code Snippet 14</em> we see how Dane:</p>
+
+<ul>
+<li>Sets up the connection string for the <em>SQLCC</em>.</li>
+<li>Created the <em>SQLCC</em> and sets it.</li>
+<li>Defines the package(s): <code>pkgs &lt;- c(&quot;abc&quot;)</code>.</li>
+</ul>
+
+<p>When he calls <code>rxInstallPackages</code>, he follows the progress in the Visual Studio R interactive window:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs2_install_progress.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Installation Progress</em></p>
+
+<p>Dane sees in <em>Figure 4</em> how the various packages needed for <code>abc</code> downloads and subsequently installed. After a couple of minutes the installation is completed:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs2_install_fiished.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>Installation Finished</em></p>
+
+<p>After the installation has finished, let us see how it works.</p>
+
+<h4 id="usage">Usage</h4>
+
+<p>So in <em>Figure 5</em> we see that the installation finished successfully. Dane wants now to start using the new packages he installed in SQL Server, and for testing purposes, he uses the <code>abc.data</code> package (installed as a dependency of the <code>abc</code> package):</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script 
+         @language = N'R',
+         @script = N'
+                library(&quot;abc.data&quot;)
+                data(human)
+                OutputDataSet &lt;-  data.frame(stat.voight)'
+WITH RESULT SETS(([pi] float, [TajD.m] float, [TajD.v] float ))
+</code></pre>
+
+<p><strong>Code Snippet 15:</strong> <em>Using R Package</em></p>
+
+<p>In <em>Code Snippet 15</em> it is assumed that Dane has logged in as himself and we see how Dane uses <a href="https://www.rdocumentation.org/packages/abc.data/versions/1.0/topics/human"><code>human</code></a> which is a set of R objects containing observed data from three human populations. The call <code>data(human)</code>, loads in four R objects and Dane is interested in <code>stat.voight</code>, which is a data frame with 3 rows and 3 columns. The data frame contains the observed summary statistics for three human populations. In his code, Dane outputs the <code>stat.voight</code> data frame. However, when Dane executes the code, this happens:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs2_error_exec1.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>Package does not Exist</em></p>
+
+<p>Hmm, what happened here? We know that Dane installed the package, so why does he get an exception that the package does not exist? The reason is that the package he installed is not installed in the R engine, but installed on the database and is not visible. To be able to use the package Dane needs to execute under the <em>SQLCC</em>.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> In future posts we talk more about where the packages are installed and how they get loaded etc.</p>
+</blockquote>
+
+<p>So, how does Dane make the <code>abc.data</code> package execute in the <em>SQLCC</em>. Well, the <code>abc.data</code> package does not know about <em>SQLCC</em>, so Dane needs to use a RevoScaleR wrapper function: <code>rxExec</code>. The <code>rxExec</code> function allows distributed execution of a function, and the signature looks like so:</p>
+
+<pre><code class="language-r">rxExec(FUN,   ...  , elemArgs, elemType = &quot;nodes&quot;, 
+       oncePerElem = FALSE, timesToRun = -1L,
+       packagesToLoad = NULL, execObjects = NULL, 
+       taskChunkSize = NULL, quote = FALSE, 
+       consoleOutput = NULL, autoCleanup = NULL, 
+       continueOnFailure = TRUE, RNGseed = NULL, 
+       RNGkind = NULL, foreachOpts = NULL)
+
+</code></pre>
+
+<p><strong>Code Snippet 16:</strong> <em>Signature of rxExec</em></p>
+
+<p>In <em>Code Snippet 16</em> we see <code>rxExec</code>&rsquo;s signature. In a future post we look at <code>rxExec</code> in more detail, but for now what interests us are the two first parameters:</p>
+
+<ul>
+<li><code>FUN</code>: The function to execute.</li>
+<li><code>...</code>: Arguments passed to the function (<code>FUN</code>).</li>
+</ul>
+
+<p>The first parameter is the function we want <code>rxExec</code> to execute and the second parameter passes in the argument(s) the function requires. So, if we go back to what Dane wants to do, he re-writes his code like so:</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script 
+ @language = N'R',
+ @script = N'
+   # define a function to be passed to rxExec
+   usePackageInRxFunction &lt;- function()
+   {
+     library(&quot;abc.data&quot;)
+     data(human)
+     return(stat.voight)
+   }
+   # the &quot;normal&quot; SQLCC stuff
+   sqlCCConnString &lt;- &quot;Driver=SQL Server; server=.; 
+                       database=DataScienceDB; 
+                       uid=dane; pwd=password1234$&quot;
+   sqlCC &lt;- RxInSqlServer(connectionString = sqlCCConnString, 
+                          numTasks = 1)
+   rxSetComputeContext(sqlCC)
+
+   ret &lt;- rxExec(usePackageInRxFunction)
+   OutputDataSet &lt;- data.frame(ret)'
+WITH RESULT SETS(([pi] float, [TajD.m] float, [TajD.v] float ))
+</code></pre>
+
+<p><strong>Code Snippet 17:</strong> <em>Executing in SQLCC</em></p>
+
+<p>We see how Dane in <em>Code Snippet 17</em>:</p>
+
+<ul>
+<li>Creates a function <code>usePackageInRxFunction</code> where he does the <code>abc.data</code> related work.</li>
+<li>Creates and sets up the <em>SQLCC</em>.</li>
+<li>Calls <code>rxExec</code> with <code>usePackageInRxFunction</code> as argument.</li>
+<li>Returns a data set.</li>
+</ul>
+
+<p>When Dane executes the code the result is:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs2_exec_success1.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>Success</em></p>
+
+<p>So, everything works fine, and Dane gets a result back. What happens if someone else wants to execute the same code, for example, <code>nielsb</code> who is in the <code>db_owner</code> role? The only thing <code>nielsb</code> changes is the <code>sqlCCConnString</code> parameter:</p>
+
+<pre><code class="language-sql"> sqlCCConnString &lt;- &quot;Driver=SQL Server; server=.; 
+                       database=DataScienceDB; 
+                       uid=nielsb; pwd=password1234$&quot;
+</code></pre>
+
+<p><strong>Code Snippet 18:</strong> <em>SQLCC Connectionstring for nielsb</em></p>
+
+<p>When <code>nielsb</code> executes the code in <em>Code Snippet 17</em> but with the <code>sqlCCConnString</code> parameter looking like in <em>Code Snippet 18</em> the outcome is:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs2_error_exec2.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>No Package Exception</em></p>
+
+<p>Hmm, that is strange - we know Dane installed the package (and he just used it), so it has to exist. Dane is part of the <code>rpkgs-shared</code> role so he has permissions to create shared packages? The reason here is even though Dane was in <code>rpkgs-shared</code> role when he ran <code>rxInstallPackages</code> (<em>Code Snippet 14</em>) he did not define the scope for the package. Remember when we looked at the signature and the arguments for <code>rxInstallPackages</code> in <em>Code Snippet 13</em> we said that default value for the <code>scope</code> argument is <code>private</code> and that is how the package is installed regardless of what role Dane is in.</p>
+
+<p>So to finish off, let <code>user2</code> who is in <code>rpkgs-shared</code> install the same packages in <code>shared</code> scope. Does that work, can you have the same packages installed multiple times? Yes, you can in that you can have the same packages installed in both <code>private</code> as well as <code>shared</code> scope. So <code>user2</code> executes this code:</p>
+
+<pre><code class="language-r">sqlCCConnString &lt;- &quot;Driver=SQL Server; 
+                    server=192.168.57.3;
+                    database=DataScienceDB; 
+                    uid=user2; pwd=password1234$&quot;
+sqlCC &lt;- RxInSqlServer(connectionString = sqlCCConnString, numTasks = 1)
+rxSetComputeContext(sqlCC)
+pkgs &lt;- c(&quot;abc&quot;)
+rxInstallPackages(pkgs = pkgs, verbose = TRUE, scope = &quot;shared&quot;, computeContext = sqlCC)
+</code></pre>
+
+<p><strong>Code Snippet 19:</strong> <em>Install R Package</em></p>
+
+<p>The only changes here in <em>Code Snippet 19</em> compared to the code in <em>Code Snippet 14</em> are the user id (<code>uid</code> -obviously), and <code>scope = &quot;shared&quot;</code> in the <code>rxInstallPackages</code> call. The <code>abc</code> package is now installed in <code>shared</code> scope, and anyone in any of the <code>rpkgs-...</code> roles can use the package.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>This turned out to be a much longer post than I thought it would be, and there are still topics related to RevoScaleR installation functionality that I want to cover, but that comes in future posts.</p>
+
+<p>So, here is what we covered:</p>
+
+<ul>
+<li>To use RevoScaleR for package installation both the SQL Server instance as well as the database need to be enabled for package management. You enable package management via <code>RegisterRExt.exe</code> tool and the <code>/installpkgmgmt</code> option. There are additional flags for database enabling, authentication and so forth.</li>
+<li>When enabling the database the process creates a table, stored procedures and roles.</li>
+<li>For a user to be able to install packages he needs to have necessary permissions on <code>sp_execute_external_script1 as well as the</code>EXECUTE ANY EXTERNAL SCRIPT` permission. He also needs to be in a role which allows him to install packages.</li>
+<li>The roles that the enabling process creates are: <code>rpkgs-users</code>, <code>rpkgs-private</code> and <code>rpkgs-shared</code>.</li>
+<li>The roles which allows the user to install packages are <code>rpkgs-private</code> and <code>rpkgs-shared</code> (and <code>db_owner</code>).</li>
+<li>The roles define the scope of the installed packages: <code>private</code> and <code>shared</code>.</li>
+<li>When a user installs a package with <code>private</code> scope, only he can see and use the package.</li>
+<li>If the user installs a package with <code>shared</code> scope, all users in any of the roles, including <code>rpkgs-users</code> can use that package. The user needs to be in the <code>rpkgs-shared</code> (or <code>db_owner</code>) to install a <code>shared</code> package.</li>
+<li>You use the function <code>rxInstallPackages</code> to install a package, and the function needs to run in an <em>SQLCC</em>.</li>
+<li>When the user calls <code>rxInstallPackages</code> he needs to define which scope the package has through the <code>scope</code> argument. If the <code>scope</code> is not defined, it defaults to <code>private</code>.</li>
+<li>To use a package, either in <code>private</code> or <code>shared</code> scope, the code needs to run in <em>SQLCC</em>.</li>
+<li>For a package that has no knowledge about <em>SQLCC</em>, the functions in the package can be run via <code>rxExec</code>.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 25]]></title>
+    <link href="http://nielsberglund.com/2018/06/interesting-stuff---week-25/"/>
+    <updated>2018-06-24T20:36:32+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/interesting-stuff---week-25/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="cloud">Cloud</h2>
+
+<ul>
+<li><a href="http://joeduffyblog.com/2018/06/18/hello-pulumi/">Hello, Pulumi!</a>. Back in 2017, I wrote in <a href="/2017/06/interesting-stuff---week-22/">Weekly Roundup 22</a> about Joe Duffy and his startup Pulumi. At that time, no one knew what Pulumi was all about. Well, that changed with today&rsquo;s linked post. Joe explains about Pulumi, and it does sound extremely exciting. Go forth and read all about it!</li>
+</ul>
+
+<h2 id="databases">Databases</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/future-distributed-database-relational">The Future of Distributed Databases Is Relational</a>. This is an <a href="https://www.infoq.com/presentations/future-distributed-database-relational">InfoQ</a> presentation about creating a more modern relational database. It is about Postgres and the journey to scale out and make it truly distributed. Fascinating!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/sql-streaming-apache-flink">Streaming SQL to Unify Batch &amp; Stream Processing w/ Apache Flink @Uber</a>. Another <a href="https://www.infoq.com/">InfoQ</a> presentation. This presentation is about exploring SQL’s role in the world of streaming data and its implementation in Apache Flink and covering streaming semantics, event time, and incremental results. Interesting!</li>
+<li><a href="https://data-artisans.com/blog/getting-started-with-da-platform-on-google-kubernetes-engine">Getting Started with dA Platform on Google Kubernetes Engine</a>. This article describes the setup of the <a href="https://data-artisans.com/platform">dA Platform</a> using Google Cloud&rsquo;s Kubernetes engine.</li>
+<li><a href="https://www.confluent.io/blog/introducing-confluent-hub/">Introducing Confluent Hub</a>.  From the post: &ldquo;Confluent Hub is a place for the Apache Kafka and Confluent Platform community to come together and share the components the community needs to build better streaming data pipelines and event-driven applications.&rdquo;. Sounds intriguing!</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/buckwoody/2018/06/20/the-data-analysis-maturity-model-level-two-reliable-data-storage-and-query-systems/">The Data Analysis Maturity Model – Level Two: Reliable Data Storage and Query Systems</a>. The second post in a series by <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a> about defining a <em>Data Analysis Maturity Model</em>. In this post, Buck discusses data storage and querying.</li>
+<li><a href="http://blog.revolutionanalytics.com/2018/06/pypl-programming-language-trends.html">PYPL Language Rankings: Python ranks #1, R at #7 in popularity</a>. A post by <a href="https://twitter.com/revodavid">David</a> at <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> about a popularity index of programming languages.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<p>Boy, have I been a busy bee this week. I have managed to get two posts published, which must be a record. But none of the posts is the follow-up post to my [sp_execute_external_script and SQL Compute Context - I][ctx1] post from five weeks ago. This is getting stupid!</p>
+
+<ul>
+<li><a href="/2018/06/installing-r-packages-in-sql-server-machine-learning-services---i/">Installing R Packages in SQL Server Machine Learning Services - I</a>. This post, which is the first post in a <a href="/series/sql_server_ml_services_install_packages">series</a>, came about due to a mate of mine asking how he could install R packages into <strong>SQL Server Machine Learning Services</strong>. In this particular post, we look at using R packet managers to install packages.</li>
+<li><a href="/2018/06/sp_execute_external_script-and-permissions/">sp_execute_external_script and Permissions</a>. While researching the <a href="/series/sql_server_ml_services_install_packages">Installing R Packages</a> series I came about some issues related to permissions and <code>sp_execute_external_script</code>. This post tries to clarify and explain how it works.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+
+<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sp_execute_external_script and Permissions]]></title>
+    <link href="http://nielsberglund.com/2018/06/sp_execute_external_script-and-permissions/"/>
+    <updated>2018-06-24T14:36:36+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/sp_execute_external_script-and-permissions/</id>
+    <content type="html"><![CDATA[<p>This post will (hopefully) be short and sweet. It came about as I was testing out &ldquo;stuff&rdquo; for the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series of posts and I could not get it to work as I had expected.</p>
+
+<p></p>
+
+<h2 id="background">Background</h2>
+
+<p>Usually, when I work with <strong>SQL Server Machine Learning Services</strong>, I execute code in the context of admin (yeah I know, do not do that :)). In the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series I used non-admin accounts, and all of a sudden nothing worked.</p>
+
+<p>I tried to research (read Google) the issue, but I could not find a definitive answer, just tidbits here and there. So when I finally realised what the issues were, I decided to write a blog post about it.</p>
+
+<h2 id="housekeeping">Housekeeping</h2>
+
+<p>As in quite a few of my other blog posts, here follows some code to set things up if you want to follow along.</p>
+
+<h4 id="code">Code</h4>
+
+<p>This is the code to &ldquo;set the scene&rdquo;:</p>
+
+<pre><code class="language-sql">IF NOT EXISTS(SELECT 1 FROM sys.server_principals 
+              WHERE name = 'user1')
+BEGIN
+  CREATE LOGIN user1
+  WITH PASSWORD = 'password1234$';
+END
+
+DROP DATABASE IF EXISTS PermissionDB;
+GO
+
+CREATE DATABASE PermissionDB;
+GO
+
+USE PermissionDB;
+GO
+
+CREATE USER user1
+FROM LOGIN user1;
+GO
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Create Login, Database and User</em></p>
+
+<p>In <em>Code Snippet 1</em> we create a login, a database, and then we create a user for the login in the database.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> Below you see in quite a few places the abbreviation SPEES. That is short for <code>sp_excute_external_script</code>.</p>
+</blockquote>
+
+<h2 id="permissions">Permissions</h2>
+
+<p>What we see in <em>Code Snippet 1</em> is that we have not assigned <code>user1</code> to any particular roles on either the server or the database, so <code>user1</code> has whatever default permissions he gets during creation. Let us look in <em>SSMS</em> UI and see what server level roles <code>user1</code> belongs to:</p>
+
+<p><img src="/images/posts/sql_ml_speess_permissions1.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Roles User1</em></p>
+
+<p>In <em>Figure 1</em> we see how <code>user1</code> belongs to the server role <code>public</code>, and that is the only role he belongs to. So what if we have code like so:</p>
+
+<pre><code class="language-sql">--uncomment the following and execute
+--to execute as user1
+--EXECUTE AS USER = 'user1';
+--GO
+
+EXECUTE sp_execute_external_script
+             @language = N'R'
+           , @script = N'
+               d&lt;-42
+               OutputDataSet &lt;- as.data.frame(d)'
+
+--to switch back from user1 uncomment and execute
+--the following
+--REVERT
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Simple Test Code</em></p>
+
+<p>The code in <em>Code Snippet 2</em> allows you to switch between admin/sa and <code>user1</code> without having to log in as <code>user1</code>.</p>
+
+<p>If someone with sufficient permissions ran the code in <em>Code Snippet 2</em>, the result looks like so:</p>
+
+<p><img src="/images/posts/sql_ml_spees_sa_exec.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>sa Executes SPEES</em></p>
+
+<p>As we see in <em>Figure 2</em> we get back <a href="https://www.independent.co.uk/life-style/history/42-the-answer-to-life-the-universe-and-everything-2205734.html"><em>The Answer to the Ultimate Question of Life, the Universe and Everything.</em></a>, but if <code>user1</code> runs the same code, the result is:</p>
+
+<p><img src="/images/posts/sql_ml_spees_sa_exec_error1.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>SPEES Execution Error</em></p>
+
+<p>Oh, dear me, <code>user1</code> receives a permission denied exception! Well, from what we know about SQL Server and permissions it probably was not that unexpected. No problem, we know about SQL Server permissions, so we realise we probably have to <code>GRANT EXECUTE</code> permissions on <em>SPEES</em> to <code>user1</code> (or <code>public</code>):</p>
+
+<pre><code class="language-sql">GRANT EXECUTE ON sp_execute_external_script to user1;
+</code></pre>
+
+<p><strong>Code Snippet 3:</strong> <em>Grant Execute Permission</em></p>
+
+<p>Being in the database where <code>user1</code> exists and executing the code in <em>Code Snippet 3</em> as admin/sa - what could possibly go wrong:</p>
+
+<p><img src="/images/posts/sql_ml_spees_perm_grant_error1.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Grant Permission Error</em></p>
+
+<p>Oops, something did go wrong, as it turns out that if you try to grant permissions on extended stored procedures, which <em>SPEES</em> is, you need to do it from the <code>master</code> database. Cool, let us switch to master and do it there. Well, if you try to do that - then you get another error: the user does not exist in <code>master</code>, sigh!</p>
+
+<p>At this stage you have a couple of options:</p>
+
+<ul>
+<li><del>Add the login for the user to the <code>sysadmin</code> role, or the user to the <code>db_owner</code> role in the actual database.</del> No do not do that, I am only kidding! Do.Not.Do.That!</li>
+<li>Create the user in <code>master</code> and grant the permission. That would work.</li>
+<li>Grant the permission to <code>public</code>.</li>
+</ul>
+
+<p>Both options above (I do not count <code>sysadmin</code>, <code>db_owner</code>) have drawbacks:</p>
+
+<ul>
+<li>Create the user in <code>master</code>: you now have a user in master, and the question is what &ldquo;shenanigans&rdquo; the user can do.</li>
+<li>Grant permission to <code>public</code>: anyone can potentially execute <em>SPEES</em>, not ideal.</li>
+</ul>
+
+<p>For reasons that become clear later I go with granting permission to <code>public</code>:</p>
+
+<pre><code class="language-sql">USE master
+GRANT EXECUTE ON sp_execute_external_script to public;
+</code></pre>
+
+<p><strong>Code Snippet 4:</strong> <em>Granting Permission to Public</em></p>
+
+<p>After admin/sa runs the code in <em>Code Snippet 4</em>, <code>user1</code> can now execute the code in <em>Code Snippet 2</em> and we should see <em>The Answer &hellip;</em>:</p>
+
+<p><img src="/images/posts/sql_ml_spees_sa_exec_error2.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>SPEES Execution Error</em></p>
+
+<p><a href="https://en.oxforddictionaries.com/definition/eish">Eish</a>, what goes on here? We did grant the permission in <em>Code Snippet 4</em>, so what now? Hmm, if we compare the errors, we see that they are slightly different. The error before granting the permission is something like: &ldquo;The EXECUTE permission was denied &hellip;&rdquo;, whereas the error after granting the permission is like: &ldquo;The user does not have permission &hellip;&rdquo;. It seems that the code in <em>Code Snippet 4</em> did something, but we still miss a piece (or multiple) of the puzzle, and it is permissions related. What permission(s) is the question?</p>
+
+<p>So I decided to try a &ldquo;brute force attack&rdquo;; find all built in permissions in SQL Server, browse through them and see if I see something promising. For this, I used a SQL Server function: <code>sys.fn_builtin_permissions</code>, which - when executed - returns a description of the built-in permissions hierarchy of the server:</p>
+
+<pre><code class="language-sql">SELECT * FROM fn_builtin_permissions('database')
+</code></pre>
+
+<p><strong>Code Snippet 5:</strong> <em>Retrieve All Functions</em></p>
+
+<p>The parameter (<code>database</code>) in <em>Code Snippet 5</em> indicates what permissions I want back. In this case, I want all permissions on a database level. When I ran the code in <em>Code Snippet 5</em> the function call returned 78 rows, and towards the end of the result I saw something promising:</p>
+
+<p><img src="/images/posts/sql_ml_spees_permissions.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>SPEES Execution Error</em></p>
+
+<p>The highligthed part in <em>Figure 6</em> looks very interesting. I wonder what happens if I do something like this as admin/sa in the database the user is in:</p>
+
+<pre><code class="language-sql">GRANT EXECUTE ANY EXTERNAL SCRIPT TO user1
+</code></pre>
+
+<p><strong>Code Snippet 5:</strong> <em>Grant External Script</em></p>
+
+<p>The code in <em>Code Snippet 5</em> ran without any issues, and <code>user1</code> can then try following code:</p>
+
+<pre><code class="language-sql">SELECT SUSER_NAME()
+EXECUTE sp_execute_external_script
+             @language = N'R'
+           , @script = N'
+               d&lt;-42
+               OutputDataSet &lt;- as.data.frame(d)'
+</code></pre>
+
+<p><strong>Code Snippet 6:</strong> <em>Another Try by user1</em></p>
+
+<p>The <code>SELECT SUSER_NAME()</code> in <em>Code Snippet 6</em> is there to verify that it is the correct user executing. The result when <code>user1</code> executes looks like so:</p>
+
+<p><img src="/images/posts/sql_ml_spees_user1_exec.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>Successful Execution</em></p>
+
+<p>So that was the missing link: <code>GRANT EXECUTE ANY EXTERNAL SCRIPT TO ...</code>, and to tell the truth; afterwards, I have seen a few posts on the net mentioning <code>EXECUTE ANY EXTERNAL SCRIPT</code>.</p>
+
+<p>One more thing: above I mentioned that I favour granting the <code>EXECUTE</code> on <em>SPEES</em> to <code>public</code> instead of adding the user to <code>master</code>. The reason for this is what we just have seen: yes you do a &ldquo;blanket&rdquo; <code>GRANT</code> by granting <code>public</code>, but a user still needs to be granted <code>EXECUTE ANY EXTERNAL SCRIPT</code> before he can &ldquo;go wild&rdquo;. That gives admins/dba&rsquo;s some control over who can execute <em>SPEES</em>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>To allow a non-admin database user to execute <code>sp_execute_external_script</code> you need to:</p>
+
+<ul>
+<li>Grant <code>public</code> execute permissions on <code>sp_execute_external_script</code>, and you do it in <code>master</code>. Obviously, you only need to do it once.</li>
+<li>Grant <code>EXECUTE ANY EXTERNAL SCRIPT</code> to the user in the different databases he needs to execute <em>SPEES</em> in.</li>
+</ul>
+
+<p>That is it!</p>
+
+<p>One final thing: if you want to read more about <code>sp_execute_external_script</code>, <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series has some posts.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
+
+<!-- [series1]: <> (/series/sql_server_2k16_r_services) -->
+
+<!-- [series2]: <> (/series/sql_server_ml_services_install_packages) -->]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Installing R Packages in SQL Server Machine Learning Services - I]]></title>
+    <link href="http://nielsberglund.com/2018/06/installing-r-packages-in-sql-server-machine-learning-services---i/"/>
+    <updated>2018-06-23T13:13:58+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/installing-r-packages-in-sql-server-machine-learning-services---i/</id>
+    <content type="html"><![CDATA[<p>This post was supposed to be a single post about how to install R packages in SQL Server Machine Learning Services, but once again I completely misjudged the scope of the topic. So this one post turned into a series of posts about how to install R packages in <strong>SQL Server Machine Learning Services</strong> and this is the first post in the series.</p>
+
+<p>To see other posts in the series go to <a href="/series/sql_server_ml_services_install_packages"><strong>Install R Packages in SQL Server ML Services Series</strong></a>.</p>
+
+<p>As you may know, I am in the process of writing the follow-up post to <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a>. However, I have a hard time getting into the flow of things, so I use any excuse I can, to not have to write. So when <a href="https://www.linkedin.com/in/dane-bax/">Dane Bax</a>, a colleague of mine, contacted me a couple of days ago with a <strong>SQL Server Machine Learning Services</strong> problem, I jumped at the chance to help him, and also write a post about it.</p>
+
+<p><a href="https://www.linkedin.com/in/dane-bax/">Dane</a> works for a sister company of <a href="/Derivco">Derivco</a> as a data scientist and at both <a href="/Derivco">Derivco</a> and the sister company - <a href="https://www.microgaming.co.uk/">Microgaming</a> we are now looking at using SQL Server Machine Learning Services.</p>
+
+<p>His problem was that he wanted to use a CRAN package - <code>bsts</code> - which is not part of a standard SQL Server R installation. He tried a couple of things to get it installed but got errors, so he decided to get in touch with me.</p>
+
+<p></p>
+
+<blockquote>
+<p><strong>NOTE:</strong> The package name <code>bsts</code> stands for <em>Bayesian Structural Time Series</em> and it performs time series regression using dynamic linear models fit using MCMC.</p>
+</blockquote>
+
+<h2 id="background">Background</h2>
+
+<p>First of all; why would we need to install R packages if I already have R, either on my local machine or via SQL Server ML Services? Well, the answer to that is that there are a multitude of packages &ldquo;in the wild&rdquo; who do not necessarily come with your R engine of choice, and <code>bsts</code> is an excellent example of this.</p>
+
+<p>If you are an R developer you are probably accustomed to installing packages on your R development environment at will, and - more or less - at whatever location you choose. When using SQL Server ML Services however, it does not work like that as SQL Server cannot load packages from external libraries, even if that library is on the same computer. So when using SQL Server ML Services, you can only install packages to a default library associated with the instance.</p>
+
+<p>The installation of packages can be done in different ways which is what this post is about - but before that, let us look at something somewhat different: <strong>Rtools</strong>.</p>
+
+<h2 id="rtools">Rtools</h2>
+
+<p>The cool thing with R is that it is open source and you can run it on multiple platforms (Windows, Mac, Linux). So in essence, whatever package you want to use you can run on your platform of choice. If you install a package on Mac or Windows, R downloads and installs a pre-compiled (for your OS) packet. On Linux, R downloads the source of the package and builds it on your machine. For the build, R requires some external tools: <code>make</code>, <code>tar</code>, <code>gzip</code>, C/C++ compiler and so forth.</p>
+
+<p>Why I mention this here is that certain packages do not have a binary built for Windows, and if you want to install such a package, you need to build the package from source on your environment. The problem with this is that most of the tools needed to build the package may not exist in the Windows environment.</p>
+
+<p>To be able to compile from source on Windows, the people behind R have made available an installer which installs the required tools for compilation of packages: <strong>Rtools</strong>. So if you think that you ever need to compile an R package from source, then ensure that you have <em>Rtools</em> installed. Why I bring this up is that the <code>bsts</code> package has a dependency on a package that needs to be compiled.</p>
+
+<h4 id="rtools-installation">Rtools Installation</h4>
+
+<p>While you can install R packages to a remote machine, keep in mind that <em>Rtools</em> is not an R package as such, and it is not installed into the engine - but onto the machine where R is. So, for us here, we need to be on the machine that hosts SQL Server ML Services and run the installation on that machine.</p>
+
+<p>We need first to download the installer for <em>Rtools</em>, and when you browse to the <a href="https://cran.r-project.org/bin/windows/Rtools/index.html">download page</a>, you see there are multiple versions dependent on what version of R you have. To find the R version of your SQL Server ML Services installation you can run following code:</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script
+                  @language = N'R' ,
+                  @script = N'print(R.Version()$version)'
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Retrieve R Version</em></p>
+
+<p>When I run the code in <em>Code Snippet 1</em> on my SQL Server ML Services instance, I see that the R version is <code>3.3.3</code>, so I download <code>Rtools35.exe</code> to my SQL Server machine and run the installer. By default <em>Rtools</em> installs to <code>C:\RTools</code> and R looks for compilers in the default installation path. If you install anywhere else, you have to point R to the path of <code>gcc</code>, <code>g++</code> and <code>ld</code>, by setting a variable called BINPREF. <em>Rtools</em> installation instructions discuss this in detail. During the install ensure you check the checkbox for &ldquo;Add rtools to system PATH&rdquo;:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_rtools_path.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Adding Rtools to PATH</em></p>
+
+<p>After having checked the box for editing the PATH as in <em>Figure 1</em>, click through and let the install finish. After installation, it is a good practice to check that the PATH is set. You can do this by running <code>RTerm.exe</code> (on the SQL Server box) and execute <code>Sys.getenv('PATH')</code> from RTerm&rsquo;s command prompt. You find <code>RTerm.exe</code> at the <code>R_SERVICES\bin\x64</code> directory under the path to the SQL Server instance. For example: <code>C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\R_SERVICES\bin\x64</code>.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> Just a word of caution here. When I installed <code>Rtools35.exe</code> I had to manually add to PATH the path to the compilers: <code>C:\Rtools\mingw_64\bin</code>. So look out for that .</p>
+</blockquote>
+
+<p>You should also check that you can call the C++ compiler: <code>system('g++ -v')</code> (this is how I realised the path was not correct). That should result in something like:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_rtools_g++.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Checking for C++ Compiler</em></p>
+
+<p>If everything looks OK, <em>Rtools</em> have now been installed, and the various instances of R (from SQL Server ML instances) can share the <em>Rtools</em> toolchain.</p>
+
+<h2 id="r-packages-installation">R Packages Installation</h2>
+
+<p>When we install R packages for SQL Server ML Services we install them on a per SQL Server instance, and we can install these packages different in ways:</p>
+
+<ul>
+<li>R packet managers.</li>
+<li>T-SQL.</li>
+<li>RevoScaleR.</li>
+</ul>
+
+<p>Regardless how we install the packages, they can only be installed to the default packet library for that instance. The file system folder for this library has restricted access and to write to this folder you need admin rights. Well, that is not entirely correct - with some configuration changes even non-admin can install packages via T-SQL and RevoScaleR. However, as we see later, the installation is against the current database.</p>
+
+<h4 id="r-code-for-installation">R Code for Installation</h4>
+
+<p>Before we look at the ways we can install and the tools for installation; what does the code we use to do the installation look like?</p>
+
+<p>As you probably know, the way to install R packages is through the <code>install.packages</code> command. The command has quite a few parameters as you can see <a href="https://www.rdocumentation.org/packages/utils/versions/3.5.0/topics/install.packages">here</a>, but when I install packages I use only a few of the parameters, regardless of the way I install the package:</p>
+
+<pre><code class="language-r"># get the library path
+libPath &lt;- .libPaths()[1]
+install.packages(&quot;pkg_name&quot;, lib = libPath, 
+                  repos = &quot;url_for_the_repo&quot;, 
+                  dependencies = TRUE)
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Install Packages Command</em></p>
+
+<p>In <em>Code Snippet 2</em> we see how I first retrieve the library path. This is where I install the package to, and once again - I can only install to the default instance directory. Then in the <code>install.packages</code> call I use these parameters:</p>
+
+<ul>
+<li>First parameter is always the name of the package(s) to install.</li>
+<li><code>lib</code>: is for the library folder to install to.</li>
+<li><code>repos</code>: the base URL(s) of the repositories to use. If left out, the repo used is the Microsoft MRAN repo, which may not be what you want.</li>
+<li><code>dependencies</code>: indicating whether to also install missing packages which these packages depend on/link to/import/suggest (and so on recursively).</li>
+</ul>
+
+<p>So that is the code for installation of packages. What if you want to see what packages are installed on a particular instance of SQL Server ML Services? For that you can execute something like so from <strong>SQL Server Management Studio</strong> (SSMS):</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script 
+                    @language = N'R', 
+                    @script = N'
+                    OutputDataSet &lt;- data.frame(
+                    installed.packages()[,c(&quot;Package&quot;, &quot;Version&quot;, 
+                                        &quot;Depends&quot;, &quot;License&quot;, 
+                                        &quot;Built&quot;, &quot;LibPath&quot;)]);'
+WITH RESULT SETS ((Package nvarchar(255), Version nvarchar(100), 
+                   Depends nvarchar(4000), License nvarchar(1000), 
+                   Built nvarchar(100), LibPath nvarchar(2000)));
+</code></pre>
+
+<p><strong>Code Snippet 3:</strong> <em>Retrieve Installed R Packages</em></p>
+
+<p>So now when we have seen some code how to install packages (and also see what packages already exists), in this post let us look at using R packet managers for the installation.</p>
+
+<h2 id="r-packet-managers">R Packet Managers</h2>
+
+<p>What is an R packet manager? It is an R command line tool or GUI installed on the SQL Server Machine Learning Services machine that can run with elevated permissions and target the R engine for the instance on which you want to install the package. The easiest is to use either of the R tools that come as part as part of SQL Server&rsquo;s R service:</p>
+
+<ul>
+<li>The command line tool: <code>Rterm.exe</code>.</li>
+<li>The GUI: <code>Rgui.exe</code>.</li>
+</ul>
+
+<p>Once again you need to be able to run them with elevated access, so you need admin rights on the machine, and they can only run locally.</p>
+
+<p>So let us say that <a href="https://www.linkedin.com/in/dane-bax/">Dane</a> (from above) wants to install the <code>bsts</code> package mentioned above and he has admin rights on the machine SQL Server is installed on. The choice he has is to use <code>Rterm.exe</code> or <code>Rgui.exe</code>. Dane is not really into command line, so he uses <code>Rgui.exe</code>:</p>
+
+<ul>
+<li>He logs onto the SQL Server machine either directly or via <em>Terminal Services</em>.</li>
+<li>He navigates to where <code>Rgui.exe</code> is (the same path as above for <code>Rterm.exe</code>).</li>
+<li>He right clicks on <code>Rgui.exe</code>:</li>
+</ul>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_rgui.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Run Rgui as Admin</em></p>
+
+<p>When he clicks on &ldquo;Run as administrator&rdquo; the Rgui application starts up in the context of the R engine of the instance of SQL Server ML Services:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_rgui2.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Rgui</em></p>
+
+<p>In the R Console in Rgui Dane now enters this code:</p>
+
+<pre><code class="language-r">&gt; libPath &lt;- .libPaths()[1]
+&gt; install.packages(&quot;bsts&quot;, repos = &quot;https://cloud.r-project.org/&quot;, 
++                  dependencies=TRUE, lib = libPath);
+</code></pre>
+
+<p><strong>Code Snippet 4:</strong> <em>Install bsts</em></p>
+
+<p>In <em>Code Snippet 4</em> we see that Dane uses the open source <em>CRAN</em> repo which hosts <code>bsts</code>. When he executes the code, it looks like so:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Execute install.packages</em></p>
+
+<p>At the highlighted question in <em>Figure 4</em> (at the bottom) it is best to answer no. Even though Dane said no to compilations, quite a lot of compilations happens for the <code>Boom</code> package:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_compile.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>C++ Compilation</em></p>
+
+<p>The installation process runs for quite a while, due to the compilation of the <code>Boom</code> package, but eventually, it finishes:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_success.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>Install Success</em></p>
+
+<p>Dane can now check and see if the <code>bsts</code> package has installed and he executes the code in <em>Code Snippet 3</em> to verify that <code>bsts</code> is indeed installed together with the dependent packages. To further confirm that the package exists and functions he can try to load it from <em>SSMS</em>:</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script
+                  @language = N'R' ,
+                  @script = N'library(&quot;bsts&quot;)'
+</code></pre>
+
+<p><strong>Code Snippet 8:</strong> <em>Loading the bsts Library</em></p>
+
+<p>Executing the code in <em>Code Snippet 8</em> results in:</p>
+
+<p><img src="/images/posts/sql_ml_install_r_pckgs_loading_bsts.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>Loading bsts</em></p>
+
+<p>From <em>Figure 7</em> it seems that everything has worked, sweet!</p>
+
+<p>That is cool, no?! Well, there is one drawback with this: Dane has to have admin rights on the SQL Server box and, no offense Dane, but who in their right minds would give Dane those rights on a production SQL Server box!</p>
+
+<p>Jokes aside, using an R packet manager may be too inconvenient, e.g. anytime a developer want to install packages, someone with admin rights on the box needs to install said packages. In coming posts we look at other options for installing packages.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post we covered:</p>
+
+<ul>
+<li>When you install packages sometimes they require compilation. For that, <strong>Rtools</strong> should be on the box where SQL Server ML Services lives.</li>
+<li>There are multiple ways we can install packages:
+
+<ul>
+<li>R packet managers.</li>
+<li>T-SQL.</li>
+<li>RevoScaleR.</li>
+</ul></li>
+<li>An R packet manager is an R command line tool or GUI installed on the SQL Server Machine Learning Services machine that can run with elevated permissions and target the R engine for the instance on which you want to install the package.</li>
+<li>SQL Server ML Services ships with two R packet manager: <code>Rterm.exe</code> and <code>Rgui.exe</code>.</li>
+<li>These two packet managers lives in <code>\\&lt;path_to_SQL_Server_instance&gt;\R_SERVICES\bin\x64</code>.</li>
+<li>When using a packet manager to install a package, you run the packet manager from an elevated command prompt.</li>
+<li>You can use the R command <code>install.packages</code> to install a package from the package manager.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 24]]></title>
+    <link href="http://nielsberglund.com/2018/06/interesting-stuff---week-24/"/>
+    <updated>2018-06-17T19:29:19+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/interesting-stuff---week-24/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/06/13/using-net-and-docker-together-dockercon-2018-update/">Using .NET and Docker Together – DockerCon 2018 Update</a>. What the title says; how to use .NET and Docker together.</li>
+<li><a href="http://mattwarren.org/2018/06/15/Tools-for-Exploring-.NET-Internals/">Tools for Exploring .NET Internals</a>. An excellent write up by <a href="https://twitter.com/matthewwarren">Matthew</a> about tools you can use to better understand what goes on in the CLR.</li>
+</ul>
+
+<h2 id="big-data-cloud">Big Data / Cloud</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/control-azure-data-lake-costs-using-log-analytics-to-create-service-alerts/">Control Azure Data Lake costs using Log Analytics to create service alerts</a>. This blog post talks about Azure Data Lake Store (ADLS) and <a href="https://azure.microsoft.com/en-us/services/log-analytics/">Azure Log Analytics</a> (ALA) and how you can use ALA to control ADLS costs. Very informative!</li>
+<li><a href="https://medium.com/netflix-techblog/metacat-making-big-data-discoverable-and-meaningful-at-netflix-56fb36a53520">Metacat: Making Big Data Discoverable and Meaningful at Netflix</a>. This post is about Netflix Metacat system. A system that acts as a federated metadata access layer for all data stores Netflix has.</li>
+</ul>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/06/13/medea-scheduling-of-long-running-applications-in-shared-production-clusters/">Medea: scheduling of long running applications in shared production clusters</a>. <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper about Medea. Medea is designed to support the use case of mixed long running applications and shorter duration tasks within the same cluster.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://notetoself.tech/2018/06/03/acessing-event-hubs-with-confluent-kafka-library/">Acessing Event Hubs with Confluent Kafka Library</a>. Last month - some time - Microsoft announced EventHubs support for the Kafka protocol. What Kafka protocol support means is that you can use the Kafka client libraries to ingest data into an EventHub, sweet! This blog post shows an example of how to do that.</li>
+<li><a href="http://strimzi.io/">Deploying Kafka on Kubernetes with Local Persistent Volumes using Strimzi</a>. So <a href="http://strimzi.io/">Strimzi</a> is a system which provides the ability to run Kafka clusters on OpenShift and Kubernetes. The blog post discusses various Kafka storage options when running Kafka this way.</li>
+<li><a href="https://www.infoq.com/articles/democratizing-stream-processing-apache-kafka-ksql">Democratizing Stream Processing with Apache Kafka and KSQL</a>. An article which discusses stream processing with KSQL, the streaming SQL engine for Apache Kafka, and how KSQL helps to bridge the world of streams and databases through streams and tables.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://eng.uber.com/advanced-technologies-detecting-preventing-fraud-uber/">Advanced Technologies for Detecting and Preventing Fraud at Uber</a>. A blog post discussing how Uber leverages cutting-edge systems to tackle fraud on their platform.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<p>At the moment I have two posts about <strong>SQL Server Machine Learning Services</strong> &ldquo;on the go&rdquo;. The first is the never-ending follow-up post to my <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post from four weeks ago. I can not seem to get that one done.</p>
+
+<p>The second is a post about the options you have if you want to install R packages into <strong>SQL Server Machine Learning Services</strong>. For that one I have good hopes to be able to publish this coming week sometime.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 23]]></title>
+    <link href="http://nielsberglund.com/2018/06/interesting-stuff---week-23/"/>
+    <updated>2018-06-10T10:10:24+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/interesting-stuff---week-23/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/06/05/servicefabric-a-distributed-platform-for-building-microservices-in-the-cloud/">ServiceFabric: a distributed platform for building microservices in the cloud</a>. <strong>Service Fabric</strong> (SF) is Microsoft&rsquo;s platform to support microservices applications both in the cloud as well as on-prem. In this blog post <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper about the internal workings of Service Fabric. As we in <a href="/Derivco">Derivco</a> are using SF I have made this white paper recommended reading for my developers.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.youtube.com/channel/UCmZz-Gj3caLLzEWBtbYUXaA">Confluent Kafka Videos</a>. This link is to a YouTube video library of Kafka videos. If you are interested in Kafka, then I recommend you watch these videos.</li>
+</ul>
+
+<h2 id="big-data-cloud">Big Data / Cloud</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/process-more-files-than-ever-and-use-parquet-with-azure-data-lake-analytics/">Process more files than ever and use Parquet with Azure Data Lake Analytics</a>. A blog post about how Azure Data Analytics now has capabilities for processing files of any formats including Parquet at tremendous scale.</li>
+<li><a href="https://www.microsoft.com/en-us/research/blog/microsoft-unveils-faster-key-value-store-large-state-management/">Microsoft Unveils FASTER – a key-value store for large state management</a>. <strong>FASTER</strong> is a new embedded key-value store invented by Microsoft Research, and this blog post discusses how FASTER works.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/ml-dl-visualization">Understanding ML/DL Models using Interactive Visualization Techniques</a>. A presentation via <a href="https://www.infoq.com/">InfoQ</a> about how to use visualisation techniques to better understand machine learning and deep learning models. When I shared this with the data scientists at <a href="/Derivco">Derivco</a>, they were keen on testing it out themselves.</li>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/06/05/announcing-ml-net-0-2/">Announcing ML.NET 0.2</a>. A blog post announcing version 0.2 of <strong>ML.NET</strong>, the .NET based cross-platform, open source machine learning framework. This release adds new ML tasks like clustering, making it easier to validate models, and also a brand-new repo for <a href="https://github.com/dotnet/machinelearning/tree/master/test/Microsoft.ML.Tests">ML.NET samples</a>. Check it out!</li>
+<li><a href="https://databricks.com/blog/2018/06/05/introducing-mlflow-an-open-source-machine-learning-platform.html">Introducing MLflow: an Open Source Machine Learning Platform</a>. A blog post about <strong>MLFlow</strong>: an open source platform designed to manage the entire machine learning lifecycle and work with any machine learning library. It looks quite interesting, and at some stage, I may have a go at it.</li>
+<li><a href="https://www.infoq.com/presentations/booking-dl-models">Tools to Put Deep Learning Models in Production</a>. A presentation about how Booking.com supports data scientists by making it easy to put their models in production, and how they optimise their model prediction infrastructure for latency or throughput.</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2018/06/04/free-e-book-a-developers-guide-to-building-ai-applications/">Free E-Book: A Developer’s Guide to Building AI Applications</a>. A free e-book (requires registration though) which walks you through the process of building intelligent cloud-based bots.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<p>I am still busy writing the follow-up post to my <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post from three weeks ago. The post is supposed to be about why executing code in the <strong>SQL Server Compute Context</strong> gives so much better performance than when executing in the local context. Initially, I thought it was straightforward; boy was I wrong.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 22]]></title>
+    <link href="http://nielsberglund.com/2018/06/interesting-stuff---week-22/"/>
+    <updated>2018-06-03T09:41:05+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/interesting-stuff---week-22/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/crdt-distributed-consistency">CRDTs and the Quest for Distributed Consistency</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation by <a href="https://twitter.com/martinkl">Martin Kleppmann</a> where he talks about how to ensure data consistency in distributed systems, especially in systems that don&rsquo;t have an authoritative leader. Very interesting! Oh, and if you have not read Martin&rsquo;s book <a href="http://dataintensive.net/">Designing Data Intensive Applications</a>, shame on you - it is a <strong>MUST</strong> read for anyone wanting to build scalable applications!</li>
+<li><a href="https://www.infoq.com/presentations/async-event-arch">Actors or Not: Async Event Architectures</a>. A presentation, discussing two approaches to an asynchronous event-based architecture. The first is a &ldquo;classic&rdquo; style, protocol. The second is an actor-based approach.</li>
+<li><a href="https://www.infoq.com/presentations/lambda-streams-delta">Lambda Architectures: a Snapshot, a Stream, &amp; a Bunch of Deltas</a>. This link points to yet another <a href="https://www.infoq.com/">InfoQ</a> presentation. The presentation is about how event-sourced architectures can allow core services to reliably be able to share their information with other services asynchronously.</li>
+<li><a href="https://mdavey.wordpress.com/2018/05/28/book-building-evolutionary-architectures/">Book: Building Evolutionary Architectures</a>. Some notes by [Matt Davey] about the book <a href="https://www.thoughtworks.com/books/building-evolutionary-architectures">Building Evolutionary Architectures</a>. Need to get this book! Also, you really should follow <a href="https://mdavey.wordpress.com/">Matt&rsquo;s blog</a></li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/05/30/announcing-net-core-2-1/">Announcing .NET Core 2.1</a>. I guess the title of the blog post says it all, the release of .NET Core 2.1!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://engineering.skybettingandgaming.com/2018/05/26/jmx-metrics-kafka-connect/">JMX Metrics in Kafka Connect</a>. It cannot be a weekly roundup without at least one link to something Kafka related. This post is about how to use <a href="https://docs.oracle.com/cd/E28280_01/web.1111/e13729/understanding.htm#JMXPG114">JMX</a> to monitor Kafka Connect.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://tomaztsql.wordpress.com/2018/05/28/native-scoring-in-sql-server-2017-using-r/">Native scoring in SQL Server 2017 using R</a>. One of the things I wanted to write about related to <strong>SQL Server Machine Learning Services</strong> is how you do predictions. <a href="https://twitter.com/tomaz_tsql">Tomaz</a> beat me to it with this interesting post.<br /></li>
+<li><a href="https://blogs.msdn.microsoft.com/mlserver/2018/05/25/how-to-operationalize-keras-models-in-microsoft-machine-learning-server/">How to operationalize Keras models in Microsoft Machine Learning Server</a>. This post talks about how to operationalize Keras models as web services in R and Python in <strong>Microsoft Machine Learning Server</strong>.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<ul>
+<li><a href="/2018/06/sql-server-machine-learning-services-and-sql-server-2017-cu7/">SQL Server Machine Learning Services and SQL Server 2017 CU7</a>. I was busy writing the follow-up post to my <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post from two weeks ago when, all of a sudden, I could not execute R code. I had applied <strong>SQL Server 2017 CU7</strong> a couple of days before and it seems it &ldquo;messed&rdquo; with some permissions. So this post details how I fixed it.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SQL Server Machine Learning Services and SQL Server 2017 CU7]]></title>
+    <link href="http://nielsberglund.com/2018/06/sql-server-machine-learning-services-and-sql-server-2017-cu7/"/>
+    <updated>2018-06-01T19:43:01+02:00</updated>
+    <id>http://nielsberglund.com/2018/06/sql-server-machine-learning-services-and-sql-server-2017-cu7/</id>
+    <content type="html"><![CDATA[<p>This post is as much for you as it is for me to come back to when I wonder what to do when SQL Serer Machine Learning Services all of a sudden stops working after a SQL Server upgrade.</p>
+
+<h2 id="background">Background</h2>
+
+<p>Last week I did a complete reformat of my development box at home and installed the latest version of Windows 10: the 1803 build, also called the April 2018 update.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> I usually try to reformat my box at least twice a year, to ensure it is not too &ldquo;bogged&rdquo; down by old &ldquo;cruft&rdquo;, and that it has the latest and greatest.</p>
+</blockquote>
+
+<p>After the reformat I installed all my necessary applications, among them SQL Server 2017 with the in-database analytics components (R and Python). After installation I tested that it all worked and made sure I could execute my usual test scripts for <code>sp_execute_external_script</code>:</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script   @language = N'R'
+                                , @script = N'd &lt;- 42'
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Test Script for R</em></p>
+
+<p>The &ldquo;moral&rdquo; equivalent to <em>Code Snippet 1</em> in Python also worked without an issue:</p>
+
+<pre><code class="language-python">EXEC sp_execute_external_script   @language = N'Python'
+                                , @script = N'd = 42'
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Test Script for Python</em></p>
+
+<p>Cool, all is &ldquo;A-OK&rdquo;! A couple of days go by, and I see that there is a Cumulative Update (CU) for SQL Server 2017 - CU7. I install it and does not think much about it. I mean: &ldquo;what can go wrong, how hard can it be?&rdquo;. A couple of days later and I am busy writing the follow-up post to <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> when I try to execute <code>sp_execute_external_script</code>, and it falls over!</p>
+
+<p></p>
+
+<blockquote>
+<p><strong>NOTE:</strong> If you do not know what CU&rsquo;s are, you can read more about them <a href="https://blogs.msdn.microsoft.com/sqlreleaseservices/announcing-the-modern-servicing-model-for-sql-server/">here</a>.</p>
+</blockquote>
+
+<h2 id="exception">Exception</h2>
+
+<p>The exception I received when I tried to execute <code>sp_execute_external_script</code> looked like so:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_error1.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Exception when Executing</em></p>
+
+<p>As we see in <em>Figure 1</em> the exception has something to do with not being able to create a directory, which points to permission issues. This, kind of, resonated with me as I had in the back of my mind that something similar happened in the early days of SQL Server 2016 R Services when R stopped working after service packs were applied. Regardless I did some investigation around the issue (read I Googled) and found <a href="http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/">this</a> post by Jon Culp and also a post by my old friend <a href="https://blog.greglow.com/2018/05/16/machine-learning-testing-your-installation-of-r-and-python-in-sql-server-2017/">Greg Low</a>. Both posts mention the 8.3 file naming convention as the primary culprit for the error. However, seeing that this worked fine before I applied CU7, I did not believe that the 8.3 file names were the case.  Having said that, I did (to be sure) enable the 8.3 notation as per <a href="http://jonculp.com/2017/01/resolve-sql-server-fatal-error-cannot-create-r_tempdir/">Jon Culp&rsquo;s</a> post: <code>fsutil.exe behaviour set disable8dot3 0</code>. Unfortunately, that did not change anything because when I executed the code in <em>Code Snippet 1</em> it still errored out with the error in <em>Figure 1</em>.</p>
+
+<p>All this pointed me back to the error being due to permission issues.</p>
+
+<h2 id="permissions">Permissions</h2>
+
+<p>Ok, so above we said permission issues, but permissions on what?</p>
+
+<p>If you read my series about <a href="/series/sql_server_2k16_r_services">SQL Server 2016 R Services</a> you may remember that in <a href="/2017/05/microsoft-sql-server-r-services---internals-vi/">Internals - VI</a> and <a href="/2017/07/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a> we discussed how the Launchpad service and the RTerm processes create files and directories in the <code>ExtensibilityData</code> directory and its sub directories. This directory is where the permissions are supposed to be or, as in this case, are not.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> In a default installation of SQL Server on a Windows box, the <code>ExtensibilityData</code> directory is located at <code>C:\&lt;sql_instance_path&gt;\MSSQL\ExtensibilityData</code>.</p>
+</blockquote>
+
+<p>When you navigate the <code>ExtensibilityData</code> directory in <em>File Explorer</em> and look at the <em>Advanced Security Settings for ExtensibilityData</em> dialog you see something like so in an installation where everything works:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_permissions1.png" alt="" /></p>
+
+<p><strong>Figure 2:</strong> <em>Permissions on ExtensibilityData</em></p>
+
+<p>In <em>Figure 2</em> we see the various users, groups and roles that have access to the <code>ExtensibilityData</code> directory and the highlighted part is the group that is of interest for this discussion. What is interesting is that when you look at this dialog before CU7 (when everything works) and after you deploy CU7, it looks the same. So, something is going on behind the scenes.</p>
+
+<p>To further confirm that what I saw was a permission issue I used <em>Process Monitor</em> to see what file operations happened when I tried to execute the code in <em>Code Snippet 1</em>. After gradually filtering out events I ended up with was is shown in the figure below.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> If you are interested in how you can use <em>Process Monitor</em> I covered that in <a href="/2017/07/microsoft-sql-server-r-services---internals-vii/">Internals - VII</a>.</p>
+</blockquote>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_procmon1.png" alt="" /></p>
+
+<p><strong>Figure 3:</strong> <em>Process Monitor Output</em></p>
+
+<p>Remember how we in the <strong>Internals</strong> posts <a href="/2017/04/microsoft-sql-server-r-services---internals-iv/">IV</a> and <a href="/2017/07/microsoft-sql-server-r-services---internals-vii/">VII</a> in the <a href="/series/sql_server_2k16_r_services">SQL Server R Services</a> series discussed how the Launchpad service creates RTerm processes. We also discussed how the RTerm processes create directories and files under the <code>ExtensibilityData</code> directory and its sub-directories. So what we see in <em>Figure 3</em> is how the RTerm processes cannot write to the root of the <code>ExtensibilityData</code> directory and this is what ultimately causes the error in <em>Figure 1</em>.</p>
+
+<p>What I saw when I filtered out events was that even though the RTerm processes could not write to the root of the <code>ExtensibilityData</code> directory, they could write to subdirectories:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_procmon2.png" alt="" /></p>
+
+<p><strong>Figure 4:</strong> <em>Successful Writes</em></p>
+
+<p>So based on what we see in <em>Figure 3</em> and <em>Figure 4</em> it seems like something has gone awry with permissions for the root of the <code>ExtensibilityData</code> directory. How to fix this?</p>
+
+<h2 id="fix">Fix</h2>
+
+<p>I must confess that I initially added <em>Everyone</em> with <em>Full control</em> to the security settings for the <code>ExtensibilityData</code> directory and it all worked:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_permissions2.png" alt="" /></p>
+
+<p><strong>Figure 5:</strong> <em>Everyone Full Control</em></p>
+
+<p>However that did not seem like the correct way to do it, so I started playing around with the &ldquo;Advanced&rdquo; security properties on the <code>ExtensibilityData</code> directory:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_sec_properties.png" alt="" /></p>
+
+<p><strong>Figure 6:</strong> <em>Security Properties</em></p>
+
+<p>In <em>Figure 6</em> we see how I have right clicked on the <code>ExtensibilityData</code> directory in <em>File Explorer</em> and chosen properties and then clicked on the <em>Security</em> (highlighted in the figure). The group that we work with is the <code>MSSQLLaunchpad</code>, outlined in red.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> If you work on a SQL instance other than the default the group name is <code>MSSQLLaunchpad$instance_name</code>.</p>
+</blockquote>
+
+<p>When I click on the &ldquo;Advanced&rdquo; button (also outlined in red in <em>Figure 6</em>) I see something like so:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_enable_inh.png" alt="" /></p>
+
+<p><strong>Figure 7:</strong> <em>Advanced Security Settings</em></p>
+
+<p>In the &ldquo;Advanced Security Settings&rdquo; dialog in <em>Figure 7</em> I clicked on &ldquo;Enable inheritance&rdquo; (outlined in red) followed by &ldquo;Apply&rdquo;, which showed an error dialog:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_enable_inh_1.png" alt="" /></p>
+
+<p><strong>Figure 8:</strong> <em>Error Dialog</em></p>
+
+<p>I clicked on &ldquo;Continue&rdquo; and the error repeated for each subdirectory in the <code>ExtensibilityData</code> directory. After last error I was back in the &ldquo;Advanced Security Settings&rdquo; dialog where I saw something strange:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_enable_inh_2.png" alt="" /></p>
+
+<p><strong>Figure 9:</strong> <em>Additional Security Principals</em></p>
+
+<p>What I saw was quite a few new security principals added to the security settings for the directory, and we see them outlined in red in <em>Figure 9</em>. I clicked OK until I exited all dialogs. Now, when I tried to execute the R code, it succeeded. However, I was not happy with the added principals, so I went back into the &ldquo;Advanced Security Settings&rdquo; dialog:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_disable_inh_1.png" alt="" /></p>
+
+<p><strong>Figure 10:</strong> <em>Disable Inheritance</em></p>
+
+<p>In the dialog as we see in <em>Figure 10</em> I clicked on the &ldquo;Disable inheritance&rdquo; button. When I clicked &ldquo;Apply&rdquo; the &ldquo;Block Inheritance&rdquo; dialog &ldquo;popped up&rdquo;:</p>
+
+<p><img src="/images/posts/sql_ml_sql_cu7_convert_inh_1.png" alt="" /></p>
+
+<p><strong>Figure 10:</strong> <em>Block Inheritance</em></p>
+
+<p>In the &ldquo;Block Inheritance&rdquo; dialog I clicked on the outlined part in <em>Figure 10</em>: &ldquo;Convert inherited permissions &hellip;&rdquo;, and the same error dialog as we see in <em>Figure 8</em> came up. As I did above, I clicked through the errors through the &ldquo;Continue&rdquo; button, and when I was back in the &ldquo;Advanced Security Settings&rdquo; dialog I saw that the added security principals were no longer there. That is not true, one principal from the added ones was still there, and that was <code>MSSQLSERVER</code>. I removed it and clicked OK out of the remaining dialogs. When I executed the code, it all worked, Yay!</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Above we see how I managed to fix the issue how R did not work in SQL Server 2017 after I had applied CU7. The steps I took:</p>
+
+<ol>
+<li>Right-click on the <code>ExtensibilityData</code> directory and choose properties.</li>
+<li>In properties click on the &ldquo;Security&rdquo; tab and then the &ldquo;Advanced&rdquo; button.</li>
+<li>In the &ldquo;Advanced Security Settings&rdquo; dialog click &ldquo;Enable inheritance&rdquo; followed by &ldquo;Apply&rdquo;.</li>
+<li>In the error dialogs that appear click continue until you are back in the &ldquo;Advanced Security Settings&rdquo; dialog, and there you click OK out of all dialogs.</li>
+<li>At this stage, you can execute the R code without any exceptions.</li>
+<li>Go back into the &ldquo;Advanced Security Settings&rdquo; dialog and click &ldquo;Disable inheritance&rdquo; and &ldquo;Apply&rdquo;.</li>
+<li>In the &ldquo;Block Inheritance&rdquo; dialog chose &ldquo;Convert inherited permissions &hellip;&rdquo;.</li>
+<li>&ldquo;Continue&rdquo; through the error dialogs until you are back in the &ldquo;Advanced Security Settings&rdquo; dialog.</li>
+<li>In the &ldquo;Advanced Security Settings&rdquo; dialog &ldquo;Remove&rdquo; the <code>MSSQLSERVER</code> principal.</li>
+</ol>
+
+<p>Oh, and I can warmly recommend the blogs I mention above by <a href="http://jonculp.com/">Jon Culp</a> and <a href="https://blog.greglow.com/">Greg Low</a>.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 21]]></title>
+    <link href="http://nielsberglund.com/2018/05/interesting-stuff---week-21/"/>
+    <updated>2018-05-27T11:06:31+02:00</updated>
+    <id>http://nielsberglund.com/2018/05/interesting-stuff---week-21/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="sql-server-other-database-systems">SQL Server &amp; Other Database Systems</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/bobsql/2018/05/20/sql-server-on-linux-quick-performance-monitoring/">SQL Server on Linux: Quick Performance Monitoring</a>. A blog post by <a href="https://blogs.msdn.microsoft.com/bobsql/">Bob Dorr</a> where he talks about how we can get a Performance Monitor like view on Linux for SQL Server.</li>
+<li><a href="https://www.infoq.com/news/2018/05/mysql8">MySQL Version 8 Adds Document Store, Performance and Security Improvements</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about new functionality in the latest version of MySQL. What caught my eye was the support for document store. I guess, depending on how it is done, having a combination of Document Store and a relational database can be very powerful.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://data-artisans.com/blog/apache-flink-1-5-0-release-announcement">Apache Flink 1.5.0 Release Announcement</a>. This post announces the release of Flink version 1.5.0. There are quite a few new exciting features, among them: broadcast state, task-local state recovery and support for windowed outer equi-joins in the SQL and Table API&rsquo;s. I have just set up a new CentOS 7 virtual machine so I can check this out.</li>
+<li><a href="https://www.confluent.io/blog/confluent-cloud-pro-gcp/">New Confluent Cloud Professional, and Ecosystem Expansion to Google Cloud Platform</a>. I do not know if you knew this - but there is a rule saying that if there is an announcement from Flink, there also has to be an announcement from Kafka (and visa versa). So, the Kafka announcement is that the Confluent Cloud is now also available on the Google Cloud (in addition to AWS). I really hope to see Azure being in the mix in a not too distant future.</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/articles/future-of-net-core">Discussions on the Future of .NET Core</a>. An [InfoQ] article where five industry veterans discuss the .NET Core platform. Some takeaways:
+
+<ul>
+<li>The .NET Core platform provides significant performance benefits as compared to the traditional .NET Framework.</li>
+<li>.NET Core benefits from a server-centric design that is not Windows-focused.</li>
+<li>.NET Core is now a stable platform suitable for new application development.</li>
+</ul></li>
+</ul>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://medium.com/netflix-techblog/open-sourcing-zuul-2-82ea476cb2b3">Open Sourcing Zuul 2</a>. An announcement from Netflix, how they are now open-sourcing their cloud gateway: <strong>Zuul 2</strong>. A very interesting point in the post was where it discussed anomaly detection and contextual alerting.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/paypal-data-service-fraud">Data Pipelines for Real-time Fraud Prevention at Scale</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation about the architecture of PayPal’s data service which combines a Big Data approach with providing data in real time for decision making in fraud detection.</li>
+<li><a href="https://blog.acolyer.org/2018/05/23/pixie-a-system-for-recommending-3-billion-items-to-200-million-users-in-real-time/">Pixie: a system for recommending 3+ billion items to 200+ million users in real-time</a>. A white paper dissected by <a href="https://twitter.com/adriancolyer">Adrian</a> describing how Pinterest has built a system for recommending 3+ billion items to 200+ million users in real-time!</li>
+<li><a href="https://blogs.technet.microsoft.com/machinelearning/2018/05/21/enterprise-deployment-tips-for-azure-data-science-virtual-machine-dsvm">Enterprise Deployment Tips for Azure Data Science Virtual Machine (DSVM)</a>. I came across this post thanks to <a href="https://twitter.com/luis_de_sousa">Luis</a> and his weekly <a href="https://www.getrevue.co/profile/datascienceweekly/">newsletter</a>. The post he pointed to is about the Azure Data Science Virtual Machine (DSVM) and how to use and deploy in an enterprise environment. This topic is especially interesting right now as we at <a href="/derivco">Derivco</a> is looking at the DSVM. Thanks <a href="https://twitter.com/luis_de_sousa">Luis</a>!</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<p>In lasts week <a href="/2018/05/interesting-stuff---week-20/">roundup</a> I mentioned how I probably have to write some follow up posts to the <a href="/2018/05/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post I published a week ago. I have now started with the first follow up post, and I hope I can publish it in a week or two.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+  </entry>
+  
 </feed>
+
