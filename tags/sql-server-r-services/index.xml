@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 19 Aug 2018 09:20:03 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 26 Aug 2018 10:22:37 +0200</lastBuildDate>
     
 	<atom:link href="/tags/sql-server-r-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 34</title>
+      <link>/2018/08/26/interesting-stuff---week-34/</link>
+      <pubDate>Sun, 26 Aug 2018 10:22:37 +0200</pubDate>
+      
+      <guid>/2018/08/26/interesting-stuff---week-34/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 33</title>
@@ -192,28 +214,6 @@
 &lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 26</title>
-      <link>/2018/07/01/interesting-stuff---week-26/</link>
-      <pubDate>Sun, 01 Jul 2018 05:51:55 +0200</pubDate>
-      
-      <guid>/2018/07/01/interesting-stuff---week-26/</guid>
-      <description>&lt;p&gt;Geez, does time fly or what? We are already past the halfway mark of the year! Anyway, throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 33 • Niels Berglund</title>
+<title>Interesting Stuff - Week 34 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 33"/>
-<meta name="twitter:description" content="Kafka, Databricks, Cosmos DB, Azure Kubernetes, SQL Saturday and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 34"/>
+<meta name="twitter:description" content=".NET monitoring, chaos engineering, Pat Helland, stream integration, serverless, and other cool topics!"/>
 
-<meta property="og:title" content="Interesting Stuff - Week 33" />
-<meta property="og:description" content="Kafka, Databricks, Cosmos DB, Azure Kubernetes, SQL Saturday and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 34" />
+<meta property="og:description" content=".NET monitoring, chaos engineering, Pat Helland, stream integration, serverless, and other cool topics!" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/08/19/interesting-stuff---week-33/" />
+<meta property="og:url" content="/2018/08/26/interesting-stuff---week-34/" />
 
 
 
-<meta property="article:published_time" content="2018-08-19T09:20:03&#43;02:00"/>
+<meta property="article:published_time" content="2018-08-26T10:22:37&#43;02:00"/>
 
-<meta property="article:modified_time" content="2018-08-19T09:20:03&#43;02:00"/>
+<meta property="article:modified_time" content="2018-08-26T10:22:37&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 33</h1>
+    <h1>Interesting Stuff - Week 34</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Aug 19, 2018
+      <i class="fas fa-calendar-alt"></i> Aug 26, 2018
     
     
     
@@ -247,16 +247,13 @@
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/ksql">ksql</a>
+          <a class="post__tag" href="/tags/aws-lambda">aws lambda</a>
            
       
-          <a class="post__tag" href="/tags/databricks">databricks</a>
+          <a class="post__tag" href="/tags/azure-functions">azure functions</a>
            
       
-          <a class="post__tag" href="/tags/azure-kubernetes">azure kubernetes</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-saturday">sql saturday</a>
+          <a class="post__tag" href="/tags/spark">spark</a>
           
       
     
@@ -293,37 +290,52 @@
 
 <p></p>
 
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="http://mattwarren.org/2018/08/21/Monitoring-and-Observability-in-the-.NET-Runtime/">Monitoring and Observability in the .NET Runtime</a>. Yet another awesome blog-post by <a href="https://twitter.com/matthewwarren">Matthew</a>. This post covers how we can monitor .NET through <em>Diagnostics</em>, <em>Profiling</em> and <em>Debugging</em>.</li>
+</ul>
+
 <h2 id="distributed-computing">Distributed Computing</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/presentations/canopy-scalable-tracing-analytics-facebook">Canopy: Scalable Distributed Tracing &amp; Analysis @ Facebook</a>. This post links to an <a href="https://www.infoq.com/">InfoQ</a> presentation about <strong>Canopy</strong>, which is Facebook&rsquo;s performance and efficiency tracing infrastructure. The presentation covers lessons learned applying Canopy and present case studies of its use in solving various performance and efficiency challenges. Very interesting!</li>
-<li><a href="https://azure.microsoft.com/en-us/resources/designing-distributed-systems/">Designing Distributed Systems</a>. A download link to an e-book: <strong>Designing Distributed Systems</strong>. The e-book provides repeatable, generic patterns, and reusable components to make developing reliable systems easier and more efficient. It is written by <a href="https://twitter.com/brendandburns">Brendan Burns</a> who is a Distinguished Engineer at Microsoft and works on Azure.</li>
+<li><a href="https://www.infoq.com/presentations/chaos-engineering-introduction">Chaos Engineering: Building Immunity in Production Systems</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation discussing Chaos Engineering, its purpose, how to go about it, metrics to collect, the purpose of monitoring and logging, etc.</li>
 </ul>
 
-<h2 id="cloud">Cloud</h2>
+<h2 id="databases-storage">Databases / Storage</h2>
 
 <ul>
-<li><a href="http://muratbuffalo.blogspot.com/2018/08/schema-agnostic-indexing-with-azure.html">Schema-Agnostic Indexing with Azure Cosmos DB</a>. In this blog post, <a href="https://twitter.com/muratdemirbas">Murat</a> dissects a white paper about the schema-agnostic indexing subsystem of Cosmos DB. The post (and the paper) is very interesting, go ahead and read it, please!</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/azure-hdinsight-interactive-query-simplifying-big-data-analytics-architecture-and-operations/">Azure #HDInsight Interactive Query: simplifying big data analytics architecture</a>. This post discusses a new feature of Hive 2, Low Latency Analytics Processing (LLAP). LLAP produces significantly faster queries on raw data stored in commodity storage systems such as Azure Blob store or Azure Data Lake Store. This is quite exciting, and I need to check it out!</li>
+<li><a href="https://queue.acm.org/detail.cfm?id=3236388">Mind Your State for Your State of Mind</a>. A paper by <a href="https://twitter.com/pathelland">Pat Helland</a>, where Pat explores the evolution of computation from a single process to microservices, the evolution of storage from files to key-value, and how they interact. Just as a side-note, you should read anything by Pat. He certainly knows what he is talking about!</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/build-udf-udaf-ksql-5-0">How to Build a UDF and/or UDAF in KSQL 5.0</a>. Not one week without at least one Kafka related post - that is the &ldquo;law&rdquo;. This post discusses a new feature in <strong>KSQL</strong> 5, the ability for the users o write their own functions for KSQL to use. Think about the possibilities that open up!</li>
+<li><a href="https://www.lightbend.com/blog/pakk-your-alpakka-reactive-streams-integrations-for-aws-azure-google-cloud">Pakk Your Alpakka: Reactive Streams Integrations For AWS, Azure, &amp; Google Cloud</a>. The link of this post had Cloud in the title, but I believe it fits better into <em>Streaming</em>. Anyway, this post links to a webinar about <a href="https://akka.io/blog/2016/08/23/intro-alpakka">Alpakka</a>. Alpakka is an integration framework for Akka Streams and the webinar looks at how Alpakka can be used for integrations with other systems.</li>
+<li><a href="https://www.youtube.com/watch?v=p9LBi11KR2c">Pat Helland | Kafka Summit 2017 Keynote (Standing on the Distributed Shoulders of Giants)</a>. Speaking about <a href="https://twitter.com/pathelland">Pat</a>. Here is a YouTube video from his Kafka Summit keynote in 2017. It is based on a paper he published in 2016: <a href="https://queue.acm.org/detail.cfm?id=2953944">Standing on Distributed Shoulders of Giants</a>.</li>
 </ul>
 
-<h2 id="data-science-ai">Data Science / AI</h2>
+<h2 id="cloud">Cloud</h2>
 
 <ul>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/neural-networks-from-a-bayesian-perspective">Neural Networks from a Bayesian Perspective</a>. This post covers different ways to obtain uncertainty in Deep Neural Networks from a Bayesian perspective. The post is quite theoretical but very interesting!</li>
-<li><a href="https://databricks.com/blog/2018/08/15/100x-faster-bridge-between-spark-and-r-with-user-defined-functions-on-databricks.html">100x Faster Bridge between Apache Spark and R with User-Defined Functions on Databricks</a>. Spark exposes an API, SparkR User Defined Function API, which acts as a bridge between Spark and R. Unfortunately the bridge is far from efficient. Databricks has made the bridge more efficient when you run Spark on Databricks, and this post talks about how it is done.</li>
-<li><a href="https://towardsdatascience.com/the-most-important-part-of-a-data-science-project-is-writing-a-blog-post-50715f37833a">The most important part of a data science project is writing a blog post</a>. A somewhat provocative title of this blog post, but it makes a good point. Always document your data science projects so other data scientists can see what you have achieved!</li>
+<li><a href="http://muratbuffalo.blogspot.com/2018/08/logical-index-organization-in-cosmos-db.html">Logical index organization in Cosmos DB</a>. Another Cosmos DB post by <a href="https://twitter.com/muratdemirbas">Murat</a>. In this post, he looks at Cosmos DB&rsquo;s logical indexing subsystem.</li>
+<li><a href="https://towardsdatascience.com/from-big-data-to-micro-services-how-to-serve-spark-trained-models-through-aws-lambdas-ebe129f4849c">From Big Data to micro-services: how to serve Spark-trained models through AWS lambdas</a>. This blog-post looks at how you take a Spark trained model, deploy it to AWS and expose it as an AWS Lambda endpoint. Very cool!</li>
 </ul>
 
-<h2 id="sql-saturday">SQL Saturday</h2>
+<h2 id="data-science">Data Science</h2>
 
-<p>It is that time of the year again: SQL Saturday season! As usual I present in Johannesburg, Cape Town and Durban:</p>
+<ul>
+<li><a href="https://blog.acolyer.org/2018/08/22/snorkel-rapid-training-data-creation-with-weak-supervision/">Snorkel: rapid training data creation with weak supervision</a>. In this post <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper which tackles one of the central questions in supervised machine learning: how do you get a large enough set of training data to power modern deep models?</li>
+<li><a href="http://luisquintanilla.me/2018/08/21/serverless-machine-learning-mlnet-azure-functions/">Serverless Machine Learning with ML.NET and Azure Functions</a>. Earlier in this weeks roundup, I linked to a post about Spark models and AWS Lambdas. This post talks about training a classification model using <a href="https://www.microsoft.com/net/learn/apps/machine-learning-and-ai/ml-dotnet">ML.NET</a> and deploy it with <a href="https://azure.microsoft.com/en-us/services/functions/">Azure Functions</a>.</li>
+<li><a href="https://blogs.msdn.microsoft.com/data_insights_global_practice/2018/08/22/measuring-model-goodness-part-1/">Measuring Model Goodness – Part 1</a>. This post, which is part one of two-part series, is focused on measuring model goodness, specifically looking at quantifying business value and converting typical machine learning performance metrics (like precision, recall, RMSE, etc.) to business metrics.</li>
+<li><a href="http://101.datascience.community/2018/08/24/microsoft-weekly-data-science-news-for-august-24-2018">MICROSOFT WEEKLY DATA SCIENCE NEWS FOR AUGUST 24, 2018</a>. I found the <a href="https://blogs.msdn.microsoft.com/data_insights_global_practice/2018/08/22/measuring-model-goodness-part-1/">Measuring Model Goodness</a> post above thanks to <a href="https://twitter.com/ryanswanstrom">Ryan&rsquo;s</a> blog and this post. Ryan&rsquo;s blog is awesome if you are interested in what Microsoft does in data science and AI!</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<p>The third post in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series, which I promised a couple of weeks ago would soon be finished has to wait a bit. Reason for this is my prep for the upcoming SQL Saturdays.</p>
+
+<p>As usual I present in Johannesburg, Cape Town and Durban:</p>
 
 <ul>
 <li><a href="http://www.sqlsaturday.com/785/EventHome.aspx">Johannesburg</a>, September 1:
@@ -331,6 +343,11 @@
 <ul>
 <li><a href="http://www.sqlsaturday.com/785/Sessions/Details.aspx?sid=84967">Overview SQL Server Machine Learning Services</a>.</li>
 </ul></li>
+</ul>
+
+<p><img src="/images/posts/sqlsat793_speaking_300x225.png" alt="" /></p>
+
+<ul>
 <li><a href="http://www.sqlsaturday.com/793/EventHome.aspx">Cape Town</a>, September 8:
 
 <ul>
@@ -385,16 +402,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2018/08/18/test-post-and-feed-apologies/" class="post--navigation-prev">
+    <a href="/2018/08/19/interesting-stuff---week-33/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Test Post and Feed Apologies</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 33</span>
     </a>
     
-    
-    <a href="/2018/08/26/interesting-stuff---week-34/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 34</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -427,6 +439,15 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
+    <a href="/2018/07/29/interesting-stuff---week-30/">Interesting Stuff - Week 30</a>
+      
+      <time class="pull-right hidden-tablet">Jul 29 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
     <a href="/2018/07/22/interesting-stuff---week-29/">Interesting Stuff - Week 29</a>
       
       <time class="pull-right hidden-tablet">Jul 22 &#39;18</time>
@@ -439,15 +460,6 @@ To automatically receive more posts like this, please
     <a href="/2018/07/08/interesting-stuff---week-27/">Interesting Stuff - Week 27</a>
       
       <time class="pull-right hidden-tablet">Jul 08 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/07/01/interesting-stuff---week-26/">Interesting Stuff - Week 26</a>
-      
-      <time class="pull-right hidden-tablet">Jul 01 &#39;18</time>
       
   </span>
 </li>
