@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self" type="application/atom+xml"/>
-  <link href="http://nielsberglund.com"/>
+  <link href="http://nielsberglund.com" rel="alternate" type="text/html"/>
   <updated>2018-08-26T10:22:37+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
