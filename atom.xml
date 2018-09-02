@@ -1,12 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="http://nielsberglund.com" rel="alternate" type="text/html"/>
-  <updated>2018-08-26T10:22:37+02:00</updated>
+  <updated>2018-09-02T08:38:38+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 35]]></title>
+    <link href="http://nielsberglund.com/2018/09/02/interesting-stuff---week-35/" rel="alternate" type="text/html"/>
+    <updated>2018-09-02T08:38:38+02:00</updated>
+    <id>http://nielsberglund.com/2018/09/02/interesting-stuff---week-35/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<p>The content this week is a bit meagre, due to me not having had time to browse around that much, as I have been &ldquo;prepping&rdquo; for the upcoming <strong>SQL Saturdays</strong>.</p>
+
+<h2 id="sql-server">SQL Server</h2>
+
+<ul>
+<li><a href="https://www.microsoft.com/en-us/research/blog/optimizing-imperative-functions-in-relational-databases-with-froid/">Optimizing imperative functions in relational databases with Froid</a>. A post from Microsoft Research, where they discuss <strong>Froid</strong>. Froid is an extensible framework for optimising imperative programs in relational databases, and the purpose is to enable developers to use the abstraction of UDFs without compromising on performance.</li>
+</ul>
+
+<h2 id="big-data">Big Data</h2>
+
+<ul>
+<li><a href="https://www.datasciencecentral.com/profiles/blogs/hadoop-for-beginners">Hadoop for Beginners- Part 1</a>. The first post in a series about, as the title says, Hadoop. This series is really worthwhile reading if you are interested in what Hadoop is and what it can do for you.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/apache-kafka-talk-series/">Apache Kafka: Online Talk Series</a>. This is a registration page for an on-demand video series about Kafka. I bring the popcorn, and you bring the coke!</li>
+</ul>
+
+<h2 id="sql-saturday">SQL Saturday</h2>
+
+<p>In a couple of previous roundups I have mentioned that the SQL Saturday &ldquo;season&rdquo; is here, and yesterday, (September, 1), I flew out to Johannesburg and did a presentation about SQL Server Machine Learning Services, <a href="http://www.sqlsaturday.com/785/Sessions/Details.aspx?sid=84967">Overview SQL Server Machine Learning Services</a> to around 40 people.</p>
+
+<p>The event was a smashing success thanks to the awesome arrangements by <a href="https://twitter.com/MikeJohnsonZA/">Michael Johnson</a> and his fellow volunteers!</p>
+
+<p>Having done Johannesburg, next in turn is Cape Town:</p>
+
+<p><img src="/images/posts/sqlsat793_speaking_300x225.png" alt="" /></p>
+
+<ul>
+<li><a href="http://www.sqlsaturday.com/793/EventHome.aspx">Cape Town</a>, September 8:
+
+<ul>
+<li><a href="http://www.sqlsaturday.com/793/Sessions/Details.aspx?sid=84975">Azure Machine Learning</a>.</li>
+<li><a href="http://www.sqlsaturday.com/793/Sessions/Details.aspx?sid=84978">The Ins and Outs of sp_execute_external_script</a>.</li>
+</ul></li>
+</ul>
+
+<p>and finally Durban:</p>
+
+<ul>
+<li><a href="http://www.sqlsaturday.com/803/EventHome.aspx">Durban</a>, September 15:
+
+<ul>
+<li><a href="http://www.sqlsaturday.com/803/Sessions/Details.aspx?sid=85097">The Ins and Outs of sp_execute_external_script</a>.</li>
+</ul></li>
+</ul>
+
+<p>Even if you are not interested in the topics I present, please register and come and listen to a lot of interesting talks by some of the industry&rsquo;s brightest people.</p>
+
+<h3 id="precon">PreCon</h3>
+
+<p>This year I also do precons in Cape Town and Durban on the Friday before the SQL Saturday event. My precons is a day where we talk about <strong>SQL Server Machine Learning Services</strong>, what it is and what we can do with it. It is in a format so if you want you can bring your laptop and code along as the day progresses.</p>
+
+<p>The precon is not free, but hey &hellip;</p>
+
+<ul>
+<li><a href="https://www.quicket.co.za/events/47683-sqlsaturday-cape-town-2018-precon-a-drill-down-into-sql-server-machine-learning/#/">Cape Town, September 7 - A Drill Down Into SQL Server Machine Learning Services with Niels Berglund</a>.</li>
+<li><a href="https://www.quicket.co.za/events/55545-sqlsaturday-durban-precon-2018-a-day-of-sql-server-machine-learning-services/#/">Durban, September 14 - A Day of SQL Server Machine Learning Services with Niels Berglund</a>.</li>
+</ul>
+
+<p>Even though the titles of the precons are different, I cover the same material.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 34]]></title>
@@ -3113,68 +3205,6 @@ WITH RESULT SETS ((Package nvarchar(255), Version nvarchar(100),
 <p>At the moment I have two posts about <strong>SQL Server Machine Learning Services</strong> &ldquo;on the go&rdquo;. The first is the never-ending follow-up post to my <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post from four weeks ago. I can not seem to get that one done.</p>
 
 <p>The second is a post about the options you have if you want to install R packages into <strong>SQL Server Machine Learning Services</strong>. For that one I have good hopes to be able to publish this coming week sometime.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 23]]></title>
-    <link href="http://nielsberglund.com/2018/06/10/interesting-stuff---week-23/" rel="alternate" type="text/html"/>
-    <updated>2018-06-10T10:10:24+02:00</updated>
-    <id>http://nielsberglund.com/2018/06/10/interesting-stuff---week-23/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://blog.acolyer.org/2018/06/05/servicefabric-a-distributed-platform-for-building-microservices-in-the-cloud/">ServiceFabric: a distributed platform for building microservices in the cloud</a>. <strong>Service Fabric</strong> (SF) is Microsoft&rsquo;s platform to support microservices applications both in the cloud as well as on-prem. In this blog post <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper about the internal workings of Service Fabric. As we in <a href="/Derivco">Derivco</a> are using SF I have made this white paper recommended reading for my developers.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.youtube.com/channel/UCmZz-Gj3caLLzEWBtbYUXaA">Confluent Kafka Videos</a>. This link is to a YouTube video library of Kafka videos. If you are interested in Kafka, then I recommend you watch these videos.</li>
-</ul>
-
-<h2 id="big-data-cloud">Big Data / Cloud</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/process-more-files-than-ever-and-use-parquet-with-azure-data-lake-analytics/">Process more files than ever and use Parquet with Azure Data Lake Analytics</a>. A blog post about how Azure Data Analytics now has capabilities for processing files of any formats including Parquet at tremendous scale.</li>
-<li><a href="https://www.microsoft.com/en-us/research/blog/microsoft-unveils-faster-key-value-store-large-state-management/">Microsoft Unveils FASTER – a key-value store for large state management</a>. <strong>FASTER</strong> is a new embedded key-value store invented by Microsoft Research, and this blog post discusses how FASTER works.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/ml-dl-visualization">Understanding ML/DL Models using Interactive Visualization Techniques</a>. A presentation via <a href="https://www.infoq.com/">InfoQ</a> about how to use visualisation techniques to better understand machine learning and deep learning models. When I shared this with the data scientists at <a href="/Derivco">Derivco</a>, they were keen on testing it out themselves.</li>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/06/05/announcing-ml-net-0-2/">Announcing ML.NET 0.2</a>. A blog post announcing version 0.2 of <strong>ML.NET</strong>, the .NET based cross-platform, open source machine learning framework. This release adds new ML tasks like clustering, making it easier to validate models, and also a brand-new repo for <a href="https://github.com/dotnet/machinelearning/tree/master/test/Microsoft.ML.Tests">ML.NET samples</a>. Check it out!</li>
-<li><a href="https://databricks.com/blog/2018/06/05/introducing-mlflow-an-open-source-machine-learning-platform.html">Introducing MLflow: an Open Source Machine Learning Platform</a>. A blog post about <strong>MLFlow</strong>: an open source platform designed to manage the entire machine learning lifecycle and work with any machine learning library. It looks quite interesting, and at some stage, I may have a go at it.</li>
-<li><a href="https://www.infoq.com/presentations/booking-dl-models">Tools to Put Deep Learning Models in Production</a>. A presentation about how Booking.com supports data scientists by making it easy to put their models in production, and how they optimise their model prediction infrastructure for latency or throughput.</li>
-<li><a href="https://blogs.technet.microsoft.com/machinelearning/2018/06/04/free-e-book-a-developers-guide-to-building-ai-applications/">Free E-Book: A Developer’s Guide to Building AI Applications</a>. A free e-book (requires registration though) which walks you through the process of building intelligent cloud-based bots.</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>I am still busy writing the follow-up post to my <a href="/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/">sp_execute_external_script and SQL Compute Context - I</a> post from three weeks ago. The post is supposed to be about why executing code in the <strong>SQL Server Compute Context</strong> gives so much better performance than when executing in the local context. Initially, I thought it was straightforward; boy was I wrong.</p>
 
 <h2 id="finally">~ Finally</h2>
 

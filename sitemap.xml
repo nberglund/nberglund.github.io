@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/09/02/interesting-stuff---week-35/</loc>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/08/26/interesting-stuff---week-34/</loc>
     <lastmod>2018-08-26T10:22:37+02:00</lastmod>
   </url>
@@ -1089,7 +1094,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1147,7 +1152,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1238,6 +1243,12 @@
   <url>
     <loc>/tags/graph-databases/</loc>
     <lastmod>2017-07-16T20:34:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/hadoop/</loc>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1469,7 +1480,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1535,7 +1546,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1661,7 +1672,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1761,7 +1772,7 @@
   
   <url>
     <loc>/tags/sql-saturday/</loc>
-    <lastmod>2018-08-19T09:20:03+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1773,7 +1784,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1827,7 +1838,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1851,7 +1862,7 @@
   
   <url>
     <loc>/tags/sql-server-r-services/</loc>
-    <lastmod>2018-08-26T10:22:37+02:00</lastmod>
+    <lastmod>2018-09-02T08:38:38+02:00</lastmod>
     <priority>0</priority>
   </url>
   
