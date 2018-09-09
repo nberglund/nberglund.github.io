@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 35 • Niels Berglund</title>
+<title>Interesting Stuff - Week 36 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 35"/>
-<meta name="twitter:description" content="Kafka, SQL Server Machine Learning Services, SQL Saturday, Hadoop and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 36"/>
+<meta name="twitter:description" content="Kafka, KSQL, more Kafka, data Artisans, Azure and Durable Functions, SQL Saturday, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 35" />
-<meta property="og:description" content="Kafka, SQL Server Machine Learning Services, SQL Saturday, Hadoop and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 36" />
+<meta property="og:description" content="Kafka, KSQL, more Kafka, data Artisans, Azure and Durable Functions, SQL Saturday, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/09/02/interesting-stuff---week-35/" />
+<meta property="og:url" content="/2018/09/09/interesting-stuff---week-36/" />
 
 
 
-<meta property="article:published_time" content="2018-09-02T08:38:38&#43;02:00"/>
+<meta property="article:published_time" content="2018-09-09T21:11:32&#43;02:00"/>
 
-<meta property="article:modified_time" content="2018-09-02T08:38:38&#43;02:00"/>
+<meta property="article:modified_time" content="2018-09-09T21:11:32&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 35</h1>
+    <h1>Interesting Stuff - Week 36</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Sep 2, 2018
+      <i class="fas fa-calendar-alt"></i> Sep 9, 2018
     
     
     
@@ -244,10 +244,16 @@
           <a class="post__tag" href="/tags/sql-server-machine-learning-services">sql server machine learning services</a>
            
       
-          <a class="post__tag" href="/tags/hadoop">hadoop</a>
+          <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/sql-saturday">sql saturday</a>
+          <a class="post__tag" href="/tags/ksql">ksql</a>
+           
+      
+          <a class="post__tag" href="/tags/azure">azure</a>
+           
+      
+          <a class="post__tag" href="/tags/flink">flink</a>
           
       
     
@@ -284,33 +290,43 @@
 
 <p></p>
 
-<p>The content this week is a bit meagre, due to me not having had time to browse around that much, as I have been &ldquo;prepping&rdquo; for the upcoming <strong>SQL Saturdays</strong>.</p>
-
-<h2 id="sql-server">SQL Server</h2>
+<h2 id="net">.NET</h2>
 
 <ul>
-<li><a href="https://www.microsoft.com/en-us/research/blog/optimizing-imperative-functions-in-relational-databases-with-froid/">Optimizing imperative functions in relational databases with Froid</a>. A post from Microsoft Research, where they discuss <strong>Froid</strong>. Froid is an extensible framework for optimising imperative programs in relational databases, and the purpose is to enable developers to use the abstraction of UDFs without compromising on performance.</li>
+<li><a href="https://www.infoq.com/articles/Async-Streams">Async Streams in C# 8</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about, as the title says, C# support for async streams. This, proposed, new functionality in C# is to combine the async/awaiting feature with a yielding operator. Very interesting!</li>
 </ul>
 
-<h2 id="big-data">Big Data</h2>
+<h2 id="distributed-computing">Distributed Computing</h2>
 
 <ul>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/hadoop-for-beginners">Hadoop for Beginners- Part 1</a>. The first post in a series about, as the title says, Hadoop. This series is really worthwhile reading if you are interested in what Hadoop is and what it can do for you.</li>
+<li><a href="https://www.infoq.com/articles/microservices-post-kubernetes">Microservices in a Post-Kubernetes Era</a>. Another article from <a href="https://www.infoq.com/">InfoQ</a>. This article questions some of the original microservices ideas and acknowledges the fact that they are not standing as strong in the post-Kubernetes era as they were before. Well worth a read!</li>
+</ul>
+
+<h2 id="azure">Azure</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/09/05/introduction-to-azure-durable-functions/">Introduction to Azure Durable Functions</a>. This post, from one of the .NET engineering teams is about Azure Durable Functions. Azure Durable functions is a new programming model based on Microsoft serverless’ platform Azure Functions. It allows you to write a workflow as code and have the execution run with the scalability and the reliability of serverless with high throughput.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://buckwoody.wordpress.com/category/devops/">DevOps for Data Science </a>. A series of posts by <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a> where he discusses various aspects of DevOps in a Data Science world. This is a must read!</li>
+<li><a href="https://www.confluent.io/blog/putting-power-apache-kafka-hands-data-scientists/">Putting the Power of Apache Kafka into the Hands of Data Scientists</a>. A blogpost which combines two of my favorite topics: Kafka and Data Science, how good is that?! The post discusses how they at <a href="https://www.stitchfix.com/">Stitch Fix</a> exposes a multitude of data sources to their Data Scientists, and allow the Data Scientists to create new topics etc., on the fly. This is a <strong>MUST</strong> read post!</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/apache-kafka-talk-series/">Apache Kafka: Online Talk Series</a>. This is a registration page for an on-demand video series about Kafka. I bring the popcorn, and you bring the coke!</li>
+<li><a href="https://www.confluent.io/ebook/i-heart-logs-event-data-stream-processing-and-data-integration/">I Heart Logs: Event Data, Stream Processing, and Data Integration</a>. Registration page for downloading <a href="https://twitter.com/jaykreps">Jay Kreps</a> e-book &ldquo;I Heart Logs&rdquo;. If you are interested in streaming in general, you <strong>SHOULD</strong> really get this book!</li>
+<li><a href="https://data-artisans.com/blog/serializable-acid-transactions-on-streaming-data">Serializable ACID Transactions on Streaming Data</a>. Guys, (and girls), this is <strong>BIG</strong>. This blogpost introduces <em>data Artisans Streaming Ledger</em>, a new technology that brings serializable ACID transactions to applications built on a streaming architecture!</li>
+<li><a href="https://www.confluent.io/blog/data-wrangling-apache-kafka-ksql">Data Wrangling with Apache Kafka and KSQL</a>. A post by <a href="https://twitter.com/rmoff">Robin Moffat</a> about how we can use Kafka and KSQL to manipulate data.</li>
+<li><a href="https://www.infoq.com/articles/democratizing-stream-processing-kafka-ksql-part2">Democratizing Stream Processing with Apache Kafka® and KSQL - Part 2</a>. Part 2 in a series of posts by <a href="https://twitter.com/rmoff">Robin Moffat</a> about Kafka and KSQL. In this post Robin covers how Apache Kafka® and KSQL can be used to build powerful data integration and processing applications. You find Part 1 in the series <a href="https://www.infoq.com/articles/democratizing-stream-processing-apache-kafka-ksql">here</a>.</li>
 </ul>
 
 <h2 id="sql-saturday">SQL Saturday</h2>
 
-<p>In a couple of previous roundups I have mentioned that the SQL Saturday &ldquo;season&rdquo; is here, and yesterday, (September, 1), I flew out to Johannesburg and did a presentation about SQL Server Machine Learning Services, <a href="http://www.sqlsaturday.com/785/Sessions/Details.aspx?sid=84967">Overview SQL Server Machine Learning Services</a> to around 40 people.</p>
-
-<p>The event was a smashing success thanks to the awesome arrangements by <a href="https://twitter.com/MikeJohnsonZA/">Michael Johnson</a> and his fellow volunteers!</p>
-
-<p>Having done Johannesburg, next in turn is Cape Town:</p>
+<p>This weekend I did two talks at SQL Saturday in Cape Town:</p>
 
 <p><img src="/images/posts/sqlsat793_speaking_300x225.png" alt="" /></p>
 
@@ -323,7 +339,9 @@
 </ul></li>
 </ul>
 
-<p>and finally Durban:</p>
+<p>I also did a full day workshop on the Friday (September 7) before the event: <strong><a href="https://www.quicket.co.za/events/47683-sqlsaturday-cape-town-2018-precon-a-drill-down-into-sql-server-machine-learning/#/">A Drill Down Into SQL Server Machine Learning Services with Niels Berglund</a></strong>. I had 16 people attending, and I believe it went quite well!</p>
+
+<p>Now there is only one SQL Saturday left, in Durban:</p>
 
 <ul>
 <li><a href="http://www.sqlsaturday.com/803/EventHome.aspx">Durban</a>, September 15:
@@ -335,18 +353,7 @@
 
 <p>Even if you are not interested in the topics I present, please register and come and listen to a lot of interesting talks by some of the industry&rsquo;s brightest people.</p>
 
-<h3 id="precon">PreCon</h3>
-
-<p>This year I also do precons in Cape Town and Durban on the Friday before the SQL Saturday event. My precons is a day where we talk about <strong>SQL Server Machine Learning Services</strong>, what it is and what we can do with it. It is in a format so if you want you can bring your laptop and code along as the day progresses.</p>
-
-<p>The precon is not free, but hey &hellip;</p>
-
-<ul>
-<li><a href="https://www.quicket.co.za/events/47683-sqlsaturday-cape-town-2018-precon-a-drill-down-into-sql-server-machine-learning/#/">Cape Town, September 7 - A Drill Down Into SQL Server Machine Learning Services with Niels Berglund</a>.</li>
-<li><a href="https://www.quicket.co.za/events/55545-sqlsaturday-durban-precon-2018-a-day-of-sql-server-machine-learning-services/#/">Durban, September 14 - A Day of SQL Server Machine Learning Services with Niels Berglund</a>.</li>
-</ul>
-
-<p>Even though the titles of the precons are different, I cover the same material.</p>
+<p>In Durban I also do a full day workshop on the Friday, (September 14), before the event: <strong><a href="https://www.quicket.co.za/events/55545-sqlsaturday-durban-precon-2018-a-day-of-sql-server-machine-learning-services/#/">A Day of SQL Server Machine Learning Services with Niels Berglund</a></strong>.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -374,16 +381,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2018/08/26/interesting-stuff---week-34/" class="post--navigation-prev">
+    <a href="/2018/09/02/interesting-stuff---week-35/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 34</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 35</span>
     </a>
     
-    
-    <a href="/2018/09/09/interesting-stuff---week-36/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 36</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -398,18 +400,18 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2018/08/19/interesting-stuff---week-33/">Interesting Stuff - Week 33</a>
+    <a href="/2018/05/27/interesting-stuff---week-21/">Interesting Stuff - Week 21</a>
       
-      <time class="pull-right hidden-tablet">Aug 19 &#39;18</time>
+      <time class="pull-right hidden-tablet">May 27 &#39;18</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2018/08/26/interesting-stuff---week-34/">Interesting Stuff - Week 34</a>
+    <a href="/2018/05/20/interesting-stuff---week-20/">Interesting Stuff - Week 20</a>
       
-      <time class="pull-right hidden-tablet">Aug 26 &#39;18</time>
+      <time class="pull-right hidden-tablet">May 20 &#39;18</time>
       
   </span>
 </li>
@@ -434,9 +436,9 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
-    <a href="/2018/07/29/interesting-stuff---week-30/">Interesting Stuff - Week 30</a>
+    <a href="/2018/06/24/interesting-stuff---week-25/">Interesting Stuff - Week 25</a>
       
-      <time class="pull-right hidden-tablet">Jul 29 &#39;18</time>
+      <time class="pull-right hidden-tablet">Jun 24 &#39;18</time>
       
   </span>
 </li>
