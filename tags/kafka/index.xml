@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 09 Sep 2018 21:11:32 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 16 Sep 2018 08:17:48 +0200</lastBuildDate>
     
 	<atom:link href="/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 37</title>
+      <link>/2018/09/16/interesting-stuff---week-37/</link>
+      <pubDate>Sun, 16 Sep 2018 08:17:48 +0200</pubDate>
+      
+      <guid>/2018/09/16/interesting-stuff---week-37/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 36</title>
@@ -199,28 +221,6 @@
 &lt;p&gt;So seeing that I have most of my &amp;ldquo;tools of the trade&amp;rdquo; on my machine I obviously also would like to have Kafka on the box. Herein lies a problem, I am a Windows dude and Kafka, and Windows do not gel. Yes, some people are running Kafka on Windows, but it is a chore. OK, so what to do? Sure, I could potentially run Kafka on a virtual machine, or in a Docker image, but it is not as transparent as I would like it to be (yeah, I am lazy).&lt;/p&gt;
 
 &lt;p&gt;Hmm, Microsoft did introduce the ability to run Linux binary executables (in ELF format) natively on Windows 10 in Windows 10 version 1607. The feature is called &lt;strong&gt;Windows Subsystem for Linux&lt;/strong&gt; (WSL), and since I am now running version 1803, maybe I should try and install Kafka in &lt;em&gt;WSL&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 27</title>
-      <link>/2018/07/08/interesting-stuff---week-27/</link>
-      <pubDate>Sun, 08 Jul 2018 12:11:28 +0200</pubDate>
-      
-      <guid>/2018/07/08/interesting-stuff---week-27/</guid>
-      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
