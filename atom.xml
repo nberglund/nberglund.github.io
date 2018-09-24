@@ -3,10 +3,140 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-09-23T06:47:28+02:00</updated>
+  <updated>2018-09-24T19:17:06+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What is New in SQL Server 2019 Public Preview]]></title>
+    <link href="http://nielsberglund.com/2018/09/24/what-is-new-in-sql-server-2019-public-preview/" rel="alternate" type="text/html"/>
+    <updated>2018-09-24T19:17:06+02:00</updated>
+    <id>http://nielsberglund.com/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</id>
+    <content type="html"><![CDATA[<p>If you read my roundup for <a href="/2018/09/23/interesting-stuff---week-38/">week 38</a>, which I published yesterday, you probably noticed that <a href="https://www.microsoft.com/en-us/ignite"><strong>MS Ignite</strong></a> started today. I mentioned in the post that I was particularly interested in some of the <strong>SQL Server</strong> sessions, as they looked very interesting.</p>
+
+<p>However, even before the sessions started, Microsoft released SQL Server 2019 CTP 2.0 for public preview and, naturally, I jumped on the <a href="https://www.microsoft.com/en-us/evalcenter/evaluate-sql-server-2019-ctp">download link</a> and started downloading. I managed to get to the link in time before the rest of the world started the download, so I managed to get it down and then did an install.</p>
+
+<p>The rest of this post is about my initial findings mostly in the SQL Server Machine Learning Services space.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> I have looked at SQL Server 2019 the grand total of an hour, so this is a short post.</p>
+</blockquote>
+
+<p></p>
+
+<h2 id="installation-versions">Installation &amp; Versions</h2>
+
+<p>First of all, the installation took forever, at least it felt that way. I believe it took around an hour, just for the install. So if you install, make sure you are not in a hurry.</p>
+
+<p>I chose to install R and Python services in-database. After the installation finished, (finally), I enabled the machine learning services:</p>
+
+<pre><code class="language-sql">EXEC sp_configure 'external scripts enabled', 1
+RECONFIGURE WITH OVERRIDE
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Enable External Scripts</em></p>
+
+<p>After executing the code in <em>Code Snippet 1</em>, I restarted the SQL Server 2019 instance, and then executed my regular &ldquo;check everything works&rdquo; code:</p>
+
+<pre><code class="language-sql">EXEC sp_execute_external_script 
+              @language = N'R'
+        , @script = N'd&lt;-42'
+
+EXEC sp_execute_external_script 
+              @language = N'Python'
+        , @script = N'd=42'
+
+EXEC sp_execute_external_script
+                  @language = N'R' ,
+                  @script = N'print(R.Version()$version)'
+
+EXEC sp_execute_external_script 
+              @language = N'Python'
+, @script = N'
+import sys
+print (sys.version)'
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Test Code</em></p>
+
+<p>As you see, the code is exceptionally advanced (not), but at least the code indicates if there are any issues. The last two <code>sp_execute_external_script</code> statements return the R and Python versions. For R the engine is now running on version <code>3.4.4</code> whereas in SQL Server 2017 it is <code>3.3.3</code>. For Python, it is the same version in both 2017 and 2019: <code>3.5.2</code>.</p>
+
+<h2 id="extensibility-framework">Extensibility Framework</h2>
+
+<p>So, when I read <a href="https://docs.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-ver15?view=sql-server-ver15">What&rsquo;s new in SQL Server 2019</a>, I came across a lot of interesting &ldquo;stuff&rdquo;, but one thing that stood out was <em>Java language programmability extensions</em>. In essence, it allows us to execute Java code in SQL Server by using a pre-built Java language extension! The way it works is as with R and Python; the code executes outside of the SQL Server engine, and you use <code>sp_execute_external_script</code> as the entry-point.</p>
+
+<p>I haven&rsquo;t had time to execute any Java code as of yet, but in the coming days, I definitely will drill into this. Something I noticed is that the architecture for SQL Server Machine Learning Services has changed (or had additions to it). If you remember from my <a href="/sql_server_2k16_r_services">SQL Server Machine Learning Services</a> posts, the flow when executing <code>sp_execute_external_script</code> looked something like so:</p>
+
+<ul>
+<li>We execute <code>sp_execute_external_script</code>.</li>
+<li>SQL Server connects to the Launchpad service.</li>
+<li>Based on the <code>@language</code> parameter, Launchpad calls into either <code>rlauncher.dll</code> or <code>pythonlauncher.dll</code>.</li>
+<li>The respective launcher then launches the external engine.</li>
+</ul>
+
+<p>If now Java is supported is there also a Java launcher? No, as it turns out, there is not, at least not what I could find. However what I did find was this:</p>
+
+<p><img src="/images/posts/sql_2k19_ml_impr1.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>Common Launcher</em></p>
+
+<p>In the same directory as the R and Python launchers, I see this new <code>commonlauncher.dll</code> together with a config file. When looking at the config file I did not see anything giving any hints to what goes on, but - as I said above - I will investigate.</p>
+
+<p>At this stage I have two theories about what happens when you execute Java code:</p>
+
+<ol>
+<li>The Launchpad service knows about the Java extension: <code>javaextension.dll</code>, which is in the same directory as the launchers, and routes everything with <code>@language = Java</code> to the extension.</li>
+<li>For any <code>@language</code> parameter that is not <code>R</code> or <code>Python</code>, the Launchpad service calls the <code>commonlauncher.dll</code>.</li>
+</ol>
+
+<p>That&rsquo;s more or less what I found out after an hours &ldquo;playing around&rdquo; with SQL Server 2019 CTP 2.0.</p>
+
+<h2 id="other-interesting-stuff">Other Interesting Stuff</h2>
+
+<p>In the beginning of this post I mentioned about interesting things I found in the <a href="https://docs.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-ver15?view=sql-server-ver15">What&rsquo;s new &hellip;</a> article. In no particular order:</p>
+
+<h3 id="big-data-clusters">Big Data Clusters</h3>
+
+<ul>
+<li>Deploy a Big Data cluster with SQL Server and Spark Linux containers on Kubernetes</li>
+<li>Access your big data from HDFS</li>
+<li>Run Advanced analytics and machine learning with Spark</li>
+<li>Use Spark streaming to data to SQL data pools</li>
+<li>Run Query books that provide a notebook experience in Azure Data Studio.</li>
+</ul>
+
+<h3 id="data-discovery-and-classification">Data discovery and classification</h3>
+
+<ul>
+<li>Helps meet data privacy standards and regulatory compliance requirements.</li>
+<li>Supports security scenarios, such as monitoring (auditing), and alerting on anomalous access to sensitive data.</li>
+<li>Makes it easier to identify where sensitive data resides in the enterprise, so that administrators can take the right steps to secure the database.</li>
+</ul>
+
+<h3 id="sql-server-machine-learning-services-failover-clusters-and-partition-based-modeling">SQL Server Machine Learning Services failover clusters and partition based modeling</h3>
+
+<ul>
+<li>Partition-based modeling: Process external scripts per partition of your data using the new parameters added to <code>sp_execute_external_script</code>. This functionality supports training many small models (one model per partition of data) instead of one large model.</li>
+<li>Windows Server Failover Cluster: Configure high availability for Machine Learning Services on a Windows Server Failover Cluster.</li>
+</ul>
+
+<h3 id="azure-data-studio">Azure Data Studio</h3>
+
+<p>Previously released under the preview name SQL Operations Studio, Azure Data Studio is a lightweight, modern, open source, cross-platform desktop tool for the most common tasks in data development and administration. With Azure Data Studio you can connect to SQL Server on premises and in the cloud on Windows, macOS, and Linux.</p>
+
+<h2 id="other-resources">Other Resources</h2>
+
+<p><a href="https://twitter.com/aaronbertrand">Aaron Bertrand</a> has an <a href="https://www.mssqltips.com/sqlservertip/5710/whats-new-in-the-first-public-ctp-of-sql-server-2019/">awesome writeup</a> of what&rsquo;s new in SQL Server 2019 from a more database engine perspective. In that writeup he also points to more resources about SQL Server 2019.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 38]]></title>
@@ -2879,75 +3009,6 @@ rxInstallPackages(pkgs = pkgs, verbose = TRUE, scope = &quot;shared&quot;, compu
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 25]]></title>
-    <link href="http://nielsberglund.com/2018/06/24/interesting-stuff---week-25/" rel="alternate" type="text/html"/>
-    <updated>2018-06-24T20:36:32+02:00</updated>
-    <id>http://nielsberglund.com/2018/06/24/interesting-stuff---week-25/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="cloud">Cloud</h2>
-
-<ul>
-<li><a href="http://joeduffyblog.com/2018/06/18/hello-pulumi/">Hello, Pulumi!</a>. Back in 2017, I wrote in <a href="/2017/06/04/interesting-stuff---week-22/">Weekly Roundup 22</a> about Joe Duffy and his startup Pulumi. At that time, no one knew what Pulumi was all about. Well, that changed with today&rsquo;s linked post. Joe explains about Pulumi, and it does sound extremely exciting. Go forth and read all about it!</li>
-</ul>
-
-<h2 id="databases">Databases</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/future-distributed-database-relational">The Future of Distributed Databases Is Relational</a>. This is an <a href="https://www.infoq.com/presentations/future-distributed-database-relational">InfoQ</a> presentation about creating a more modern relational database. It is about Postgres and the journey to scale out and make it truly distributed. Fascinating!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/sql-streaming-apache-flink">Streaming SQL to Unify Batch &amp; Stream Processing w/ Apache Flink @Uber</a>. Another <a href="https://www.infoq.com/">InfoQ</a> presentation. This presentation is about exploring SQL’s role in the world of streaming data and its implementation in Apache Flink and covering streaming semantics, event time, and incremental results. Interesting!</li>
-<li><a href="https://data-artisans.com/blog/getting-started-with-da-platform-on-google-kubernetes-engine">Getting Started with dA Platform on Google Kubernetes Engine</a>. This article describes the setup of the <a href="https://data-artisans.com/platform">dA Platform</a> using Google Cloud&rsquo;s Kubernetes engine.</li>
-<li><a href="https://www.confluent.io/blog/introducing-confluent-hub/">Introducing Confluent Hub</a>.  From the post: &ldquo;Confluent Hub is a place for the Apache Kafka and Confluent Platform community to come together and share the components the community needs to build better streaming data pipelines and event-driven applications.&rdquo;. Sounds intriguing!</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/buckwoody/2018/06/20/the-data-analysis-maturity-model-level-two-reliable-data-storage-and-query-systems/">The Data Analysis Maturity Model – Level Two: Reliable Data Storage and Query Systems</a>. The second post in a series by <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a> about defining a <em>Data Analysis Maturity Model</em>. In this post, Buck discusses data storage and querying.</li>
-<li><a href="http://blog.revolutionanalytics.com/2018/06/pypl-programming-language-trends.html">PYPL Language Rankings: Python ranks #1, R at #7 in popularity</a>. A post by <a href="https://twitter.com/revodavid">David</a> at <a href="http://blog.revolutionanalytics.com">Revolution Analytics</a> about a popularity index of programming languages.</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>Boy, have I been a busy bee this week. I have managed to get two posts published, which must be a record. But none of the posts is the follow-up post to my [sp_execute_external_script and SQL Compute Context - I][ctx1] post from five weeks ago. This is getting stupid!</p>
-
-<ul>
-<li><a href="/2018/06/23/installing-r-packages-in-sql-server-machine-learning-services---i/">Installing R Packages in SQL Server Machine Learning Services - I</a>. This post, which is the first post in a <a href="/sql_server_ml_services_install_packages">series</a>, came about due to a mate of mine asking how he could install R packages into <strong>SQL Server Machine Learning Services</strong>. In this particular post, we look at using R packet managers to install packages.</li>
-<li><a href="/2018/06/24/sp_execute_external_script-and-permissions/">sp_execute_external_script and Permissions</a>. While researching the <a href="/sql_server_ml_services_install_packages">Installing R Packages</a> series I came about some issues related to permissions and <code>sp_execute_external_script</code>. This post tries to clarify and explain how it works.</li>
-</ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
-
-<!-- [series1]: <> (/sql_server_2k16_r_services) -->
-
-<!-- [series2]: <> (/sql_server_ml_services_install_packages) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 

@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 04 Aug 2018 16:05:46 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 24 Sep 2018 19:17:06 +0200</lastBuildDate>
     
 	<atom:link href="/categories/data-science/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>What is New in SQL Server 2019 Public Preview</title>
+      <link>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</link>
+      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
+      
+      <guid>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</guid>
+      <description>&lt;p&gt;If you read my roundup for &lt;a href=&#34;/2018/09/23/interesting-stuff---week-38/&#34;&gt;week 38&lt;/a&gt;, which I published yesterday, you probably noticed that &lt;a href=&#34;https://www.microsoft.com/en-us/ignite&#34;&gt;&lt;strong&gt;MS Ignite&lt;/strong&gt;&lt;/a&gt; started today. I mentioned in the post that I was particularly interested in some of the &lt;strong&gt;SQL Server&lt;/strong&gt; sessions, as they looked very interesting.&lt;/p&gt;
+
+&lt;p&gt;However, even before the sessions started, Microsoft released SQL Server 2019 CTP 2.0 for public preview and, naturally, I jumped on the &lt;a href=&#34;https://www.microsoft.com/en-us/evalcenter/evaluate-sql-server-2019-ctp&#34;&gt;download link&lt;/a&gt; and started downloading. I managed to get to the link in time before the rest of the world started the download, so I managed to get it down and then did an install.&lt;/p&gt;
+
+&lt;p&gt;The rest of this post is about my initial findings mostly in the SQL Server Machine Learning Services space.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I have looked at SQL Server 2019 the grand total of an hour, so this is a short post.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>sp_execute_external_script and SQL Compute Context - III</title>
@@ -169,19 +188,6 @@
       <description>&lt;p&gt;This post is the 24:th post about &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt;, and the third that covers &lt;code&gt;sp_execute_external_script&lt;/code&gt;. I have thought many times that this series has reached its end, and I have many times realised I was wrong. Well, now I can say that this is the last post in the series! I started over a year ago (March 4 2017) with an idea about &amp;ldquo;wouldn&amp;rsquo;t it be cool if I wrote a couple of posts about &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt;&amp;rdquo;! Over one year and 24 posts later, here we are!&lt;/p&gt;
 
 &lt;p&gt;This last post talks about &lt;code&gt;sp_execute_external_script&lt;/code&gt; and a parameter named &lt;code&gt;@parallel&lt;/code&gt;. When we discuss this parameter, we also touch (a little bit) upon performance aspects of &lt;code&gt;sp_execute_external_script&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Microsoft SQL Server R Services - sp_execute_external_script - II</title>
-      <link>/2018/03/11/microsoft-sql-server-r-services---sp_execute_external_script---ii/</link>
-      <pubDate>Sun, 11 Mar 2018 11:55:37 +0200</pubDate>
-      
-      <guid>/2018/03/11/microsoft-sql-server-r-services---sp_execute_external_script---ii/</guid>
-      <description>&lt;p&gt;This post is the 23:rd post about &lt;strong&gt;Microsoft SQL Server R Services&lt;/strong&gt;, and a continuation of &lt;a href=&#34;/2018/03/07/microsoft-sql-server-r-services---sp_execute_external_script---i/&#34;&gt;sp_execute_external_script - I&lt;/a&gt;. To see other posts (including this) in the series, go to &lt;a href=&#34;/sql_server_2k16_r_services&#34;&gt;&lt;strong&gt;SQL Server R Services&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I honestly thought this post would be the last in the series (I have thought quite a few times), but alas, that is not the case. There will be at least one more post about &lt;code&gt;sp_execute_external_script&lt;/code&gt; after this.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
