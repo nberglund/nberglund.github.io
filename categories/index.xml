@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>Azure Data Studio</title>
+      <link>/categories/azure-data-studio/</link>
+      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
+      
+      <guid>/categories/azure-data-studio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Blogging</title>
       <link>/categories/blogging/</link>
       <pubDate>Sat, 18 Aug 2018 09:38:50 +0200</pubDate>
@@ -60,7 +69,7 @@
     <item>
       <title>Data Science</title>
       <link>/categories/data-science/</link>
-      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
+      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
       
       <guid>/categories/data-science/</guid>
       <description></description>
@@ -87,18 +96,9 @@
     <item>
       <title>Microsoft Machine Learning Server</title>
       <link>/categories/microsoft-machine-learning-server/</link>
-      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
+      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
       
       <guid>/categories/microsoft-machine-learning-server/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microsoft R Server</title>
-      <link>/categories/microsoft-r-server/</link>
-      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
-      
-      <guid>/categories/microsoft-r-server/</guid>
       <description></description>
     </item>
     
