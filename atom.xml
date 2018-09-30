@@ -3,10 +3,76 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-09-29T12:06:09+02:00</updated>
+  <updated>2018-09-30T13:13:43+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 39]]></title>
+    <link href="http://nielsberglund.com/2018/09/30/interesting-stuff---week-39/" rel="alternate" type="text/html"/>
+    <updated>2018-09-30T13:13:43+02:00</updated>
+    <id>http://nielsberglund.com/2018/09/30/interesting-stuff---week-39/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://adamsitnik.com/ETW-Profiler/">Profiling .NET Code with BenchmarkDotNet</a>. If you want to benchmark your .NET code, you probably use <a href="https://benchmarkdotnet.org/">BenchMarkDotNet</a> (if you do not, you should). The man behind BenchMarkDotNet is <a href="https://twitter.com/SitnikAdam">Adam Sitnik</a>, and in the linked blog post he announces how you, soon, can use the EtwProfiler to profile benchmarked code! Very cool!</li>
+</ul>
+
+<h2 id="databases">Databases</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/09/26/the-design-and-implementation-of-modern-column-oriented-database-systems/">The design and implementation of modern column-oriented database systems</a>. In this post, <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper about column-oriented databases. Having worked a little bit with SQL Server&rsquo;s column store indexes, it is very cool to get the &ldquo;lowdown&rdquo; on the design behind it.</li>
+</ul>
+
+<h2 id="azure-cloud">Azure Cloud</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/azure-databricks-delta-in-preview-9-regions-added-and-other-exciting-announcements/">Azure Databricks – Delta in preview, 9 regions added, and other exciting announcements</a>. A blog post announcing that Azure Databricks Delta is available in preview. This is very interesting since I have been &ldquo;chomping at the bits&rdquo;, to do some tests with Databricks Delta.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/spark-debugging-and-diagnosis-toolset-for-azure-hdinsight/">Spark Debugging and Diagnosis Toolset for Azure HDInsight</a>. This post is another announcement from Microsoft. This time it is how <strong>Spark Diagnosis Toolset for HDInsight</strong> is now available in preview. The toolset allows you to identify low parallelization, to detect data skew and run data skew analysis, and quite a lot more.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/real-time-presence-detection-apache-kafka-aws">Real-Time Presence Detection at Scale with Apache Kafka on AWS</a>. This post discusses how <a href="https://www.zenreach.com/">Zenreach</a> has implemented a framework for real-time presence detection, using Kafka Streams.</li>
+<li><a href="https://data-artisans.com/blog/state-ttl-for-apache-flink-how-to-limit-the-lifetime-of-state">State TTL for Apache Flink: How to Limit the Lifetime of State</a>. Instead of me summarising the post, I shamelessly copy the opening paragraph: <em>A common requirement for many stateful streaming applications is the ability to control how long application state can be accessed (e.g., due to legal regulations like GDPR) and when to discard it. This blog post introduces the state time-to-live (TTL) feature that was added to Apache Flink with the 1.6.0 release</em>. It is very, very interesting. I need to start to play around with Flink!</li>
+<li><a href="https://www.confluent.io/blog/troubleshooting-ksql-part-1">Troubleshooting KSQL – Part 1: Why Isn’t My KSQL Query Returning Data?</a>. The obligatory Kafka link. The post is the first in a series how to troubleshoot KSQL. This and future posts in the series is, and, will be required reading for our Kafka team!</li>
+</ul>
+
+<h2 id="sql-server">SQL Server</h2>
+
+<ul>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/25/azure-data-studio-for-sql-server/">Azure Data Studio for SQL Server</a>. A post by <a href="https://twitter.com/vickyharp">Vicky Harp</a>. Vicky is Principal Program Manager Lead at Microsoft for SQL Server tooling, and in the post, she introduces <strong>Azure Data Studio</strong> (the artist formerly known as SQL Operations Studio). Azure Data Studio is a new cross-platform desktop environment for both on-premises and cloud data platforms on Windows, MacOS, and Linux.</li>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/24/sql-server-2019-preview-combines-sql-server-and-apache-spark-to-create-a-unified-data-platform/">SQL Server 2019 preview combines SQL Server and Apache Spark to create a unified data platform</a>. An announcement by Microsoft how SQL Server 2019 comes with support for both Spark as well as Hadoop File System (HDFS). We do live in exciting times!</li>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/25/introducing-microsoft-sql-server-2019-big-data-clusters/">Introducing Microsoft SQL Server 2019 Big Data Clusters</a>. This post builds on top of the post above. It discusses how we can create big data clusters utilising the support in SQL Server 2019 of Spark and HDFS.</li>
+<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a>. A post by yours truly. I do a quick look at what is new in SQL Server 2019, and I especially look at the Java language extension.</li>
+<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a>. Another post my myself. Since SQL Server 2019 for Linux now have support for SQL Server Machine Learning Services, I want to have a look at how it works. For that I obviously need it installed and I decided to install it as a Docker for Windows container. The post walks through what I did to get it installed. The post also discusses Azure Data Studio briefly.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQL Server 2019 for Linux in Docker on Windows]]></title>
@@ -2515,72 +2581,6 @@ GO
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 26]]></title>
-    <link href="http://nielsberglund.com/2018/07/01/interesting-stuff---week-26/" rel="alternate" type="text/html"/>
-    <updated>2018-07-01T05:51:55+02:00</updated>
-    <id>http://nielsberglund.com/2018/07/01/interesting-stuff---week-26/</id>
-    <content type="html"><![CDATA[<p>Geez, does time fly or what? We are already past the halfway mark of the year! Anyway, throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="databases">Databases</h2>
-
-<ul>
-<li><a href="https://www.allthingsdistributed.com/2018/06/purpose-built-databases-in-aws.html">A one size fits all database doesn&rsquo;t fit anyone</a>. A very interesting post by <a href="https://en.wikipedia.org/wiki/Werner_Vogels">Werner Vogels</a>, CTO at Amazon, where he argues that (from the article): <em>The days of the one-size-fits-all monolithic database are behind us, and developers are now building highly distributed applications using a multitude of purpose-built databases.</em>. As I said, a very interesting read!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/real-time-syslog-processing-apache-kafka-ksql-enriching-events-with-external-data/">We ❤ syslogs: Real-time syslog processing with Apache Kafka and KSQL—Part 3: Enriching events with external data</a>. This article is the third in the series about syslog processing and Apache Kafka. In this episode <a href="https://twitter.com/rmoff">Robin Moffat</a> discusses how the inbound streams of syslog data can be enriched. Awesome article!</li>
-</ul>
-
-<h2 id="big-data-cloud">Big Data / Cloud</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/structured-streaming-with-databricks-into-power-bi-cosmos-db/">Structured streaming with Azure Databricks into Power BI &amp; Cosmos DB</a>. A post, discussing the concept of Structured Streaming and how a data ingestion path can be built using <a href="https://docs.microsoft.com/en-gb/azure/azure-databricks/what-is-azure-databricks">Azure Databricks</a> to enable the streaming of data in near-real-time. The post also talks about how Databricks can be connected directly into Power BI for reporting etc., and to Cosmos DB for persistence.</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/the-emerging-big-data-architectural-pattern/">The emerging big data architectural pattern</a>. A very interesting blog post, discussing the popularity and success of the <a href="https://en.wikipedia.org/wiki/Lambda_architecture">Lambda</a> architecture as well as some of the shortcomings. The post then goes on to talk about how some of the shortcomings of Lambda can be solved by the use of Azure and <a href="https://azure.microsoft.com/en-gb/services/cosmos-db/">Azure Cosmos DB</a>. In essence, the post discusses how we can implement the <a href="http://dataottam.com/2016/06/02/understand-kappa-architecture-in-2-minutes/">Kappa</a> architecture in Azure.</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/a-closer-look-at-azure-data-lake-storage-gen2/">A closer look at Azure Data Lake Storage Gen2</a>. Microsoft recently announced <a href="https://azure.microsoft.com/en-us/services/storage/data-lake-storage/">Azure Data Lake Storage Gen2</a> and this post discusses some of the new features and capabilities.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://databricks.com/blog/2018/06/27/rstudio-integration.html">Announcing RStudio and Databricks Integration</a>. This post announces the integration of RStudio with the <a href="https://databricks.com/glossary/what-is-unified-analytics">Databricks Unified Analytics Platform</a>. Databricks &ldquo;pops up&rdquo; all over the place lately. I really need to look into it!</li>
-<li><a href="https://blogs.msdn.microsoft.com/buckwoody/2018/06/28/the-data-analysis-maturity-model-level-three-distributed-consistent-reporting-systems/">The Data Analysis Maturity Model – Level Three: Distributed, consistent reporting systems</a>. The third &ldquo;episode&rdquo; in <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody&rsquo;s</a> series about data analysis maturity levels. In this post, Buck talks about distributed and consistent reporting systems.</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<ul>
-<li><a href="/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/">Installing R Packages in SQL Server Machine Learning Services - II</a>. I published part 2 of the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services Series</a>. In this post, we discussed how to use functionality in RevoScaleR to install packages on a remote <strong>SQL Server ML Services</strong> instance.</li>
-</ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
-
-<!-- [series1]: <> (/sql_server_2k16_r_services) -->
-
-<!-- [series2]: <> (/sql_server_ml_services_install_packages) -->]]></content>
     <author>
       <name>Niels Berglund</name>
 

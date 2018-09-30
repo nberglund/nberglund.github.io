@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/09/30/interesting-stuff---week-39/</loc>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/</loc>
     <lastmod>2018-09-29T12:06:09+02:00</lastmod>
   </url>
@@ -947,7 +952,7 @@
   
   <url>
     <loc>/tags/azure-data-studio/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -960,6 +965,12 @@
   <url>
     <loc>/tags/azure-databricks/</loc>
     <lastmod>2018-04-08T16:04:25+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/azure-databricks-delta/</loc>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1137,7 +1148,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2018-09-23T06:47:28+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1195,7 +1206,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2018-09-23T06:47:28+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1343,7 +1354,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2018-09-23T06:47:28+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1535,7 +1546,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1601,7 +1612,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1727,7 +1738,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2018-09-23T06:47:28+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1839,7 +1850,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2018-09-23T06:47:28+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1892,6 +1903,18 @@
   </url>
   
   <url>
+    <loc>/tags/sql-server-2019-for-linux/</loc>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sql-server-big-data-clusters/</loc>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/sql-server-compute-context/</loc>
     <lastmod>2018-08-04T16:05:46+02:00</lastmod>
     <priority>0</priority>
@@ -1905,7 +1928,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1929,7 +1952,7 @@
   
   <url>
     <loc>/tags/sql-server-r-services/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
