@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 30 Sep 2018 13:13:43 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 07 Oct 2018 09:34:44 +0200</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 40</title>
+      <link>/2018/10/07/interesting-stuff---week-40/</link>
+      <pubDate>Sun, 07 Oct 2018 09:34:44 +0200</pubDate>
+      
+      <guid>/2018/10/07/interesting-stuff---week-40/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 39</title>
@@ -200,19 +222,6 @@
 &lt;/ul&gt;
 
 &lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Test Post and Feed Apologies</title>
-      <link>/2018/08/18/test-post-and-feed-apologies/</link>
-      <pubDate>Sat, 18 Aug 2018 09:38:50 +0200</pubDate>
-      
-      <guid>/2018/08/18/test-post-and-feed-apologies/</guid>
-      <description>&lt;p&gt;In my &lt;a href=&#34;/2018/08/18/goodbye-jekyll-welcome-hugo/&#34;&gt;Goodbye Jekyll, Welcome Hugo!&lt;/a&gt; post I wrote how I have changed blog engine from Jekyll to Hugo, and how everything seemed to work. Saying that obviously jinxed it, as after I deployed to the hosting site my Atom feed was completely hosed.&lt;/p&gt;
-
-&lt;p&gt;I have now spent 4 hours trying to fix everything, but I am not sure I have succeeded. So this is a test post to see if things look OK.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 39 • Niels Berglund</title>
+<title>Interesting Stuff - Week 40 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 39"/>
-<meta name="twitter:description" content="Kafka streams, Azure Databricks Delta, lots  of SQL Server 2019, and other interesting topics!"/>
+<meta name="twitter:title" content="Interesting Stuff - Week 40"/>
+<meta name="twitter:description" content="Kafka and debugging KSQL, Flink, MS Ignite sessions and other topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 39" />
-<meta property="og:description" content="Kafka streams, Azure Databricks Delta, lots  of SQL Server 2019, and other interesting topics!" />
+<meta property="og:title" content="Interesting Stuff - Week 40" />
+<meta property="og:description" content="Kafka and debugging KSQL, Flink, MS Ignite sessions and other topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/09/30/interesting-stuff---week-39/" />
+<meta property="og:url" content="/2018/10/07/interesting-stuff---week-40/" />
 
 
 
-<meta property="article:published_time" content="2018-09-30T13:13:43&#43;02:00"/>
+<meta property="article:published_time" content="2018-10-07T09:34:44&#43;02:00"/>
 
-<meta property="article:modified_time" content="2018-09-30T13:13:43&#43;02:00"/>
+<meta property="article:modified_time" content="2018-10-07T09:34:44&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 39</h1>
+    <h1>Interesting Stuff - Week 40</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Sep 30, 2018
+      <i class="fas fa-calendar-alt"></i> Oct 7, 2018
     
     
     
@@ -244,19 +244,19 @@
           <a class="post__tag" href="/tags/sql-server-machine-learning-services">sql server machine learning services</a>
            
       
+          <a class="post__tag" href="/tags/sql-server-2019-on-linux">sql server 2019 on linux</a>
+           
+      
+          <a class="post__tag" href="/tags/msignite">msignite</a>
+           
+      
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/azure-databricks-delta">azure databricks delta</a>
+          <a class="post__tag" href="/tags/ksql">ksql</a>
            
       
-          <a class="post__tag" href="/tags/azure-data-studio">azure data studio</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-2019-for-linux">sql server 2019 for linux</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-big-data-clusters">sql server big data clusters</a>
+          <a class="post__tag" href="/tags/flink">flink</a>
           
       
     
@@ -296,39 +296,52 @@
 <h2 id="net">.NET</h2>
 
 <ul>
-<li><a href="https://adamsitnik.com/ETW-Profiler/">Profiling .NET Code with BenchmarkDotNet</a>. If you want to benchmark your .NET code, you probably use <a href="https://benchmarkdotnet.org/">BenchMarkDotNet</a> (if you do not, you should). The man behind BenchMarkDotNet is <a href="https://twitter.com/SitnikAdam">Adam Sitnik</a>, and in the linked blog post he announces how you, soon, can use the EtwProfiler to profile benchmarked code! Very cool!</li>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/10/04/update-on-net-core-3-0-and-net-framework-4-8/">Update on .NET Core 3.0 and .NET Framework 4.8</a>. A blog post from the .NET engineering team, where they talk about the future of the .NET Framework and .NET Core. I wonder if this post was prompted by speculations recently about the future of the .NET Framework, where there were questions whether the .NET Framework 4.8 would be the last version, and all development would be concentrated on .NET Core.</li>
 </ul>
 
-<h2 id="databases">Databases</h2>
+<h2 id="azure">Azure</h2>
 
 <ul>
-<li><a href="https://blog.acolyer.org/2018/09/26/the-design-and-implementation-of-modern-column-oriented-database-systems/">The design and implementation of modern column-oriented database systems</a>. In this post, <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper about column-oriented databases. Having worked a little bit with SQL Server&rsquo;s column store indexes, it is very cool to get the &ldquo;lowdown&rdquo; on the design behind it.</li>
-</ul>
-
-<h2 id="azure-cloud">Azure Cloud</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/azure-databricks-delta-in-preview-9-regions-added-and-other-exciting-announcements/">Azure Databricks – Delta in preview, 9 regions added, and other exciting announcements</a>. A blog post announcing that Azure Databricks Delta is available in preview. This is very interesting since I have been &ldquo;chomping at the bits&rdquo;, to do some tests with Databricks Delta.</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/spark-debugging-and-diagnosis-toolset-for-azure-hdinsight/">Spark Debugging and Diagnosis Toolset for Azure HDInsight</a>. This post is another announcement from Microsoft. This time it is how <strong>Spark Diagnosis Toolset for HDInsight</strong> is now available in preview. The toolset allows you to identify low parallelization, to detect data skew and run data skew analysis, and quite a lot more.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/enabling-real-time-data-warehousing-with-azure-sql-data-warehouse/">Enabling real-time data warehousing with Azure SQL Data Warehouse</a>. This post is an announcement how <a href="https://www.striim.com/">Striim</a> now fully supports SQL Data Warehouse as a target for Striim for Azure. Striim is a system which enables continuous non-intrusive performant ingestion of enterprise data from a variety of sources in real time.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/real-time-presence-detection-apache-kafka-aws">Real-Time Presence Detection at Scale with Apache Kafka on AWS</a>. This post discusses how <a href="https://www.zenreach.com/">Zenreach</a> has implemented a framework for real-time presence detection, using Kafka Streams.</li>
-<li><a href="https://data-artisans.com/blog/state-ttl-for-apache-flink-how-to-limit-the-lifetime-of-state">State TTL for Apache Flink: How to Limit the Lifetime of State</a>. Instead of me summarising the post, I shamelessly copy the opening paragraph: <em>A common requirement for many stateful streaming applications is the ability to control how long application state can be accessed (e.g., due to legal regulations like GDPR) and when to discard it. This blog post introduces the state time-to-live (TTL) feature that was added to Apache Flink with the 1.6.0 release</em>. It is very, very interesting. I need to start to play around with Flink!</li>
-<li><a href="https://www.confluent.io/blog/troubleshooting-ksql-part-1">Troubleshooting KSQL – Part 1: Why Isn’t My KSQL Query Returning Data?</a>. The obligatory Kafka link. The post is the first in a series how to troubleshoot KSQL. This and future posts in the series is, and, will be required reading for our Kafka team!</li>
+<li><a href="https://www.confluent.io/blog/event-streaming-new-big-thing-finance">Is Event Streaming the New Big Thing for Finance?</a>. An excellent blog post by <a href="https://twitter.com/benstopford">Ben Stopford</a> where he discusses the use of event streaming in the financial sector.</li>
+<li><a href="https://www.confluent.io/blog/troubleshooting-ksql-part-2">Troubleshooting KSQL – Part 2: What’s Happening Under the Covers?</a>. The second post by <a href="https://twitter.com/rmoff">Robin Moffat</a> about debugging of KSQL. In this post - Robin, as the title says, goes under the covers to figure out what happens with KSQL queries.</li>
+<li><a href="https://data-artisans.com/blog/6-things-to-consider-when-defining-your-apache-flink-cluster-size">6 things to consider when defining your Apache Flink cluster size</a>.  This post discusses how to plan and calculate a Flink cluster size. In other words; how to define the number of resources you need to run a specific Flink job.</li>
 </ul>
 
-<h2 id="sql-server">SQL Server</h2>
+<h2 id="ms-ignite">MS Ignite</h2>
 
 <ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/25/azure-data-studio-for-sql-server/">Azure Data Studio for SQL Server</a>. A post by <a href="https://twitter.com/vickyharp">Vicky Harp</a>. Vicky is Principal Program Manager Lead at Microsoft for SQL Server tooling, and in the post, she introduces <strong>Azure Data Studio</strong> (the artist formerly known as SQL Operations Studio). Azure Data Studio is a new cross-platform desktop environment for both on-premises and cloud data platforms on Windows, MacOS, and Linux.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/24/sql-server-2019-preview-combines-sql-server-and-apache-spark-to-create-a-unified-data-platform/">SQL Server 2019 preview combines SQL Server and Apache Spark to create a unified data platform</a>. An announcement by Microsoft how SQL Server 2019 comes with support for both Spark as well as Hadoop File System (HDFS). We do live in exciting times!</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/09/25/introducing-microsoft-sql-server-2019-big-data-clusters/">Introducing Microsoft SQL Server 2019 Big Data Clusters</a>. This post builds on top of the post above. It discusses how we can create big data clusters utilising the support in SQL Server 2019 of Spark and HDFS.</li>
-<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a>. A post by yours truly. I do a quick look at what is new in SQL Server 2019, and I especially look at the Java language extension.</li>
-<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a>. Another post my myself. Since SQL Server 2019 for Linux now have support for SQL Server Machine Learning Services, I want to have a look at how it works. For that I obviously need it installed and I decided to install it as a Docker for Windows container. The post walks through what I did to get it installed. The post also discusses Azure Data Studio briefly.</li>
+<li><a href="https://buckwoody.wordpress.com/2018/10/02/syllabuck-ignite-2018-conference/">Syllabuck: Ignite 2018 Conference</a>. A great list of MS Ignite sessions that <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a> found interesting! Now I know what to do in my spare time!</li>
 </ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/10/03/customized-regression-model-for-airbnb-dynamic-pricing/">Customized regression model for Airbnb dynamic pricing</a>. This post by <a href="https://twitter.com/adriancolyer">Adrian</a> is about a white-paper which details the methods that Airbnb use to suggest prices to listing hosts.</li>
+<li><a href="https://towardsdatascience.com/cleaning-and-preparing-data-in-python-494a9d51a878">Cleaning and Preparing Data in Python</a>. A post which lists Python methods and functions that helps to clean and prepare data.</li>
+<li><a href="https://www.microsoft.com/en-us/research/blog/the-microsoft-infer-net-machine-learning-framework-goes-open-source/">The Microsoft Infer.NET machine learning framework goes open source</a>. A blog post from Microsoft Research, in which they announce the open-sourcing of <a href="https://dotnet.github.io/infer/">Infer.NET</a>. Is anyone else but me somewhat confused about the various data science frameworks that Microsoft has?</li>
+<li><a href="https://towardsdatascience.com/how-to-build-a-simple-recommender-system-in-python-375093c3fb7d">How to build a Simple Recommender System in Python</a>. A blog post which discusses what a recommender system is and how you can use Python to build one.</li>
+</ul>
+
+<h2 id="what-is-niels-doing-wind">What Is Niels Doing (WIND)</h2>
+
+<p>That is a good question! As you know, I wrote two blog posts about SQL Server 2019:</p>
+
+<ul>
+<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a></li>
+<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a></li>
+</ul>
+
+<p>My plan was to relatively quickly follow up those two posts with a third post how to run <strong>SQL Server Machine Learning Services</strong> on <strong>SQL Server 2019 on Linux</strong>, and do it inside a Docker container. After having spent some time trying to get it to work, (with no luck), I gave up and contacted a couple of persons in MS asking for help. The response was that, right now in <strong>SQL Server 2019 on Linux CTP 2.0</strong>, you cannot do it - bummer! The functionality will be in a future release.</p>
+
+<p>I am now reworking the post I had started on to cover <strong>SQL Server Machine Learning Services</strong> in an <strong>Ubuntu</strong> based <strong>SQL Server 2019 on Linux</strong>. I should be able to publish something within a week or two.</p>
+
+<p>I am also working on the third post in the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series (still). Right now I have no idea when I can publish it - Sorry!</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -356,16 +369,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/" class="post--navigation-prev">
+    <a href="/2018/09/30/interesting-stuff---week-39/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">SQL Server 2019 for Linux in Docker on Windows</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 39</span>
     </a>
     
-    
-    <a href="/2018/10/07/interesting-stuff---week-40/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 40</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -380,45 +388,45 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2018/09/09/interesting-stuff---week-36/">Interesting Stuff - Week 36</a>
+    <a href="/2018/09/23/interesting-stuff---week-38/">Interesting Stuff - Week 38</a>
       
-      <time class="pull-right hidden-tablet">Sep 09 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/08/26/interesting-stuff---week-34/">Interesting Stuff - Week 34</a>
-      
-      <time class="pull-right hidden-tablet">Aug 26 &#39;18</time>
+      <time class="pull-right hidden-tablet">Sep 23 &#39;18</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2018/08/12/interesting-stuff---week-32/">Interesting Stuff - Week 32</a>
+    <a href="/2018/09/16/interesting-stuff---week-37/">Interesting Stuff - Week 37</a>
       
-      <time class="pull-right hidden-tablet">Aug 12 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/08/05/interesting-stuff---week-31/">Interesting Stuff - Week 31</a>
-      
-      <time class="pull-right hidden-tablet">Aug 05 &#39;18</time>
+      <time class="pull-right hidden-tablet">Sep 16 &#39;18</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2018/07/29/interesting-stuff---week-30/">Interesting Stuff - Week 30</a>
+    <a href="/2018/08/19/interesting-stuff---week-33/">Interesting Stuff - Week 33</a>
       
-      <time class="pull-right hidden-tablet">Jul 29 &#39;18</time>
+      <time class="pull-right hidden-tablet">Aug 19 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/06/17/interesting-stuff---week-24/">Interesting Stuff - Week 24</a>
+      
+      <time class="pull-right hidden-tablet">Jun 17 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/06/10/interesting-stuff---week-23/">Interesting Stuff - Week 23</a>
+      
+      <time class="pull-right hidden-tablet">Jun 10 &#39;18</time>
       
   </span>
 </li>
