@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 42 • Niels Berglund</title>
+<title>Interesting Stuff - Week 43 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 42"/>
-<meta name="twitter:description" content="Kafka, watermarks in Flink, Uber and Hadoop, event driven architecture, and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 43"/>
+<meta name="twitter:description" content="Kafka, Kafka and Kubernetes, Flink, Azure Automated Machine Learning, and other topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 42" />
-<meta property="og:description" content="Kafka, watermarks in Flink, Uber and Hadoop, event driven architecture, and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 43" />
+<meta property="og:description" content="Kafka, Kafka and Kubernetes, Flink, Azure Automated Machine Learning, and other topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/10/21/interesting-stuff---week-42/" />
+<meta property="og:url" content="/2018/10/28/interesting-stuff---week-43/" />
 
 
 
-<meta property="article:published_time" content="2018-10-21T19:19:43&#43;02:00"/>
+<meta property="article:published_time" content="2018-10-28T07:44:55&#43;02:00"/>
 
-<meta property="article:modified_time" content="2018-10-21T19:19:43&#43;02:00"/>
+<meta property="article:modified_time" content="2018-10-28T07:44:55&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 42</h1>
+    <h1>Interesting Stuff - Week 43</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Oct 21, 2018
+      <i class="fas fa-calendar-alt"></i> Oct 28, 2018
     
     
     
@@ -250,16 +250,19 @@
           <a class="post__tag" href="/tags/flink">flink</a>
            
       
-          <a class="post__tag" href="/tags/hadoop">hadoop</a>
+          <a class="post__tag" href="/tags/azure-machine-learning-service">azure machine learning service</a>
            
       
-          <a class="post__tag" href="/tags/azure-functions">azure functions</a>
+          <a class="post__tag" href="/tags/azure-automated-ml">azure automated ml</a>
+           
+      
+          <a class="post__tag" href="/tags/kubernetes">kubernetes</a>
           
       
     
     
     <br/>
-    <i class="fas fa-clock"></i> 2 min read
+    <i class="fas fa-clock"></i> 3 min read
 </div>
 
 
@@ -290,38 +293,37 @@
 
 <p></p>
 
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/10/15/guidance-for-library-authors/">Guidance for library authors</a>. This blog post announces the publication of the <strong>.NET Library Guidance</strong>. It’s brand new set of articles for .NET developers who want to create high-quality libraries for .NET.</li>
-</ul>
-
-<h2 id="azure">Azure</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/10/16/automating-release-notes-with-azure-functions/">Automating Release Notes with Azure Functions</a>. This post is a walk through how Azure Functions and Azure Blob Storage can help generate release notes.</li>
-</ul>
-
-<h2 id="big-data">Big Data</h2>
-
-<ul>
-<li><a href="https://eng.uber.com/uber-big-data-platform/">Uber’s Big Data Platform: 100+ Petabytes with Minute Latency</a>. This article looks in-depth at Uber&rsquo;s Hadoop platform and how the platform allows for analysis of over 100 petabytes of data with minimal latency.</li>
-</ul>
-
 <h2 id="data-science">Data Science</h2>
 
 <ul>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/how-to-choose-a-machine-learning-model-some-guidelines">How to Choose a Machine Learning Model – Some Guidelines</a>. This blog post explores some broad guidelines for selecting machine learning models.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/announcing-automated-ml-capability-in-azure-machine-learning/">Announcing automated ML capability in Azure Machine Learning</a>. Somehow I must have missed this post announcing <strong>Azure Automated Machine Learning</strong>. What is it? Well, it is a way for the <a href="https://azure.microsoft.com/en-us/services/machine-learning-service/">Azure Machine Learning Service</a> to automatically pick an algorithm for you, and generate a model from it. It sounds really interesting, and this is something I need to take a look at.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/event-driven-2-0">Event Driven 2.0</a>. In this article <a href="https://twitter.com/benstopford">Ben Stopford</a> discusses the next generation of event-driven architecture.</li>
-<li><a href="https://www.youtube.com/watch?v=HeNegOzjnJY&amp;feature=em-uploademail">Jay Kreps | Kafka Summit SF 2018 Keynote (Kafka and Event-Oriented Architecture)</a>. The San Francisco <a href="https://kafka-summit.org/events/kafka-summit-san-francisco-2018/">Kafka Summit 2018</a> was held October 16 - 17, and this video is Jay Kreps keynote.</li>
-<li><a href="https://www.youtube.com/watch?v=v2RJQELoM6Y&amp;feature=em-uploademail">Martin Kleppmann | Kafka Summit SF 2018 Keynote (Is Kafka a Database?)</a>. Another <a href="https://kafka-summit.org/events/kafka-summit-san-francisco-2018/">Kafka Summit 2018</a> keynote video. This is <a href="https://twitter.com/martinkl">Martin Kleppmann</a> comparing Kafka to databases.<br /></li>
-<li><a href="https://www.infoq.com/articles/apache-kafka-best-practices-to-optimize-your-deployment">Apache Kafka: Ten Best Practices to Optimize Your Deployment</a>. An <a href="https://www.infoq.com/">InfoQ</a> article discussing the latest Kafka best practices for developers to manage the data streaming platform more effectively. Best practices include log configuration, proper hardware usage, Zookeeper configuration, replication factor, and partition count.</li>
-<li><a href="https://data-artisans.com/blog/watermarks-in-apache-flink-made-easy">Watermarks in Apache Flink Made Easy</a>. This blog post looks at how watermarks work in Flink.</li>
+<li><p><a href="https://www.confluent.io/blog/kafka-summit-san-francisco-2018-roundup">That’s a Wrap! Kafka Summit San Francisco 2018 Roundup</a>. The San Francisco <a href="https://kafka-summit.org/events/kafka-summit-san-francisco-2018/">Kafka Summit</a> ran October 16 - 17, and this blog post is a summary of the conference. It also has links to some interesting sessions, and out of those, these are my three favorites:</p>
+
+<ul>
+<li><a href="https://www.confluent.io/kafka-summit-sf18/zen-and-the-art-of-streaming-joins">Zen and the Art of Streaming Joins—The What, When and Why</a>.</li>
+<li><a href="https://www.confluent.io/kafka-summit-sf18/kafka-security-101-and-real-world-tips">Kafka Security 101 and Real-World Tips</a>.</li>
+<li><a href="https://www.confluent.io/kafka-summit-sf18/breaking-down-a-sql-monolith">Breaking Down a SQL Monolith with Change Tracking, Kafka and KStreams/KSQL</a>.</li>
+</ul></li>
+
+<li><p><a href="https://data-artisans.com/blog/stateful-stream-processing-apache-flink-state-backends">Stateful Stream Processing: Apache Flink State Backends</a>. This post explores stateful stream processing and more precisely the different state backends available in Apache Flink. It presents the 3 state backends of Apache Flink, their limitations and when to use each of them depending on case-specific requirements.</p></li>
+
+<li><p><a href="https://www.confluent.io/blog/apache-kafka-kubernetes-could-you-should-you">Apache Kafka on Kubernetes – Could you? Should you?</a>. This is a post discussing whether you should run Kafka on Kubernetes or not. At <a href="/derivco">work</a>, we are in the process of rolling out our first Kafka deployments, (not on Kubernetes), and this post definitely gives us &ldquo;food for thought&rdquo;.</p></li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
+
+<p>Yeah, I kind of ask myself that question as well (what am I doing): at the moment I have a hard time getting any blog posts out, as I am busy at work as well as trying to get to grips with <strong>SQL Server 2019 Big Data Clusters</strong>. I hope to be able to publish something in a week (or twos) time.</p>
+
+<p>In the meantime, if you are interested in <strong>SQL Server 2019</strong>, go and have a read at these two posts:</p>
+
+<ul>
+<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a>.</li>
+<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a>.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
@@ -350,16 +352,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2018/10/14/interesting-stuff---week-41/" class="post--navigation-prev">
+    <a href="/2018/10/21/interesting-stuff---week-42/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 41</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 42</span>
     </a>
     
-    
-    <a href="/2018/10/28/interesting-stuff---week-43/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 43</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -374,6 +371,15 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
+    <a href="/2018/10/21/interesting-stuff---week-42/">Interesting Stuff - Week 42</a>
+      
+      <time class="pull-right hidden-tablet">Oct 21 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
     <a href="/2018/10/14/interesting-stuff---week-41/">Interesting Stuff - Week 41</a>
       
       <time class="pull-right hidden-tablet">Oct 14 &#39;18</time>
@@ -386,15 +392,6 @@ To automatically receive more posts like this, please
     <a href="/2018/09/09/interesting-stuff---week-36/">Interesting Stuff - Week 36</a>
       
       <time class="pull-right hidden-tablet">Sep 09 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/08/26/interesting-stuff---week-34/">Interesting Stuff - Week 34</a>
-      
-      <time class="pull-right hidden-tablet">Aug 26 &#39;18</time>
       
   </span>
 </li>
