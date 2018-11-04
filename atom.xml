@@ -3,10 +3,57 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-10-28T07:44:55+02:00</updated>
+  <updated>2018-11-04T18:54:29+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 44]]></title>
+    <link href="http://nielsberglund.com/2018/11/04/interesting-stuff---week-44/" rel="alternate" type="text/html"/>
+    <updated>2018-11-04T18:54:29+02:00</updated>
+    <id>http://nielsberglund.com/2018/11/04/interesting-stuff---week-44/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/local-testing-with-live-data-means-faster-development-with-azure-stream-analytics-2/">Local testing with live data means faster development with Azure Stream Analytics</a>. An Azure Stream Analytics (ASA) announcement of a new feature which lets you test your ASA queries locally while using live data streams from cloud sources such as Azure Event Hubs, IoT Hub or Blob storage!</li>
+<li><a href="https://www.confluent.io/blog/atm-fraud-detection-apache-kafka-ksql">ATM Fraud Detection with Apache Kafka and KSQL</a>. A blog post by <a href="https://twitter.com/rmoff">Robin Moffat</a> discussing how, by using Kafka and KSQL, you can take a stream of inbound ATM transactions and easily set up an application to detect transactions that look fraudulent. Awesome!</li>
+<li><a href="https://blog.acolyer.org/2018/10/29/noria-dynamic-partially-stateful-data-flow-for-high-performance-web-applications/">Noria: dynamic, partially-stateful data-flow for high-performance web applications</a>. <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white-paper about Noria: a new streaming data-flow system designed to act as a fast storage backend for read-heavy web applications. It acts like a database but precomputes and caches relational query results so that reads are blazingly fast.</li>
+</ul>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/11/02/the-fuzzylog-a-partially-ordered-shared-log/">The FuzzyLog: a partially ordered shared log</a>. Another white-paper dissected by <a href="https://twitter.com/adriancolyer">Adrian</a>. This time it is about FuzzyLog and the FuzzyLog abstraction which extends the shared log approach to partial orders, allowing applications to scale linearly without sacrificing transactional guarantees, and switch seamlessly between these guarantees when the network partitions and heals.</li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
+
+<p>I am still trying to get to grips with <strong>SQL Server 2019 Big Data Cluster</strong>, and now I better sort it out as I on Wednesday (November 7), is supposed to give a presentation about <a href="https://www.meetup.com/Azure-Transformation-Labs/events/255690875/?rv=ea1_v2&amp;_xtd=gatlbWFpbF9jbGlja9oAJGRjZmM2OTBjLWEwNTgtNDRjZi1iOWQyLWI5YzMyZTM1YmIzMg">Building a SQL 2019 Big Data Cluster on Azure Kubernetes Service</a>. If you are in Durban, please come by and say Hi!</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 43]]></title>
@@ -2048,66 +2095,6 @@ sqllang!CXStmtQuery::ErsqExecuteQuery
 <h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
 
 <p>I am close to finish the third post in the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series. I hope to have it out by the end of this upcoming week.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>
-
-<!-- [series1]: <> [SQL Server R Services](/sql_server_2k16_r_services) -->
-
-<!-- [series2]: <> [Install R Packages in SQL Server ML Services](/sql_server_ml_services_install_packages) -->
-
-<!-- [series3]: <> [sp_execute_external_script and SQL Server Compute Context](/spees_and_sql_compute_context) -->
-
-<!-- [findstr]: <> findstr /I <word_to_find> * -->]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 29]]></title>
-    <link href="http://nielsberglund.com/2018/07/22/interesting-stuff---week-29/" rel="alternate" type="text/html"/>
-    <updated>2018-07-22T16:06:58+02:00</updated>
-    <id>http://nielsberglund.com/2018/07/22/interesting-stuff---week-29/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending. Unfortunately there was not much that caught my eye this week, so this is a short post.</p>
-
-<p></p>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/news/2018/07/zuul-push-messaging">Scaling Push Messaging for Millions of Devices @Netflix - Susheel Aroskar at QCon NY</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about Zuul Push, which is a high performance asynchronous service based on Apache Netty, a non-blocking I/O (NIO)-based network application framework. The technology handles more than 5.5 million connected clients at peak.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/apache-kafka-vs-enterprise-service-bus-esb-friends-enemies-or-frenemies/">Apache Kafka vs. Enterprise Service Bus (ESB)—Friends, Enemies, or Frenemies?</a>. A blog post showing why so many enterprises leverage the open source ecosystem of Apache Kafka for successful integration of different legacy and modern applications, and how this differs but also complements existing integration solutions like ESB or ETL tools.</li>
-<li><a href="https://databricks.com/blog/2018/07/19/simplify-streaming-stock-data-analysis-using-databricks-delta.html">Simplify Streaming Stock Data Analysis Using Databricks Delta</a>. A post about how Databricks Delta helps solving many of the pain points of building a streaming system to analyze stock data in real-time.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://blog.usejournal.com/python-vs-and-r-for-data-science-833b48ccc91d">Python vs (and) R for Data Science</a>. This post acts as a guide for those wishing to choose between Python and R Programming languages for Data Science.</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>I am <del>busy</del> struggling with writing a couple of posts in the <a href="/spees_and_sql_compute_context">sp_execute_external_script and SQL Server Compute Context</a> series, as well as the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I do hope to have at least one out in a weeks time (or so).</p>
 
 <h2 id="finally">~ Finally</h2>
 
