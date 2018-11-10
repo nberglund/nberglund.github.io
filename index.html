@@ -26,7 +26,7 @@
 
 
 
-<meta property="og:updated_time" content="2018-11-04T18:54:29&#43;02:00"/>
+<meta property="og:updated_time" content="2018-11-10T07:58:09&#43;02:00"/>
 
 
 
@@ -196,6 +196,38 @@
   <div class="post-list">
     
     
+      <div class="post-list__item">
+        <span class="item__title--big">
+          <a href="/2018/11/10/sql-server-2019-big-data-cluster-on-azure-kubernetes-service/">SQL Server 2019 Big Data Cluster on Azure Kubernetes Service</a>
+        </span>
+        <span class="item__date">
+          Nov 10, 2018
+        </span>
+        <p>At the <a href="https://www.microsoft.com/en-us/ignite/agenda"><strong>Microsoft Ignite 2018</strong></a> conference back in September Microsoft released <strong>SQL Server 2019</strong> for public preview, and I wrote two short blog posts about it:</p>
+
+<ul>
+<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a>.</li>
+<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a>.</li>
+</ul>
+
+<p>What Microsoft also announced was <strong>SQL Server 2019 Big Data Clusters</strong>, which combines the SQL Server database engine, Spark, and HDFS into a unified data platform! Yes, you read that right: SQL Server, Spark, and Hadoop right out of the box. Seeing that both Spark and Hadoop are mainly Linux based, what makes the Big Data Cluster possible is <strong>SQL Server on Linux</strong>. When you deploy a <strong>SQL Server 2019 Big Data Cluster</strong>, you deploy it as containers on <strong>Kubernetes</strong>, where the Kubernetes cluster can be in the cloud, such as <a href="https://azure.microsoft.com/en-us/services/kubernetes-service/"><strong>Azure Kubernetes Service</strong></a>, or on-prem like <a href="https://www.openshift.com/learn/topics/kubernetes/"><strong>Red Hat OpenShift</strong></a> or even on a local dev-box/laptop using <a href="https://kubernetes.io/docs/setup/minikube/"><strong>Minikube</strong></a>.</p>
+
+<p>Initially, this post was about <strong>SQL Server 2019 Big Data Clusters</strong> on Minikube, but after quite a few failed installation attempts I realised I did not have enough memory on my development box, so I decided to try it on <strong>Azure Kubernetes Service</strong> (AKS) instead.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> If you want to run <strong>SQL Server 2019 Big Data Clusters</strong> on Minikube it is suggested that your host machine (Minikube is essentially a VM) has at least 32Gb of memory, and you allocate at least 22Gb to the Minikube VM.</p>
+</blockquote>
+
+<p>Since I am a complete novice when it comes to Kubernetes, this post covers both how I set up AKS as well as the deployment of <strong>SQL Server 2019 Big Data Clusters</strong> to AKS, and the post is somewhat a summary of the official <a href="https://docs.microsoft.com/en-us/sql/big-data-cluster/big-data-cluster-overview?view=sqlallproducts-allversions">documentation</a>.</p>
+
+<p></p>
+        
+        <div class="read-more-link">
+            <a href="/2018/11/10/sql-server-2019-big-data-cluster-on-azure-kubernetes-service/">Read More…</a>
+        </div>
+        
+        </div>
+        
       <div class="post-list__item">
         <span class="item__title--big">
           <a href="/2018/11/04/interesting-stuff---week-44/">Interesting Stuff - Week 44</a>
