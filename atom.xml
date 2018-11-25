@@ -3,10 +3,62 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-11-18T08:22:25+02:00</updated>
+  <updated>2018-11-25T13:21:17+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 47]]></title>
+    <link href="http://nielsberglund.com/2018/11/25/interesting-stuff---week-47/" rel="alternate" type="text/html"/>
+    <updated>2018-11-25T13:21:17+02:00</updated>
+    <id>http://nielsberglund.com/2018/11/25/interesting-stuff---week-47/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="misc">Misc.</h2>
+
+<ul>
+<li><a href="https://www.tbray.org/ongoing/When/201x/2018/11/18/Post-REST">Post-REST</a>. A very interesting post by [Tim Bray] where he looks at <em>What Comes after REST</em>/how REST will evolve. Very interesting!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/using-apache-kafka-drive-cutting-edge-machine-learning">Using Apache Kafka to Drive Cutting-Edge Machine Learning</a>. A very, very &ldquo;cool&rdquo; post, discussing how Kafka and Machine Learning fits together.</li>
+</ul>
+
+<h2 id="data-science-ai">Data Science / AI</h2>
+
+<ul>
+<li><a href="https://www.datasciencecentral.com/profiles/blogs/dean-of-big-data-driving-the-snakes-of-data-science-out-of">Dean of Big Data Driving the Snakes of Data Science Out of Ireland</a>. Well, I don&rsquo;t know about &ldquo;St. Paddy&rdquo; and <a href="https://news.nationalgeographic.com/news/2014/03/140315-saint-patricks-day-2014-snakes-ireland-nation/">snakes in Ireland</a>, but this post tries to do away with some Data Science myths (get rid of the snakes). Really worth reading!</li>
+<li><a href="https://databricks.com/blog/2018/11/21/mlflow-v0-8-0-features-improved-experiment-ui-and-deployment-tools.html">MLflow v0.8.0 Features Improved Experiment UI and Deployment Tools</a>. A week or so ago, <a href="https://twitter.com/databricks">databricks</a> released <a href="https://www.mlflow.org/">MLFlow 0.8.0</a>. This blog post describes a couple of new features in that release.</li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
+
+<p>After I published the <a href="/2018/11/10/sql-server-2019-big-data-cluster-on-azure-kubernetes-service/">SQL Server 2019 Big Data Cluster on Azure Kubernetes Service</a> post, I went back and started to look at the new Java functionality in SQL Server 2019. There is a post forthcoming shortly (the famous last words).</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 46]]></title>
@@ -1917,77 +1969,6 @@ print (sys.version)'
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 32]]></title>
-    <link href="http://nielsberglund.com/2018/08/12/interesting-stuff---week-32/" rel="alternate" type="text/html"/>
-    <updated>2018-08-12T12:02:02+02:00</updated>
-    <id>http://nielsberglund.com/2018/08/12/interesting-stuff---week-32/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="http://muratbuffalo.blogspot.com/2018/08/the-many-faces-of-consistency.html">The many faces of consistency</a>. A blog post by <a href="https://twitter.com/muratdemirbas">Murat</a> where he dissects a white paper about consistency. The paper talks about two types of consistency: <em>state</em> and <em>operation</em>. Seeing that Murat now does sabbatical work at Microsoft (see below), he compares the two consistency types with what Cosmos DB provides. The post is a must read if you are the least interested in distributed computing and consistency.</li>
-</ul>
-
-<h2 id="cloud-big-data">Cloud / Big Data</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/globally-replicated-data-lakes-with-livedata-using-wandisco-on-azure/">Globally replicated data lakes with LiveData using WANdisco on Azure</a>. The post discusses how you can achieve globally replicated Azure Data Lakes. The replication can be both hybrid: on-prem to Azure as well as Azure to Azure.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/08/09/cloud-data-and-ai-services-training-roundup-august-2018/">Cloud data and AI services training roundup August 2018</a>. This post lists some free data and AI training sessions.</li>
-<li><a href="http://muratbuffalo.blogspot.com/2018/08/azure-cosmos-db.html">Azure Cosmos DB</a>. This post by <a href="https://twitter.com/muratdemirbas">Murat</a> is about his first impressions of Azure Cosmos DB. Murat has taken a sabbatical and spends a year at Microsoft in the Cosmos DB team. I look forward to more posts by Murat about Cosmos DB, and other Azure related topics.</li>
-</ul>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://charlla.com/howto-docker-on-windows/">HowTo - Docker on Windows</a>. My mate and colleague, <a href="https://twitter.com/charllamprecht">Charl</a> continues his blogging journey. This post is how to run Docker on Windows.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.lightbend.com/blog/streaming-data-dominates-over-2000-developers-say-only-batch-is-almost-extinct">Streaming Data Dominates: Over 2000 Developers Say “Only Batch” Is Almost Extinct</a>. A survey by <a href="https://www.lightbend.com/">Lightbend</a>, (formerly known as <a href="https://en.wikipedia.org/wiki/Lightbend">Typesafe</a>), makes it clear that developers now moves more and more towards real-time processing as opposed to batch. That, my friends, is music to my ears!</li>
-<li><a href="https://data-artisans.com/blog/apache-flink-1-6-0-whats-new-in-the-latest-apache-flink-release">Apache Flink 1.6.0: What’s new in the latest Apache Flink release</a>. What the title says; this is a post detailing some of the new features in the Flink 1.6.0 release.</li>
-<li><a href="https://www.confluent.io/blog/getting-started-apache-kafka-kubernetes/">Getting Started with Apache Kafka and Kubernetes</a>. A blog-post about the work done to enable Kafka to run on Kubernetes. The post points to a white paper: <a href="https://www.confluent.io/resources/recommendations-for-deploying-apache-kafka-on-kubernetes">Run Confluent Platform on Kubernetes Using Best Practices</a> which is really good!</li>
-<li><a href="https://www.confluent.io/blog/kafka-streams-action">Kafka Streams in Action</a>. A post about the upcoming book: <a href="https://www.manning.com/books/kafka-streams-in-action">Kafka Streams in Action</a>. Apart from announcing the book, the post also contains the foreword to the book. This book is a must if you are interested in Kafka Streams!</li>
-<li><a href="https://databricks.com/blog/2018/08/09/building-a-real-time-attribution-pipeline-with-databricks-delta.html">Building a Real-Time Attribution Pipeline with Databricks Delta</a>. this blog post looks at how to use the Databricks DataFrame API to build Structured Streaming applications and use Databricks Delta to query the streams in near-real-time.</li>
-</ul>
-
-<h2 id="data-science-ai">Data Science / AI</h2>
-
-<ul>
-<li><a href="https://dzone.com/articles/model-serving-stream-processing-vs-rpc-rest-with-j">Model Serving: Stream Processing vs. RPC/REST With Java, gRPC, Apache Kafka, TensorFlow</a>. A short and sweet blog-post comparing stream processing applications with a model serving infrastructure, like <strong>TensorFlow Serving</strong>, for serving machine learning models.</li>
-<li><a href="http://blog.revolutionanalytics.com/2018/08/ieee-language-rankings-2018.html">IEEE Language Rankings 2018</a>. A post by <a href="https://twitter.com/revodavid">David</a> about the latest IEEE Spectrum language rankings.</li>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/scalable-iot-ml-platform-with-apache-kafka-deep-learning-mqtt">Scalable IoT ML Platform with Apache Kafka + Deep Learning + MQTT</a>. This post describes a hybrid machine learning infrastructure leveraging Apache Kafka as a scalable central nervous system. Very interesting!</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>I have started on the third post in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. I hope to be able to publish it in a week or so.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 
