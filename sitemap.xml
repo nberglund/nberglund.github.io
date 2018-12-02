@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</loc>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/11/25/interesting-stuff---week-47/</loc>
     <lastmod>2018-11-25T13:21:17+02:00</lastmod>
   </url>
@@ -1405,7 +1410,7 @@
   
   <url>
     <loc>/tags/java/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1621,7 +1626,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-11-25T13:21:17+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1687,7 +1692,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-11-25T13:21:17+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1729,7 +1734,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1753,7 +1758,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1967,13 +1972,13 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2018-11-25T13:21:17+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-2019/</loc>
-    <lastmod>2018-11-10T07:58:09+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2014,6 +2019,12 @@
   </url>
   
   <url>
+    <loc>/categories/sql-server-extensibility-framework/</loc>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/sql-server-linux/</loc>
     <lastmod>2017-07-16T20:34:07+02:00</lastmod>
     <priority>0</priority>
@@ -2021,13 +2032,13 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-11-25T13:21:17+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-12-02T09:36:34+02:00</lastmod>
     <priority>0</priority>
   </url>
   

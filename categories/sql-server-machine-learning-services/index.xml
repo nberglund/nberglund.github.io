@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 29 Sep 2018 12:06:09 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 02 Dec 2018 09:36:34 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Hello World</title>
+      <link>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</link>
+      <pubDate>Sun, 02 Dec 2018 09:36:34 +0200</pubDate>
+      
+      <guid>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</guid>
+      <description>&lt;p&gt;The SQL Server 2016 release introduced the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt; (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about the actual implementation of the external runtimes and &lt;code&gt;sp_execute_external_script&lt;/code&gt; in my &lt;a href=&#34;/sql_server_2k16_r_services/&#34;&gt;SQL Server R Services Series&lt;/a&gt; posts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019 for Linux in Docker on Windows</title>
@@ -177,23 +194,6 @@
 &lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Before I begin I want to say a very big &lt;strong&gt;THANK YOU&lt;/strong&gt; to &lt;a href=&#34;https://www.linkedin.com/in/umachandarjayachandran/&#34;&gt;Umachandar&lt;/a&gt; as well as &lt;a href=&#34;https://twitter.com/nelliegson&#34;&gt;Nellie Gustafsson&lt;/a&gt; who also is a SQL Server Program Manager at Microsoft. Without them making me see the &amp;ldquo;errors of my way&amp;rdquo; I would not have been able to write this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server Machine Learning Services and Extended Events</title>
-      <link>/2018/04/08/sql-server-machine-learning-services-and-extended-events/</link>
-      <pubDate>Sun, 08 Apr 2018 08:06:46 +0200</pubDate>
-      
-      <guid>/2018/04/08/sql-server-machine-learning-services-and-extended-events/</guid>
-      <description>&lt;p&gt;Back in the day when I started with the &lt;strong&gt;SQL Server R Services - Internals&lt;/strong&gt; posts, I thought I would use &lt;a href=&#34;https://technet.microsoft.com/en-us/library/bb630354(v=sql.105).aspx&#34;&gt;SQL Server Extended Events&lt;/a&gt; (XEvents) to figure things out. I knew SQL Server and the extensibility architecture supported XEvents because I had come across &lt;a href=&#34;https://docs.microsoft.com/en-us/sql/advanced-analytics/r/extended-events-for-sql-server-r-services&#34;&gt;this&lt;/a&gt; documentation, where it (amongst other things) said:&lt;/p&gt;
-
-&lt;p&gt;&amp;ldquo;&lt;em&gt;SQL Server provides a set of extended events to use in troubleshooting operations related to the SQL Server Trusted Launchpad, as well as Python or R jobs sent to SQL Server.&lt;/em&gt;&amp;ldquo;&lt;/p&gt;
-
-&lt;p&gt;From the above, it is pretty clear that XEvents is the way to go when drilling down into how things &amp;ldquo;hang together&amp;rdquo;. However, how hard I tried, I could not make &amp;ldquo;head or tails&amp;rdquo; of how to get things to work (I should probably have tried harder), so in the end, I went the &lt;strong&gt;WinDbg&lt;/strong&gt; and &lt;strong&gt;WireShark&lt;/strong&gt; route.&lt;/p&gt;
-
-&lt;p&gt;Fast forward a year (and a bit) and someone asked a question on an internal forum about XEvents and &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt;, and I decided to look into it and to try to understand it a bit better. So this post is the result of me &lt;del&gt;playing around with&lt;/del&gt; researching XEvents and SQL Server Machine Learning Services.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

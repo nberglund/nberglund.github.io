@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 25 Nov 2018 13:21:17 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 02 Dec 2018 09:36:34 +0200</lastBuildDate>
     
 	<atom:link href="/tags/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Hello World</title>
+      <link>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</link>
+      <pubDate>Sun, 02 Dec 2018 09:36:34 +0200</pubDate>
+      
+      <guid>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</guid>
+      <description>&lt;p&gt;The SQL Server 2016 release introduced the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt; (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about the actual implementation of the external runtimes and &lt;code&gt;sp_execute_external_script&lt;/code&gt; in my &lt;a href=&#34;/sql_server_2k16_r_services/&#34;&gt;SQL Server R Services Series&lt;/a&gt; posts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 47</title>
@@ -203,25 +220,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;Seeing that I never really have played around with &lt;em&gt;SQL Server for Linux&lt;/em&gt;, mostly due to that in previous versions (2017) it did not have support for In-Database analytics, I thought that now would be a good time to have a look.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>What is New in SQL Server 2019 Public Preview</title>
-      <link>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</link>
-      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
-      
-      <guid>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</guid>
-      <description>&lt;p&gt;If you read my roundup for &lt;a href=&#34;/2018/09/23/interesting-stuff---week-38/&#34;&gt;week 38&lt;/a&gt;, which I published yesterday, you probably noticed that &lt;a href=&#34;https://www.microsoft.com/en-us/ignite&#34;&gt;&lt;strong&gt;MS Ignite&lt;/strong&gt;&lt;/a&gt; started today. I mentioned in the post that I was particularly interested in some of the &lt;strong&gt;SQL Server&lt;/strong&gt; sessions, as they looked very interesting.&lt;/p&gt;
-
-&lt;p&gt;However, even before the sessions started, Microsoft released SQL Server 2019 CTP 2.0 for public preview and, naturally, I jumped on the &lt;a href=&#34;https://www.microsoft.com/en-us/evalcenter/evaluate-sql-server-2019-ctp&#34;&gt;download link&lt;/a&gt; and started downloading. I managed to get to the link in time before the rest of the world started the download, so I managed to get it down and then did an install.&lt;/p&gt;
-
-&lt;p&gt;The rest of this post is about my initial findings mostly in the SQL Server Machine Learning Services space.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I have looked at SQL Server 2019 the grand total of an hour, so this is a short post.&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
