@@ -3,10 +3,74 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-12-08T19:52:11+02:00</updated>
+  <updated>2018-12-09T07:18:55+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 49]]></title>
+    <link href="http://nielsberglund.com/2018/12/09/interesting-stuff---week-49/" rel="alternate" type="text/html"/>
+    <updated>2018-12-09T07:18:55+02:00</updated>
+    <id>http://nielsberglund.com/2018/12/09/interesting-stuff---week-49/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://medium.com/s/story/lets-take-a-crack-at-understanding-distributed-consensus-dad23d0dc95">How Does Distributed Consensus Work?</a>. This is an excellent blog post discussing distributed computing and distributed consensus. I learned a lot for the post!</li>
+<li><a href="https://cloudblogs.microsoft.com/opensource/2018/12/04/announcing-service-fabric-provider-bosh">Announcing the Service Fabric provider for Bosh</a>. This is an announcement from Microsoft how Service Fabric can now me deployed an managed by <a href="https://bosh.io/docs/">Bosh</a>. BOSH is a project that unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/12/04/announcing-net-core-3-preview-1-and-open-sourcing-windows-desktop-frameworks/">Announcing .NET Core 3 Preview 1 and Open Sourcing Windows Desktop Frameworks</a>. A blog post from Microsoft, announcing a preview of .NET Core 3. In .NET Core 3 Microsoft includes Windows Forms, WPF and WinUI, and they open-source them! Who&rsquo;d have thunk!</li>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/12/04/announcing-ml-net-0-8-machine-learning-for-net/">Announcing ML.NET 0.8 – Machine Learning for .NET</a>. Microsoft has just released version .8 of Machine Learning for .NET (ML.NET), and this blog post provides details about some of the new/improved functionality.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://data-artisans.com/blog/5-steps-flink-application-development">5 “baby” steps to develop a Flink application</a>. A short an sweet introduction how to get up and running with Apache Flink.</li>
+<li><a href="https://www.confluent.io/blog/kafka-streams-ksql-minimum-privileges">Kafka Streams and KSQL with Minimum Privileges</a>. You should read this blog post if you are working with Kafka. It discusses security, and how to apply security with minimum privileges.</li>
+</ul>
+
+<h2 id="sql-server">SQL Server</h2>
+
+<ul>
+<li><a href="http://sql-sasquatch.blogspot.com/2018/12/fun-with-sql-server-query-store-query.html">Fun with SQL Server Query Store, Query Plan &lsquo;StatisticsInfo&rsquo; XML nodes, and STATS_STREAM</a>. A very cool blog post by <a href="https://twitter.com/sqL_handLe">Lonny</a> where he has fun with SQL Server query related &ldquo;stuff&rdquo;.</li>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/11/06/the-november-release-of-azure-data-studio-is-now-available/">The November release of Azure Data Studio is now available</a>. The title says it all. The blog post discusses new/improved functionality in the November release of Azure Data Studio. I have found myself quite like ADS, and are doing most of my &ldquo;stuff&rdquo; in ADS instead of in SSMS; they said you can&rsquo;t learn old dogs new tricks - hah!</li>
+</ul>
+
+<h2 id="sql-server-2019">SQL Server 2019</h2>
+
+<ul>
+<li><a href="https://buckwoody.wordpress.com/2018/12/03/learning-areas-for-sql-server-big-data-clusters/">Learning Areas for SQL Server Big Data Clusters</a>. A teaser from <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a>, where he talks about upcoming training and workshops related to <strong>SQL Server 2019 Big Data Clusters</strong>. He also lists some resources to start to get to understand all the new technologies in <strong>SQL Server 2019 Big Data Clusters</strong>.</li>
+<li><a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</a>. I continue my journey with SQL Server 2019 Java extensions. In this post, I look at how we pass data back and forth between SQL Server and Java.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQL Server 2019 Extensibility Framework &amp; Java - Passing Data]]></title>
@@ -2503,121 +2567,6 @@ print (sys.version)'
 <p>and finally Durban:</p>
 
 <ul>
-<li><a href="http://www.sqlsaturday.com/803/EventHome.aspx">Durban</a>, September 15:
-
-<ul>
-<li><a href="http://www.sqlsaturday.com/803/Sessions/Details.aspx?sid=85097">The Ins and Outs of sp_execute_external_script</a>.</li>
-</ul></li>
-</ul>
-
-<p>Even if you are not interested in the topics I present, please register and come and listen to a lot of interesting talks by some of the industry&rsquo;s brightest people.</p>
-
-<h3 id="precon">PreCon</h3>
-
-<p>This year I also do precons in Cape Town and Durban on the Friday before the SQL Saturday event. My precons is a day where we talk about <strong>SQL Server Machine Learning Services</strong>, what it is and what we can do with it. It is in a format so if you want you can bring your laptop and code along as the day progresses.</p>
-
-<p>The precon is not free, but hey &hellip;</p>
-
-<ul>
-<li><a href="https://www.quicket.co.za/events/47683-sqlsaturday-cape-town-2018-precon-a-drill-down-into-sql-server-machine-learning/#/">Cape Town, September 7 - A Drill Down Into SQL Server Machine Learning Services with Niels Berglund</a>.</li>
-<li><a href="https://www.quicket.co.za/events/55545-sqlsaturday-durban-precon-2018-a-day-of-sql-server-machine-learning-services/#/">Durban, September 14 - A Day of SQL Server Machine Learning Services with Niels Berglund</a>.</li>
-</ul>
-
-<p>Even though the titles of the precons are different, I cover the same material.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 34]]></title>
-    <link href="http://nielsberglund.com/2018/08/26/interesting-stuff---week-34/" rel="alternate" type="text/html"/>
-    <updated>2018-08-26T10:22:37+02:00</updated>
-    <id>http://nielsberglund.com/2018/08/26/interesting-stuff---week-34/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="http://mattwarren.org/2018/08/21/Monitoring-and-Observability-in-the-.NET-Runtime/">Monitoring and Observability in the .NET Runtime</a>. Yet another awesome blog-post by <a href="https://twitter.com/matthewwarren">Matthew</a>. This post covers how we can monitor .NET through <em>Diagnostics</em>, <em>Profiling</em> and <em>Debugging</em>.</li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/chaos-engineering-introduction">Chaos Engineering: Building Immunity in Production Systems</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation discussing Chaos Engineering, its purpose, how to go about it, metrics to collect, the purpose of monitoring and logging, etc.</li>
-</ul>
-
-<h2 id="databases-storage">Databases / Storage</h2>
-
-<ul>
-<li><a href="https://queue.acm.org/detail.cfm?id=3236388">Mind Your State for Your State of Mind</a>. A paper by <a href="https://twitter.com/pathelland">Pat Helland</a>, where Pat explores the evolution of computation from a single process to microservices, the evolution of storage from files to key-value, and how they interact. Just as a side-note, you should read anything by Pat. He certainly knows what he is talking about!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.lightbend.com/blog/pakk-your-alpakka-reactive-streams-integrations-for-aws-azure-google-cloud">Pakk Your Alpakka: Reactive Streams Integrations For AWS, Azure, &amp; Google Cloud</a>. The link of this post had Cloud in the title, but I believe it fits better into <em>Streaming</em>. Anyway, this post links to a webinar about <a href="https://akka.io/blog/2016/08/23/intro-alpakka">Alpakka</a>. Alpakka is an integration framework for Akka Streams and the webinar looks at how Alpakka can be used for integrations with other systems.</li>
-<li><a href="https://www.youtube.com/watch?v=p9LBi11KR2c">Pat Helland | Kafka Summit 2017 Keynote (Standing on the Distributed Shoulders of Giants)</a>. Speaking about <a href="https://twitter.com/pathelland">Pat</a>. Here is a YouTube video from his Kafka Summit keynote in 2017. It is based on a paper he published in 2016: <a href="https://queue.acm.org/detail.cfm?id=2953944">Standing on Distributed Shoulders of Giants</a>.</li>
-</ul>
-
-<h2 id="cloud">Cloud</h2>
-
-<ul>
-<li><a href="http://muratbuffalo.blogspot.com/2018/08/logical-index-organization-in-cosmos-db.html">Logical index organization in Cosmos DB</a>. Another Cosmos DB post by <a href="https://twitter.com/muratdemirbas">Murat</a>. In this post, he looks at Cosmos DB&rsquo;s logical indexing subsystem.</li>
-<li><a href="https://towardsdatascience.com/from-big-data-to-micro-services-how-to-serve-spark-trained-models-through-aws-lambdas-ebe129f4849c">From Big Data to micro-services: how to serve Spark-trained models through AWS lambdas</a>. This blog-post looks at how you take a Spark trained model, deploy it to AWS and expose it as an AWS Lambda endpoint. Very cool!</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://blog.acolyer.org/2018/08/22/snorkel-rapid-training-data-creation-with-weak-supervision/">Snorkel: rapid training data creation with weak supervision</a>. In this post <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white paper which tackles one of the central questions in supervised machine learning: how do you get a large enough set of training data to power modern deep models?</li>
-<li><a href="http://luisquintanilla.me/2018/08/21/serverless-machine-learning-mlnet-azure-functions/">Serverless Machine Learning with ML.NET and Azure Functions</a>. Earlier in this weeks roundup, I linked to a post about Spark models and AWS Lambdas. This post talks about training a classification model using <a href="https://www.microsoft.com/net/learn/apps/machine-learning-and-ai/ml-dotnet">ML.NET</a> and deploy it with <a href="https://azure.microsoft.com/en-us/services/functions/">Azure Functions</a>.</li>
-<li><a href="https://blogs.msdn.microsoft.com/data_insights_global_practice/2018/08/22/measuring-model-goodness-part-1/">Measuring Model Goodness – Part 1</a>. This post, which is part one of two-part series, is focused on measuring model goodness, specifically looking at quantifying business value and converting typical machine learning performance metrics (like precision, recall, RMSE, etc.) to business metrics.</li>
-<li><a href="http://101.datascience.community/2018/08/24/microsoft-weekly-data-science-news-for-august-24-2018">MICROSOFT WEEKLY DATA SCIENCE NEWS FOR AUGUST 24, 2018</a>. I found the <a href="https://blogs.msdn.microsoft.com/data_insights_global_practice/2018/08/22/measuring-model-goodness-part-1/">Measuring Model Goodness</a> post above thanks to <a href="https://twitter.com/ryanswanstrom">Ryan&rsquo;s</a> blog and this post. Ryan&rsquo;s blog is awesome if you are interested in what Microsoft does in data science and AI!</li>
-</ul>
-
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
-
-<p>The third post in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series, which I promised a couple of weeks ago would soon be finished has to wait a bit. Reason for this is my prep for the upcoming SQL Saturdays.</p>
-
-<p>As usual I present in Johannesburg, Cape Town and Durban:</p>
-
-<ul>
-<li><a href="http://www.sqlsaturday.com/785/EventHome.aspx">Johannesburg</a>, September 1:
-
-<ul>
-<li><a href="http://www.sqlsaturday.com/785/Sessions/Details.aspx?sid=84967">Overview SQL Server Machine Learning Services</a>.</li>
-</ul></li>
-</ul>
-
-<p><img src="/images/posts/sqlsat793_speaking_300x225.png" alt="" /></p>
-
-<ul>
-<li><a href="http://www.sqlsaturday.com/793/EventHome.aspx">Cape Town</a>, September 8:
-
-<ul>
-<li><a href="http://www.sqlsaturday.com/793/Sessions/Details.aspx?sid=84975">Azure Machine Learning</a>.</li>
-<li><a href="http://www.sqlsaturday.com/793/Sessions/Details.aspx?sid=84978">The Ins and Outs of sp_execute_external_script</a>.</li>
-</ul></li>
 <li><a href="http://www.sqlsaturday.com/803/EventHome.aspx">Durban</a>, September 15:
 
 <ul>

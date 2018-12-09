@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/12/09/interesting-stuff---week-49/</loc>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/</loc>
     <lastmod>2018-12-08T19:52:11+02:00</lastmod>
   </url>
@@ -1018,7 +1023,7 @@
   
   <url>
     <loc>/tags/azure-data-studio/</loc>
-    <lastmod>2018-09-30T13:13:43+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1238,7 +1243,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2018-12-02T14:43:12+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1296,7 +1301,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2018-12-02T14:43:12+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1368,7 +1373,7 @@
   
   <url>
     <loc>/tags/flink/</loc>
-    <lastmod>2018-12-02T14:43:12+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1420,7 +1425,7 @@
   
   <url>
     <loc>/tags/java/</loc>
-    <lastmod>2018-12-08T19:52:11+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1444,7 +1449,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2018-12-02T14:43:12+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1636,7 +1641,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-08T19:52:11+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1702,7 +1707,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-12-08T19:52:11+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1828,7 +1833,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2018-12-02T14:43:12+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1940,7 +1945,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2018-11-25T13:21:17+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1982,7 +1987,7 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2018-12-08T19:52:11+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2001,6 +2006,18 @@
   <url>
     <loc>/categories/sql-server-2019-big-data-cluster/</loc>
     <lastmod>2018-11-10T07:58:09+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sql-server-2019-big-data-clusters/</loc>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sql-server-2019-java-extension/</loc>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2042,7 +2059,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-12-08T19:52:11+02:00</lastmod>
+    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
     <priority>0</priority>
   </url>
   
