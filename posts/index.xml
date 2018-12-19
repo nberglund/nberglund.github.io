@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 16 Dec 2018 18:45:34 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 19 Dec 2018 17:12:39 +0200</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Null Values</title>
+      <link>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</link>
+      <pubDate>Wed, 19 Dec 2018 17:12:39 +0200</pubDate>
+      
+      <guid>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</guid>
+      <description>&lt;p&gt;This post is the third post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous two posts are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;: We looked at installing and enabling the Java extension, as well as some very basic Java code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Passing Data&lt;/a&gt;: In this post we discussed what is required to pass data back and forth between SQL Server and Java.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In this post we look at something related to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;data passing post&lt;/a&gt;; how to handle null values.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 50 &amp; Year End!</title>
@@ -200,28 +218,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;Since I am a complete novice when it comes to Kubernetes, this post covers both how I set up AKS as well as the deployment of &lt;strong&gt;SQL Server 2019 Big Data Clusters&lt;/strong&gt; to AKS, and the post is somewhat a summary of the official &lt;a href=&#34;https://docs.microsoft.com/en-us/sql/big-data-cluster/big-data-cluster-overview?view=sqlallproducts-allversions&#34;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 44</title>
-      <link>/2018/11/04/interesting-stuff---week-44/</link>
-      <pubDate>Sun, 04 Nov 2018 18:54:29 +0200</pubDate>
-      
-      <guid>/2018/11/04/interesting-stuff---week-44/</guid>
-      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

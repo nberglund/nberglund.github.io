@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 09 Dec 2018 07:18:55 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 19 Dec 2018 17:12:39 +0200</lastBuildDate>
     
 	<atom:link href="/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Null Values</title>
+      <link>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</link>
+      <pubDate>Wed, 19 Dec 2018 17:12:39 +0200</pubDate>
+      
+      <guid>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</guid>
+      <description>&lt;p&gt;This post is the third post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous two posts are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;: We looked at installing and enabling the Java extension, as well as some very basic Java code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Passing Data&lt;/a&gt;: In this post we discussed what is required to pass data back and forth between SQL Server and Java.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In this post we look at something related to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;data passing post&lt;/a&gt;; how to handle null values.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 49</title>

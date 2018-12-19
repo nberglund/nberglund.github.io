@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 08 Dec 2018 19:52:11 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 19 Dec 2018 17:12:39 +0200</lastBuildDate>
     
 	<atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Null Values</title>
+      <link>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</link>
+      <pubDate>Wed, 19 Dec 2018 17:12:39 +0200</pubDate>
+      
+      <guid>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</guid>
+      <description>&lt;p&gt;This post is the third post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous two posts are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;: We looked at installing and enabling the Java extension, as well as some very basic Java code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Passing Data&lt;/a&gt;: In this post we discussed what is required to pass data back and forth between SQL Server and Java.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In this post we look at something related to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;data passing post&lt;/a&gt;; how to handle null values.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</title>
@@ -172,21 +190,6 @@
 &lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Installing R Packages in SQL Server Machine Learning Services - II</title>
-      <link>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</link>
-      <pubDate>Sat, 30 Jun 2018 16:57:01 +0200</pubDate>
-      
-      <guid>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</guid>
-      <description>&lt;p&gt;This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.&lt;/p&gt;
-
-&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
