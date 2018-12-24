@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/12/24/sql-server-ml-services---multiple-input-data-sets/</loc>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</loc>
     <lastmod>2018-12-19T17:12:39+02:00</lastmod>
   </url>
@@ -1253,13 +1258,13 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2018-12-16T18:45:34+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/data-science/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1518,6 +1523,12 @@
   </url>
   
   <url>
+    <loc>/tags/machine-learning/</loc>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/managed-data/</loc>
     <lastmod>2017-02-05T09:58:12+02:00</lastmod>
     <priority>0</priority>
@@ -1651,7 +1662,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1717,7 +1728,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1759,7 +1770,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1783,7 +1794,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1961,7 +1972,7 @@
   
   <url>
     <loc>/categories/sql-server/</loc>
-    <lastmod>2018-11-10T07:58:09+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2075,13 +2086,13 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-12-19T17:12:39+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2099,7 +2110,7 @@
   
   <url>
     <loc>/tags/sql-server-r-services/</loc>
-    <lastmod>2018-11-04T18:54:29+02:00</lastmod>
+    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   

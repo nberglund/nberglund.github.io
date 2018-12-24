@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 10 Nov 2018 07:58:09 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 24 Dec 2018 06:51:12 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server ML Services - Multiple Input Data Sets</title>
+      <link>/2018/12/24/sql-server-ml-services---multiple-input-data-sets/</link>
+      <pubDate>Mon, 24 Dec 2018 06:51:12 +0200</pubDate>
+      
+      <guid>/2018/12/24/sql-server-ml-services---multiple-input-data-sets/</guid>
+      <description>&lt;p&gt;This post came about due to a question on the &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/home?forum=MicrosoftR&#34;&gt;Microsoft Machine Learning Server&lt;/a&gt; forum. The &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/70e3577c-58f1-40af-9f0b-546c8b181cfa/sql-server-r-services-are-more-input-datasets-planned-or-under-development?forum=MicrosoftR&#34;&gt;question&lt;/a&gt; was if there are any plans by Microsoft to support more the one input dataset (&lt;code&gt;@input_data_1&lt;/code&gt;) in &lt;code&gt;sp_execute_external_script&lt;/code&gt;. My immediate reaction was that if you want more than one dataset, you can always connect from the script back into the database, and retrieve data.&lt;/p&gt;
+
+&lt;p&gt;However, the poster was well aware of that, but due to certain reasons he did not want to do it that way - he wanted to push in the data, fair enough. When I read this, I seemed to remember something from a while ago, where, instead of retrieving data from inside the script, they pushed in the data, serialized it as an output parameter and then used the binary representation as in input parameter (yeah - this sounds confusing, but bear with me). I did some research (read Googling), and found &lt;a href=&#34;https://stackoverflow.com/questions/42918990/how-to-pass-two-sql-tables-as-input-parameter-for-r-codes-in-sql-server&#34;&gt;this&lt;/a&gt; StackOverflow question, and answer. So for future questions, and for me to remember, I decided to write a blog post about it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019 Big Data Cluster on Azure Kubernetes Service</title>
@@ -184,25 +197,6 @@
 &lt;p&gt;&lt;strong&gt;Code Snippet 2:&lt;/strong&gt; &lt;em&gt;Test Script for Python&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Cool, all is &amp;ldquo;A-OK&amp;rdquo;! A couple of days go by, and I see that there is a Cumulative Update (CU) for SQL Server 2017 - CU7. I install it and does not think much about it. I mean: &amp;ldquo;what can go wrong, how hard can it be?&amp;rdquo;. A couple of days later and I am busy writing the follow-up post to &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;sp_execute_external_script and SQL Compute Context - I&lt;/a&gt; when I try to execute &lt;code&gt;sp_execute_external_script&lt;/code&gt;, and it falls over!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>sp_execute_external_script and SQL Compute Context - I</title>
-      <link>/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/</link>
-      <pubDate>Sun, 20 May 2018 10:46:52 +0200</pubDate>
-      
-      <guid>/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/</guid>
-      <description>&lt;p&gt;The last &lt;a href=&#34;/2018/03/21/microsoft-sql-server-r-services---sp_execute_external_script---iii/&#34;&gt;blog post&lt;/a&gt; in the &lt;a href=&#34;/sql_server_2k16_r_services&#34;&gt;Microsoft SQL Server R Services&lt;/a&gt; series covered some performance related parameters of &lt;code&gt;sp_execute_external_script&lt;/code&gt;, (&lt;code&gt;@parallel&lt;/code&gt; and &lt;code&gt;@r_rowsPerRead&lt;/code&gt;), and it touched a little bit on &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;After I published the post, I received an email from &lt;a href=&#34;https://www.linkedin.com/in/umachandarjayachandran/&#34;&gt;Umachandar Jayachandran&lt;/a&gt; who is a Principal Program Manager in the SQL Server team and is working on integration of R, Python and other runtimes into SQL Server (basically, he knows this &amp;ldquo;stuff&amp;rdquo;). In the mail, he said that I was somewhat incorrect in what I said about how the &lt;strong&gt;SQL Server Compute Context&lt;/strong&gt; (SQLCC) works.&lt;/p&gt;
-
-&lt;p&gt;So I decided to write a post to correct my mistakes, and this is it. While I wrote this post I realized that there are more to the SQL compute context that meets ones eye, so I will - in all likelihood - write more posts about SQLCC.&lt;/p&gt;
-
-&lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Before I begin I want to say a very big &lt;strong&gt;THANK YOU&lt;/strong&gt; to &lt;a href=&#34;https://www.linkedin.com/in/umachandarjayachandran/&#34;&gt;Umachandar&lt;/a&gt; as well as &lt;a href=&#34;https://twitter.com/nelliegson&#34;&gt;Nellie Gustafsson&lt;/a&gt; who also is a SQL Server Program Manager at Microsoft. Without them making me see the &amp;ldquo;errors of my way&amp;rdquo; I would not have been able to write this post.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
