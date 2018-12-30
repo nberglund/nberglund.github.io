@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 24 Dec 2018 06:51:12 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 30 Dec 2018 12:24:53 +0200</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; Java - Misc. &#39;Stuff&#39;</title>
+      <link>/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/</link>
+      <pubDate>Sun, 30 Dec 2018 12:24:53 +0200</pubDate>
+      
+      <guid>/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/</guid>
+      <description>&lt;p&gt;This post is the fourth post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous three posts are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;: We looked at installing and enabling the Java extension, as well as some very basic Java code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Passing Data&lt;/a&gt;: In this post, we discussed what is required to pass data back and forth between SQL Server and Java.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Null Values&lt;/a&gt;: This, the &lt;a href=&#34;/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/&#34;&gt;Null Values&lt;/a&gt;, post is a follow up to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;Passing Data&lt;/a&gt; post, and we look at how to handle &lt;code&gt;null&lt;/code&gt; values in data passed to Java.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This fourth post acts as a &amp;ldquo;roundup&amp;rdquo; of miscellaneous &amp;ldquo;stuff&amp;rdquo; I did not cover in the three previous posts, and some of the things we look at are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Java packages.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;CLASSPATH&lt;/code&gt; environment variable.&lt;/li&gt;
+&lt;li&gt;JAR files.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Ok, let us get into it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server ML Services - Multiple Input Data Sets</title>
@@ -135,7 +162,7 @@
       <description>&lt;p&gt;The SQL Server 2016 release introduced the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt; (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about the actual implementation of the external runtimes and &lt;code&gt;sp_execute_external_script&lt;/code&gt; in my &lt;a href=&#34;/sql_server_2k16_r_services/&#34;&gt;SQL Server R Services Series&lt;/a&gt; posts.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about the actual implementation of the external runtimes and &lt;code&gt;sp_execute_external_script&lt;/code&gt; in my &lt;a href=&#34;/sql_server_2k16_r_services&#34;&gt;SQL Server R Services Series&lt;/a&gt; posts.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
@@ -171,28 +198,6 @@
       <pubDate>Sun, 18 Nov 2018 08:22:25 +0200</pubDate>
       
       <guid>/2018/11/18/interesting-stuff---week-46/</guid>
-      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 45</title>
-      <link>/2018/11/11/interesting-stuff---week-45/</link>
-      <pubDate>Sun, 11 Nov 2018 08:05:58 +0200</pubDate>
-      
-      <guid>/2018/11/11/interesting-stuff---week-45/</guid>
       <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
 
 &lt;ul&gt;

@@ -272,7 +272,7 @@
     <p>The SQL Server 2016 release introduced the <strong>SQL Server Extensibility Framework</strong> (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure <code>sp_execute_external_script</code>. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.</p>
 
 <blockquote>
-<p><strong>NOTE:</strong> You can read more about the actual implementation of the external runtimes and <code>sp_execute_external_script</code> in my <a href="/sql_server_2k16_r_services/">SQL Server R Services Series</a> posts.</p>
+<p><strong>NOTE:</strong> You can read more about the actual implementation of the external runtimes and <code>sp_execute_external_script</code> in my <a href="/sql_server_2k16_r_services">SQL Server R Services Series</a> posts.</p>
 </blockquote>
 
 <p>In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.</p>
@@ -283,7 +283,7 @@
 
 <h2 id="r-python-basics">R/Python Basics</h2>
 
-<p>In my <a href="/sql_server_2k16_r_services/">SQL Server R Services</a> series  talked about the components which make up <strong>SQL Server Machine Learning Services</strong>, and we saw how the flow when we execute an external script, looks something like so:</p>
+<p>In my <a href="/sql_server_2k16_r_services">SQL Server R Services</a> series  talked about the components which make up <strong>SQL Server Machine Learning Services</strong>, and we saw how the flow when we execute an external script, looks something like so:</p>
 
 <p><img src="/images/posts/sql_2k19_java_intro_flow1.png" alt="" /></p>
 
@@ -426,7 +426,7 @@ RECONFIGURE WITH OVERRIDE
 <p>The code we see in <em>Code Snippet 4</em> adds two new directories to the existing <code>CLASSPATH</code> variable, delimited with colons.</p>
 
 <blockquote>
-<p><strong>NOTE:</strong> It is not absolutely necessary to have the <code>CLASSPATH</code> variable set. In a future post we see how we can do without it.</p>
+<p><strong>NOTE:</strong> It is not absolutely necessary to have the <code>CLASSPATH</code> variable set. In <a href="/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/">SQL Server 2019 Extensibility Framework &amp; Java - Misc. &lsquo;Stuff&rsquo;</a> we see how we can do without it.</p>
 </blockquote>
 
 <h4 id="permissions">Permissions</h4>

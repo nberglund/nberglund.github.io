@@ -26,7 +26,7 @@
 
 
 
-<meta property="og:updated_time" content="2018-12-24T06:51:12&#43;02:00"/>
+<meta property="og:updated_time" content="2018-12-30T12:24:53&#43;02:00"/>
 
 
 
@@ -198,6 +198,39 @@
     
       <div class="post-list__item">
         <span class="item__title--big">
+          <a href="/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/">SQL Server 2019 Extensibility Framework &amp; Java - Misc. &#39;Stuff&#39;</a>
+        </span>
+        <span class="item__date">
+          Dec 30, 2018
+        </span>
+        <p>This post is the fourth post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous three posts are:</p>
+
+<ul>
+<li><a href="/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/">SQL Server 2019 Extensibility Framework &amp; Java - Hello World</a>: We looked at installing and enabling the Java extension, as well as some very basic Java code.</li>
+<li><a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</a>: In this post, we discussed what is required to pass data back and forth between SQL Server and Java.</li>
+<li><a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">SQL Server 2019 Extensibility Framework &amp; Java - Null Values</a>: This, the <a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">Null Values</a>, post is a follow up to the <a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">Passing Data</a> post, and we look at how to handle <code>null</code> values in data passed to Java.</li>
+</ul>
+
+<p>This fourth post acts as a &ldquo;roundup&rdquo; of miscellaneous &ldquo;stuff&rdquo; I did not cover in the three previous posts, and some of the things we look at are:</p>
+
+<ul>
+<li>Java packages.</li>
+<li>The <code>CLASSPATH</code> environment variable.</li>
+<li>JAR files.</li>
+</ul>
+
+<p>Ok, let us get into it.</p>
+
+<p></p>
+        
+        <div class="read-more-link">
+            <a href="/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/">Read More…</a>
+        </div>
+        
+        </div>
+        
+      <div class="post-list__item">
+        <span class="item__title--big">
           <a href="/2018/12/24/sql-server-ml-services---multiple-input-data-sets/">SQL Server ML Services - Multiple Input Data Sets</a>
         </span>
         <span class="item__date">
@@ -356,7 +389,7 @@
         <p>The SQL Server 2016 release introduced the <strong>SQL Server Extensibility Framework</strong> (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure <code>sp_execute_external_script</code>. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.</p>
 
 <blockquote>
-<p><strong>NOTE:</strong> You can read more about the actual implementation of the external runtimes and <code>sp_execute_external_script</code> in my <a href="/sql_server_2k16_r_services/">SQL Server R Services Series</a> posts.</p>
+<p><strong>NOTE:</strong> You can read more about the actual implementation of the external runtimes and <code>sp_execute_external_script</code> in my <a href="/sql_server_2k16_r_services">SQL Server R Services Series</a> posts.</p>
 </blockquote>
 
 <p>In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.</p>
