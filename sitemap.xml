@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/</loc>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/</loc>
     <lastmod>2018-12-30T12:24:53+02:00</lastmod>
   </url>
@@ -1263,7 +1268,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2018-12-24T06:51:12+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1321,7 +1326,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2018-12-16T18:45:34+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1451,7 +1456,7 @@
   
   <url>
     <loc>/tags/java/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1481,7 +1486,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2018-12-16T18:45:34+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1679,7 +1684,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1745,7 +1750,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1787,7 +1792,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1871,7 +1876,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2018-12-16T18:45:34+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1909,6 +1914,10 @@
     <loc>/tags/ryujit/</loc>
     <lastmod>2017-07-30T14:23:33+02:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/s2k19_ext_framework_java/</loc>
   </url>
   
   <url>
@@ -1983,7 +1992,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2018-12-09T07:18:55+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2060,6 +2069,12 @@
   </url>
   
   <url>
+    <loc>/tags/sql-server-2019-java-extensions/</loc>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/sql-server-2019-for-linux/</loc>
     <lastmod>2018-09-30T13:13:43+02:00</lastmod>
     <priority>0</priority>
@@ -2103,7 +2118,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2205,7 +2220,7 @@
   
   <url>
     <loc>/tags/stream-processing/</loc>
-    <lastmod>2018-03-04T19:29:44+02:00</lastmod>
+    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
     <priority>0</priority>
   </url>
   

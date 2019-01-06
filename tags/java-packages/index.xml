@@ -18,13 +18,9 @@
       <pubDate>Sun, 30 Dec 2018 12:24:53 +0200</pubDate>
       
       <guid>/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/</guid>
-      <description>&lt;p&gt;This post is the fourth post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous three posts are:&lt;/p&gt;
+      <description>&lt;p&gt;This post is the fourth post in a series where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server.&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;: We looked at installing and enabling the Java extension, as well as some very basic Java code.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Passing Data&lt;/a&gt;: In this post, we discussed what is required to pass data back and forth between SQL Server and Java.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Null Values&lt;/a&gt;: This, the &lt;a href=&#34;/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/&#34;&gt;Null Values&lt;/a&gt;, post is a follow up to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;Passing Data&lt;/a&gt; post, and we look at how to handle &lt;code&gt;null&lt;/code&gt; values in data passed to Java.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This fourth post acts as a &amp;ldquo;roundup&amp;rdquo; of miscellaneous &amp;ldquo;stuff&amp;rdquo; I did not cover in the three previous posts, and some of the things we look at are:&lt;/p&gt;
 

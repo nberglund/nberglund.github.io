@@ -1,24 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2018-12-30T12:24:53+02:00</updated>
+  <updated>2019-01-06T17:13:57+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Christmas, New Year, Week 1, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-01-06T17:13:57+02:00</updated>
+    <id>http://nielsberglund.com/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This is the &ldquo;roundup&rdquo; of the posts that has been most interesting to me over the Christmas and New Year period.</p>
+
+<p></p>
+
+<h2 id="misc">Misc.</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2018/12/19/identifying-impactful-service-system-problems-via-log-analysis/">Identifying impactful service system problems via log analysis</a>. This is the dissection by <a href="https://twitter.com/adriancolyer">Adrian</a> of a white-paper about <a href="https://github.com/logpai/Log3C">Log3C</a>, which is a general framework that identifies service system problems from system logs. Go off and read <a href="https://twitter.com/adriancolyer">Adrian</a>&rsquo;s take on it, and then go and download <a href="https://github.com/logpai/Log3C">Log3C</a>!</li>
+<li><a href="https://blog.acolyer.org/2018/12/21/towards-a-theory-of-software-development-expertise/">Towards a theory of software development expertise</a>. The last paper <a href="https://twitter.com/adriancolyer">Adrian</a> looked at in 2018. The paper is about what is a good software developer, and how do you get better?</li>
+</ul>
+
+<h2 id="databases">Databases</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/devops-database">DevOps for the Database</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation trying to find the answer to why it is difficult to apply principles of DevOps to databases.</li>
+</ul>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://muratbuffalo.blogspot.com/2018/12/2-phase-commit-and-beyond.html">Two-phase commit and beyond</a>. An excellent post by <a href="https://twitter.com/muratdemirbas">Murat</a> discussing the two-phase commit protocol. It is an excellent read, and if you have any interest in distributed computing, you should read the post.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://www.kdnuggets.com/2018/08/github-python-data-science-spotlight.html">GitHub Python Data Science Spotlight: AutoML, NLP, Visualization, ML Workflows</a>. A blog post which spotlights a select group of open source Python data science projects with GitHub repos. I am particularly interested in <a href="http://autokeras.com">Auto-Keras</a>, and <a href="https://mlflow.org/docs/latest/index.html">MLFlow</a>.</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/articles/testing-aspnet-core-web-api">How to Test ASP.NET Core Web API</a>. This is an <a href="https://www.infoq.com/">InfoQ</a> article investigating testing ASP.NET Core 2.0 Web API solutions. The article looks at internal testing with Unit Testing and externally testing with a new testing framework in ASP.NET Core called <em>Integration Testing</em>.</li>
+<li><a href="https://www.infoq.com/articles/netcore-cli">A Quick Tour of the .NET CLI</a>. Another <a href="https://www.infoq.com/">InfoQ</a> article, this time it covers how several .Net OSS tools take advantage of the dotnet cli and how we can use the new cli tooling in our daily development.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/microsoft-open-sources-trill-to-deliver-insights-on-a-trillion-events-a-day/">Microsoft open sources Trill to deliver insights on a trillion events a day</a>. A blog post introducing <a href="https://github.com/Microsoft/trill">Trill</a>; a high-performance streaming analytics engine. This is something I want to keep my eyes on!</li>
+<li><a href="https://www.confluent.io/blog/easy-ways-generate-test-data-kafka">Easy Ways to Generate Test Data in Kafka</a>. As the title says, a post discussing how to generate data for testing in Kafka.</li>
+</ul>
+
+<h2 id="what-did-niels-do-during-the-holidays">What Did Niels Do During the Holidays</h2>
+
+<p>I was a, (somewhat), busy bee during the holidays and managed to publish three blog posts:</p>
+
+<ul>
+<li><a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">SQL Server 2019 Extensibility Framework &amp; Java - Null Values</a>. A post where I look at how to handle null values when calling Java code from SQL Server 2019.</li>
+<li><a href="/2018/12/24/sql-server-ml-services---multiple-input-data-sets/">SQL Server ML Services - Multiple Input Data Sets</a>. We look at how to push in multiple datasets to external scripts.</li>
+<li><a href="/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/">SQL Server 2019 Extensibility Framework &amp; Java - Misc. &ldquo;Stuff&rdquo;</a>. We look at SQL Server 2019 Java Extensions, and Java packages, the CLASSPATH and JAR files.</li>
+</ul>
+
+<p>Right now I am working on two more posts related to the <strong>SQL Server 2019 Extensibility Framework</strong>. I hope to publish at least one this coming week.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQL Server 2019 Extensibility Framework &amp; Java - Misc. &#39;Stuff&#39;]]></title>
     <link href="http://nielsberglund.com/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/" rel="alternate" type="text/html"/>
     <updated>2018-12-30T12:24:53+02:00</updated>
     <id>http://nielsberglund.com/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/</id>
-    <content type="html"><![CDATA[<p>This post is the fourth post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous three posts are:</p>
+    <content type="html"><![CDATA[<p>This post is the fourth post in a series where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server.</p>
 
-<ul>
-<li><a href="/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/">SQL Server 2019 Extensibility Framework &amp; Java - Hello World</a>: We looked at installing and enabling the Java extension, as well as some very basic Java code.</li>
-<li><a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</a>: In this post, we discussed what is required to pass data back and forth between SQL Server and Java.</li>
-<li><a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">SQL Server 2019 Extensibility Framework &amp; Java - Null Values</a>: This, the <a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">Null Values</a>, post is a follow up to the <a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">Passing Data</a> post, and we look at how to handle <code>null</code> values in data passed to Java.</li>
-</ul>
+<p>To see what other posts there are in the series, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
 
 <p>This fourth post acts as a &ldquo;roundup&rdquo; of miscellaneous &ldquo;stuff&rdquo; I did not cover in the three previous posts, and some of the things we look at are:</p>
 
@@ -1026,12 +1103,9 @@ GO
     <link href="http://nielsberglund.com/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/" rel="alternate" type="text/html"/>
     <updated>2018-12-19T17:12:39+02:00</updated>
     <id>http://nielsberglund.com/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</id>
-    <content type="html"><![CDATA[<p>This post is the third post where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server. The previous two posts are:</p>
+    <content type="html"><![CDATA[<p>This post is the third post in a series where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server.</p>
 
-<ul>
-<li><a href="/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/">SQL Server 2019 Extensibility Framework &amp; Java - Hello World</a>: We looked at installing and enabling the Java extension, as well as some very basic Java code.</li>
-<li><a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</a>: In this post we discussed what is required to pass data back and forth between SQL Server and Java.</li>
-</ul>
+<p>To see what other posts there are in the series, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
 
 <p>In this post we look at something related to the <a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">data passing post</a>; how to handle null values.</p>
 
@@ -1818,7 +1892,9 @@ SELECT @x * @y;
     <link href="http://nielsberglund.com/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/" rel="alternate" type="text/html"/>
     <updated>2018-12-08T19:52:11+02:00</updated>
     <id>http://nielsberglund.com/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/</id>
-    <content type="html"><![CDATA[<p>This post is the second post about SQL Server 2019 Extensibility Framework and the Java language extensions. In the first post, <a href="/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/">SQL Server 2019 Extensibility Framework &amp; Java - Hello World</a>, we looked at how to install and enable the Java language extensions, and we also wrote some pretty basic Java code to ensure it all worked.</p>
+    <content type="html"><![CDATA[<p>This post is the second post in a series about SQL Server 2019 Extensibility Framework and the Java language extensions. In the first post, <a href="/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/">SQL Server 2019 Extensibility Framework &amp; Java - Hello World</a>, we looked at how to install and enable the Java language extensions, and we also wrote some pretty basic Java code to ensure it all worked.</p>
+
+<p>To see what other posts there are in the series, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
 
 <p>In this post we look at how we can pass data back and forth between SQL Server and Java.</p>
 
@@ -2265,6 +2341,8 @@ GO
 </blockquote>
 
 <p>In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.</p>
+
+<p>To see what other posts there are in the series, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
 
 <p></p>
 
@@ -3861,136 +3939,6 @@ PS W:\nielsb-work\GitHub-Repos\sqlserver\dockerfiles&gt;
 <p>In the post I also spoke about <em>Azure Data Studio</em> and some of its new functionality.</p>
 
 <p>In future blog posts I will talk more about <em>SQL Server 2019 for Linux</em>, especially the In-Database analytics and the Java extensions, as well as <em>Azure Data Studio</em>.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What is New in SQL Server 2019 Public Preview]]></title>
-    <link href="http://nielsberglund.com/2018/09/24/what-is-new-in-sql-server-2019-public-preview/" rel="alternate" type="text/html"/>
-    <updated>2018-09-24T19:17:06+02:00</updated>
-    <id>http://nielsberglund.com/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</id>
-    <content type="html"><![CDATA[<p>If you read my roundup for <a href="/2018/09/23/interesting-stuff---week-38/">week 38</a>, which I published yesterday, you probably noticed that <a href="https://www.microsoft.com/en-us/ignite"><strong>MS Ignite</strong></a> started today. I mentioned in the post that I was particularly interested in some of the <strong>SQL Server</strong> sessions, as they looked very interesting.</p>
-
-<p>However, even before the sessions started, Microsoft released SQL Server 2019 CTP 2.0 for public preview and, naturally, I jumped on the <a href="https://www.microsoft.com/en-us/evalcenter/evaluate-sql-server-2019-ctp">download link</a> and started downloading. I managed to get to the link in time before the rest of the world started the download, so I managed to get it down and then did an install.</p>
-
-<p>The rest of this post is about my initial findings mostly in the SQL Server Machine Learning Services space.</p>
-
-<blockquote>
-<p><strong>NOTE:</strong> I have looked at SQL Server 2019 the grand total of an hour, so this is a short post.</p>
-</blockquote>
-
-<p></p>
-
-<h2 id="installation-versions">Installation &amp; Versions</h2>
-
-<p>First of all, the installation took forever, at least it felt that way. I believe it took around an hour, just for the install. So if you install, make sure you are not in a hurry.</p>
-
-<p>I chose to install R and Python services in-database. After the installation finished, (finally), I enabled the machine learning services:</p>
-
-<pre><code class="language-sql">EXEC sp_configure 'external scripts enabled', 1
-RECONFIGURE WITH OVERRIDE
-</code></pre>
-
-<p><strong>Code Snippet 1:</strong> <em>Enable External Scripts</em></p>
-
-<p>After executing the code in <em>Code Snippet 1</em>, I restarted the SQL Server 2019 instance, and then executed my regular &ldquo;check everything works&rdquo; code:</p>
-
-<pre><code class="language-sql">EXEC sp_execute_external_script 
-              @language = N'R'
-        , @script = N'd&lt;-42'
-
-EXEC sp_execute_external_script 
-              @language = N'Python'
-        , @script = N'd=42'
-
-EXEC sp_execute_external_script
-                  @language = N'R' ,
-                  @script = N'print(R.Version()$version)'
-
-EXEC sp_execute_external_script 
-              @language = N'Python'
-, @script = N'
-import sys
-print (sys.version)'
-</code></pre>
-
-<p><strong>Code Snippet 2:</strong> <em>Test Code</em></p>
-
-<p>As you see, the code is exceptionally advanced (not), but at least the code indicates if there are any issues. The last two <code>sp_execute_external_script</code> statements return the R and Python versions. For R the engine is now running on version <code>3.4.4</code> whereas in SQL Server 2017 it is <code>3.3.3</code>. For Python, it is the same version in both 2017 and 2019: <code>3.5.2</code>.</p>
-
-<h2 id="extensibility-framework">Extensibility Framework</h2>
-
-<p>So, when I read <a href="https://docs.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-ver15?view=sql-server-ver15">What&rsquo;s new in SQL Server 2019</a>, I came across a lot of interesting &ldquo;stuff&rdquo;, but one thing that stood out was <em>Java language programmability extensions</em>. In essence, it allows us to execute Java code in SQL Server by using a pre-built Java language extension! The way it works is as with R and Python; the code executes outside of the SQL Server engine, and you use <code>sp_execute_external_script</code> as the entry-point.</p>
-
-<p>I haven&rsquo;t had time to execute any Java code as of yet, but in the coming days, I definitely will drill into this. Something I noticed is that the architecture for SQL Server Machine Learning Services has changed (or had additions to it). If you remember from my <a href="/sql_server_2k16_r_services">SQL Server Machine Learning Services</a> posts, the flow when executing <code>sp_execute_external_script</code> looked something like so:</p>
-
-<ul>
-<li>We execute <code>sp_execute_external_script</code>.</li>
-<li>SQL Server connects to the Launchpad service.</li>
-<li>Based on the <code>@language</code> parameter, Launchpad calls into either <code>rlauncher.dll</code> or <code>pythonlauncher.dll</code>.</li>
-<li>The respective launcher then launches the external engine.</li>
-</ul>
-
-<p>If now Java is supported is there also a Java launcher? No, as it turns out, there is not, at least not what I could find. However what I did find was this:</p>
-
-<p><img src="/images/posts/sql_2k19_ml_impr1.png" alt="" /></p>
-
-<p><strong>Figure 1:</strong> <em>Common Launcher</em></p>
-
-<p>In the same directory as the R and Python launchers, I see this new <code>commonlauncher.dll</code> together with a config file. When looking at the config file I did not see anything giving any hints to what goes on, but - as I said above - I will investigate.</p>
-
-<p>At this stage I have two theories about what happens when you execute Java code:</p>
-
-<ol>
-<li>The Launchpad service knows about the Java extension: <code>javaextension.dll</code>, which is in the same directory as the launchers, and routes everything with <code>@language = Java</code> to the extension.</li>
-<li>For any <code>@language</code> parameter that is not <code>R</code> or <code>Python</code>, the Launchpad service calls the <code>commonlauncher.dll</code>.</li>
-</ol>
-
-<p>That&rsquo;s more or less what I found out after an hours &ldquo;playing around&rdquo; with SQL Server 2019 CTP 2.0.</p>
-
-<h2 id="other-interesting-stuff">Other Interesting Stuff</h2>
-
-<p>In the beginning of this post I mentioned about interesting things I found in the <a href="https://docs.microsoft.com/en-us/sql/sql-server/what-s-new-in-sql-server-ver15?view=sql-server-ver15">What&rsquo;s new &hellip;</a> article. In no particular order:</p>
-
-<h3 id="big-data-clusters">Big Data Clusters</h3>
-
-<ul>
-<li>Deploy a Big Data cluster with SQL Server and Spark Linux containers on Kubernetes</li>
-<li>Access your big data from HDFS</li>
-<li>Run Advanced analytics and machine learning with Spark</li>
-<li>Use Spark streaming to data to SQL data pools</li>
-<li>Run Query books that provide a notebook experience in Azure Data Studio.</li>
-</ul>
-
-<h3 id="data-discovery-and-classification">Data discovery and classification</h3>
-
-<ul>
-<li>Helps meet data privacy standards and regulatory compliance requirements.</li>
-<li>Supports security scenarios, such as monitoring (auditing), and alerting on anomalous access to sensitive data.</li>
-<li>Makes it easier to identify where sensitive data resides in the enterprise, so that administrators can take the right steps to secure the database.</li>
-</ul>
-
-<h3 id="sql-server-machine-learning-services-failover-clusters-and-partition-based-modeling">SQL Server Machine Learning Services failover clusters and partition based modeling</h3>
-
-<ul>
-<li>Partition-based modeling: Process external scripts per partition of your data using the new parameters added to <code>sp_execute_external_script</code>. This functionality supports training many small models (one model per partition of data) instead of one large model.</li>
-<li>Windows Server Failover Cluster: Configure high availability for Machine Learning Services on a Windows Server Failover Cluster.</li>
-</ul>
-
-<h3 id="azure-data-studio">Azure Data Studio</h3>
-
-<p>Previously released under the preview name SQL Operations Studio, Azure Data Studio is a lightweight, modern, open source, cross-platform desktop tool for the most common tasks in data development and administration. With Azure Data Studio you can connect to SQL Server on premises and in the cloud on Windows, macOS, and Linux.</p>
-
-<h2 id="other-resources">Other Resources</h2>
-
-<p><a href="https://twitter.com/aaronbertrand">Aaron Bertrand</a> has an <a href="https://www.mssqltips.com/sqlservertip/5710/whats-new-in-the-first-public-ctp-of-sql-server-2019/">awesome writeup</a> of what&rsquo;s new in SQL Server 2019 from a more database engine perspective. In that writeup he also points to more resources about SQL Server 2019.</p>
 
 <h2 id="finally">~ Finally</h2>
 
