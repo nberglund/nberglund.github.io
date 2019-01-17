@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/01/17/sql-server-2019--java-with-visual-studio-code/</loc>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/01/13/interesting-stuff---week-2-2019/</loc>
     <lastmod>2019-01-13T19:43:46+02:00</lastmod>
   </url>
@@ -1461,7 +1466,7 @@
   
   <url>
     <loc>/tags/java/</loc>
-    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1558,6 +1563,12 @@
   <url>
     <loc>/tags/managed-data/</loc>
     <lastmod>2017-02-05T09:58:12+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/maven/</loc>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1689,7 +1700,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-13T19:43:46+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1755,7 +1766,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-01-13T19:43:46+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1797,7 +1808,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1821,7 +1832,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2039,13 +2050,13 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2019-01-13T19:43:46+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-2019/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2105,13 +2116,13 @@
   
   <url>
     <loc>/tags/sql-server-extensibility-framework/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-extensibility-framework/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2123,13 +2134,13 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2019-01-06T17:13:57+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-machine-learning-services/</loc>
-    <lastmod>2018-12-30T12:24:53+02:00</lastmod>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2304,6 +2315,12 @@
   <url>
     <loc>/tags/trustworthy/</loc>
     <lastmod>2017-07-23T09:53:57+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/vs-code/</loc>
+    <lastmod>2019-01-17T06:16:42+02:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 30 Dec 2018 12:24:53 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jan 2019 06:16:42 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 &amp; Java with Visual Studio Code</title>
+      <link>/2019/01/17/sql-server-2019--java-with-visual-studio-code/</link>
+      <pubDate>Thu, 17 Jan 2019 06:16:42 +0200</pubDate>
+      
+      <guid>/2019/01/17/sql-server-2019--java-with-visual-studio-code/</guid>
+      <description>&lt;p&gt;As you know, SQL Server 2019 introduces the Java language extensions as part of the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt;. The Java language extensions make it possible to execute Java code from inside SQL Server, the same way we can run R/Python code. Seeing that I am &amp;ldquo;somewhat&amp;rdquo; interested in the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt; I wrote some posts about the Java language extensions: &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The code in the posts is very, very simplistic where I was just trying to get the ideas across how and what to do. Another reason the code is simplistic is that I am not a Java &amp;ldquo;person&amp;rdquo;; in fact, the only Java code I have ever written is what is in those posts. Me not being a Java &amp;ldquo;person&amp;rdquo; I do not have a Java IDE, (for the code I wrote I did not need one either), so I used my regular text editor &lt;a href=&#34;https://www.sublimetext.com/&#34;&gt;Sublime Text 3&lt;/a&gt;, and I compiled the code from command line (&lt;code&gt;$ javac ...&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;I then started on a new Java post (which I have not finished yet), and it became clear I needed an IDE, (intelli-sense, debug, etc.), but which IDE?&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019 Extensibility Framework &amp; Java - Misc. &#39;Stuff&#39;</title>
@@ -161,21 +176,6 @@
 &lt;p&gt;To see other posts (including this) in the series, go to &lt;a href=&#34;/spees_and_sql_compute_context&#34;&gt;&lt;strong&gt;sp_execute_external_script and SQL Server Compute Context&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the reasons for me realising that one post is not enough is that while I wrote and executed code for the first &lt;a href=&#34;/2018/05/20/sp_execute_external_script-and-sql-compute-context---i/&#34;&gt;post&lt;/a&gt;, I noticed some fairly significant performance differences using SQLCC compared to not using SQLCC (SQLCC performed better :)). So that is part of what we look at in this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Installing R Packages in SQL Server Machine Learning Services - II</title>
-      <link>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</link>
-      <pubDate>Sat, 30 Jun 2018 16:57:01 +0200</pubDate>
-      
-      <guid>/2018/06/30/installing-r-packages-in-sql-server-machine-learning-services---ii/</guid>
-      <description>&lt;p&gt;This post is the second post in a series about installing R packages in SQL Server Machine Learning Services.&lt;/p&gt;
-
-&lt;p&gt;To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
