@@ -3,10 +3,73 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-01-17T06:16:42+02:00</updated>
+  <updated>2019-01-20T18:00:59+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 3, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/01/20/interesting-stuff---week-3-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-01-20T18:00:59+02:00</updated>
+    <id>http://nielsberglund.com/2019/01/20/interesting-stuff---week-3-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="misc">Misc.</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/news/2019/01/rearchitecture-system-success">An Incremental Architecture Approach to Building Systems</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about building systems and how, to avoid over-engineering, we should start with a simple architecture and evolve it as needs arise.</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/news/2019/01/Net-Core-3-System-Data">System.Data in .NET Core 3.0</a>. The first of two <a href="https://www.infoq.com/">InfoQ</a> articles about <code>System.Data</code> in .NET Core 3.0. The article looks at what changes there are in .NET Core 3.0 for <code>System.Data</code>.</li>
+<li><a href="https://www.infoq.com/news/2019/01/Net-Core-3-System-Data-SqlClient">SQL Server and .NET Core 3.0</a>. The second <a href="https://www.infoq.com/">InfoQ</a> article about <code>System.Data</code> in .NET Core 3.0. This time the attention is at <code>System.Data.SqlClient</code>, which is the SQL Server driver.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/stream-processing-part-2-testing-your-streaming-application">Getting Your Feet Wet with Stream Processing – Part 2: Testing Your Streaming Application</a>. The second and last part of a two-part blog series about developing and validating real-time streaming applications. This post looks at how we test streaming applications.</li>
+<li><a href="https://www.infoq.com/articles/distributed-stream-processor-container">Scaling a Distributed Stream Processor in a Containerized Environment</a>. This <a href="https://www.infoq.com/">InfoQ</a> article presents ideas and experiences around scaling a distributed stream processor in Kubernetes. The article discusses how the stream processor should identify the level of resource requirement and scale accordingly.<br /></li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What is Niels Doing)</h2>
+
+<ul>
+<li><a href="/2019/01/17/sql-server-2019--java-with-visual-studio-code/">SQL Server 2019 &amp; Java with Visual Studio Code</a>. A blog-post looking at how we can write SQL Server Java code using <strong>Visual Studio Code</strong>, the <em>VS Code</em>&rsquo;s Java extension, and Maven.</li>
+</ul>
+
+<p>If you are at <a href="https://www.microsoft.com/en-za/ignite-the-tour/Johannesburg"><strong>Microsoft Ignite | The Tour</strong></a> in Johannesburg at the end of the month, please come by and say Hi! I deliver three sessions:</p>
+
+<ul>
+<li><strong>What is That Cup of Coffee Doing in my Database?</strong> - A 15 minutes whirl-wind tour about the new Java language extension in SQL Server 2019.</li>
+<li><strong>SQL Server Machine Learning Services: An E2E platform for machine learning</strong> - A 60-minute break-out session where we look at how SQL Server Machine Learning Services serves as an end-to-end ML platform for customers.</li>
+<li><strong>Deep dive on SQL Server and big data</strong> - A 60-minute break-out session where we do a deep dive behind the technology for big data integration with SQL Server including Kubernetes, Polybase futures, and scalable performance.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQL Server 2019 &amp; Java with Visual Studio Code]]></title>
@@ -4016,85 +4079,6 @@ kubectl get service service-security-lb \
 <li><a href="https://www.confluent.io/blog/ksql-recipes-available-now-stream-processing-cookbook">KSQL Recipes Available Now in the Stream Processing Cookbook</a>. A post which introduces the &ldquo;KSQL Cookbook&rdquo;: a collection of &ldquo;recipes&rdquo; designed to help people build event-driven, real-time systems.</li>
 <li><a href="https://data-artisans.com/blog/how-apache-flink-manages-kafka-consumer-offsets">How Apache Flink manages Kafka consumer offsets</a>. This post explains with a step-by-step example of how Apache Flink works with Apache Kafka to ensure that records from Kafka topics are processed with exactly-once guarantees.</li>
 </ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 40]]></title>
-    <link href="http://nielsberglund.com/2018/10/07/interesting-stuff---week-40/" rel="alternate" type="text/html"/>
-    <updated>2018-10-07T09:34:44+02:00</updated>
-    <id>http://nielsberglund.com/2018/10/07/interesting-stuff---week-40/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/10/04/update-on-net-core-3-0-and-net-framework-4-8/">Update on .NET Core 3.0 and .NET Framework 4.8</a>. A blog post from the .NET engineering team, where they talk about the future of the .NET Framework and .NET Core. I wonder if this post was prompted by speculations recently about the future of the .NET Framework, where there were questions whether the .NET Framework 4.8 would be the last version, and all development would be concentrated on .NET Core.</li>
-</ul>
-
-<h2 id="azure">Azure</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/enabling-real-time-data-warehousing-with-azure-sql-data-warehouse/">Enabling real-time data warehousing with Azure SQL Data Warehouse</a>. This post is an announcement how <a href="https://www.striim.com/">Striim</a> now fully supports SQL Data Warehouse as a target for Striim for Azure. Striim is a system which enables continuous non-intrusive performant ingestion of enterprise data from a variety of sources in real time.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/event-streaming-new-big-thing-finance">Is Event Streaming the New Big Thing for Finance?</a>. An excellent blog post by <a href="https://twitter.com/benstopford">Ben Stopford</a> where he discusses the use of event streaming in the financial sector.</li>
-<li><a href="https://www.confluent.io/blog/troubleshooting-ksql-part-2">Troubleshooting KSQL – Part 2: What’s Happening Under the Covers?</a>. The second post by <a href="https://twitter.com/rmoff">Robin Moffat</a> about debugging of KSQL. In this post - Robin, as the title says, goes under the covers to figure out what happens with KSQL queries.</li>
-<li><a href="https://data-artisans.com/blog/6-things-to-consider-when-defining-your-apache-flink-cluster-size">6 things to consider when defining your Apache Flink cluster size</a>.  This post discusses how to plan and calculate a Flink cluster size. In other words; how to define the number of resources you need to run a specific Flink job.</li>
-</ul>
-
-<h2 id="ms-ignite">MS Ignite</h2>
-
-<ul>
-<li><a href="https://buckwoody.wordpress.com/2018/10/02/syllabuck-ignite-2018-conference/">Syllabuck: Ignite 2018 Conference</a>. A great list of MS Ignite sessions that <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a> found interesting! Now I know what to do in my spare time!</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://blog.acolyer.org/2018/10/03/customized-regression-model-for-airbnb-dynamic-pricing/">Customized regression model for Airbnb dynamic pricing</a>. This post by <a href="https://twitter.com/adriancolyer">Adrian</a> is about a white-paper which details the methods that Airbnb use to suggest prices to listing hosts.</li>
-<li><a href="https://towardsdatascience.com/cleaning-and-preparing-data-in-python-494a9d51a878">Cleaning and Preparing Data in Python</a>. A post which lists Python methods and functions that helps to clean and prepare data.</li>
-<li><a href="https://www.microsoft.com/en-us/research/blog/the-microsoft-infer-net-machine-learning-framework-goes-open-source/">The Microsoft Infer.NET machine learning framework goes open source</a>. A blog post from Microsoft Research, in which they announce the open-sourcing of <a href="https://dotnet.github.io/infer/">Infer.NET</a>. Is anyone else but me somewhat confused about the various data science frameworks that Microsoft has?</li>
-<li><a href="https://towardsdatascience.com/how-to-build-a-simple-recommender-system-in-python-375093c3fb7d">How to build a Simple Recommender System in Python</a>. A blog post which discusses what a recommender system is and how you can use Python to build one.</li>
-</ul>
-
-<h2 id="what-is-niels-doing-wind">What Is Niels Doing (WIND)</h2>
-
-<p>That is a good question! As you know, I wrote two blog posts about SQL Server 2019:</p>
-
-<ul>
-<li><a href="/2018/09/24/what-is-new-in-sql-server-2019-public-preview/">What is New in SQL Server 2019 Public Preview</a></li>
-<li><a href="/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/">SQL Server 2019 for Linux in Docker on Windows</a></li>
-</ul>
-
-<p>My plan was to relatively quickly follow up those two posts with a third post how to run <strong>SQL Server Machine Learning Services</strong> on <strong>SQL Server 2019 on Linux</strong>, and do it inside a Docker container. After having spent some time trying to get it to work, (with no luck), I gave up and contacted a couple of persons in MS asking for help. The response was that, right now in <strong>SQL Server 2019 on Linux CTP 2.0</strong>, you cannot do it - bummer! The functionality will be in a future release.</p>
-
-<p>I am now reworking the post I had started on to cover <strong>SQL Server Machine Learning Services</strong> in an <strong>Ubuntu</strong> based <strong>SQL Server 2019 on Linux</strong>. I should be able to publish something within a week or two.</p>
-
-<p>I am also working on the third post in the <a href="/series/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series (still). Right now I have no idea when I can publish it - Sorry!</p>
 
 <h2 id="finally">~ Finally</h2>
 
