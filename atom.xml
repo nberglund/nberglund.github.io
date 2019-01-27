@@ -3,10 +3,77 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-01-20T18:00:59+02:00</updated>
+  <updated>2019-01-27T06:36:21+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 4, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/01/27/interesting-stuff---week-4-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-01-27T06:36:21+02:00</updated>
+    <id>http://nielsberglund.com/2019/01/27/interesting-stuff---week-4-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="cloud">Cloud</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/microsoft-tfs-azure-devops">Journey to Cloud Architecture</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation discussing the architectural challenges faced turning TFS into Azure DevOps, the evolution of the architecture, and lessons learned along the way.</li>
+</ul>
+
+<h2 id="misc">Misc.</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/articles/why-architectural-diagrams">Why Do We Need Architectural Diagrams?</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about software architecture diagrams. Software architecture diagrams, when created well, and sparingly, can greatly improve communication within the development team and with external stakeholders. They require an understanding of the intended audience and thoughtful restraint on what to include. Resist the temptation to think that diagrams are unnecessary or unhelpful, simply because there have been plenty of cases of bad diagrams.</li>
+</ul>
+
+<h2 id="azure">Azure</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/hdinsight-tools-for-visual-studio-code-now-generally-available/">HDInsight Tools for Visual Studio Code now generally available</a>. A post announcing GA (general availability) of HDInsight Tools for <strong>VS Code</strong>. Seeing that I have started using <strong>VS CODE</strong> more and more, this is something I need to check out.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/analyze-data-in-azure-data-explorer-using-kql-magic-for-jupyter-notebook/">Analyze data in Azure Data Explorer using KQL magic for Jupyter Notebook</a>. In this post, Microsoft announces the ability to, from inside a Jupyter Notebook, use <em>Keyword Query Language</em> (KQL) to query and analyze data in Azure Data Explorer. Very cool!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/confluent-raises-a-125m-series-d-funding-round">Confluent Raises a $125M Series D Funding Round</a>. This blog post is about how Confluent has raised &ldquo;some&rdquo; money from investors, good for them. What is interesting in the post for me is this: <em>We think there is a really fundamental missing ingredient in the software architecture of a company, namely the idea of &ldquo;events&rdquo;. These events are the orders, sales, and customer experiences, that constitute the operation of the business. Databases have long helped to store the current state of the world, but we think this is only half of the story. What is missing is the continually flowing stream of events that represents everything happening in a company, and that can act as the lifeblood of its operation.</em>. This is music to my ears!</li>
+<li><a href="https://www.datasciencecentral.com/profiles/blogs/apache-kafka-ksql-tensorflow-for-data-scientists-via-python">Apache Kafka + KSQL + TensorFlow for Data Scientists via Python + Jupyter Notebook</a>. A very, very interesting post, discussing how to use Kafka and KSQL together with machine learning tools such as Jupyter notebooks, Python, and deep learning frameworks.</li>
+</ul>
+
+<h2 id="msignite-the-tour">MSIgnite | The Tour</h2>
+
+<p>Later today, (Sunday, Jan 27), I am off to Johannesburg and The <strong>MSIgnite | The Tour</strong> conference, where I give some presentations on Monday and Tuesday (Jan 28 and 29):</p>
+
+<ul>
+<li><a href="http://bit.ly/2S3xtg8">What is That Cup of Coffee Doing in my Database</a>: This 15-minute talk takes a look at the new Java integration in SQL Server 2019.</li>
+<li><a href="http://bit.ly/2MvQySO">SQL Server Machine Learning Services: An E2E platform for machine learning</a>: We talk about how SQL Server Machine Learning Services can function as an end-to-end platform for AI and Machine Learning.</li>
+<li><a href="http://bit.ly/2sPvA8E">Deep dive on SQL Server and big data</a>: We look at how SQL Server 2019 Big Data Clusters work.</li>
+</ul>
+
+<p>If you are attending the conference, please come by and say Hi!</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 3, 2019]]></title>
@@ -3999,85 +4066,6 @@ kubectl get service service-security-lb \
 <li><a href="https://www.youtube.com/watch?v=v2RJQELoM6Y&amp;feature=em-uploademail">Martin Kleppmann | Kafka Summit SF 2018 Keynote (Is Kafka a Database?)</a>. Another <a href="https://kafka-summit.org/events/kafka-summit-san-francisco-2018/">Kafka Summit 2018</a> keynote video. This is <a href="https://twitter.com/martinkl">Martin Kleppmann</a> comparing Kafka to databases.<br /></li>
 <li><a href="https://www.infoq.com/articles/apache-kafka-best-practices-to-optimize-your-deployment">Apache Kafka: Ten Best Practices to Optimize Your Deployment</a>. An <a href="https://www.infoq.com/">InfoQ</a> article discussing the latest Kafka best practices for developers to manage the data streaming platform more effectively. Best practices include log configuration, proper hardware usage, Zookeeper configuration, replication factor, and partition count.</li>
 <li><a href="https://data-artisans.com/blog/watermarks-in-apache-flink-made-easy">Watermarks in Apache Flink Made Easy</a>. This blog post looks at how watermarks work in Flink.</li>
-</ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 41]]></title>
-    <link href="http://nielsberglund.com/2018/10/14/interesting-stuff---week-41/" rel="alternate" type="text/html"/>
-    <updated>2018-10-14T08:03:37+02:00</updated>
-    <id>http://nielsberglund.com/2018/10/14/interesting-stuff---week-41/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="azure">Azure</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/a-fast-serverless-big-data-pipeline-powered-by-a-single-azure-function/">A fast, serverless, big data pipeline powered by a single Azure Function</a>. This is a blog post about how to use Azure Serverless functions to build highly performant data pipelines. At work, we are looking at implementing something similar.</li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><p><a href="https://muratbuffalo.blogspot.com/2018/10/everything-is-broken.html">Everything is broken</a>. This is a very cool post by <a href="https://twitter.com/muratdemirbas">Murat</a> where he lists some very relevant quotes/statements from a recent <a href="https://www.meetup.com/Everything-Is-Broken/events/251899676/">Everything Is Broken</a> meetup he attended. Some of the quotes I particularly liked:</p>
-
-<ul>
-<li><em>Without observability you don&rsquo;t have chaos engineering, you have a chaos.</em></li>
-<li><em>You don&rsquo;t know what you don&rsquo;t know, so dashboards are very limited utility. Dashboards are only for anticipated cases: every dashboard is an artifact of past failures. There are too many dashboards, and they are too slow.</em></li>
-
-<li><p><em>prerequisites for chaos engineering:</em></p>
-
-<ol>
-<li><em>monitoring &amp; observability</em></li>
-<li><em>on-call &amp; incident management</em></li>
-<li><em>know the cost of your downtime per hour (British Airlines&rsquo;s 1 day outage costed $150 millon)</em></li>
-</ol></li>
-
-<li><p><em>How to choose a chaos experiment?</em></p>
-
-<ul>
-<li><em>identify top 5 critical systems</em></li>
-<li><em>choose 1 system</em></li>
-<li><em>whiteboard the system</em></li>
-<li><em>select attack: resource/state/network</em></li>
-<li><em>determine scope</em></li>
-</ul></li>
-</ul></li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/10/08/announcing-ml-net-0-6-machine-learning-net/">Announcing ML.NET 0.6 (Machine Learning .NET)</a>. Microsoft just released ML.NET 0.6, and this post highlights some of the new enhancements.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://medium.com/@simon.aubury/machine-learning-kafka-ksql-stream-processing-bug-me-when-ive-left-the-heater-on-bd47540cd1e8">Machine learning &amp; Kafka KSQL stream processing — bug me when I’ve left the heater on</a>. I like this post as it combines two of my favorite topics: Streaming and Machine Learning. So anyway, the post is about how you can, by using Kafka and Machine Learning, monitor household power usage and alert when something out of the ordinary occurs.</li>
-<li><a href="https://data-artisans.com/blog/an-introduction-to-acid-guarantees-and-transaction-processing">An introduction to ACID guarantees and transaction processing</a>. A while ago dataArtisans introduced serializable, distributed ACID transactions directly on data streams in Flink. This post here talks about the foundations of the capability.</li>
-<li><a href="https://www.confluent.io/blog/ksql-recipes-available-now-stream-processing-cookbook">KSQL Recipes Available Now in the Stream Processing Cookbook</a>. A post which introduces the &ldquo;KSQL Cookbook&rdquo;: a collection of &ldquo;recipes&rdquo; designed to help people build event-driven, real-time systems.</li>
-<li><a href="https://data-artisans.com/blog/how-apache-flink-manages-kafka-consumer-offsets">How Apache Flink manages Kafka consumer offsets</a>. This post explains with a step-by-step example of how Apache Flink works with Apache Kafka to ensure that records from Kafka topics are processed with exactly-once guarantees.</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
