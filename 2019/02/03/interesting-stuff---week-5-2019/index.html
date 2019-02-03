@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 4, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 5, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 4, 2019"/>
-<meta name="twitter:description" content="SQL Server 2019 Big Data Clusters, Kafka, Azure, VS Code, and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 5, 2019"/>
+<meta name="twitter:description" content="Kafka, Kubernetes, .NET Core and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 4, 2019" />
-<meta property="og:description" content="SQL Server 2019 Big Data Clusters, Kafka, Azure, VS Code, and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 5, 2019" />
+<meta property="og:description" content="Kafka, Kubernetes, .NET Core and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/01/27/interesting-stuff---week-4-2019/" />
+<meta property="og:url" content="/2019/02/03/interesting-stuff---week-5-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-01-27T06:36:21&#43;02:00"/>
+<meta property="article:published_time" content="2019-02-03T09:15:51&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-01-27T06:36:21&#43;02:00"/>
+<meta property="article:modified_time" content="2019-02-03T09:15:51&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 4, 2019</h1>
+    <h1>Interesting Stuff - Week 5, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Jan 27, 2019
+      <i class="fas fa-calendar-alt"></i> Feb 3, 2019
     
     
     
@@ -235,31 +235,22 @@
           <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
-          <a class="post__tag" href="/tags/sql-server">sql server</a>
-           
-      
           <a class="post__tag" href="/tags/sql-server-2019">sql server 2019</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-2019-big-data-clusters">sql server 2019 big data clusters</a>
            
       
           <a class="post__tag" href="/tags/sql-server-machine-learning-services">sql server machine learning services</a>
            
       
+          <a class="post__tag" href="/tags/kubernetes">kubernetes</a>
+           
+      
           <a class="post__tag" href="/tags/kafka">kafka</a>
-           
-      
-          <a class="post__tag" href="/tags/azure">azure</a>
-           
-      
-          <a class="post__tag" href="/tags/vs-code">vs code</a>
           
       
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
@@ -290,35 +281,29 @@
 
 <p></p>
 
-<h2 id="cloud">Cloud</h2>
+<h2 id="distributed-computing">Distributed Computing</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/presentations/microsoft-tfs-azure-devops">Journey to Cloud Architecture</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation discussing the architectural challenges faced turning TFS into Azure DevOps, the evolution of the architecture, and lessons learned along the way.</li>
+<li><a href="https://www.infoq.com/presentations/containers-infrastructure-virtualization">P to V to C: The Value of Bringing “Everything” to Containers</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation examining the benefits of containerization, the role of infrastructure virtualization, discussing containers, pods, controllers, policies and more.</li>
+<li><a href="https://www.infoq.com/presentations/kubernetes-yaml">Dissecting Kubernetes (K8s) - An Intro to Main Components</a>. Another <a href="https://www.infoq.com/">InfoQ</a> presentation, and in this presentation we see how to deploy containers, building up a mini cluster one Kubernetes component at a time, and it also explains what happens to the YAML files involved. The presentation is an excellent introduction to the inner workings of Kubernetes.</li>
+<li><a href="https://srcco.de/posts/kubernetes-failure-stories.html">KUBERNETES FAILURE STORIES</a>. Kubernetes is not only roses and plain sailing. This blog post looks at what can go wrong with Kubernetes.</li>
 </ul>
 
-<h2 id="misc">Misc.</h2>
+<h2 id="net">.NET</h2>
 
 <ul>
-<li><a href="https://www.infoq.com/articles/why-architectural-diagrams">Why Do We Need Architectural Diagrams?</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about software architecture diagrams. Software architecture diagrams, when created well, and sparingly, can greatly improve communication within the development team and with external stakeholders. They require an understanding of the intended audience and thoughtful restraint on what to include. Resist the temptation to think that diagrams are unnecessary or unhelpful, simply because there have been plenty of cases of bad diagrams.</li>
-</ul>
-
-<h2 id="azure">Azure</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/hdinsight-tools-for-visual-studio-code-now-generally-available/">HDInsight Tools for Visual Studio Code now generally available</a>. A post announcing GA (general availability) of HDInsight Tools for <strong>VS Code</strong>. Seeing that I have started using <strong>VS CODE</strong> more and more, this is something I need to check out.</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/analyze-data-in-azure-data-explorer-using-kql-magic-for-jupyter-notebook/">Analyze data in Azure Data Explorer using KQL magic for Jupyter Notebook</a>. In this post, Microsoft announces the ability to, from inside a Jupyter Notebook, use <em>Keyword Query Language</em> (KQL) to query and analyze data in Azure Data Explorer. Very cool!</li>
+<li><a href="https://www.infoq.com/news/2019/01/IAsyncDisposable-IAsyncEnume">Update on IAsyncDisposable and IAsyncEnumerator</a>. This <a href="https://www.infoq.com/">InfoQ</a> blog post looks at changes made recently to the .NET Core async streams proposal.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/confluent-raises-a-125m-series-d-funding-round">Confluent Raises a $125M Series D Funding Round</a>. This blog post is about how Confluent has raised &ldquo;some&rdquo; money from investors, good for them. What is interesting in the post for me is this: <em>We think there is a really fundamental missing ingredient in the software architecture of a company, namely the idea of &ldquo;events&rdquo;. These events are the orders, sales, and customer experiences, that constitute the operation of the business. Databases have long helped to store the current state of the world, but we think this is only half of the story. What is missing is the continually flowing stream of events that represents everything happening in a company, and that can act as the lifeblood of its operation.</em>. This is music to my ears!</li>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/apache-kafka-ksql-tensorflow-for-data-scientists-via-python">Apache Kafka + KSQL + TensorFlow for Data Scientists via Python + Jupyter Notebook</a>. A very, very interesting post, discussing how to use Kafka and KSQL together with machine learning tools such as Jupyter notebooks, Python, and deep learning frameworks.</li>
+<li><a href="https://www.confluent.io/blog/journey-to-event-driven-part-1-why-event-first-thinking-changes-everything">Journey to Event Driven – Part 1: Why Event-First Thinking Changes Everything</a>. This article is the first in a series about event architecture. Event-driven architecture is a topic that I am extremely interested in, so I am really looking forward to next &ldquo;episode&rdquo; in the series.</li>
 </ul>
 
-<h2 id="msignite-the-tour">MSIgnite | The Tour</h2>
+<h2 id="microsoft-ignite-the-tour">Microsoft Ignite The Tour</h2>
 
-<p>Later today, (Sunday, Jan 27), I am off to Johannesburg and The <strong>MSIgnite | The Tour</strong> conference, where I give some presentations on Monday and Tuesday (Jan 28 and 29):</p>
+<p>So, Microsoft Ignite The Tour did a stop in Johannesburg February 28 &amp; 29, and I had the privilege to present at the conference. I did three sessions:</p>
 
 <ul>
 <li><a href="http://bit.ly/2S3xtg8">What is That Cup of Coffee Doing in my Database</a>: This 15-minute talk takes a look at the new Java integration in SQL Server 2019.</li>
@@ -326,7 +311,9 @@
 <li><a href="http://bit.ly/2sPvA8E">Deep dive on SQL Server and big data</a>: We look at how SQL Server 2019 Big Data Clusters work.</li>
 </ul>
 
-<p>If you are attending the conference, please come by and say Hi!</p>
+<p>If you attended the conference and would like to get the slide decks, please <a href="mailto:niels.it.berglund@gmail.com">ping</a> me as I cannot find where to upload them to.</p>
+
+<p>I had a great time at the conference, kudos to the organizers!</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -354,16 +341,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/01/20/interesting-stuff---week-3-2019/" class="post--navigation-prev">
+    <a href="/2019/01/27/interesting-stuff---week-4-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 3, 2019</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 4, 2019</span>
     </a>
     
-    
-    <a href="/2019/02/03/interesting-stuff---week-5-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 5, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -378,18 +360,9 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
+    <a href="/2019/01/27/interesting-stuff---week-4-2019/">Interesting Stuff - Week 4, 2019</a>
       
-      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/11/25/interesting-stuff---week-47/">Interesting Stuff - Week 47</a>
-      
-      <time class="pull-right hidden-tablet">Nov 25 &#39;18</time>
+      <time class="pull-right hidden-tablet">Jan 27 &#39;19</time>
       
   </span>
 </li>
@@ -405,9 +378,9 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/">Interesting Stuff - Christmas, New Year, Week 1, 2019</a>
+    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
       
-      <time class="pull-right hidden-tablet">Jan 06 &#39;19</time>
+      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
       
   </span>
 </li>
@@ -417,6 +390,15 @@ To automatically receive more posts like this, please
     <a href="/2018/12/02/interesting-stuff---week-48/">Interesting Stuff - Week 48</a>
       
       <time class="pull-right hidden-tablet">Dec 02 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/11/25/interesting-stuff---week-47/">Interesting Stuff - Week 47</a>
+      
+      <time class="pull-right hidden-tablet">Nov 25 &#39;18</time>
       
   </span>
 </li>

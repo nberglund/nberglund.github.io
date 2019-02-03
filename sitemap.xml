@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/02/03/interesting-stuff---week-5-2019/</loc>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/01/27/interesting-stuff---week-4-2019/</loc>
     <lastmod>2019-01-27T06:36:21+02:00</lastmod>
   </url>
@@ -1288,7 +1293,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1346,7 +1351,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1506,7 +1511,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1542,7 +1547,7 @@
   
   <url>
     <loc>/tags/kubernetes/</loc>
-    <lastmod>2019-01-20T18:00:59+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1710,7 +1715,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1776,7 +1781,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1902,7 +1907,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2060,7 +2065,7 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2144,7 +2149,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
