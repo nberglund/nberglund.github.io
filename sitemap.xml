@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/02/10/interesting-stuff---week-6-2019/</loc>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/02/03/interesting-stuff---week-5-2019/</loc>
     <lastmod>2019-02-03T09:15:51+02:00</lastmod>
   </url>
@@ -909,7 +914,7 @@
   
   <url>
     <loc>/tags/.net/</loc>
-    <lastmod>2019-01-13T19:43:46+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1085,7 +1090,7 @@
   
   <url>
     <loc>/tags/azure-databricks/</loc>
-    <lastmod>2018-04-08T16:04:25+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1293,7 +1298,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1351,7 +1356,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1511,7 +1516,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1715,7 +1720,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1781,7 +1786,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1907,7 +1912,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2065,7 +2070,7 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2019-02-03T09:15:51+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2089,7 +2094,7 @@
   
   <url>
     <loc>/tags/sql-server-2019-big-data-clusters/</loc>
-    <lastmod>2019-01-27T06:36:21+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2281,7 +2286,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-01-13T19:43:46+02:00</lastmod>
+    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
     <priority>0</priority>
   </url>
   
