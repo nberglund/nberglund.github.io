@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 7, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 8, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 7, 2019"/>
-<meta name="twitter:description" content="Kafka, Azure Data Studio, Kubernetes Clusters, and other cool topics!"/>
+<meta name="twitter:title" content="Interesting Stuff - Week 8, 2019"/>
+<meta name="twitter:description" content="Weekly roundup of what interesting stuff I have read in blogs etc."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 7, 2019" />
-<meta property="og:description" content="Kafka, Azure Data Studio, Kubernetes Clusters, and other cool topics!" />
+<meta property="og:title" content="Interesting Stuff - Week 8, 2019" />
+<meta property="og:description" content="Weekly roundup of what interesting stuff I have read in blogs etc." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/02/17/interesting-stuff---week-7-2019/" />
+<meta property="og:url" content="/2019/02/24/interesting-stuff---week-8-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-02-17T08:20:06&#43;02:00"/>
+<meta property="article:published_time" content="2019-02-24T10:08:50&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-02-17T08:20:06&#43;02:00"/>
+<meta property="article:modified_time" content="2019-02-24T10:08:50&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 7, 2019</h1>
+    <h1>Interesting Stuff - Week 8, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Feb 17, 2019
+      <i class="fas fa-calendar-alt"></i> Feb 24, 2019
     
     
     
@@ -229,25 +229,16 @@
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="post__tag" href="/tags/sql-server">sql server</a>
+          <a class="post__tag" href="/tags/streaming">streaming</a>
            
       
-          <a class="post__tag" href="/tags/azure-data-studio">azure data studio</a>
-           
-      
-          <a class="post__tag" href="/tags/kafka">kafka</a>
-           
-      
-          <a class="post__tag" href="/tags/kubernetes">kubernetes</a>
-           
-      
-          <a class="post__tag" href="/tags/big-data">big data</a>
+          <a class="post__tag" href="/tags/flink">flink</a>
           
       
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
@@ -278,30 +269,15 @@
 
 <p></p>
 
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/chaos-engineering-gamedays">Chaos Engineering with Containers</a>. This <a href="https://www.infoq.com/">InfoQ</a> presentation discusses the benefits of using Chaos Engineering to inject failures to make container infrastructure more reliable.</li>
-<li><a href="https://www.infoq.com/presentations/10-kubernetes">The 10 Kubernetes Commandments</a>. The presenters in this <a href="https://www.infoq.com/">InfoQ</a> presentation explore topics from booting Kubernetes clusters to running complex workloads as a list of 10 items. They share ideas that teams can employ to make working Kubernetes less of a chore and more of a way of life.</li>
-<li><a href="https://www.infoq.com/presentations/kubernetes-stateful-containers">The Highs and Lows of Stateful Containers</a>. So far, it has been a lot of containers and <a href="https://www.infoq.com/">InfoQ</a> presentations, and the third item this week is more of the same. In this <a href="https://www.infoq.com/">InfoQ</a> presentation the presenter walks through his experiences of how to reliably run a distributed database on Kubernetes, and optimize its performance. He looks at what kinds of stateful applications can most easily be run in containers, and some pitfalls he encountered along the way.</li>
-</ul>
-
-<h2 id="sql-server">SQL Server</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/02/13/the-february-release-of-azure-data-studio-is-now-available/">The February release of Azure Data Studio is now available</a>. I must say that Azure Data Studio (ADS) has grown on me, and now I use it almost exclusively (instead of SQL Server Management Studio). The post I link to here announces the latest release of ADS with quite a few new features. Go and grab it, and see what you think.</li>
-</ul>
+<p>For some reason I did not find that much interesting to me this week, but here is what caught my eye.</p>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/kafka-connect-jdbc-source-connector-deep-dive">Kafka Connect JDBC Source Connector – Deep Dive</a>. An excellent blog post by <a href="https://twitter.com/rmoff">Robin Moffat</a>, where he drills deep into the inner workings of the Kafka Connect JDBC connector.</li>
-<li><a href="https://www.confluent.io/blog/journey-to-event-driven-part-2-programming-models-event-driven-architecture">Journey to Event Driven – Part 2: Programming Models for the Event-Driven Architecture</a>. In <a href="/2019/02/03/interesting-stuff---week-5-2019/">Interesting Stuff - Week 5, 2019</a> I linked to <a href="https://www.confluent.io/blog/journey-to-event-driven-part-1-why-event-first-thinking-changes-everything">Journey to Event Driven – Part 1: Why Event-First Thinking Changes Everything</a>. This weeks blog post is part 2 of the series, and it looks at different styles of event-driven architectures and compares and contrasts scaling, persistence and runtime models.</li>
+<li><a href="https://www.ververica.com/blog/batch-as-a-special-case-of-streaming-and-alibabas-contribution-of-blink">Batch as a Special Case of Streaming and Alibaba&rsquo;s contribution of Blink</a>. This post discusses the in-house improvements to Flink batch processing Alibaba has done and contributed to open source. Oh, when you read the post, and you wonder what Ververica is, read <a href="https://www.ververica.com/blog/introducing-our-new-name">this post</a>.</li>
+<li><a href="https://www.infoq.com/presentations/apache-flink-streaming-app">Patterns of Streaming Applications</a>. This presentation from <a href="https://www.infoq.com/">InfoQ</a> talks about a blueprint for streaming data architectures and a review of desirable features of a streaming engine. The presentation also discusses streaming application patterns and anti-patterns, and use cases and concrete examples using Apache Flink.</li>
+<li><a href="https://www.infoq.com/presentations/wepay-database-streaming">The Whys and Hows of Database Streaming</a>. This <a href="https://www.infoq.com/">InfoQ</a> presentation discusses how database streaming is becoming more and more essential and the many functions that database streaming serves. The presentation also covers challenges faced with streaming peer-to-peer distributed databases.</li>
 </ul>
-
-<h2 id="azure-force-recon">Azure Force Recon</h2>
-
-<p>I just want to remind you of the <a href="https://www.meetup.com/Azure-Transformation-Labs/events/258705868/">Azure Force Recon</a> boot camp held here in Durban February 23. I have the privilege to do a presentation: <a href="https://www.linkedin.com/feed/update/activity:6500043306041384960/">Live and Die with your Data</a>, where I talk about SQL Server 2019 Big Data Clusters. So, if you do not have anything else to do, sign up and come and hear about Azure!</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -329,16 +305,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/02/10/interesting-stuff---week-6-2019/" class="post--navigation-prev">
+    <a href="/2019/02/17/interesting-stuff---week-7-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 6, 2019</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 7, 2019</span>
     </a>
     
-    
-    <a href="/2019/02/24/interesting-stuff---week-8-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 8, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -353,15 +324,6 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2019/01/20/interesting-stuff---week-3-2019/">Interesting Stuff - Week 3, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Jan 20 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
     <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
       
       <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
@@ -371,27 +333,36 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/02/03/interesting-stuff---week-5-2019/">Interesting Stuff - Week 5, 2019</a>
+    <a href="/2018/11/11/interesting-stuff---week-45/">Interesting Stuff - Week 45</a>
       
-      <time class="pull-right hidden-tablet">Feb 03 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/01/27/interesting-stuff---week-4-2019/">Interesting Stuff - Week 4, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Jan 27 &#39;19</time>
+      <time class="pull-right hidden-tablet">Nov 11 &#39;18</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/01/13/interesting-stuff---week-2-2019/">Interesting Stuff - Week 2, 2019</a>
+    <a href="/2018/10/28/interesting-stuff---week-43/">Interesting Stuff - Week 43</a>
       
-      <time class="pull-right hidden-tablet">Jan 13 &#39;19</time>
+      <time class="pull-right hidden-tablet">Oct 28 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/10/21/interesting-stuff---week-42/">Interesting Stuff - Week 42</a>
+      
+      <time class="pull-right hidden-tablet">Oct 21 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/10/14/interesting-stuff---week-41/">Interesting Stuff - Week 41</a>
+      
+      <time class="pull-right hidden-tablet">Oct 14 &#39;18</time>
       
   </span>
 </li>
