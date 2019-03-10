@@ -1,12 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-03-10T10:22:51+02:00</updated>
+  <updated>2019-03-10T13:14:44+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 10, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/03/10/interesting-stuff---week-10-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-03-10T13:14:44+02:00</updated>
+    <id>http://nielsberglund.com/2019/03/10/interesting-stuff---week-10-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2019/03/08/a-generalised-solution-to-distributed-consensus/">A generalised solution to distributed consensus</a>. Distributed consensus is hard! In this blog post <a href="https://twitter.com/adriancolyer">Adrian</a> dissects a white-paper which re-examines the foundations of distributed consensus.</li>
+</ul>
+
+<h2 id="azure">Azure</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/microsoft-opens-first-datacenters-in-africa-with-general-availability-of-microsoft-azure/">Microsoft opens first datacenters in Africa with general availability of Microsoft Azure</a>. I guess the title says it all! On March 6, Microsoft opened two data centers in South Africa: South Africa North (Johannesburg) and South Africa West (Cape Town). At the moment the offerings are somewhat sparse, but I have no doubt we&rsquo;ll soon see quite a lot of services.</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/service-fabric-processor-in-public-preview/">Service Fabric Processor in public preview</a>. Azure Event Hub is an elegant way to ingest data into the Azure ecosystem, and Service Fabric is awesome for hosting and running microservices. Quite often some of the services need to consume from Azure Event Hubs, and until now you have had to write your own consumer, most likely based on <em>Event Processor Host</em>. That changes now with the preview of <em>Service Fabric Processor</em>, which is a new library for consuming events from an Event Hub that is directly integrated with Service Fabric. Awesome!</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/announcing-net-core-3-preview-3/">Announcing .NET Core 3 Preview 3</a>. What the title says; .NET Core 3 Preview 3 is available for download. Go and get it!</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/collecting-net-core-linux-container-cpu-traces-from-a-sidecar-container/">Collecting .NET Core Linux Container CPU Traces from a Sidecar Container</a>. This blog post gives a step-by-step guide of using a sidecar container to collect CPU trace of an ASP.NET application running in a Linux container.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://101.datascience.community/2019/03/07/microsoft-launches-data-science-certifications/">MICROSOFT LAUNCHES DATA SCIENCE CERTIFICATIONS</a>. In this blog post <a href="https://twitter.com/ryanswanstrom">Ryan</a> discusses 3 new certifications Microsoft recently announced aimed at Data Scientists/Engineers. I have always been skeptic to certifications by vendors, brain dumps anyone, but I will definitely have a look at this.<br /></li>
+<li><a href="https://eng.uber.com/machine-learning-capacity-safety/">Using Machine Learning to Ensure the Capacity Safety of Individual Microservices</a>. This is a very interesting post by Uber&rsquo;s engineering team, discussing how they apply Machine Learning to forecast micro-services issues!</li>
+</ul>
+
+<h2 id="sql-server-2019">SQL Server 2019</h2>
+
+<ul>
+<li><a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">SQL Server 2019, Java &amp; External Libraries - I</a>. Earlier today I published this post, in which I talk about how to deploy Java code to a database, so it can be loaded from there.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SQL Server 2019, Java &amp; External Libraries - I]]></title>
@@ -3863,58 +3924,6 @@ GO
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 47]]></title>
-    <link href="http://nielsberglund.com/2018/11/25/interesting-stuff---week-47/" rel="alternate" type="text/html"/>
-    <updated>2018-11-25T13:21:17+02:00</updated>
-    <id>http://nielsberglund.com/2018/11/25/interesting-stuff---week-47/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://www.tbray.org/ongoing/When/201x/2018/11/18/Post-REST">Post-REST</a>. A very interesting post by [Tim Bray] where he looks at <em>What Comes after REST</em>/how REST will evolve. Very interesting!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/using-apache-kafka-drive-cutting-edge-machine-learning">Using Apache Kafka to Drive Cutting-Edge Machine Learning</a>. A very, very &ldquo;cool&rdquo; post, discussing how Kafka and Machine Learning fits together.</li>
-</ul>
-
-<h2 id="data-science-ai">Data Science / AI</h2>
-
-<ul>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/dean-of-big-data-driving-the-snakes-of-data-science-out-of">Dean of Big Data Driving the Snakes of Data Science Out of Ireland</a>. Well, I don&rsquo;t know about &ldquo;St. Paddy&rdquo; and <a href="https://news.nationalgeographic.com/news/2014/03/140315-saint-patricks-day-2014-snakes-ireland-nation/">snakes in Ireland</a>, but this post tries to do away with some Data Science myths (get rid of the snakes). Really worth reading!</li>
-<li><a href="https://databricks.com/blog/2018/11/21/mlflow-v0-8-0-features-improved-experiment-ui-and-deployment-tools.html">MLflow v0.8.0 Features Improved Experiment UI and Deployment Tools</a>. A week or so ago, <a href="https://twitter.com/databricks">databricks</a> released <a href="https://www.mlflow.org/">MLFlow 0.8.0</a>. This blog post describes a couple of new features in that release.</li>
-</ul>
-
-<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
-
-<p>After I published the <a href="/2018/11/10/sql-server-2019-big-data-cluster-on-azure-kubernetes-service/">SQL Server 2019 Big Data Cluster on Azure Kubernetes Service</a> post, I went back and started to look at the new Java functionality in SQL Server 2019. There is a post forthcoming shortly (the famous last words).</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 
