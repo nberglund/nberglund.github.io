@@ -3,10 +3,246 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-03-03T10:54:21+02:00</updated>
+  <updated>2019-03-10T10:22:51+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SQL Server 2019, Java &amp; External Libraries - I]]></title>
+    <link href="http://nielsberglund.com/2019/03/10/sql-server-2019-java--external-libraries---i/" rel="alternate" type="text/html"/>
+    <updated>2019-03-10T10:22:51+02:00</updated>
+    <id>http://nielsberglund.com/2019/03/10/sql-server-2019-java--external-libraries---i/</id>
+    <content type="html"><![CDATA[<p>A couple of months ago I wrote a series of posts about one of the new features in SQL Server 2019; the ability to call out to Java code from inside SQL Server.</p>
+
+<p>To see the posts, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
+
+<p>In the posts, we discussed how the Java extension differs from R and Python in that R and Python are an integrated part of the SQL Server install (when enabling in-database analytics), but Java is not. In other words, the use of the Java extension requires Java to be installed beforehand, and this then has implications on permissions. We also discussed how Java is a compiled language, and we execute against a method in a class, whereas with R and Python we send a script to the external engine. The consequence of this is that when we execute Java code, we need to indicate where the compiled code resides, and those locations need specific permissions.</p>
+
+<p>All this creates a level of complexity, and it would potentially be easier if we load the Java code from a well-known place, where we do not need to worry about permissions and so forth.</p>
+
+<p>This post is the first of a couple where we see how new functionality in SQL Server 2019 CTP 2.3 can help.</p>
+
+<p></p>
+
+<h2 id="code-background">Code &amp; Background</h2>
+
+<p>Let us start with looking at the code we use today, and also remind ourselves of some of the complexities when calling Java from SQL server.</p>
+
+<p>So, the code:</p>
+
+<pre><code class="language-java">public class Calculator {
+    public static short numberOfOutputCols;
+    public static int x;
+    public static int y;
+
+    static public int[] outputDataCol1;
+    static public boolean[][] outputNullMap;
+
+    public static void adder() {
+        numberOfOutputCols = 1;
+        outputDataCol1 = new int[1];
+        outputDataCol1[0] = x + y;
+        outputNullMap = new boolean[1][1];
+    }
+
+}
+</code></pre>
+
+<p><strong>Code Snippet 1:</strong> <em>Java Calculator</em></p>
+
+<p>As we see in *Code Snippet 1`, the code is very simple, and we have seen variants of it in my other <a href="/s2k19_ext_framework_java">Java posts</a>. If you wonder about some of the variables in the code, the previous <a href="/s2k19_ext_framework_java">posts</a> discuss them in detail.</p>
+
+<p>To use the code from SQL Server, we compile the source file <code>Calculator.java</code>: <code>$ javac Calculator.java</code>, into a <code>.class</code> file: <code>Calculator.class</code>.
+After compilation, we can now place the <code>Calculator.class</code> in any of the locations a pre-defined <code>CLASSPATH</code> environment variable points to. To call the <code>adder</code> method from inside SQL Server we execute like so:</p>
+
+<pre><code class="language-sql">EXECUTE sp_execute_external_script
+    @language = N'Java',
+    @script = N'Calulator.adder',
+    @params = N'@x int, @y int',
+    @x = 21,
+    @y = 21;
+</code></pre>
+
+<p><strong>Code Snippet 2:</strong> <em>Execute from SQL Server</em></p>
+
+<p>By the fact that the <code>.class</code> file is in a <code>CLASSPATH</code> location, the code in <em>Code Snippet 2</em> succeeds, <strong>IF</strong> the right permissions exist on the location.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> The required permission is <code>READ</code> for the <code>ALL APPLICATION PACKAGES</code> group.</p>
+</blockquote>
+
+<p>Having the code in a <code>CLASSPATH</code> location is one way to load and execute the code. Another way is to have the code in an arbitrary location and explicitly set a parameter in the SQL call to point to that location:</p>
+
+<pre><code class="language-sql">EXECUTE sp_execute_external_script
+    @language = N'Java',
+    @script = N'Calculator.adder',
+    @params = N'@x int, @y int, @CLASSPATH nvarchar(512)',
+    @x = 21,
+    @y = 21,
+    @CLASSPATH = N'W:\javacodepath';
+</code></pre>
+
+<p><strong>Code Snippet 3:</strong> <em>Using @CLASSPATH Parameter</em></p>
+
+<p>In <em>Code Snippet 3</em> we see how we set a parameter <code>CLASSPATH</code> to point to where the code is. The permission requirements for this scenario are the same as for when we have a defined <code>CLASSPATH</code>: the location need <code>READ</code> permission for the <code>ALL APPLICATION PACKAGES</code> group.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> You may wonder where the <code>CLASSPATH</code> parameter in <em>Code Snippet 3</em> comes from, as it is not part of the signature of <code>sp_execute_external_script</code>? This parameter is a well-known parameter for the SQL Server Java language extension, and if this parameter exists the extension sets the <code>--classpath</code> option in the <code>java</code> command.</p>
+</blockquote>
+
+<p>In the code snippets above we execute against <code>.class</code> files. In the &ldquo;real world&rdquo; however you are unlikely to do that, but instead, you use <code>.jar</code> files. So let us see how we do that from SQL Server. First, we compile the <code>.java</code> source, followed by creating the <code>.jar</code>:</p>
+
+<pre><code class="language-java">$ javac .\Calculator.java
+$ jar -cf MyCalcJar.jar .\Calculator.class
+</code></pre>
+
+<p><strong>Code Snippet 4:</strong> <em>Create a jar File</em></p>
+
+<p>After we have created the <code>MyCalcJar.jar</code> as in <em>Code Snippet 4</em>, we copy the <code>.jar</code> to either the <code>CLASSPATH</code> location or an arbitrary location. To execute we call it like so:</p>
+
+<pre><code class="language-sql">EXECUTE sp_execute_external_script
+@language = N'Java',
+@script = N'Calculator.adder',
+@params = N'@x int, @y int, @CLASSPATH nvarchar(max)',
+@x = 21,
+@y = 21,
+@CLASSPATH = N'W:\javacodepath\MyCalcJar.jar'
+</code></pre>
+
+<p><strong>Code Snippet 5:</strong> <em>Execute Against a jar File</em></p>
+
+<p>We see in <em>Code Snippet 5</em> how we when we execute against a <code>.jar</code> need to:</p>
+
+<ul>
+<li>Set the path to the <code>.jar</code>, using the using the <code>CLASSPATH</code> parameter. This is required <strong>even</strong> if the <code>.jar</code> is in the actual <code>CLASSPATH</code>.</li>
+<li>Include the name of the <code>.jar</code> file.</li>
+</ul>
+
+<p>We also need to ensure that the permissions mentioned above exist where ever the <code>.jar</code> is.</p>
+
+<p>So the examples above re-enforce what we mentioned in the beginning, Java incurs some complexity which we do not have when executing R/Python code:</p>
+
+<ul>
+<li>Where to load the code from.</li>
+<li>Permissions on said location.</li>
+</ul>
+
+<p>Apart from pointing out the complexities at the beginning of this post I also mentioned that new functionality in SQL Server 2019 CTP 2.3 helps to solve this. That functionality is the ability to create external libraries.</p>
+
+<h2 id="external-libraries">External Libraries</h2>
+
+<p>External libraries in SQL Server enables the ability to load artefacts needed for any new language runtimes and OS platforms supported by SQL Server from the database. For example, if you need an R package that is not part of the default install of the engine you can upload to the database the particular R package as an external library and use it from the database in question. An external library is similar to a CLR assembly in that the actual library exists in the database as a byte-stream and SQL Server loads it from the database.</p>
+
+<p>You create an external library in a similar to how you create a CLR assembly; you use a DDL statement <code>CREATE EXTERNAL LIBRARY</code>:</p>
+
+<pre><code class="language-sql">CREATE EXTERNAL LIBRARY library_name  
+[ AUTHORIZATION owner_name ]  
+FROM &lt;file_spec&gt; [ ,...2 ]  
+WITH ( LANGUAGE = &lt;language&gt; )  
+[ ; ]  
+</code></pre>
+
+<p><strong>Code Snippet 6:</strong> <em>Signature CREATE EXTERNAL LIBRARY</em></p>
+
+<p>In <em>Code Snippet 6</em> we see the signature for <code>CREATE EXTERNAL LIBRARY</code>. We see only the main parts:</p>
+
+<ul>
+<li><code>library_name</code> - the name we want the library to have. When we create an external library for Java code we can assign any name we want. However, when we create an external library for R, the name must be the same as what we refer to the package when we load it in the external script.</li>
+<li><code>owner_name</code> - optional, and it specifies the name of the user or role that owns the external library.</li>
+<li><code>file_spec</code> - this is the content of the package/code. For Java it has to be a <code>.jar</code> file, or a <code>.zip</code> file with relevant <code>.class</code> files in it. The <code>file_spec</code> can be either a path to the file, or a byte array. Part of the <code>file_spec</code> is also the platform on which SQL Server is running. For now, only Windows is supported.</li>
+<li><code>language</code> - the language of the package/code.</li>
+</ul>
+
+<blockquote>
+<p><strong>NOTE:</strong> I mentioned above that we see the main parts of <code>CREATE EXTERNAL LIBRARY</code>, and we have not drilled down in detail. If you are interested in the details look <a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/create-external-library-transact-sql?view=sql-server-ver15">here</a>.</p>
+</blockquote>
+
+<p>To see this in practice, we need first to create a database: <code>CREATE DATABASE JavaTest</code>, (we can obviously use an existing db as well). Then, based on the code in <em>Code Snippet 4</em> and <em>Code Snippet 5</em>, the call to create an external library for our calculator looks like so:</p>
+
+<pre><code class="language-sql">USE JavaTest;
+GO
+
+CREATE EXTERNAL LIBRARY myCalc
+FROM (CONTENT = 'W:\javacodepath\MyCalcJar.jar')
+WITH (LANGUAGE = 'Java');
+</code></pre>
+
+<p><strong>Code Snippet 7:</strong> <em>Create External Library</em></p>
+
+<p>What we see in <em>Code Snippet 7</em> is how we create an external library named <code>myCalc</code>, where the external library is based on a <code>.jar</code> file at <code>W:\javacodepath\MyCalcJar.jar</code>. The last thing we do is to indicate that the language is <code>Java</code>. As the only platform supported right now is Windows, we do not bother with the <code>PLATFORM</code> parameter.</p>
+
+<p>To verify this works after we execute the code in <em>Code Snippet 7</em> we use exactly the same code as in <em>Code Snippet 2</em>:</p>
+
+<pre><code class="language-sql">USE JavaTest;
+GO
+
+EXECUTE sp_execute_external_script
+@language = N'Java',
+@script = N'Calculator.adder',
+@params = N'@x int, @y int',
+@x = 21,
+@y = 21;
+</code></pre>
+
+<p><strong>Code Snippet 8:</strong> <em>Execute Java Code Loaded from Database</em></p>
+
+<p>In <em>Code Snippet 8</em> we see how we no longer define the <code>.jar</code> file as a parameter, (what we had to do in <em>Code Snippet 5</em>), but when we execute all works OK.</p>
+
+<p>The question is now where the <code>.jar</code>,(or <code>.zip</code>), loads from. The answer to that is, (like with SQLCLR), that it loads from system tables in the database. When we create an SQLCLR assembly in a database, SQL Server stores the assembly in system tables, and we use catalog views to view the assemblies: <code>sys.assemblies</code>, <code>sys.assembly_files</code>, and so on. External libraries do not use the same underlying tables or catalog views, but to see the external libraries you use:</p>
+
+<ul>
+<li><code>sys.external_libraries</code> - contains a row for each external library that has been uploaded into the database.</li>
+<li><code>sys.external_library_files</code> - lists a row for each file in the external library.</li>
+<li><code>sys.external_libraries_installed</code> - shows what libraries have been loaded, e.g. used.</li>
+</ul>
+
+<p>An example of this:</p>
+
+<pre><code class="language-sql">SELECT el.name, el.[language], ef.content
+FROM sys.external_libraries el
+JOIN sys.external_library_files ef
+  ON el.external_library_id = ef.external_library_id
+</code></pre>
+
+<p><strong>Code Snippet 9:</strong> <em>View External Libraries</em></p>
+
+<p>When we run the code in <em>Code Snippet 9</em> we get:</p>
+
+<p><img src="/images/posts/sql_2k19_java_view_ext_lib.png" alt="" /></p>
+
+<p><strong>Figure 1:</strong> <em>External Libraries View</em></p>
+
+<p>We see in <em>Figure 1</em> some information about the external library. The <code>content</code> column outlined in red is interesting in that it contains the binary representation of the external library.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post, we saw how we can make the use of Java in SQL Server somewhat less complex (permissions, code paths, etc.), by using external libraries.</p>
+
+<p>To be able to use external libraries for your Java code, the code need be packaged either in a <code>.jar</code> file, or your class files need to be archived into a <code>.zip</code> file.</p>
+
+<p>We create the external library using the DDL statement <code>CREATE EXTERNAL LIBRARY</code> where we:</p>
+
+<ul>
+<li>Define a name for the library.</li>
+<li>Indicate where the <code>.jar</code> or <code>.zip</code> file is.</li>
+<li>Set the language to Java.</li>
+</ul>
+
+<p>When we execute against the code we no longer need to have the code copied to the <code>CLASSPATH</code> or define a <code>@CLASSPATH</code> parameter, and no special permissions are required. Well, you need permissions to execute <code>sp_execute_external_script</code> but apart from that nothing else.</p>
+
+<p>When we call <code>sp_execute_external_script</code> SQL Server loads the code from a system table, and we can view what external libraries exist in the database by using the <code>sys.external_libraries</code> and <code>sys.external_library_files</code> catalog views.</p>
+
+<p>As good as all this sounds, there is one minor, (well perhaps not so minor), detail to be aware of: the way we create external libraries in this post - from a file path - requires SQL Server to be able to read from that path. In a production environment that may not be possible, so in a future post we look at how to overcome that.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 9, 2019]]></title>
@@ -3675,77 +3911,6 @@ GO
 <h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
 
 <p>After I published the <a href="/2018/11/10/sql-server-2019-big-data-cluster-on-azure-kubernetes-service/">SQL Server 2019 Big Data Cluster on Azure Kubernetes Service</a> post, I went back and started to look at the new Java functionality in SQL Server 2019. There is a post forthcoming shortly (the famous last words).</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 46]]></title>
-    <link href="http://nielsberglund.com/2018/11/18/interesting-stuff---week-46/" rel="alternate" type="text/html"/>
-    <updated>2018-11-18T08:22:25+02:00</updated>
-    <id>http://nielsberglund.com/2018/11/18/interesting-stuff---week-46/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/11/12/building-c-8-0/">Building C# 8.0</a>. A post about new functionality in the upcoming C# 8 release. Some very interesting new features, and it looks like C# gets more and more features that you normally find in F#.</li>
-<li><a href="https://adamsitnik.com/Sample-Perf-Investigation/">Sample performance investigation using BenchmarkDotNet and PerfView</a>. In this blog post <a href="https://twitter.com/SitnikAdam">Adam</a> describes how he approaches sample performance problem using available free .NET tools and best practices for performance engineering.</li>
-</ul>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://muratbuffalo.blogspot.com/2018/11/my-emacs-journey.html">My Emacs journey</a>. This blog post by <a href="https://twitter.com/muratdemirbas">Murat</a>, where he talks about Emacs, brings me back to the early days of .NET, (pre 1.0), where I created an Emacs .NET intellisense extension. Ah, those were the days!</li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://blog.acolyer.org/2018/11/16/overload-control-for-scaling-wechat-microservices/">Overload control for scaling WeChat microservices</a>. In this blog post <a href="https://twitter.com/adriancolyer">Adrian</a> looks at a white paper discussing how <a href="https://www.wechat.com/en/">WeChat</a> handles overload control. Some very impressive numbers and quotes: <em>&ldquo;WeChat’s microservice system accommodates more than 3000 services running on over 20,000 machines in the WeChat business system, and these numbers keep increasing as WeChat is becoming immensely popular… As WeChat is ever actively evolving, its microservice system has been undergoing fast iteration of service updates. For instance, from March to May in 2018, WeChat’s microservice system experienced almost a thousand changes per day on average.&rdquo;</em>. Think about that; 20,000 machines, thousand code changes per day, wow!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://data-artisans.com/blog/stream-processing-introduction-event-time-apache-flink">Stream processing: An Introduction to Event Time in Apache Flink</a>. Apache Flink supports multiple notions of time for stateful stream processing. This post focuses on event time support in Apache Flink.</li>
-<li><a href="https://www.confluent.io/blog/kafka-connect-deep-dive-converters-serialization-explained">Kafka Connect Deep Dive – Converters and Serialization Explained</a>. In this article <a href="https://twitter.com/rmoff">Robin Moffat</a> takes us through how serialization works in Kafka Connectors.</li>
-</ul>
-
-<h2 id="sql-server-2019">SQL Server 2019</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/11/13/creating-a-data-hub-for-your-analytics-with-polybase/">Creating a data hub for your analytics with PolyBase</a>. SQL Server 2019 CTP 2.0 introduces new connectors for PolyBase, and this blog post discusses how the new connectors enable customers to leverage PolyBase for creating a virtual data hub for a wide variety of data sources within the enterprise. Very interesting!<br /></li>
-</ul>
-
-<h2 id="data-science-ai">Data Science / AI</h2>
-
-<ul>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/the-ultimate-r-cheatsheet">The Ultimate R Cheatsheet</a>. As the title says, this post points to an impressive cheatsheet for R.</li>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/data-science-for-managers-mindmap">Intro to Data Science for Managers [Mindmap]</a>. Data science is incredibly broad and complex discipline and can be daunting trying to get your head around. So this blog post tries to mind-map the various key data science concepts and techniques in order to make data science easier to grasp.</li>
-<li><a href="https://powerbi.microsoft.com/en-us/blog/power-bi-announces-new-ai-capabilities/">Announcing new AI Capabilities for Power BI to make AI Accessible for Everyone</a>. I guess the title of this blog posts says it all. It announces new AI capabilities for Power BI. This is huge, and I can not wait to test it out!</li>
-<li><a href="https://www.infoq.com/presentations/uber-big-data-dl-ml">Big Data and Deep Learning: A Tale of Two Systems</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation about how Uber tackles data caching in large-scale deep learning, its ML architecture and discusses how Uber uses Big Data. The presentation concludes by sharing AI use cases.</li>
-<li><a href="https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3">Implementing Facebook Prophet efficiently</a>. I wrote back in 2017 about Facebook Prophet and how to run it in <a href="/2017/05/20/facebook-prophet-and-microsoft-r-server/">Microsoft R Server</a> as well as <a href="/2017/05/20/facebook-prophet-and-microsoft-r-server/">SQL Server Machine Learning Services</a>. The blog post I link to <a href="https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3">here</a> discusses how to optimize Prophet. Very interesting!</li>
-</ul>
 
 <h2 id="finally">~ Finally</h2>
 

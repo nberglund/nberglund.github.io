@@ -26,7 +26,7 @@
 
 
 
-<meta property="og:updated_time" content="2019-03-03T10:54:21&#43;02:00"/>
+<meta property="og:updated_time" content="2019-03-10T10:22:51&#43;02:00"/>
 
 
 
@@ -196,6 +196,31 @@
   <div class="post-list">
     
     
+      <div class="post-list__item">
+        <span class="item__title--big">
+          <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">SQL Server 2019, Java &amp; External Libraries - I</a>
+        </span>
+        <span class="item__date">
+          Mar 10, 2019
+        </span>
+        <p>A couple of months ago I wrote a series of posts about one of the new features in SQL Server 2019; the ability to call out to Java code from inside SQL Server.</p>
+
+<p>To see the posts, go to <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a>.</p>
+
+<p>In the posts, we discussed how the Java extension differs from R and Python in that R and Python are an integrated part of the SQL Server install (when enabling in-database analytics), but Java is not. In other words, the use of the Java extension requires Java to be installed beforehand, and this then has implications on permissions. We also discussed how Java is a compiled language, and we execute against a method in a class, whereas with R and Python we send a script to the external engine. The consequence of this is that when we execute Java code, we need to indicate where the compiled code resides, and those locations need specific permissions.</p>
+
+<p>All this creates a level of complexity, and it would potentially be easier if we load the Java code from a well-known place, where we do not need to worry about permissions and so forth.</p>
+
+<p>This post is the first of a couple where we see how new functionality in SQL Server 2019 CTP 2.3 can help.</p>
+
+<p></p>
+        
+        <div class="read-more-link">
+            <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">Read More…</a>
+        </div>
+        
+        </div>
+        
       <div class="post-list__item">
         <span class="item__title--big">
           <a href="/2019/03/03/interesting-stuff---week-9-2019/">Interesting Stuff - Week 9, 2019</a>
