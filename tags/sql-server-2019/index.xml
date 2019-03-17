@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 17 Mar 2019 17:13:45 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 17 Mar 2019 21:16:22 +0200</lastBuildDate>
     
 	<atom:link href="/tags/sql-server-2019/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 11, 2019</title>
+      <link>/2019/03/17/interesting-stuff---week-11-2019/</link>
+      <pubDate>Sun, 17 Mar 2019 21:16:22 +0200</pubDate>
+      
+      <guid>/2019/03/17/interesting-stuff---week-11-2019/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019, Java &amp; External Libraries - II</title>
@@ -187,28 +209,6 @@
 &lt;p&gt;The code in the posts is very, very simplistic where I was just trying to get the ideas across how and what to do. Another reason the code is simplistic is that I am not a Java &amp;ldquo;person&amp;rdquo;; in fact, the only Java code I have ever written is what is in those posts. Me not being a Java &amp;ldquo;person&amp;rdquo; I do not have a Java IDE, (for the code I wrote I did not need one either), so I used my regular text editor &lt;a href=&#34;https://www.sublimetext.com/&#34;&gt;Sublime Text 3&lt;/a&gt;, and I compiled the code from command line (&lt;code&gt;$ javac ...&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;I then started on a new Java post (which I have not finished yet), and it became clear I needed an IDE, (intelli-sense, debug, etc.), but which IDE?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 2, 2019</title>
-      <link>/2019/01/13/interesting-stuff---week-2-2019/</link>
-      <pubDate>Sun, 13 Jan 2019 19:43:46 +0200</pubDate>
-      
-      <guid>/2019/01/13/interesting-stuff---week-2-2019/</guid>
-      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
