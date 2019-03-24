@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 03 Feb 2019 09:15:51 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 24 Mar 2019 08:37:01 +0200</lastBuildDate>
     
 	<atom:link href="/tags/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 12, 2019</title>
+      <link>/2019/03/24/interesting-stuff---week-12-2019/</link>
+      <pubDate>Sun, 24 Mar 2019 08:37:01 +0200</pubDate>
+      
+      <guid>/2019/03/24/interesting-stuff---week-12-2019/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 5, 2019</title>
@@ -184,21 +206,6 @@
 &lt;/ul&gt;
 
 &lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</title>
-      <link>/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/</link>
-      <pubDate>Sat, 08 Dec 2018 19:52:11 +0200</pubDate>
-      
-      <guid>/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/</guid>
-      <description>&lt;p&gt;This post is the second post in a series about SQL Server 2019 Extensibility Framework and the Java language extensions. In the first post, &lt;a href=&#34;/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/&#34;&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java - Hello World&lt;/a&gt;, we looked at how to install and enable the Java language extensions, and we also wrote some pretty basic Java code to ensure it all worked.&lt;/p&gt;
-
-&lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In this post we look at how we can pass data back and forth between SQL Server and Java.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
