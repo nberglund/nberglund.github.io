@@ -3,10 +3,63 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-03-24T08:37:01+02:00</updated>
+  <updated>2019-03-31T08:43:04+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 13, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/03/31/interesting-stuff---week-13-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-03-31T08:43:04+02:00</updated>
+    <id>http://nielsberglund.com/2019/03/31/interesting-stuff---week-13-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://blog.acolyer.org/2019/03/29/calvin-fast-distributed-transactions-for-partitioned-database-systems/">Calvin: fast distributed transactions for partitioned database systems</a>. In this white-paper dissection by <a href="https://twitter.com/adriancolyer">Adrian</a>, he looks at <a href="https://github.com/yaledb/calvin">Calvin</a> which is a transaction scheduling and data replication layer that uses a deterministic ordering guarantee to reduce the high contention costs associated with distributed transactions significantly.</li>
+</ul>
+
+<h2 id="sql-server">SQL Server</h2>
+
+<ul>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/03/27/sql-server-2019-community-technology-preview-2-4-is-now-available/">SQL Server 2019 community technology preview 2.4 is now available</a>. What the title says. I downloaded the CTP a couple of days ago, and when I am done with this post, I will install it. Oh, word of warning - if you want to install the <strong>SQL Server 2019 Big Data Cluster</strong>, please remember to uninstall and reinstall <code>mssqlctl</code>, so you get the latest version.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/importance-of-distributed-tracing-for-apache-kafka-based-applications">The Importance of Distributed Tracing for Apache-Kafka-Based Applications</a>. This blog post looks at how to instrument Kafka-based applications with distributed tracing capabilities to make dataflows between event-based components more visible. Very interesting!</li>
+<li><a href="https://www.confluent.io/blog/consuming-messages-out-of-apache-kafka-in-a-browser/2">Consuming Messages Out of Apache Kafka in a Browser</a>. The post covers what the title says; how to consume Kafka messages in a browser.</li>
+<li><a href="https://rmoff.net/2019/03/28/exploring-ksql-stream-stream-joins/">Exploring KSQL Stream-Stream Joins</a>. This is an excellent post by <a href="https://twitter.com/rmoff">Robin</a> where he covers KSQL and stream to stream joins! I need to go off and <del>play with</del> research this now!</li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (<em>What Is Niels Doing</em>)</h2>
+
+<p>I am still working on the post about <code>CREATE EXTERNAL LIBRARY</code> in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. Expect it towards the end of this coming week.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 12, 2019]]></title>
@@ -3497,70 +3550,6 @@ SELECT @x * @y;
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me. Seeing that holidays are coming up - have a Great Holiday Season!!</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 49]]></title>
-    <link href="http://nielsberglund.com/2018/12/09/interesting-stuff---week-49/" rel="alternate" type="text/html"/>
-    <updated>2018-12-09T07:18:55+02:00</updated>
-    <id>http://nielsberglund.com/2018/12/09/interesting-stuff---week-49/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://medium.com/s/story/lets-take-a-crack-at-understanding-distributed-consensus-dad23d0dc95">How Does Distributed Consensus Work?</a>. This is an excellent blog post discussing distributed computing and distributed consensus. I learned a lot for the post!</li>
-<li><a href="https://cloudblogs.microsoft.com/opensource/2018/12/04/announcing-service-fabric-provider-bosh">Announcing the Service Fabric provider for Bosh</a>. This is an announcement from Microsoft how Service Fabric can now me deployed an managed by <a href="https://bosh.io/docs/">Bosh</a>. BOSH is a project that unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software.</li>
-</ul>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/12/04/announcing-net-core-3-preview-1-and-open-sourcing-windows-desktop-frameworks/">Announcing .NET Core 3 Preview 1 and Open Sourcing Windows Desktop Frameworks</a>. A blog post from Microsoft, announcing a preview of .NET Core 3. In .NET Core 3 Microsoft includes Windows Forms, WPF and WinUI, and they open-source them! Who&rsquo;d have thunk!</li>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2018/12/04/announcing-ml-net-0-8-machine-learning-for-net/">Announcing ML.NET 0.8 – Machine Learning for .NET</a>. Microsoft has just released version .8 of Machine Learning for .NET (ML.NET), and this blog post provides details about some of the new/improved functionality.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://data-artisans.com/blog/5-steps-flink-application-development">5 “baby” steps to develop a Flink application</a>. A short an sweet introduction how to get up and running with Apache Flink.</li>
-<li><a href="https://www.confluent.io/blog/kafka-streams-ksql-minimum-privileges">Kafka Streams and KSQL with Minimum Privileges</a>. You should read this blog post if you are working with Kafka. It discusses security, and how to apply security with minimum privileges.</li>
-</ul>
-
-<h2 id="sql-server">SQL Server</h2>
-
-<ul>
-<li><a href="http://sql-sasquatch.blogspot.com/2018/12/fun-with-sql-server-query-store-query.html">Fun with SQL Server Query Store, Query Plan &lsquo;StatisticsInfo&rsquo; XML nodes, and STATS_STREAM</a>. A very cool blog post by <a href="https://twitter.com/sqL_handLe">Lonny</a> where he has fun with SQL Server query related &ldquo;stuff&rdquo;.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2018/11/06/the-november-release-of-azure-data-studio-is-now-available/">The November release of Azure Data Studio is now available</a>. The title says it all. The blog post discusses new/improved functionality in the November release of Azure Data Studio. I have found myself quite like ADS, and are doing most of my &ldquo;stuff&rdquo; in ADS instead of in SSMS; they said you can&rsquo;t learn old dogs new tricks - hah!</li>
-</ul>
-
-<h2 id="sql-server-2019">SQL Server 2019</h2>
-
-<ul>
-<li><a href="https://buckwoody.wordpress.com/2018/12/03/learning-areas-for-sql-server-big-data-clusters/">Learning Areas for SQL Server Big Data Clusters</a>. A teaser from <a href="https://twitter.com/BuckWoodyMSFT">Buck Woody</a>, where he talks about upcoming training and workshops related to <strong>SQL Server 2019 Big Data Clusters</strong>. He also lists some resources to start to get to understand all the new technologies in <strong>SQL Server 2019 Big Data Clusters</strong>.</li>
-<li><a href="/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/">SQL Server 2019 Extensibility Framework &amp; Java - Passing Data</a>. I continue my journey with SQL Server 2019 Java extensions. In this post, I look at how we pass data back and forth between SQL Server and Java.</li>
-</ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 

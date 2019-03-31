@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 12, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 13, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 12, 2019"/>
-<meta name="twitter:description" content="Kafka, Azure Data Studio, Istio &amp; Kubernetes, and other interesting topics. - data science - distributed computing - SQL Server - SQL Server Machine Learning Services - Kubernetes - Azure Data Studio - Kafka"/>
+<meta name="twitter:title" content="Interesting Stuff - Week 13, 2019"/>
+<meta name="twitter:description" content="Kafka, KSQL, SQL Server 2019 Big Data Clusters, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 12, 2019" />
-<meta property="og:description" content="Kafka, Azure Data Studio, Istio &amp; Kubernetes, and other interesting topics. - data science - distributed computing - SQL Server - SQL Server Machine Learning Services - Kubernetes - Azure Data Studio - Kafka" />
+<meta property="og:title" content="Interesting Stuff - Week 13, 2019" />
+<meta property="og:description" content="Kafka, KSQL, SQL Server 2019 Big Data Clusters, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/03/24/interesting-stuff---week-12-2019/" />
+<meta property="og:url" content="/2019/03/31/interesting-stuff---week-13-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-03-24T08:37:01&#43;02:00"/>
+<meta property="article:published_time" content="2019-03-31T08:43:04&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-03-24T08:37:01&#43;02:00"/>
+<meta property="article:modified_time" content="2019-03-31T08:43:04&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 12, 2019</h1>
+    <h1>Interesting Stuff - Week 13, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Mar 24, 2019
+      <i class="fas fa-calendar-alt"></i> Mar 31, 2019
     
     
     
@@ -229,25 +229,19 @@
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="post__tag" href="/tags/data-science">data science</a>
-           
-      
           <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
-          <a class="post__tag" href="/tags/sql-server">sql server</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-machine-learning-services">sql server machine learning services</a>
-           
-      
-          <a class="post__tag" href="/tags/kubernetes">kubernetes</a>
-           
-      
-          <a class="post__tag" href="/tags/azure-data-studio">azure data studio</a>
+          <a class="post__tag" href="/tags/sql-server-2019">sql server 2019</a>
            
       
           <a class="post__tag" href="/tags/kafka">kafka</a>
+           
+      
+          <a class="post__tag" href="/tags/ksql">ksql</a>
+           
+      
+          <a class="post__tag" href="/tags/sql-server-2019-big-data-clusters">sql server 2019 big data clusters</a>
           
       
     
@@ -284,34 +278,29 @@
 
 <p></p>
 
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/csharp-testing-strategy-tools">Unit Testing Strategies &amp; Patterns in C#</a>. This <a href="https://www.infoq.com/">InfoQ</a> presentation discusses design principles and ways to make C# code testable, as well as using testing tools such as Moq, Autofixture, &amp; MsTest.</li>
-</ul>
-
 <h2 id="distributed-computing">Distributed Computing</h2>
 
 <ul>
-<li><a href="https://medium.com/google-cloud/istio-routing-basics-14feab3c040e">Istio Routing Basics</a>. So, <a href="https://cloud.google.com/istio/">Istio</a> is an open source service mesh, and this blog post covers the basics of Istio and shows what it takes to build an Istio enabled &ldquo;Hello World&rdquo; application.</li>
-<li><a href="https://medium.com/@masroor.hasan/tracing-infrastructure-with-jaeger-on-kubernetes-6800132a677">Distributed Tracing Infrastructure with Jaeger on Kubernetes</a>. The blog post I link to here looks at distributed tracing on Kubernetes using Jaeger.</li>
+<li><a href="https://blog.acolyer.org/2019/03/29/calvin-fast-distributed-transactions-for-partitioned-database-systems/">Calvin: fast distributed transactions for partitioned database systems</a>. In this white-paper dissection by <a href="https://twitter.com/adriancolyer">Adrian</a>, he looks at <a href="https://github.com/yaledb/calvin">Calvin</a> which is a transaction scheduling and data replication layer that uses a deterministic ordering guarantee to reduce the high contention costs associated with distributed transactions significantly.</li>
 </ul>
 
 <h2 id="sql-server">SQL Server</h2>
 
 <ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/03/18/the-march-release-of-azure-data-studio-is-now-available/">The March release of Azure Data Studio is now available</a>. What the title says! There are quite a few new features in the March release of Azure Data Studio, among them: support for SQL Notebooks, PowerShell extension, and PostgresSQL support. Go and get it!</li>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/03/27/sql-server-2019-community-technology-preview-2-4-is-now-available/">SQL Server 2019 community technology preview 2.4 is now available</a>. What the title says. I downloaded the CTP a couple of days ago, and when I am done with this post, I will install it. Oh, word of warning - if you want to install the <strong>SQL Server 2019 Big Data Cluster</strong>, please remember to uninstall and reinstall <code>mssqlctl</code>, so you get the latest version.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/kafka-streams-take-on-watermarks-and-triggers">Kafka Streams’ Take on Watermarks and Triggers</a>. This blog post discusses a new Kafka Streams operator: <code>Suppress</code>. It gives you the ability to control when to forward KTable updates. The <code>Suppress</code> operator comes in very handy in various CEP scenarios: &ldquo;tell me when someone has done &ldquo;a&rdquo; more than &ldquo;x&rdquo; times within &ldquo;y&rdquo; time period&rdquo;. What normally happens is that if someone achieves the &ldquo;a&rdquo;, &ldquo;x&rdquo; times within the &ldquo;y&rdquo; time period every following &ldquo;a&rdquo; would trigger as well. With <code>Suppress</code> you - wait for it - suppress the extra &ldquo;a&rdquo;, until the end of the time period.<br /></li>
+<li><a href="https://www.confluent.io/blog/importance-of-distributed-tracing-for-apache-kafka-based-applications">The Importance of Distributed Tracing for Apache-Kafka-Based Applications</a>. This blog post looks at how to instrument Kafka-based applications with distributed tracing capabilities to make dataflows between event-based components more visible. Very interesting!</li>
+<li><a href="https://www.confluent.io/blog/consuming-messages-out-of-apache-kafka-in-a-browser/2">Consuming Messages Out of Apache Kafka in a Browser</a>. The post covers what the title says; how to consume Kafka messages in a browser.</li>
+<li><a href="https://rmoff.net/2019/03/28/exploring-ksql-stream-stream-joins/">Exploring KSQL Stream-Stream Joins</a>. This is an excellent post by <a href="https://twitter.com/rmoff">Robin</a> where he covers KSQL and stream to stream joins! I need to go off and <del>play with</del> research this now!</li>
 </ul>
 
 <h2 id="wind-what-is-niels-doing">WIND (<em>What Is Niels Doing</em>)</h2>
 
-<p>Since I did the two posts about <code>CREATE EXTERNAL LIBRARY</code> for Java code (<a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">here</a> and <a href="/2019/03/17/sql-server-2019-java--external-libraries---ii/">here</a>), I thought it would be a good idea to finish off my <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. So, I am at the moment working on a post discussing <code>CREATE EXTERNAL LIBRARY</code> in the R world. The post is somewhat like the ones covering Java, but it also covers permissions etc.</p>
+<p>I am still working on the post about <code>CREATE EXTERNAL LIBRARY</code> in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. Expect it towards the end of this coming week.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -339,16 +328,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/03/17/interesting-stuff---week-11-2019/" class="post--navigation-prev">
+    <a href="/2019/03/24/interesting-stuff---week-12-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 11, 2019</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 12, 2019</span>
     </a>
     
-    
-    <a href="/2019/03/31/interesting-stuff---week-13-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 13, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -363,18 +347,9 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
+    <a href="/2019/02/10/interesting-stuff---week-6-2019/">Interesting Stuff - Week 6, 2019</a>
       
-      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/02/03/interesting-stuff---week-5-2019/">Interesting Stuff - Week 5, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Feb 03 &#39;19</time>
+      <time class="pull-right hidden-tablet">Feb 10 &#39;19</time>
       
   </span>
 </li>
@@ -390,18 +365,27 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/01/20/interesting-stuff---week-3-2019/">Interesting Stuff - Week 3, 2019</a>
+    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
       
-      <time class="pull-right hidden-tablet">Jan 20 &#39;19</time>
+      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/">Interesting Stuff - Christmas, New Year, Week 1, 2019</a>
+    <a href="/2019/03/17/interesting-stuff---week-11-2019/">Interesting Stuff - Week 11, 2019</a>
       
-      <time class="pull-right hidden-tablet">Jan 06 &#39;19</time>
+      <time class="pull-right hidden-tablet">Mar 17 &#39;19</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2019/03/03/interesting-stuff---week-9-2019/">Interesting Stuff - Week 9, 2019</a>
+      
+      <time class="pull-right hidden-tablet">Mar 03 &#39;19</time>
       
   </span>
 </li>
