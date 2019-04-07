@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 13, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 14, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 13, 2019"/>
-<meta name="twitter:description" content="Kafka, KSQL, SQL Server 2019 Big Data Clusters, and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 14, 2019"/>
+<meta name="twitter:description" content="Kafka, KSQL, Kafka streams, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 13, 2019" />
-<meta property="og:description" content="Kafka, KSQL, SQL Server 2019 Big Data Clusters, and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 14, 2019" />
+<meta property="og:description" content="Kafka, KSQL, Kafka streams, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/03/31/interesting-stuff---week-13-2019/" />
+<meta property="og:url" content="/2019/04/07/interesting-stuff---week-14-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-03-31T08:43:04&#43;02:00"/>
+<meta property="article:published_time" content="2019-04-07T19:33:23&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-03-31T08:43:04&#43;02:00"/>
+<meta property="article:modified_time" content="2019-04-07T19:33:23&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 13, 2019</h1>
+    <h1>Interesting Stuff - Week 14, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Mar 31, 2019
+      <i class="fas fa-calendar-alt"></i> Apr 7, 2019
     
     
     
@@ -232,16 +232,13 @@
           <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
-          <a class="post__tag" href="/tags/sql-server-2019">sql server 2019</a>
-           
-      
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
           <a class="post__tag" href="/tags/ksql">ksql</a>
            
       
-          <a class="post__tag" href="/tags/sql-server-2019-big-data-clusters">sql server 2019 big data clusters</a>
+          <a class="post__tag" href="/tags/kafka-streams">kafka streams</a>
           
       
     
@@ -281,26 +278,24 @@
 <h2 id="distributed-computing">Distributed Computing</h2>
 
 <ul>
-<li><a href="https://blog.acolyer.org/2019/03/29/calvin-fast-distributed-transactions-for-partitioned-database-systems/">Calvin: fast distributed transactions for partitioned database systems</a>. In this white-paper dissection by <a href="https://twitter.com/adriancolyer">Adrian</a>, he looks at <a href="https://github.com/yaledb/calvin">Calvin</a> which is a transaction scheduling and data replication layer that uses a deterministic ordering guarantee to reduce the high contention costs associated with distributed transactions significantly.</li>
-</ul>
-
-<h2 id="sql-server">SQL Server</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/03/27/sql-server-2019-community-technology-preview-2-4-is-now-available/">SQL Server 2019 community technology preview 2.4 is now available</a>. What the title says. I downloaded the CTP a couple of days ago, and when I am done with this post, I will install it. Oh, word of warning - if you want to install the <strong>SQL Server 2019 Big Data Cluster</strong>, please remember to uninstall and reinstall <code>mssqlctl</code>, so you get the latest version.</li>
+<li><a href="https://www.infoq.com/presentations/starling-bank">Building a Reliable Cloud-Based Bank in Java</a>. This is an <a href="https://www.infoq.com/">InfoQ</a> presentation discussing the experience of Starling Bank, a mobile-only, cloud-based bank that launched in the UK in 2017. The presenter looks at the system architecture of the bank, the design principles that give them the ability to release quickly and reliably, and why they decided to build the back end using Java.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/importance-of-distributed-tracing-for-apache-kafka-based-applications">The Importance of Distributed Tracing for Apache-Kafka-Based Applications</a>. This blog post looks at how to instrument Kafka-based applications with distributed tracing capabilities to make dataflows between event-based components more visible. Very interesting!</li>
-<li><a href="https://www.confluent.io/blog/consuming-messages-out-of-apache-kafka-in-a-browser/2">Consuming Messages Out of Apache Kafka in a Browser</a>. The post covers what the title says; how to consume Kafka messages in a browser.</li>
-<li><a href="https://rmoff.net/2019/03/28/exploring-ksql-stream-stream-joins/">Exploring KSQL Stream-Stream Joins</a>. This is an excellent post by <a href="https://twitter.com/rmoff">Robin</a> where he covers KSQL and stream to stream joins! I need to go off and <del>play with</del> research this now!</li>
+<li><p><a href="https://www.confluent.io/blog/introducing-confluent-platform-5-2">Introducing Confluent Platform 5.2</a>. During the week Confluent announced the release of Confluent Platform 5., and with it some exciting new features:</p>
+
+<ul>
+<li>Confluent Platform is free for single node clusters, it is like a developer edition!</li>
+<li>The <code>librdkafka</code> library is now in version 1.0. That is interesting as it brings this library closer to parity with the Java client for Kafka.</li>
+<li>New and enhanced query expressions in KSQL.</li>
+</ul></li>
+
+<li><p><a href="https://www.confluent.io/blog/putting-events-in-their-place-with-dynamic-routing">Putting Events in Their Place with Dynamic Routing</a>. This is a blog post about how Kafka Streams are a powerful way to enrich data streaming through event-driven architectures. We can dynamically route events to topics, even pulling in the output topic information from another end data system.</p></li>
+
+<li><p><a href="https://www.infoq.com/presentations/starling-bank">KSQL: What’s New in 5.2</a>. As I mentioned above, there are new features in KSQL 5.2, and in this blog post <a href="https://twitter.com/rmoff">Robin</a> discusses some of them!</p></li>
 </ul>
-
-<h2 id="wind-what-is-niels-doing">WIND (<em>What Is Niels Doing</em>)</h2>
-
-<p>I am still working on the post about <code>CREATE EXTERNAL LIBRARY</code> in the <a href="/sql_server_ml_services_install_packages">Install R Packages in SQL Server ML Services</a> series. Expect it towards the end of this coming week.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -328,16 +323,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/03/24/interesting-stuff---week-12-2019/" class="post--navigation-prev">
+    <a href="/2019/03/31/interesting-stuff---week-13-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 12, 2019</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 13, 2019</span>
     </a>
     
-    
-    <a href="/2019/04/07/interesting-stuff---week-14-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 14, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -352,27 +342,36 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2019/02/10/interesting-stuff---week-6-2019/">Interesting Stuff - Week 6, 2019</a>
+    <a href="/2019/03/31/interesting-stuff---week-13-2019/">Interesting Stuff - Week 13, 2019</a>
       
-      <time class="pull-right hidden-tablet">Feb 10 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/01/27/interesting-stuff---week-4-2019/">Interesting Stuff - Week 4, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Jan 27 &#39;19</time>
+      <time class="pull-right hidden-tablet">Mar 31 &#39;19</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
+    <a href="/2018/10/07/interesting-stuff---week-40/">Interesting Stuff - Week 40</a>
       
-      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
+      <time class="pull-right hidden-tablet">Oct 07 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/09/16/interesting-stuff---week-37/">Interesting Stuff - Week 37</a>
+      
+      <time class="pull-right hidden-tablet">Sep 16 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/08/19/interesting-stuff---week-33/">Interesting Stuff - Week 33</a>
+      
+      <time class="pull-right hidden-tablet">Aug 19 &#39;18</time>
       
   </span>
 </li>
@@ -382,15 +381,6 @@ To automatically receive more posts like this, please
     <a href="/2019/03/17/interesting-stuff---week-11-2019/">Interesting Stuff - Week 11, 2019</a>
       
       <time class="pull-right hidden-tablet">Mar 17 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/03/03/interesting-stuff---week-9-2019/">Interesting Stuff - Week 9, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Mar 03 &#39;19</time>
       
   </span>
 </li>
