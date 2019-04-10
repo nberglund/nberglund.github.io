@@ -453,6 +453,10 @@ PRINT @binrep;
 
 <p>We see in <em>Code Snippet 9</em> how we <code>DECLARE</code> a variable <code>@binrep</code> which is a <code>varbinary</code>, and then we <code>SELECT</code> the value of the <code>content</code> column into the variable. We finally <code>PRINT</code> the content of the variable and we get something like so when we execute:</p>
 
+<blockquote>
+<p><strong>EDIT (2019-04-10):</strong> The above method works only with packages with a size less than 8k. See <a href="/2019/04/10/installing-r-packages-in-sql-server-machine-learning-services---iii/">Installing R Packages in SQL Server Machine Learning Services - III</a> for an explanation, and a way around it.</p>
+</blockquote>
+
 <p><img src="/images/posts/sql_2k19_java_ext_lib2_binrep.png" alt="" /></p>
 
 <p><strong>Figure 2:</strong> <em>Binary Representation</em></p>

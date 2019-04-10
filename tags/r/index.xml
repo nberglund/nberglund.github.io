@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 17 Mar 2019 17:13:45 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 10 Apr 2019 06:36:16 +0200</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Installing R Packages in SQL Server Machine Learning Services - III</title>
+      <link>/2019/04/10/installing-r-packages-in-sql-server-machine-learning-services---iii/</link>
+      <pubDate>Wed, 10 Apr 2019 06:36:16 +0200</pubDate>
+      
+      <guid>/2019/04/10/installing-r-packages-in-sql-server-machine-learning-services---iii/</guid>
+      <description>&lt;p&gt;This post is the third in a series about installing R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; (SQL Server ML Services). To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
+
+&lt;p&gt;In this post, we look at how we can use T-SQL and DDL commands to install packages in a remote SQL Server.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>SQL Server 2019, Java &amp; External Libraries - II</title>
@@ -162,25 +177,6 @@
 &lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
 
 &lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server 2019 for Linux in Docker on Windows</title>
-      <link>/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/</link>
-      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
-      
-      <guid>/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/</guid>
-      <description>&lt;p&gt;By the time I publish this blog post &lt;a href=&#34;https://www.microsoft.com/en-us/ignite&#34;&gt;MS Ignite&lt;/a&gt; is over. During Ignite, Microsoft announced quite a few new things, amongst them &lt;strong&gt;SQL Server 2019&lt;/strong&gt; with a whole lot of new features and functionality.&lt;/p&gt;
-
-&lt;p&gt;I touched briefly on some of them in my &lt;a href=&#34;/2018/09/24/what-is-new-in-sql-server-2019-public-preview/&#34;&gt;What is New in SQL Server 2019 Public Preview&lt;/a&gt; post. A couple of things that caught my eye were that &lt;strong&gt;SQL Server 2019 for Linux&lt;/strong&gt; now supports In-Database analytics, what we know as &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; (R and Python), as well as the Java language extension.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may ask yourself what the Java language extension is; well, that is the ability to access Java code from T-SQL. It is a little bit like SQLCLR, but it executes outside of the SQL Server memory and process space.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Seeing that I never really have played around with &lt;em&gt;SQL Server for Linux&lt;/em&gt;, mostly due to that in previous versions (2017) it did not have support for In-Database analytics, I thought that now would be a good time to have a look.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
