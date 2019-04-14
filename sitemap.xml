@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/04/14/interesting-stuff---week-15-2019/</loc>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/04/10/installing-r-packages-in-sql-server-machine-learning-services---iii/</loc>
     <lastmod>2019-04-10T06:36:16+02:00</lastmod>
   </url>
@@ -969,7 +974,7 @@
   
   <url>
     <loc>/tags/.net/</loc>
-    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1073,7 +1078,7 @@
   
   <url>
     <loc>/tags/azure/</loc>
-    <lastmod>2019-03-10T13:14:44+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1340,6 +1345,12 @@
   </url>
   
   <url>
+    <loc>/tags/cosmos-db/</loc>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/create-external-library/</loc>
     <lastmod>2019-04-10T06:36:16+02:00</lastmod>
     <priority>0</priority>
@@ -1359,7 +1370,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-03-24T08:37:01+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1417,7 +1428,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-04-07T19:33:23+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1577,7 +1588,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-04-07T19:33:23+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1619,7 +1630,7 @@
   
   <url>
     <loc>/tags/kubernetes/</loc>
-    <lastmod>2019-03-24T08:37:01+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1787,7 +1798,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-10T06:36:16+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1853,7 +1864,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-04-10T06:36:16+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1979,7 +1990,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-04-07T19:33:23+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2095,7 +2106,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2019-03-24T08:37:01+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2221,7 +2232,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2019-04-10T06:36:16+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2353,7 +2364,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
+    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
