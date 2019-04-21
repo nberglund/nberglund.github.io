@@ -3,10 +3,81 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-04-21T11:15:19+02:00</updated>
+  <updated>2019-04-21T16:36:40+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 16, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/04/21/interesting-stuff---week-16-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-04-21T16:36:40+02:00</updated>
+    <id>http://nielsberglund.com/2019/04/21/interesting-stuff---week-16-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/announcing-net-core-3-preview-4/">Announcing .NET Core 3 Preview 4</a>. Some new interesting features in Preview 4 of .NET Core 3.0. Hope we&rsquo;ll see RTM soon.</li>
+</ul>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://towardsdatascience.com/learn-enough-docker-to-be-useful-b7ba70caeb4b">Learn Enough Docker to be Useful Part 1: The Conceptual Landscape</a>. This post is the first &ldquo;episode&rdquo; in a series about how to learn Docker. It is excellent, and for a Docker newbie as myself quite invaluable!</li>
+<li><a href="https://towardsdatascience.com/key-kubernetes-concepts-62939f4bc08e">Key Kubernetes Concepts</a>. This article covers essential Kubernetes concepts, and it’ll help you make a mental model of the most important Kubernetes terms to speed your understanding of the technology.</li>
+<li><a href="https://towardsdatascience.com/https-medium-com-bachwehbi-data-lake-an-asset-or-a-liability-c424c74cfde8">Data Lake: an asset or a liability?</a>. This post looks at several important points to take into account when starting a Data Lake project.</li>
+</ul>
+
+<h2 id="sql-server">SQL Server</h2>
+
+<ul>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/04/18/the-april-release-of-azure-data-studio-is-now-available/">The April release of Azure Data Studio is now available</a>. As the title says; Microsoft has released a new version (April 2019) of Azure Data Studio. There are quite a few new interesting features, and I cannot wait to try out the <a href="https://microsoft.github.io/SandDance/">SandDance</a> extension.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://towardsdatascience.com/how-to-create-your-own-deep-learning-project-in-azure-509660d8297">How to create your own Deep Learning Project in Azure</a>. In this article, the author takes us through how to use Azure Databricks with Tensorflow and Keras to build a deep learning project.</li>
+<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/04/16/automated-machine-learning-from-sql-server-with-azure-machine-learning/">Automated machine learning from SQL Server with Azure Machine Learning</a>. This post discusses how to leverage Azure Machine Learning Service from SQL Server Machine Learning Services.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/kafka-summit-new-york-2019-session-videos">Kafka Summit New York 2019 Session Videos</a>. The Kafka Summit took place in New York earlier this month. This post links to the session videos.</li>
+<li><a href="https://www.confluent.io/blog/dawn-of-devops-managing-and-evolving-schemas-with-confluent-control-center">Dawn of DevOps: Managing and Evolving Schemas with Confluent Control Center</a>. This post is the first in a three-part series of DevOps related &ldquo;stuff&rdquo;. This first post looks at how to use Confluence Control Center to manage and evolve schemas.</li>
+<li><a href="https://towardsdatascience.com/beat-cache-invalidation-in-asp-net-core-using-kafka-and-debezium-65cd1d80554d">Beat Cache Invalidation in ASP.NET Core Using Kafka and Debezium</a>. This article discusses how to create a better in-memory cache in ASP.NET Core by using Change Data Capture on a database to send events to Apache Kafka via Debezium.</li>
+<li><a href="https://rmoff.net/2019/04/17/pivoting-aggregates-in-ksql/">Pivoting Aggregates in Ksql</a>. This is an excellent post by <a href="https://twitter.com/rmoff">Robin</a> where he show how we can do pivoting of aggregates in KSQL.</li>
+</ul>
+
+<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+
+<ul>
+<li><a href="/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/">Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</a>. In this post, I look at permissions required when using <code>CREATE EXTERNAL LIBRARY</code> as well as ownership of the created libraries.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Installing R Packages in SQL Server Machine Learning Services - IV: Permissions]]></title>
@@ -2785,86 +2856,6 @@ EXEC sp_execute_external_script
 <li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/01/09/how-to-automate-machine-learning-on-sql-server-2019-big-data-clusters/">How to automate machine learning on SQL Server 2019 big data clusters</a>. This post explores how to use automated machine learning (AutoML) to create new machine learning models over data in SQL Server 2019 big data clusters.</li>
 <li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/01/09/the-january-release-of-azure-data-studio-is-now-available/">The January release of Azure Data Studio</a>. A post announcing the latest release of <a href="https://github.com/microsoft/azuredatastudio">Azure Data Studio</a>. Go and download it from <a href="https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-ver15">here</a>.</li>
 </ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Christmas, New Year, Week 1, 2019]]></title>
-    <link href="http://nielsberglund.com/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/" rel="alternate" type="text/html"/>
-    <updated>2019-01-06T17:13:57+02:00</updated>
-    <id>http://nielsberglund.com/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This is the &ldquo;roundup&rdquo; of the posts that has been most interesting to me over the Christmas and New Year period.</p>
-
-<p></p>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://blog.acolyer.org/2018/12/19/identifying-impactful-service-system-problems-via-log-analysis/">Identifying impactful service system problems via log analysis</a>. This is the dissection by <a href="https://twitter.com/adriancolyer">Adrian</a> of a white-paper about <a href="https://github.com/logpai/Log3C">Log3C</a>, which is a general framework that identifies service system problems from system logs. Go off and read <a href="https://twitter.com/adriancolyer">Adrian</a>&rsquo;s take on it, and then go and download <a href="https://github.com/logpai/Log3C">Log3C</a>!</li>
-<li><a href="https://blog.acolyer.org/2018/12/21/towards-a-theory-of-software-development-expertise/">Towards a theory of software development expertise</a>. The last paper <a href="https://twitter.com/adriancolyer">Adrian</a> looked at in 2018. The paper is about what is a good software developer, and how do you get better?</li>
-</ul>
-
-<h2 id="databases">Databases</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/devops-database">DevOps for the Database</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation trying to find the answer to why it is difficult to apply principles of DevOps to databases.</li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://muratbuffalo.blogspot.com/2018/12/2-phase-commit-and-beyond.html">Two-phase commit and beyond</a>. An excellent post by <a href="https://twitter.com/muratdemirbas">Murat</a> discussing the two-phase commit protocol. It is an excellent read, and if you have any interest in distributed computing, you should read the post.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://www.kdnuggets.com/2018/08/github-python-data-science-spotlight.html">GitHub Python Data Science Spotlight: AutoML, NLP, Visualization, ML Workflows</a>. A blog post which spotlights a select group of open source Python data science projects with GitHub repos. I am particularly interested in <a href="http://autokeras.com">Auto-Keras</a>, and <a href="https://mlflow.org/docs/latest/index.html">MLFlow</a>.</li>
-</ul>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/articles/testing-aspnet-core-web-api">How to Test ASP.NET Core Web API</a>. This is an <a href="https://www.infoq.com/">InfoQ</a> article investigating testing ASP.NET Core 2.0 Web API solutions. The article looks at internal testing with Unit Testing and externally testing with a new testing framework in ASP.NET Core called <em>Integration Testing</em>.</li>
-<li><a href="https://www.infoq.com/articles/netcore-cli">A Quick Tour of the .NET CLI</a>. Another <a href="https://www.infoq.com/">InfoQ</a> article, this time it covers how several .Net OSS tools take advantage of the dotnet cli and how we can use the new cli tooling in our daily development.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/microsoft-open-sources-trill-to-deliver-insights-on-a-trillion-events-a-day/">Microsoft open sources Trill to deliver insights on a trillion events a day</a>. A blog post introducing <a href="https://github.com/Microsoft/trill">Trill</a>; a high-performance streaming analytics engine. This is something I want to keep my eyes on!</li>
-<li><a href="https://www.confluent.io/blog/easy-ways-generate-test-data-kafka">Easy Ways to Generate Test Data in Kafka</a>. As the title says, a post discussing how to generate data for testing in Kafka.</li>
-</ul>
-
-<h2 id="what-did-niels-do-during-the-holidays">What Did Niels Do During the Holidays</h2>
-
-<p>I was a, (somewhat), busy bee during the holidays and managed to publish three blog posts:</p>
-
-<ul>
-<li><a href="/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/">SQL Server 2019 Extensibility Framework &amp; Java - Null Values</a>. A post where I look at how to handle null values when calling Java code from SQL Server 2019.</li>
-<li><a href="/2018/12/24/sql-server-ml-services---multiple-input-data-sets/">SQL Server ML Services - Multiple Input Data Sets</a>. We look at how to push in multiple datasets to external scripts.</li>
-<li><a href="/2018/12/30/sql-server-2019-extensibility-framework--java---misc.-stuff/">SQL Server 2019 Extensibility Framework &amp; Java - Misc. &ldquo;Stuff&rdquo;</a>. We look at SQL Server 2019 Java Extensions, and Java packages, the CLASSPATH and JAR files.</li>
-</ul>
-
-<p>Right now I am working on two more posts related to the <strong>SQL Server 2019 Extensibility Framework</strong>. I hope to publish at least one this coming week.</p>
 
 <h2 id="finally">~ Finally</h2>
 

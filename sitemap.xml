@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/04/21/interesting-stuff---week-16-2019/</loc>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/</loc>
     <lastmod>2019-04-21T11:15:19+02:00</lastmod>
   </url>
@@ -1143,7 +1148,7 @@
   
   <url>
     <loc>/tags/azure-data-studio/</loc>
-    <lastmod>2019-03-24T08:37:01+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1155,7 +1160,7 @@
   
   <url>
     <loc>/tags/azure-databricks/</loc>
-    <lastmod>2019-02-10T08:37:39+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1375,7 +1380,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1433,7 +1438,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1593,7 +1598,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1629,7 +1634,7 @@
   
   <url>
     <loc>/tags/ksql/</loc>
-    <lastmod>2019-04-07T19:33:23+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1803,7 +1808,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-21T11:15:19+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1869,7 +1874,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-04-21T11:15:19+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1995,7 +2000,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2111,7 +2116,7 @@
   
   <url>
     <loc>/tags/sql-server/</loc>
-    <lastmod>2019-04-14T18:24:53+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2237,7 +2242,7 @@
   
   <url>
     <loc>/tags/sql-server-machine-learning-services/</loc>
-    <lastmod>2019-04-21T11:15:19+02:00</lastmod>
+    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
     <priority>0</priority>
   </url>
   
