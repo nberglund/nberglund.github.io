@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 10 Apr 2019 06:36:16 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 21 Apr 2019 11:15:19 +0200</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</title>
+      <link>/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/</link>
+      <pubDate>Sun, 21 Apr 2019 11:15:19 +0200</pubDate>
+      
+      <guid>/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/</guid>
+      <description>&lt;p&gt;This post is the fourth in a series about installing R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; (SQL Server ML Services). To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
+
+&lt;p&gt;In this post, we look at:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;What permissions &lt;code&gt;CREATE EXTERNAL LIBRARY&lt;/code&gt; requires.&lt;/li&gt;
+&lt;li&gt;The ability to create external libraries with different owners and what impact it has.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Installing R Packages in SQL Server Machine Learning Services - III</title>
@@ -158,25 +178,6 @@
 &lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In this post we look at how we can pass data back and forth between SQL Server and Java.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server 2019 Extensibility Framework &amp; Java - Hello World</title>
-      <link>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</link>
-      <pubDate>Sun, 02 Dec 2018 09:36:34 +0200</pubDate>
-      
-      <guid>/2018/12/02/sql-server-2019-extensibility-framework--java---hello-world/</guid>
-      <description>&lt;p&gt;The SQL Server 2016 release introduced the &lt;strong&gt;SQL Server Extensibility Framework&lt;/strong&gt; (EF), which gives us the ability to, from inside SQL Server, execute code in an external language runtime environment. SQL Server 2016 supports R as external runtime, and Microsoft added Python to supported runtimes in the SQL Server 2017 release. The important part about the EF is that the runtime is outside of the core database engine, but we call it from inside SQL Server via the stored procedure &lt;code&gt;sp_execute_external_script&lt;/code&gt;. We can push data from SQL Server queries to the external runtime, and consume data, (resultsets, output parameters) from the external runtime back in SQL Server.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You can read more about the actual implementation of the external runtimes and &lt;code&gt;sp_execute_external_script&lt;/code&gt; in my &lt;a href=&#34;/sql_server_2k16_r_services&#34;&gt;SQL Server R Services Series&lt;/a&gt; posts.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
-
-&lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

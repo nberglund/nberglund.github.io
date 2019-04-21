@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 10 Apr 2019 06:36:16 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 21 Apr 2019 11:15:19 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</title>
+      <link>/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/</link>
+      <pubDate>Sun, 21 Apr 2019 11:15:19 +0200</pubDate>
+      
+      <guid>/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/</guid>
+      <description>&lt;p&gt;This post is the fourth in a series about installing R packages in &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; (SQL Server ML Services). To see all posts in the series go to &lt;a href=&#34;/sql_server_ml_services_install_packages&#34;&gt;&lt;strong&gt;Install R Packages in SQL Server ML Services Series&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Why this series came about is a colleague of mine &lt;a href=&#34;https://www.linkedin.com/in/dane-bax/&#34;&gt;Dane&lt;/a&gt; pinged me and asked if I had any advice as he had issues installing an R package into one of their SQL Server instances. I tried to help him and then thought it would make a good topic for a blog post. Of course, at that time I didn&amp;rsquo;t think it would be more posts than one, but here we are.&lt;/p&gt;
+
+&lt;p&gt;In this post, we look at:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;What permissions &lt;code&gt;CREATE EXTERNAL LIBRARY&lt;/code&gt; requires.&lt;/li&gt;
+&lt;li&gt;The ability to create external libraries with different owners and what impact it has.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Installing R Packages in SQL Server Machine Learning Services - III</title>
@@ -155,25 +175,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;Seeing that I never really have played around with &lt;em&gt;SQL Server for Linux&lt;/em&gt;, mostly due to that in previous versions (2017) it did not have support for In-Database analytics, I thought that now would be a good time to have a look.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>What is New in SQL Server 2019 Public Preview</title>
-      <link>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</link>
-      <pubDate>Mon, 24 Sep 2018 19:17:06 +0200</pubDate>
-      
-      <guid>/2018/09/24/what-is-new-in-sql-server-2019-public-preview/</guid>
-      <description>&lt;p&gt;If you read my roundup for &lt;a href=&#34;/2018/09/23/interesting-stuff---week-38/&#34;&gt;week 38&lt;/a&gt;, which I published yesterday, you probably noticed that &lt;a href=&#34;https://www.microsoft.com/en-us/ignite&#34;&gt;&lt;strong&gt;MS Ignite&lt;/strong&gt;&lt;/a&gt; started today. I mentioned in the post that I was particularly interested in some of the &lt;strong&gt;SQL Server&lt;/strong&gt; sessions, as they looked very interesting.&lt;/p&gt;
-
-&lt;p&gt;However, even before the sessions started, Microsoft released SQL Server 2019 CTP 2.0 for public preview and, naturally, I jumped on the &lt;a href=&#34;https://www.microsoft.com/en-us/evalcenter/evaluate-sql-server-2019-ctp&#34;&gt;download link&lt;/a&gt; and started downloading. I managed to get to the link in time before the rest of the world started the download, so I managed to get it down and then did an install.&lt;/p&gt;
-
-&lt;p&gt;The rest of this post is about my initial findings mostly in the SQL Server Machine Learning Services space.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; I have looked at SQL Server 2019 the grand total of an hour, so this is a short post.&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
