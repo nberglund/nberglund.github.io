@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 16, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 17, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 16, 2019"/>
-<meta name="twitter:description" content="Kafka and KSQL, Azure Databricks, Azure Data Studio, Docker and Kubernetes and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 17, 2019"/>
+<meta name="twitter:description" content="Kafka, Debezium .NET &amp; Spark, SQL Serer 2019, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 16, 2019" />
-<meta property="og:description" content="Kafka and KSQL, Azure Databricks, Azure Data Studio, Docker and Kubernetes and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 17, 2019" />
+<meta property="og:description" content="Kafka, Debezium .NET &amp; Spark, SQL Serer 2019, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/04/21/interesting-stuff---week-16-2019/" />
+<meta property="og:url" content="/2019/04/28/interesting-stuff---week-17-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-04-21T16:36:40&#43;02:00"/>
+<meta property="article:published_time" content="2019-04-28T08:12:38&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-04-21T16:36:40&#43;02:00"/>
+<meta property="article:modified_time" content="2019-04-28T08:12:38&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 16, 2019</h1>
+    <h1>Interesting Stuff - Week 17, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Apr 21, 2019
+      <i class="fas fa-calendar-alt"></i> Apr 28, 2019
     
     
     
@@ -235,28 +235,25 @@
           <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
-          <a class="post__tag" href="/tags/sql-server">sql server</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-machine-learning-services">sql server machine learning services</a>
-           
-      
-          <a class="post__tag" href="/tags/azure-data-studio">azure data studio</a>
-           
-      
-          <a class="post__tag" href="/tags/azure-databricks">azure databricks</a>
+          <a class="post__tag" href="/tags/sql-server-2019">sql server 2019</a>
            
       
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/ksql">ksql</a>
+          <a class="post__tag" href="/tags/debezium">debezium</a>
+           
+      
+          <a class="post__tag" href="/tags/spark">spark</a>
+           
+      
+          <a class="post__tag" href="/tags/kubernetes">kubernetes</a>
           
       
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
@@ -287,46 +284,23 @@
 
 <p></p>
 
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://devblogs.microsoft.com/dotnet/announcing-net-core-3-preview-4/">Announcing .NET Core 3 Preview 4</a>. Some new interesting features in Preview 4 of .NET Core 3.0. Hope we&rsquo;ll see RTM soon.</li>
-</ul>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://towardsdatascience.com/learn-enough-docker-to-be-useful-b7ba70caeb4b">Learn Enough Docker to be Useful Part 1: The Conceptual Landscape</a>. This post is the first &ldquo;episode&rdquo; in a series about how to learn Docker. It is excellent, and for a Docker newbie as myself quite invaluable!</li>
-<li><a href="https://towardsdatascience.com/key-kubernetes-concepts-62939f4bc08e">Key Kubernetes Concepts</a>. This article covers essential Kubernetes concepts, and it’ll help you make a mental model of the most important Kubernetes terms to speed your understanding of the technology.</li>
-<li><a href="https://towardsdatascience.com/https-medium-com-bachwehbi-data-lake-an-asset-or-a-liability-c424c74cfde8">Data Lake: an asset or a liability?</a>. This post looks at several important points to take into account when starting a Data Lake project.</li>
-</ul>
-
-<h2 id="sql-server">SQL Server</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/04/18/the-april-release-of-azure-data-studio-is-now-available/">The April release of Azure Data Studio is now available</a>. As the title says; Microsoft has released a new version (April 2019) of Azure Data Studio. There are quite a few new interesting features, and I cannot wait to try out the <a href="https://microsoft.github.io/SandDance/">SandDance</a> extension.</li>
-</ul>
-
 <h2 id="data-science">Data Science</h2>
 
 <ul>
-<li><a href="https://towardsdatascience.com/how-to-create-your-own-deep-learning-project-in-azure-509660d8297">How to create your own Deep Learning Project in Azure</a>. In this article, the author takes us through how to use Azure Databricks with Tensorflow and Keras to build a deep learning project.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/04/16/automated-machine-learning-from-sql-server-with-azure-machine-learning/">Automated machine learning from SQL Server with Azure Machine Learning</a>. This post discusses how to leverage Azure Machine Learning Service from SQL Server Machine Learning Services.</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-net-for-apache-spark/">Introducing .NET for Apache® Spark™ Preview</a>. What the title says! Microsoft has released a preview of .NET that you can use together with Apache Spark. It is built on the Spark interop layer, designed to provide high-performance bindings to multiple languages. Being able to write C# code for Spark is so awesome; hopefully, we can soon use it in Notebooks as well.</li>
+<li><a href="https://towardsdatascience.com/why-kubernetes-is-a-great-choice-for-data-scientists-e130603b9b2d">Why Kubernetes is a Great Choice for Data Scientists</a>. This is an interesting post discussing how Kubernetes can be used in a data science world.</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/kafka-summit-new-york-2019-session-videos">Kafka Summit New York 2019 Session Videos</a>. The Kafka Summit took place in New York earlier this month. This post links to the session videos.</li>
-<li><a href="https://www.confluent.io/blog/dawn-of-devops-managing-and-evolving-schemas-with-confluent-control-center">Dawn of DevOps: Managing and Evolving Schemas with Confluent Control Center</a>. This post is the first in a three-part series of DevOps related &ldquo;stuff&rdquo;. This first post looks at how to use Confluence Control Center to manage and evolve schemas.</li>
-<li><a href="https://towardsdatascience.com/beat-cache-invalidation-in-asp-net-core-using-kafka-and-debezium-65cd1d80554d">Beat Cache Invalidation in ASP.NET Core Using Kafka and Debezium</a>. This article discusses how to create a better in-memory cache in ASP.NET Core by using Change Data Capture on a database to send events to Apache Kafka via Debezium.</li>
-<li><a href="https://rmoff.net/2019/04/17/pivoting-aggregates-in-ksql/">Pivoting Aggregates in Ksql</a>. This is an excellent post by <a href="https://twitter.com/rmoff">Robin</a> where he show how we can do pivoting of aggregates in KSQL.</li>
+<li><a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a>. At <a href="/derivco">work</a> we have started looking at <a href="https://twitter.com/debezium">Debezium</a> as a way to get data from the database into other systems, and while I was investigating this, I came across the linked blog-post. If you are interested in how to turn your databases into event stream sources, then this post is a must read!</li>
 </ul>
 
-<h2 id="sql-server-machine-learning-services">SQL Server Machine Learning Services</h2>
+<h2 id="sql-server-2019">SQL Server 2019</h2>
 
 <ul>
-<li><a href="/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/">Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</a>. In this post, I look at permissions required when using <code>CREATE EXTERNAL LIBRARY</code> as well as ownership of the created libraries.</li>
+<li><a href="https://docs.microsoft.com/en-us/sql/sql-server/sql-server-ver15-release-notes?view=sqlallproducts-allversions">SQL Server 2019 preview release notes</a>. Earlier this week, Microsoft released SQL Server 2019 preview CTP 2.5. Some very cool new features! Go and get it!</li>
 </ul>
 
 <h2 id="finally">~ Finally</h2>
@@ -355,16 +329,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/04/21/installing-r-packages-in-sql-server-machine-learning-services---iv-permissions/" class="post--navigation-prev">
+    <a href="/2019/04/21/interesting-stuff---week-16-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 16, 2019</span>
     </a>
     
-    
-    <a href="/2019/04/28/interesting-stuff---week-17-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 17, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -379,36 +348,9 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
+    <a href="/2019/02/03/interesting-stuff---week-5-2019/">Interesting Stuff - Week 5, 2019</a>
       
-      <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/10/07/interesting-stuff---week-40/">Interesting Stuff - Week 40</a>
-      
-      <time class="pull-right hidden-tablet">Oct 07 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/09/16/interesting-stuff---week-37/">Interesting Stuff - Week 37</a>
-      
-      <time class="pull-right hidden-tablet">Sep 16 &#39;18</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2018/08/19/interesting-stuff---week-33/">Interesting Stuff - Week 33</a>
-      
-      <time class="pull-right hidden-tablet">Aug 19 &#39;18</time>
+      <time class="pull-right hidden-tablet">Feb 03 &#39;19</time>
       
   </span>
 </li>
@@ -418,6 +360,33 @@ To automatically receive more posts like this, please
     <a href="/2019/04/14/interesting-stuff---week-15-2019/">Interesting Stuff - Week 15, 2019</a>
       
       <time class="pull-right hidden-tablet">Apr 14 &#39;19</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2019/03/17/interesting-stuff---week-11-2019/">Interesting Stuff - Week 11, 2019</a>
+      
+      <time class="pull-right hidden-tablet">Mar 17 &#39;19</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2019/03/03/interesting-stuff---week-9-2019/">Interesting Stuff - Week 9, 2019</a>
+      
+      <time class="pull-right hidden-tablet">Mar 03 &#39;19</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2019/02/10/interesting-stuff---week-6-2019/">Interesting Stuff - Week 6, 2019</a>
+      
+      <time class="pull-right hidden-tablet">Feb 10 &#39;19</time>
       
   </span>
 </li>

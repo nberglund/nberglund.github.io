@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 14 Apr 2019 18:24:53 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 08:12:38 +0200</lastBuildDate>
     
 	<atom:link href="/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Interesting Stuff - Week 17, 2019</title>
+      <link>/2019/04/28/interesting-stuff---week-17-2019/</link>
+      <pubDate>Sun, 28 Apr 2019 08:12:38 +0200</pubDate>
+      
+      <guid>/2019/04/28/interesting-stuff---week-17-2019/</guid>
+      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;data science&lt;/li&gt;
+&lt;li&gt;data in general&lt;/li&gt;
+&lt;li&gt;distributed computing&lt;/li&gt;
+&lt;li&gt;SQL Server&lt;/li&gt;
+&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
+&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Interesting Stuff - Week 15, 2019</title>
@@ -214,28 +236,6 @@
 &lt;/blockquote&gt;
 
 &lt;p&gt;Since I am a complete novice when it comes to Kubernetes, this post covers both how I set up AKS as well as the deployment of &lt;strong&gt;SQL Server 2019 Big Data Clusters&lt;/strong&gt; to AKS, and the post is somewhat a summary of the official &lt;a href=&#34;https://docs.microsoft.com/en-us/sql/big-data-cluster/big-data-cluster-overview?view=sqlallproducts-allversions&#34;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Interesting Stuff - Week 43</title>
-      <link>/2018/10/28/interesting-stuff---week-43/</link>
-      <pubDate>Sun, 28 Oct 2018 07:44:55 +0200</pubDate>
-      
-      <guid>/2018/10/28/interesting-stuff---week-43/</guid>
-      <description>&lt;p&gt;Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;data science&lt;/li&gt;
-&lt;li&gt;data in general&lt;/li&gt;
-&lt;li&gt;distributed computing&lt;/li&gt;
-&lt;li&gt;SQL Server&lt;/li&gt;
-&lt;li&gt;transactions (both db as well as non db)&lt;/li&gt;
-&lt;li&gt;and other &amp;ldquo;stuff&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This blog-post is the &amp;ldquo;roundup&amp;rdquo; of the things that have been most interesting to me, for the week just ending.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

@@ -3,10 +3,58 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-04-21T16:36:40+02:00</updated>
+  <updated>2019-04-28T08:12:38+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 17, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/04/28/interesting-stuff---week-17-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-04-28T08:12:38+02:00</updated>
+    <id>http://nielsberglund.com/2019/04/28/interesting-stuff---week-17-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-net-for-apache-spark/">Introducing .NET for Apache® Spark™ Preview</a>. What the title says! Microsoft has released a preview of .NET that you can use together with Apache Spark. It is built on the Spark interop layer, designed to provide high-performance bindings to multiple languages. Being able to write C# code for Spark is so awesome; hopefully, we can soon use it in Notebooks as well.</li>
+<li><a href="https://towardsdatascience.com/why-kubernetes-is-a-great-choice-for-data-scientists-e130603b9b2d">Why Kubernetes is a Great Choice for Data Scientists</a>. This is an interesting post discussing how Kubernetes can be used in a data science world.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/">Reliable Microservices Data Exchange With the Outbox Pattern</a>. At <a href="/derivco">work</a> we have started looking at <a href="https://twitter.com/debezium">Debezium</a> as a way to get data from the database into other systems, and while I was investigating this, I came across the linked blog-post. If you are interested in how to turn your databases into event stream sources, then this post is a must read!</li>
+</ul>
+
+<h2 id="sql-server-2019">SQL Server 2019</h2>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/sql-server/sql-server-ver15-release-notes?view=sqlallproducts-allversions">SQL Server 2019 preview release notes</a>. Earlier this week, Microsoft released SQL Server 2019 preview CTP 2.5. Some very cool new features! Go and get it!</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 16, 2019]]></title>
@@ -2805,61 +2853,6 @@ EXEC sp_execute_external_script
 <h2 id="finally">~ Finally</h2>
 
 <p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 2, 2019]]></title>
-    <link href="http://nielsberglund.com/2019/01/13/interesting-stuff---week-2-2019/" rel="alternate" type="text/html"/>
-    <updated>2019-01-13T19:43:46+02:00</updated>
-    <id>http://nielsberglund.com/2019/01/13/interesting-stuff---week-2-2019/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/articles/dotnet-core-article-second-series">Article Series - .NET Core - 2nd Series</a>. An <a href="https://www.infoq.com/">InfoQ</a> series, exploring some of the benefits of .NET Core and how it can help traditional .NET developers and all technologists that need to bring robust, performant and economical solutions to market.</li>
-<li><a href="https://adamsitnik.com/ConcurrencyVisualizer-Profiler/">Profiling Concurrent .NET Code with BenchmarkDotNet and visualizing it with Concurrency Visualizer</a>. A blog post by <a href="https://twitter.com/SitnikAdam">Adam Sitnik</a> who is .NET Mr Performance. In the post, he talks about how to profile multithreaded .NET code using <a href="https://benchmarkdotnet.org/">BenchmarkDotNet</a> and <a href="https://marketplace.visualstudio.com/items?itemName=Diagnostics.ConcurrencyVisualizer2017">Concurrency Visualizer</a>. If you are a .NET developer, do yourself a favor and follow <a href="https://twitter.com/SitnikAdam">Adam</a>.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/stream-processing-part-1-tutorial-developing-streaming-applications">Getting Your Feet Wet with Stream Processing – Part 1: Tutorial for Developing Streaming Applications</a>. The first part of a two-part blog series about developing and validating real-time streaming applications. This part is an introduction to streaming application development.</li>
-</ul>
-
-<h2 id="data-science">Data Science</h2>
-
-<ul>
-<li><a href="https://databricks.com/blog/2019/01/07/introducing-databricks-runtime-5-1-for-machine-learning.html">Introducing Databricks Runtime 5.1 for Machine Learning</a>. A blog post which introduces the latest beta release of Databricks runtime for Machine Learning (version 5.1). The release includes some of the best frameworks for deep learning.</li>
-</ul>
-
-<h2 id="sql-server-2019">SQL Server 2019</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/01/09/how-to-automate-machine-learning-on-sql-server-2019-big-data-clusters/">How to automate machine learning on SQL Server 2019 big data clusters</a>. This post explores how to use automated machine learning (AutoML) to create new machine learning models over data in SQL Server 2019 big data clusters.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/01/09/the-january-release-of-azure-data-studio-is-now-available/">The January release of Azure Data Studio</a>. A post announcing the latest release of <a href="https://github.com/microsoft/azuredatastudio">Azure Data Studio</a>. Go and download it from <a href="https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-ver15">here</a>.</li>
-</ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 
