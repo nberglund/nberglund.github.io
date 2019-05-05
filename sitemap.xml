@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/05/05/interesting-stuff---week-18-2019/</loc>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/04/28/interesting-stuff---week-17-2019/</loc>
     <lastmod>2019-04-28T08:12:38+02:00</lastmod>
   </url>
@@ -1001,7 +1006,7 @@
   
   <url>
     <loc>/tags/.net-core/</loc>
-    <lastmod>2019-03-17T21:16:22+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1385,7 +1390,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1449,13 +1454,13 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/docker/</loc>
-    <lastmod>2018-09-29T12:06:09+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1609,7 +1614,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1819,7 +1824,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1878,6 +1883,12 @@
   </url>
   
   <url>
+    <loc>/tags/pipelinedb/</loc>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/postgres/</loc>
     <lastmod>2018-06-24T20:36:32+02:00</lastmod>
     <priority>0</priority>
@@ -1885,7 +1896,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2011,7 +2022,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
     <priority>0</priority>
   </url>
   
