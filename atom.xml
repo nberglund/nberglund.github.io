@@ -3,10 +3,62 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-05-05T07:13:49+02:00</updated>
+  <updated>2019-05-11T06:39:50+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 19, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/05/11/interesting-stuff---week-19-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-05-11T06:39:50+02:00</updated>
+    <id>http://nielsberglund.com/2019/05/11/interesting-stuff---week-19-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/net-core-is-the-future-of-net/">.NET Core is the Future of .NET</a>. .NET is Dead! Long Live .NET! Somewhat melodramatic, but anyway. So, in this blog post Microsoft announces what almost everyone already knew - that .NET Framework 4.8 is the last major version of .NET Framework. Going forward Microsoft&rsquo;s efforts will be on .NET Core.<br /></li>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-net-5/">Introducing .NET 5</a>. Hot on the heels of the blog post above, announcing the death of .NET Framework, comes this post, laying out the future of .NET Core, .NET 5.</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-diagnostics-improvements-in-net-core-3-0/">Introducing diagnostics improvements in .NET Core 3.0</a>. Yet another .NET Core post. This post discusses a suite of tools that utilize new features in the .NET runtime that makes it easier to diagnose and solve performance problems.</li>
+</ul>
+
+<h2 id="data-science-machine-learning">Data Science / Machine Learning</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/announcing-ml-net-1-0/">Announcing ML.NET 1.0</a>. I have during the last months now and then posted in these &ldquo;roundups&rdquo; about new releases of ML.NET. Microsoft has now released version 1.0 with a lot of interesting new features, and that is what this post is about.</li>
+<li><a href="https://www.infoq.com/presentations/h2o-model-spark">Productionizing H2O Models with Apache Spark</a>. This is an <a href="https://www.infoq.com/">InfoQ</a> presentation demonstrating the creation of pipelines integrating H2O machine learning models and their deployments using Scala or Python.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/news/2019/05/kafka-zeebe-streams-workflows">Event Streams and Workflow Engines – Kafka and Zeebe</a>. An <a href="https://www.infoq.com/">InfoQ</a> discussing how Kafka fits in an Event-Driven Architecture, and how workflow engines can handle complex business processes. The article also mentioned how Zeebe, a new highly scalable workflow engine, can be used with Kafka.</li>
+<li><a href="https://www.confluent.io/blog/apache-kafka-data-access-semantics-consumers-and-membership">Apache Kafka Data Access Semantics: Consumers and Membership</a>. This is an article discussing in detail how the Kafka consumer works. It also talks about consumer groups, how their state is saved, and consistency is ensured. It discusses how consumer groups are managed in a distributed way, and finally, the article looks at the rebalance protocol.</li>
+<li><a href="https://www.confluent.io/blog/journey-to-event-driven-part-4-four-pillars-of-event-streaming-microservices">Journey to Event Driven – Part 4: Four Pillars of Event Streaming Microservices</a>. This is the fourth &ldquo;episode&rdquo; in the &ldquo;Journey to Event Driven&rdquo;. This time the discussion is around the four individual parts that make up event streaming. I cannot wait to hear more about it next week at the Kafka Summit in London!</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 18, 2019]]></title>
@@ -2417,69 +2469,6 @@ JOIN sys.external_library_files ef
 </ul>
 
 <p>If you are attending the conference, please come by and say Hi!</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 3, 2019]]></title>
-    <link href="http://nielsberglund.com/2019/01/20/interesting-stuff---week-3-2019/" rel="alternate" type="text/html"/>
-    <updated>2019-01-20T18:00:59+02:00</updated>
-    <id>http://nielsberglund.com/2019/01/20/interesting-stuff---week-3-2019/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/news/2019/01/rearchitecture-system-success">An Incremental Architecture Approach to Building Systems</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about building systems and how, to avoid over-engineering, we should start with a simple architecture and evolve it as needs arise.</li>
-</ul>
-
-<h2 id="net">.NET</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/news/2019/01/Net-Core-3-System-Data">System.Data in .NET Core 3.0</a>. The first of two <a href="https://www.infoq.com/">InfoQ</a> articles about <code>System.Data</code> in .NET Core 3.0. The article looks at what changes there are in .NET Core 3.0 for <code>System.Data</code>.</li>
-<li><a href="https://www.infoq.com/news/2019/01/Net-Core-3-System-Data-SqlClient">SQL Server and .NET Core 3.0</a>. The second <a href="https://www.infoq.com/">InfoQ</a> article about <code>System.Data</code> in .NET Core 3.0. This time the attention is at <code>System.Data.SqlClient</code>, which is the SQL Server driver.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/stream-processing-part-2-testing-your-streaming-application">Getting Your Feet Wet with Stream Processing – Part 2: Testing Your Streaming Application</a>. The second and last part of a two-part blog series about developing and validating real-time streaming applications. This post looks at how we test streaming applications.</li>
-<li><a href="https://www.infoq.com/articles/distributed-stream-processor-container">Scaling a Distributed Stream Processor in a Containerized Environment</a>. This <a href="https://www.infoq.com/">InfoQ</a> article presents ideas and experiences around scaling a distributed stream processor in Kubernetes. The article discusses how the stream processor should identify the level of resource requirement and scale accordingly.<br /></li>
-</ul>
-
-<h2 id="wind-what-is-niels-doing">WIND (What is Niels Doing)</h2>
-
-<ul>
-<li><a href="/2019/01/17/sql-server-2019--java-with-visual-studio-code/">SQL Server 2019 &amp; Java with Visual Studio Code</a>. A blog-post looking at how we can write SQL Server Java code using <strong>Visual Studio Code</strong>, the <em>VS Code</em>&rsquo;s Java extension, and Maven.</li>
-</ul>
-
-<p>If you are at <a href="https://www.microsoft.com/en-za/ignite-the-tour/Johannesburg"><strong>Microsoft Ignite | The Tour</strong></a> in Johannesburg at the end of the month, please come by and say Hi! I deliver three sessions:</p>
-
-<ul>
-<li><strong>What is That Cup of Coffee Doing in my Database?</strong> - A 15 minutes whirl-wind tour about the new Java language extension in SQL Server 2019.</li>
-<li><strong>SQL Server Machine Learning Services: An E2E platform for machine learning</strong> - A 60-minute break-out session where we look at how SQL Server Machine Learning Services serves as an end-to-end ML platform for customers.</li>
-<li><strong>Deep dive on SQL Server and big data</strong> - A 60-minute break-out session where we do a deep dive behind the technology for big data integration with SQL Server including Kubernetes, Polybase futures, and scalable performance.</li>
-</ul>
 
 <h2 id="finally">~ Finally</h2>
 

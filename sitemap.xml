@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/05/11/interesting-stuff---week-19-2019/</loc>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/05/05/interesting-stuff---week-18-2019/</loc>
     <lastmod>2019-05-05T07:13:49+02:00</lastmod>
   </url>
@@ -1006,7 +1011,7 @@
   
   <url>
     <loc>/tags/.net-core/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1390,7 +1395,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1454,7 +1459,7 @@
   
   <url>
     <loc>/tags/distributed-computing/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1614,7 +1619,7 @@
   
   <url>
     <loc>/tags/kafka/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1633,6 +1638,12 @@
   <url>
     <loc>/tags/kafka-streams/</loc>
     <lastmod>2019-04-07T19:33:23+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/kafkasummit/</loc>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1824,7 +1835,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1896,7 +1907,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2022,7 +2033,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-05-05T07:13:49+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2096,7 +2107,7 @@
   
   <url>
     <loc>/tags/spark/</loc>
-    <lastmod>2019-04-28T08:12:38+02:00</lastmod>
+    <lastmod>2019-05-11T06:39:50+02:00</lastmod>
     <priority>0</priority>
   </url>
   
