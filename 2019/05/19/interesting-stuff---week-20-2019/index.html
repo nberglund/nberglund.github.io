@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 19, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 20, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 19, 2019"/>
-<meta name="twitter:description" content="Kafka &amp; Events, ML.NET, .NET Core, Spark, and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 20, 2019"/>
+<meta name="twitter:description" content="Kafka, .NET Core, H2O, SQL Server 2019 &amp; Java, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 19, 2019" />
-<meta property="og:description" content="Kafka &amp; Events, ML.NET, .NET Core, Spark, and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 20, 2019" />
+<meta property="og:description" content="Kafka, .NET Core, H2O, SQL Server 2019 &amp; Java, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/05/11/interesting-stuff---week-19-2019/" />
+<meta property="og:url" content="/2019/05/19/interesting-stuff---week-20-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-05-11T06:39:50&#43;02:00"/>
+<meta property="article:published_time" content="2019-05-19T16:28:12&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-05-11T06:39:50&#43;02:00"/>
+<meta property="article:modified_time" content="2019-05-19T16:28:12&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 19, 2019</h1>
+    <h1>Interesting Stuff - Week 20, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> May 11, 2019
+      <i class="fas fa-calendar-alt"></i> May 19, 2019
     
     
     
@@ -235,16 +235,16 @@
           <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
-          <a class="post__tag" href="/tags/.net-core">.net core</a>
+          <a class="post__tag" href="/tags/sql-server">sql server</a>
            
       
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/spark">spark</a>
+          <a class="post__tag" href="/tags/.net-core">.net core</a>
            
       
-          <a class="post__tag" href="/tags/kafkasummit">kafkasummit</a>
+          <a class="post__tag" href="/tags/h2o-ai">h2o ai</a>
           
       
     
@@ -284,25 +284,30 @@
 <h2 id="net">.NET</h2>
 
 <ul>
-<li><a href="https://devblogs.microsoft.com/dotnet/net-core-is-the-future-of-net/">.NET Core is the Future of .NET</a>. .NET is Dead! Long Live .NET! Somewhat melodramatic, but anyway. So, in this blog post Microsoft announces what almost everyone already knew - that .NET Framework 4.8 is the last major version of .NET Framework. Going forward Microsoft&rsquo;s efforts will be on .NET Core.<br /></li>
-<li><a href="https://devblogs.microsoft.com/dotnet/introducing-net-5/">Introducing .NET 5</a>. Hot on the heels of the blog post above, announcing the death of .NET Framework, comes this post, laying out the future of .NET Core, .NET 5.</li>
-<li><a href="https://devblogs.microsoft.com/dotnet/introducing-diagnostics-improvements-in-net-core-3-0/">Introducing diagnostics improvements in .NET Core 3.0</a>. Yet another .NET Core post. This post discusses a suite of tools that utilize new features in the .NET runtime that makes it easier to diagnose and solve performance problems.</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/default-implementations-in-interfaces/">Default implementations in interfaces</a>. A blog post introducing a new feature in C# 8.0: default method implementations in interfaces. This comes in real handy if you, for example, want to add new methods to an existing interface.</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/performance-improvements-in-net-core-3-0/">Performance Improvements in .NET Core 3.0</a>. A blog post which takes a tour through some of the many improvements, big and small, that have gone into the .NET Core 3.0 runtime and core libraries in order to make applications and services leaner and faster.</li>
 </ul>
 
-<h2 id="data-science-machine-learning">Data Science / Machine Learning</h2>
+<h2 id="data-science">Data Science</h2>
 
 <ul>
-<li><a href="https://devblogs.microsoft.com/dotnet/announcing-ml-net-1-0/">Announcing ML.NET 1.0</a>. I have during the last months now and then posted in these &ldquo;roundups&rdquo; about new releases of ML.NET. Microsoft has now released version 1.0 with a lot of interesting new features, and that is what this post is about.</li>
-<li><a href="https://www.infoq.com/presentations/h2o-model-spark">Productionizing H2O Models with Apache Spark</a>. This is an <a href="https://www.infoq.com/">InfoQ</a> presentation demonstrating the creation of pipelines integrating H2O machine learning models and their deployments using Scala or Python.</li>
+<li><a href="https://www.infoq.com/presentations/h2o-driverless-ai">H2O&rsquo;s Driverless AI: An AI that Creates AI</a>.  An <a href="https://www.infoq.com/">InfoQ</a> presentation where the presenter shares an approach on automating ML using H2O’s Driverless AI. Driverless AI employs the techniques of expert data scientists in an easy-to-use application that helps scale data science efforts; empowers data scientists to work on projects faster using automation and state-of-the-art computing power from GPUs to accomplish tasks in minutes that used to take months. Very cool!</li>
 </ul>
 
 <h2 id="streaming">Streaming</h2>
 
+<p>I attended the <a href="https://kafka-summit.org/events/kafka-summit-london-2019/">Kafka Summit</a>, in London the week of May 13. The conference was very well organized, and I came away impressed by that. However, I am not that impressed by the speakers at the conference. Don&rsquo;t get me wrong, the Confluent speakers were all top-notch, engaging and presenting interesting concepts. What not impressed me was the 3rd party speakers. In my opinion, the topics were not centred around Kafka, and the speakers were in general, not that engaging.</p>
+
+<p>Anyway, below is a couple of links related to announcements during the conference.</p>
+
 <ul>
-<li><a href="https://www.infoq.com/news/2019/05/kafka-zeebe-streams-workflows">Event Streams and Workflow Engines – Kafka and Zeebe</a>. An <a href="https://www.infoq.com/">InfoQ</a> discussing how Kafka fits in an Event-Driven Architecture, and how workflow engines can handle complex business processes. The article also mentioned how Zeebe, a new highly scalable workflow engine, can be used with Kafka.</li>
-<li><a href="https://www.confluent.io/blog/apache-kafka-data-access-semantics-consumers-and-membership">Apache Kafka Data Access Semantics: Consumers and Membership</a>. This is an article discussing in detail how the Kafka consumer works. It also talks about consumer groups, how their state is saved, and consistency is ensured. It discusses how consumer groups are managed in a distributed way, and finally, the article looks at the rebalance protocol.</li>
-<li><a href="https://www.confluent.io/blog/journey-to-event-driven-part-4-four-pillars-of-event-streaming-microservices">Journey to Event Driven – Part 4: Four Pillars of Event Streaming Microservices</a>. This is the fourth &ldquo;episode&rdquo; in the &ldquo;Journey to Event Driven&rdquo;. This time the discussion is around the four individual parts that make up event streaming. I cannot wait to hear more about it next week at the Kafka Summit in London!</li>
+<li><a href="https://www.confluent.io/blog/announcing-confluent-community-catalyst-program">Announcing the Confluent Community Catalyst Program</a>. The conference started with <a href="https://twitter.com/tlberglund">Tim Berglund</a> announcing the Confluent Community Catalyst Program, an MVP like program for Kafka.</li>
+<li><a href="https://www.confluent.io/blog/introducing-cloud-native-experience-for-apache-kafka-in-confluent-cloud">Introducing a Cloud-Native Experience for Apache Kafka in Confluent Cloud</a>. As part of the keynote, Neha Narkhede, (co-founder of Confluent), announced the availability of Apache Kafka as a service in the cloud. She demonstrated the ease of setting up Kafka in the cloud - 5 seconds to fully functional Kafka! Kafka as a service is initially available on AWS and Google Cloud, let us hope it comes to Azure soon!</li>
 </ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
+
+<p>The CTP 2.5 release of SQL Server 2019 changed a lot regarding the Java language extension and how to write Java code to be executed from <code>sp_execute_external_script</code>. I am at the moment writing a blog post, where I look at the changes to the programming model. I plan to try and publish it in about a week.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -330,16 +335,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/05/05/interesting-stuff---week-18-2019/" class="post--navigation-prev">
+    <a href="/2019/05/11/interesting-stuff---week-19-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Interesting Stuff - Week 18, 2019</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 19, 2019</span>
     </a>
     
-    
-    <a href="/2019/05/19/interesting-stuff---week-20-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 20, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -354,18 +354,18 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2019/05/05/interesting-stuff---week-18-2019/">Interesting Stuff - Week 18, 2019</a>
+    <a href="/2019/05/11/interesting-stuff---week-19-2019/">Interesting Stuff - Week 19, 2019</a>
       
-      <time class="pull-right hidden-tablet">May 05 &#39;19</time>
+      <time class="pull-right hidden-tablet">May 11 &#39;19</time>
       
   </span>
 </li>
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/04/28/interesting-stuff---week-17-2019/">Interesting Stuff - Week 17, 2019</a>
+    <a href="/2019/05/05/interesting-stuff---week-18-2019/">Interesting Stuff - Week 18, 2019</a>
       
-      <time class="pull-right hidden-tablet">Apr 28 &#39;19</time>
+      <time class="pull-right hidden-tablet">May 05 &#39;19</time>
       
   </span>
 </li>
@@ -390,9 +390,9 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
-    <a href="/2019/03/17/interesting-stuff---week-11-2019/">Interesting Stuff - Week 11, 2019</a>
+    <a href="/2019/01/27/interesting-stuff---week-4-2019/">Interesting Stuff - Week 4, 2019</a>
       
-      <time class="pull-right hidden-tablet">Mar 17 &#39;19</time>
+      <time class="pull-right hidden-tablet">Jan 27 &#39;19</time>
       
   </span>
 </li>

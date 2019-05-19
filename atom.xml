@@ -3,10 +3,67 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-05-11T06:39:50+02:00</updated>
+  <updated>2019-05-19T16:28:12+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 20, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/05/19/interesting-stuff---week-20-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-05-19T16:28:12+02:00</updated>
+    <id>http://nielsberglund.com/2019/05/19/interesting-stuff---week-20-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/default-implementations-in-interfaces/">Default implementations in interfaces</a>. A blog post introducing a new feature in C# 8.0: default method implementations in interfaces. This comes in real handy if you, for example, want to add new methods to an existing interface.</li>
+<li><a href="https://devblogs.microsoft.com/dotnet/performance-improvements-in-net-core-3-0/">Performance Improvements in .NET Core 3.0</a>. A blog post which takes a tour through some of the many improvements, big and small, that have gone into the .NET Core 3.0 runtime and core libraries in order to make applications and services leaner and faster.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://www.infoq.com/presentations/h2o-driverless-ai">H2O&rsquo;s Driverless AI: An AI that Creates AI</a>.  An <a href="https://www.infoq.com/">InfoQ</a> presentation where the presenter shares an approach on automating ML using H2O’s Driverless AI. Driverless AI employs the techniques of expert data scientists in an easy-to-use application that helps scale data science efforts; empowers data scientists to work on projects faster using automation and state-of-the-art computing power from GPUs to accomplish tasks in minutes that used to take months. Very cool!</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<p>I attended the <a href="https://kafka-summit.org/events/kafka-summit-london-2019/">Kafka Summit</a>, in London the week of May 13. The conference was very well organized, and I came away impressed by that. However, I am not that impressed by the speakers at the conference. Don&rsquo;t get me wrong, the Confluent speakers were all top-notch, engaging and presenting interesting concepts. What not impressed me was the 3rd party speakers. In my opinion, the topics were not centred around Kafka, and the speakers were in general, not that engaging.</p>
+
+<p>Anyway, below is a couple of links related to announcements during the conference.</p>
+
+<ul>
+<li><a href="https://www.confluent.io/blog/announcing-confluent-community-catalyst-program">Announcing the Confluent Community Catalyst Program</a>. The conference started with <a href="https://twitter.com/tlberglund">Tim Berglund</a> announcing the Confluent Community Catalyst Program, an MVP like program for Kafka.</li>
+<li><a href="https://www.confluent.io/blog/introducing-cloud-native-experience-for-apache-kafka-in-confluent-cloud">Introducing a Cloud-Native Experience for Apache Kafka in Confluent Cloud</a>. As part of the keynote, Neha Narkhede, (co-founder of Confluent), announced the availability of Apache Kafka as a service in the cloud. She demonstrated the ease of setting up Kafka in the cloud - 5 seconds to fully functional Kafka! Kafka as a service is initially available on AWS and Google Cloud, let us hope it comes to Azure soon!</li>
+</ul>
+
+<h2 id="wind-what-is-niels-doing">WIND (What Is Niels Doing)</h2>
+
+<p>The CTP 2.5 release of SQL Server 2019 changed a lot regarding the Java language extension and how to write Java code to be executed from <code>sp_execute_external_script</code>. I am at the moment writing a blog post, where I look at the changes to the programming model. I plan to try and publish it in about a week.</p>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 19, 2019]]></title>
@@ -2402,73 +2459,6 @@ JOIN sys.external_library_files ef
 <p>If you attended the conference and would like to get the slide decks, please <a href="mailto:niels.it.berglund@gmail.com">ping</a> me as I cannot find where to upload them to.</p>
 
 <p>I had a great time at the conference, kudos to the organizers!</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 4, 2019]]></title>
-    <link href="http://nielsberglund.com/2019/01/27/interesting-stuff---week-4-2019/" rel="alternate" type="text/html"/>
-    <updated>2019-01-27T06:36:21+02:00</updated>
-    <id>http://nielsberglund.com/2019/01/27/interesting-stuff---week-4-2019/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="cloud">Cloud</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/microsoft-tfs-azure-devops">Journey to Cloud Architecture</a>. An <a href="https://www.infoq.com/">InfoQ</a> presentation discussing the architectural challenges faced turning TFS into Azure DevOps, the evolution of the architecture, and lessons learned along the way.</li>
-</ul>
-
-<h2 id="misc">Misc.</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/articles/why-architectural-diagrams">Why Do We Need Architectural Diagrams?</a>. An <a href="https://www.infoq.com/">InfoQ</a> article about software architecture diagrams. Software architecture diagrams, when created well, and sparingly, can greatly improve communication within the development team and with external stakeholders. They require an understanding of the intended audience and thoughtful restraint on what to include. Resist the temptation to think that diagrams are unnecessary or unhelpful, simply because there have been plenty of cases of bad diagrams.</li>
-</ul>
-
-<h2 id="azure">Azure</h2>
-
-<ul>
-<li><a href="https://azure.microsoft.com/en-us/blog/hdinsight-tools-for-visual-studio-code-now-generally-available/">HDInsight Tools for Visual Studio Code now generally available</a>. A post announcing GA (general availability) of HDInsight Tools for <strong>VS Code</strong>. Seeing that I have started using <strong>VS CODE</strong> more and more, this is something I need to check out.</li>
-<li><a href="https://azure.microsoft.com/en-us/blog/analyze-data-in-azure-data-explorer-using-kql-magic-for-jupyter-notebook/">Analyze data in Azure Data Explorer using KQL magic for Jupyter Notebook</a>. In this post, Microsoft announces the ability to, from inside a Jupyter Notebook, use <em>Keyword Query Language</em> (KQL) to query and analyze data in Azure Data Explorer. Very cool!</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/confluent-raises-a-125m-series-d-funding-round">Confluent Raises a $125M Series D Funding Round</a>. This blog post is about how Confluent has raised &ldquo;some&rdquo; money from investors, good for them. What is interesting in the post for me is this: <em>We think there is a really fundamental missing ingredient in the software architecture of a company, namely the idea of &ldquo;events&rdquo;. These events are the orders, sales, and customer experiences, that constitute the operation of the business. Databases have long helped to store the current state of the world, but we think this is only half of the story. What is missing is the continually flowing stream of events that represents everything happening in a company, and that can act as the lifeblood of its operation.</em>. This is music to my ears!</li>
-<li><a href="https://www.datasciencecentral.com/profiles/blogs/apache-kafka-ksql-tensorflow-for-data-scientists-via-python">Apache Kafka + KSQL + TensorFlow for Data Scientists via Python + Jupyter Notebook</a>. A very, very interesting post, discussing how to use Kafka and KSQL together with machine learning tools such as Jupyter notebooks, Python, and deep learning frameworks.</li>
-</ul>
-
-<h2 id="msignite-the-tour">MSIgnite | The Tour</h2>
-
-<p>Later today, (Sunday, Jan 27), I am off to Johannesburg and The <strong>MSIgnite | The Tour</strong> conference, where I give some presentations on Monday and Tuesday (Jan 28 and 29):</p>
-
-<ul>
-<li><a href="http://bit.ly/2S3xtg8">What is That Cup of Coffee Doing in my Database</a>: This 15-minute talk takes a look at the new Java integration in SQL Server 2019.</li>
-<li><a href="http://bit.ly/2MvQySO">SQL Server Machine Learning Services: An E2E platform for machine learning</a>: We talk about how SQL Server Machine Learning Services can function as an end-to-end platform for AI and Machine Learning.</li>
-<li><a href="http://bit.ly/2sPvA8E">Deep dive on SQL Server and big data</a>: We look at how SQL Server 2019 Big Data Clusters work.</li>
-</ul>
-
-<p>If you are attending the conference, please come by and say Hi!</p>
 
 <h2 id="finally">~ Finally</h2>
 
