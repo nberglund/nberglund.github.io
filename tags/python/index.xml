@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 21 Apr 2019 11:15:19 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 26 May 2019 07:20:09 +0200</lastBuildDate>
     
 	<atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</title>
+      <link>/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/</link>
+      <pubDate>Sun, 26 May 2019 07:20:09 +0200</pubDate>
+      
+      <guid>/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/</guid>
+      <description>&lt;p&gt;As you may know, a while back I wrote some posts about the support for Java in SQL Server 2019: &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;. The posts covered in some detail how Java in SQL Server worked, and how to write Java code for use in SQL Server. However, a week or two ago &amp;ldquo;the sky came tumbling down&amp;rdquo; when Microsoft released SQL Server 2019 CTP 2.5.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; CTP stands for Community Technology Preview and is like a beta release.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What Microsoft did in CTP 2.5 was to introduce Java Language Extension SDK, and your Java code now needs to inherit an abstract base class from the SDK. This requirement makes a large part of my previous posts &amp;ldquo;null and void&amp;rdquo;, so in this post, we look at what to do going forward.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</title>
@@ -172,19 +189,6 @@
 &lt;/ul&gt;
 
 &lt;p&gt;Ok, let us get into it.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server ML Services - Multiple Input Data Sets</title>
-      <link>/2018/12/24/sql-server-ml-services---multiple-input-data-sets/</link>
-      <pubDate>Mon, 24 Dec 2018 06:51:12 +0200</pubDate>
-      
-      <guid>/2018/12/24/sql-server-ml-services---multiple-input-data-sets/</guid>
-      <description>&lt;p&gt;This post came about due to a question on the &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/home?forum=MicrosoftR&#34;&gt;Microsoft Machine Learning Server&lt;/a&gt; forum. The &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/70e3577c-58f1-40af-9f0b-546c8b181cfa/sql-server-r-services-are-more-input-datasets-planned-or-under-development?forum=MicrosoftR&#34;&gt;question&lt;/a&gt; was if there are any plans by Microsoft to support more the one input dataset (&lt;code&gt;@input_data_1&lt;/code&gt;) in &lt;code&gt;sp_execute_external_script&lt;/code&gt;. My immediate reaction was that if you want more than one dataset, you can always connect from the script back into the database, and retrieve data.&lt;/p&gt;
-
-&lt;p&gt;However, the poster was well aware of that, but due to certain reasons he did not want to do it that way - he wanted to push in the data, fair enough. When I read this, I seemed to remember something from a while ago, where, instead of retrieving data from inside the script, they pushed in the data, serialized it as an output parameter and then used the binary representation as in input parameter (yeah - this sounds confusing, but bear with me). I did some research (read Googling), and found &lt;a href=&#34;https://stackoverflow.com/questions/42918990/how-to-pass-two-sql-tables-as-input-parameter-for-r-codes-in-sql-server&#34;&gt;this&lt;/a&gt; StackOverflow question, and answer. So for future questions, and for me to remember, I decided to write a blog post about it.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

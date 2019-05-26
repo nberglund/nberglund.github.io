@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 21 Apr 2019 11:15:19 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 26 May 2019 07:20:09 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server-machine-learning-services/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</title>
+      <link>/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/</link>
+      <pubDate>Sun, 26 May 2019 07:20:09 +0200</pubDate>
+      
+      <guid>/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/</guid>
+      <description>&lt;p&gt;As you may know, a while back I wrote some posts about the support for Java in SQL Server 2019: &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;. The posts covered in some detail how Java in SQL Server worked, and how to write Java code for use in SQL Server. However, a week or two ago &amp;ldquo;the sky came tumbling down&amp;rdquo; when Microsoft released SQL Server 2019 CTP 2.5.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; CTP stands for Community Technology Preview and is like a beta release.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What Microsoft did in CTP 2.5 was to introduce Java Language Extension SDK, and your Java code now needs to inherit an abstract base class from the SDK. This requirement makes a large part of my previous posts &amp;ldquo;null and void&amp;rdquo;, so in this post, we look at what to do going forward.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Installing R Packages in SQL Server Machine Learning Services - IV: Permissions</title>
@@ -156,25 +173,6 @@
 &lt;p&gt;In SQL Server 2019 Microsoft added the ability to execute custom Java code along the same lines we execute R and Python, and this blog post intends to give an introduction of how to install and enable the Java extension, as well as execute some very basic Java code. In future posts, I drill down how to pass data back and forth between SQL Server and Java.&lt;/p&gt;
 
 &lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server 2019 for Linux in Docker on Windows</title>
-      <link>/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/</link>
-      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
-      
-      <guid>/2018/09/29/sql-server-2019-for-linux-in-docker-on-windows/</guid>
-      <description>&lt;p&gt;By the time I publish this blog post &lt;a href=&#34;https://www.microsoft.com/en-us/ignite&#34;&gt;MS Ignite&lt;/a&gt; is over. During Ignite, Microsoft announced quite a few new things, amongst them &lt;strong&gt;SQL Server 2019&lt;/strong&gt; with a whole lot of new features and functionality.&lt;/p&gt;
-
-&lt;p&gt;I touched briefly on some of them in my &lt;a href=&#34;/2018/09/24/what-is-new-in-sql-server-2019-public-preview/&#34;&gt;What is New in SQL Server 2019 Public Preview&lt;/a&gt; post. A couple of things that caught my eye were that &lt;strong&gt;SQL Server 2019 for Linux&lt;/strong&gt; now supports In-Database analytics, what we know as &lt;strong&gt;SQL Server Machine Learning Services&lt;/strong&gt; (R and Python), as well as the Java language extension.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may ask yourself what the Java language extension is; well, that is the ability to access Java code from T-SQL. It is a little bit like SQLCLR, but it executes outside of the SQL Server memory and process space.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Seeing that I never really have played around with &lt;em&gt;SQL Server for Linux&lt;/em&gt;, mostly due to that in previous versions (2017) it did not have support for In-Database analytics, I thought that now would be a good time to have a look.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
