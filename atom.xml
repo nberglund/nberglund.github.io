@@ -3,10 +3,64 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-05-26T10:02:45+02:00</updated>
+  <updated>2019-06-03T18:29:57+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 22, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/06/03/interesting-stuff---week-22-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-06-03T18:29:57+02:00</updated>
+    <id>http://nielsberglund.com/2019/06/03/interesting-stuff---week-22-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/porting-desktop-apps-to-net-core/">Porting desktop apps to .NET Core</a>. This is a very informative post discussing porting of .NET Framework applications to .NET Core. Seeing that the apps to port can be of different grades of complexity, this first post covers simple use cases, and a follow-up post covers the more complex scenarios.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-ec6f1cb336a9">Apache Spark MLlib Tutorial: Linear Regression</a>. This post is the first part of a tutorial on how to work with MLLib in Apache Spark. For me, this is interesting as I can see us at <a href="/derivco">Derivco</a> start to use Spark.</li>
+</ul>
+
+<h2 id="vs-code">VS Code</h2>
+
+<ul>
+<li><a href="https://blog.usejournal.com/visual-studio-code-for-java-the-ultimate-guide-2019-8de7d2b59902">Visual Studio Code for Java: The Ultimate Guide 2019</a>. I have written a couple of posts where I have used <em>VS Code</em> and Java. However, since I am a .NET guy &ldquo;at heart&rdquo;, the Java ecosystem is a mystery to me, and I have &ldquo;fumbled&rdquo; my way through. I wish I had come across the post I link to here, as it gives you awesome information about how to work with <em>VS Code</em> and Java.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/blog/visual-data-ops-for-apache-kafka-on-azure-hdinsight-powered-by-lenses/">Visual data ops for Apache Kafka on Azure HDInsight, powered by Lenses</a>. This post looks at how you can manage your streaming data operations, from visibility to monitoring, by the use of <a href="https://lenses.io/">Lenses</a>. The post looks at how to do it in Azure, but it is as applicable on-prem as well. Once again, this is interesting to me as, at <a href="/derivco">Derivco</a>, we are great fans of Kafka.</li>
+<li><a href="https://www.confluent.io/blog/deploying-kafka-streams-and-ksql-with-gradle-part-2-managing-ksql-implementations">Deploying Kafka Streams and KSQL with Gradle – Part 2: Managing KSQL Implementations</a>. The second part in a series about how to develop, and deploy Kafka Streams and KSQL parts of streaming applications using <a href="https://gradle.org/">Gradle</a>.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interesting Stuff - Week 21, 2019]]></title>
@@ -2888,60 +2942,6 @@ JOIN sys.external_library_files ef
 <li><a href="https://www.infoq.com/presentations/apache-flink-streaming-app">Patterns of Streaming Applications</a>. This presentation from <a href="https://www.infoq.com/">InfoQ</a> talks about a blueprint for streaming data architectures and a review of desirable features of a streaming engine. The presentation also discusses streaming application patterns and anti-patterns, and use cases and concrete examples using Apache Flink.</li>
 <li><a href="https://www.infoq.com/presentations/wepay-database-streaming">The Whys and Hows of Database Streaming</a>. This <a href="https://www.infoq.com/">InfoQ</a> presentation discusses how database streaming is becoming more and more essential and the many functions that database streaming serves. The presentation also covers challenges faced with streaming peer-to-peer distributed databases.</li>
 </ul>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Interesting Stuff - Week 7, 2019]]></title>
-    <link href="http://nielsberglund.com/2019/02/17/interesting-stuff---week-7-2019/" rel="alternate" type="text/html"/>
-    <updated>2019-02-17T08:20:06+02:00</updated>
-    <id>http://nielsberglund.com/2019/02/17/interesting-stuff---week-7-2019/</id>
-    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
-
-<ul>
-<li>data science</li>
-<li>data in general</li>
-<li>distributed computing</li>
-<li>SQL Server</li>
-<li>transactions (both db as well as non db)</li>
-<li>and other &ldquo;stuff&rdquo;</li>
-</ul>
-
-<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
-
-<p></p>
-
-<h2 id="distributed-computing">Distributed Computing</h2>
-
-<ul>
-<li><a href="https://www.infoq.com/presentations/chaos-engineering-gamedays">Chaos Engineering with Containers</a>. This <a href="https://www.infoq.com/">InfoQ</a> presentation discusses the benefits of using Chaos Engineering to inject failures to make container infrastructure more reliable.</li>
-<li><a href="https://www.infoq.com/presentations/10-kubernetes">The 10 Kubernetes Commandments</a>. The presenters in this <a href="https://www.infoq.com/">InfoQ</a> presentation explore topics from booting Kubernetes clusters to running complex workloads as a list of 10 items. They share ideas that teams can employ to make working Kubernetes less of a chore and more of a way of life.</li>
-<li><a href="https://www.infoq.com/presentations/kubernetes-stateful-containers">The Highs and Lows of Stateful Containers</a>. So far, it has been a lot of containers and <a href="https://www.infoq.com/">InfoQ</a> presentations, and the third item this week is more of the same. In this <a href="https://www.infoq.com/">InfoQ</a> presentation the presenter walks through his experiences of how to reliably run a distributed database on Kubernetes, and optimize its performance. He looks at what kinds of stateful applications can most easily be run in containers, and some pitfalls he encountered along the way.</li>
-</ul>
-
-<h2 id="sql-server">SQL Server</h2>
-
-<ul>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/02/13/the-february-release-of-azure-data-studio-is-now-available/">The February release of Azure Data Studio is now available</a>. I must say that Azure Data Studio (ADS) has grown on me, and now I use it almost exclusively (instead of SQL Server Management Studio). The post I link to here announces the latest release of ADS with quite a few new features. Go and grab it, and see what you think.</li>
-</ul>
-
-<h2 id="streaming">Streaming</h2>
-
-<ul>
-<li><a href="https://www.confluent.io/blog/kafka-connect-jdbc-source-connector-deep-dive">Kafka Connect JDBC Source Connector – Deep Dive</a>. An excellent blog post by <a href="https://twitter.com/rmoff">Robin Moffat</a>, where he drills deep into the inner workings of the Kafka Connect JDBC connector.</li>
-<li><a href="https://www.confluent.io/blog/journey-to-event-driven-part-2-programming-models-event-driven-architecture">Journey to Event Driven – Part 2: Programming Models for the Event-Driven Architecture</a>. In <a href="/2019/02/03/interesting-stuff---week-5-2019/">Interesting Stuff - Week 5, 2019</a> I linked to <a href="https://www.confluent.io/blog/journey-to-event-driven-part-1-why-event-first-thinking-changes-everything">Journey to Event Driven – Part 1: Why Event-First Thinking Changes Everything</a>. This weeks blog post is part 2 of the series, and it looks at different styles of event-driven architectures and compares and contrasts scaling, persistence and runtime models.</li>
-</ul>
-
-<h2 id="azure-force-recon">Azure Force Recon</h2>
-
-<p>I just want to remind you of the <a href="https://www.meetup.com/Azure-Transformation-Labs/events/258705868/">Azure Force Recon</a> boot camp held here in Durban February 23. I have the privilege to do a presentation: <a href="https://www.linkedin.com/feed/update/activity:6500043306041384960/">Live and Die with your Data</a>, where I talk about SQL Server 2019 Big Data Clusters. So, if you do not have anything else to do, sign up and come and hear about Azure!</p>
 
 <h2 id="finally">~ Finally</h2>
 

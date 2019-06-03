@@ -16,23 +16,23 @@
     
     
 
-<title>Interesting Stuff - Week 21, 2019 • Niels Berglund</title>
+<title>Interesting Stuff - Week 22, 2019 • Niels Berglund</title>
 <meta name="description" content="nielsb&#39;s blog :: technology musings about coding and data. Some topics: .NET, SQL Server, Data Science, R, Windows Azure and a lot more">
 <meta name="keywords" content="sql server, c#, distributed computing, data science, microsoft r server, microsoft machine learning server, data science, sql server r services, sql server machine learning services, kafka, flink">
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Interesting Stuff - Week 21, 2019"/>
-<meta name="twitter:description" content="Kafka, Kafka Summit videos, SQL Server 2019, and other interesting topics."/>
+<meta name="twitter:title" content="Interesting Stuff - Week 22, 2019"/>
+<meta name="twitter:description" content="Kafka, VS Code and Java, Spark, and other interesting topics."/>
 
-<meta property="og:title" content="Interesting Stuff - Week 21, 2019" />
-<meta property="og:description" content="Kafka, Kafka Summit videos, SQL Server 2019, and other interesting topics." />
+<meta property="og:title" content="Interesting Stuff - Week 22, 2019" />
+<meta property="og:description" content="Kafka, VS Code and Java, Spark, and other interesting topics." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/05/26/interesting-stuff---week-21-2019/" />
+<meta property="og:url" content="/2019/06/03/interesting-stuff---week-22-2019/" />
 
 
 
-<meta property="article:published_time" content="2019-05-26T10:02:45&#43;02:00"/>
+<meta property="article:published_time" content="2019-06-03T18:29:57&#43;02:00"/>
 
-<meta property="article:modified_time" content="2019-05-26T10:02:45&#43;02:00"/>
+<meta property="article:modified_time" content="2019-06-03T18:29:57&#43;02:00"/>
 
 
 
@@ -202,13 +202,13 @@
             
     <article>
   <header>
-    <h1>Interesting Stuff - Week 21, 2019</h1>
+    <h1>Interesting Stuff - Week 22, 2019</h1>
      
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> May 26, 2019
+      <i class="fas fa-calendar-alt"></i> Jun 3, 2019
     
     
     
@@ -229,28 +229,19 @@
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="post__tag" href="/tags/sql-server">sql server</a>
+          <a class="post__tag" href="/tags/data-science">data science</a>
            
       
-          <a class="post__tag" href="/tags/sql-server-2019">sql server 2019</a>
-           
-      
-          <a class="post__tag" href="/tags/sql-server-extensibility-framework">sql server extensibility framework</a>
+          <a class="post__tag" href="/tags/distributed-computing">distributed computing</a>
            
       
           <a class="post__tag" href="/tags/kafka">kafka</a>
            
       
-          <a class="post__tag" href="/tags/kafka-summit">kafka summit</a>
-           
-      
-          <a class="post__tag" href="/tags/java">java</a>
-           
-      
           <a class="post__tag" href="/tags/vs-code">vs code</a>
            
       
-          <a class="post__tag" href="/tags/maven">maven</a>
+          <a class="post__tag" href="/tags/java">java</a>
           
       
     
@@ -287,23 +278,30 @@
 
 <p></p>
 
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/porting-desktop-apps-to-net-core/">Porting desktop apps to .NET Core</a>. This is a very informative post discussing porting of .NET Framework applications to .NET Core. Seeing that the apps to port can be of different grades of complexity, this first post covers simple use cases, and a follow-up post covers the more complex scenarios.</li>
+</ul>
+
+<h2 id="data-science">Data Science</h2>
+
+<ul>
+<li><a href="https://towardsdatascience.com/apache-spark-mllib-tutorial-ec6f1cb336a9">Apache Spark MLlib Tutorial: Linear Regression</a>. This post is the first part of a tutorial on how to work with MLLib in Apache Spark. For me, this is interesting as I can see us at <a href="/derivco">Derivco</a> start to use Spark.</li>
+</ul>
+
+<h2 id="vs-code">VS Code</h2>
+
+<ul>
+<li><a href="https://blog.usejournal.com/visual-studio-code-for-java-the-ultimate-guide-2019-8de7d2b59902">Visual Studio Code for Java: The Ultimate Guide 2019</a>. I have written a couple of posts where I have used <em>VS Code</em> and Java. However, since I am a .NET guy &ldquo;at heart&rdquo;, the Java ecosystem is a mystery to me, and I have &ldquo;fumbled&rdquo; my way through. I wish I had come across the post I link to here, as it gives you awesome information about how to work with <em>VS Code</em> and Java.</li>
+</ul>
+
 <h2 id="streaming">Streaming</h2>
 
 <ul>
-<li><a href="https://www.confluent.io/blog/schemas-contracts-compatibility">Schemas, Contracts, and Compatibility</a>. This blog post looks at how Kafka together with its schema registry can be used in a microservices environment, potentially as a replacement for REST. Very interesting!</li>
-<li><a href="https://www.confluent.io/blog/kafka-summit-london-2019-session-videos">Kafka Summit London 2019 Session Videos</a>. In last weeks <a href="/2019/05/19/interesting-stuff---week-20-2019/">roundup</a> I mentioned that I had attended the Kafka Summit in London. The organizers have now made all session videos and slides available. So go to the post I link to and look at the sessions that interest you!</li>
+<li><a href="https://azure.microsoft.com/en-us/blog/visual-data-ops-for-apache-kafka-on-azure-hdinsight-powered-by-lenses/">Visual data ops for Apache Kafka on Azure HDInsight, powered by Lenses</a>. This post looks at how you can manage your streaming data operations, from visibility to monitoring, by the use of <a href="https://lenses.io/">Lenses</a>. The post looks at how to do it in Azure, but it is as applicable on-prem as well. Once again, this is interesting to me as, at <a href="/derivco">Derivco</a>, we are great fans of Kafka.</li>
+<li><a href="https://www.confluent.io/blog/deploying-kafka-streams-and-ksql-with-gradle-part-2-managing-ksql-implementations">Deploying Kafka Streams and KSQL with Gradle – Part 2: Managing KSQL Implementations</a>. The second part in a series about how to develop, and deploy Kafka Streams and KSQL parts of streaming applications using <a href="https://gradle.org/">Gradle</a>.</li>
 </ul>
-
-<h2 id="sql-server-2019">SQL Server 2019</h2>
-
-<ul>
-<li><a href="/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/">Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</a>. In SQL Server 2019 CTP 2.5, Microsoft made some changes to requirements for writing Java code to be used by SQL Server. In this post, I look at what those changes are, and what our Java code should look like going forward.</li>
-<li><a href="https://cloudblogs.microsoft.com/sqlserver/2019/05/22/sql-server-2019-community-technology-preview-3-0-is-now-available/">SQL Server 2019 community technology preview 3.0 is now available</a>. The title says it all. Microsoft just released SQL Server 2019 CTP 3.0. Go and get it while it is hot! Oh, above I mentioned about changes in CTP 2.5 impacting how we write Java code for SQL Server. The 3.0 release has some additional changes, so expect a follow-up blog post about that.</li>
-</ul>
-
-<h2 id="next-weeks-roundup">Next Weeks Roundup</h2>
-
-<p>I am away the whole of next week, and not back until Tuesday, June 4. Due to this, the roundup for next week may be delayed for a couple of days.</p>
 
 <h2 id="finally">~ Finally</h2>
 
@@ -331,16 +329,11 @@ To automatically receive more posts like this, please
 
 <div class="post--navigation post--navigation-single">
     
-    <a href="/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/" class="post--navigation-prev">
+    <a href="/2019/05/26/interesting-stuff---week-21-2019/" class="post--navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</span>
+      <span class="navigation-tittle">Interesting Stuff - Week 21, 2019</span>
     </a>
     
-    
-    <a href="/2019/06/03/interesting-stuff---week-22-2019/" class="post--navigation-next">
-      <span class="navigation-tittle">Interesting Stuff - Week 22, 2019</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
@@ -355,33 +348,6 @@ To automatically receive more posts like this, please
         
 <li>
   <span class="list__title--small">
-    <a href="/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/">Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</a>
-      
-      <time class="pull-right hidden-tablet">May 26 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/01/17/sql-server-2019--java-with-visual-studio-code/">SQL Server 2019 &amp; Java with Visual Studio Code</a>
-      
-      <time class="pull-right hidden-tablet">Jan 17 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
-    <a href="/2019/03/17/interesting-stuff---week-11-2019/">Interesting Stuff - Week 11, 2019</a>
-      
-      <time class="pull-right hidden-tablet">Mar 17 &#39;19</time>
-      
-  </span>
-</li>
-
-<li>
-  <span class="list__title--small">
     <a href="/2019/01/27/interesting-stuff---week-4-2019/">Interesting Stuff - Week 4, 2019</a>
       
       <time class="pull-right hidden-tablet">Jan 27 &#39;19</time>
@@ -391,9 +357,36 @@ To automatically receive more posts like this, please
 
 <li>
   <span class="list__title--small">
+    <a href="/2019/01/06/interesting-stuff---christmas-new-year-week-1-2019/">Interesting Stuff - Christmas, New Year, Week 1, 2019</a>
+      
+      <time class="pull-right hidden-tablet">Jan 06 &#39;19</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
     <a href="/2018/12/09/interesting-stuff---week-49/">Interesting Stuff - Week 49</a>
       
       <time class="pull-right hidden-tablet">Dec 09 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2018/12/02/interesting-stuff---week-48/">Interesting Stuff - Week 48</a>
+      
+      <time class="pull-right hidden-tablet">Dec 02 &#39;18</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/2019/05/26/interesting-stuff---week-21-2019/">Interesting Stuff - Week 21, 2019</a>
+      
+      <time class="pull-right hidden-tablet">May 26 &#39;19</time>
       
   </span>
 </li>
