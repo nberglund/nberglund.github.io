@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 26 May 2019 07:20:09 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2019 05:37:52 +0200</lastBuildDate>
     
 	<atom:link href="/categories/sql-server-extensibility-framework/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; External Languages</title>
+      <link>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</link>
+      <pubDate>Thu, 06 Jun 2019 05:37:52 +0200</pubDate>
+      
+      <guid>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</guid>
+      <description>&lt;p&gt;A little while ago I wrote a blog post, &lt;a href=&#34;/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/&#34;&gt;&lt;strong&gt;Java &amp;amp; SQL Server 2019 Extensibility Framework: The Sequel&lt;/strong&gt;&lt;/a&gt;, about changes in SQL Server 2019 CTP 2.5 impacting how we write Java code for use from SQL Server. While I wrote that post, Microsoft released SQL Server 2019 CTP 3.0, and, (surprise, surprise), that release contains more changes affecting Java code in SQL Server.&lt;/p&gt;
+
+&lt;p&gt;This post covers those changes as well as discusses what SQL Server Extensibility Framework and Language Extensions are.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</title>

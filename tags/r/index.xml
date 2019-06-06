@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 26 May 2019 07:20:09 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2019 05:37:52 +0200</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL Server 2019 Extensibility Framework &amp; External Languages</title>
+      <link>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</link>
+      <pubDate>Thu, 06 Jun 2019 05:37:52 +0200</pubDate>
+      
+      <guid>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</guid>
+      <description>&lt;p&gt;A little while ago I wrote a blog post, &lt;a href=&#34;/2019/05/26/java--sql-server-2019-extensibility-framework-the-sequel/&#34;&gt;&lt;strong&gt;Java &amp;amp; SQL Server 2019 Extensibility Framework: The Sequel&lt;/strong&gt;&lt;/a&gt;, about changes in SQL Server 2019 CTP 2.5 impacting how we write Java code for use from SQL Server. While I wrote that post, Microsoft released SQL Server 2019 CTP 3.0, and, (surprise, surprise), that release contains more changes affecting Java code in SQL Server.&lt;/p&gt;
+
+&lt;p&gt;This post covers those changes as well as discusses what SQL Server Extensibility Framework and Language Extensions are.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Java &amp; SQL Server 2019 Extensibility Framework: The Sequel</title>
@@ -165,21 +178,6 @@
       <description>&lt;p&gt;This post came about due to a question on the &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/home?forum=MicrosoftR&#34;&gt;Microsoft Machine Learning Server&lt;/a&gt; forum. The &lt;a href=&#34;https://social.msdn.microsoft.com/Forums/en-US/70e3577c-58f1-40af-9f0b-546c8b181cfa/sql-server-r-services-are-more-input-datasets-planned-or-under-development?forum=MicrosoftR&#34;&gt;question&lt;/a&gt; was if there are any plans by Microsoft to support more the one input dataset (&lt;code&gt;@input_data_1&lt;/code&gt;) in &lt;code&gt;sp_execute_external_script&lt;/code&gt;. My immediate reaction was that if you want more than one dataset, you can always connect from the script back into the database, and retrieve data.&lt;/p&gt;
 
 &lt;p&gt;However, the poster was well aware of that, but due to certain reasons he did not want to do it that way - he wanted to push in the data, fair enough. When I read this, I seemed to remember something from a while ago, where, instead of retrieving data from inside the script, they pushed in the data, serialized it as an output parameter and then used the binary representation as in input parameter (yeah - this sounds confusing, but bear with me). I did some research (read Googling), and found &lt;a href=&#34;https://stackoverflow.com/questions/42918990/how-to-pass-two-sql-tables-as-input-parameter-for-r-codes-in-sql-server&#34;&gt;this&lt;/a&gt; StackOverflow question, and answer. So for future questions, and for me to remember, I decided to write a blog post about it.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>SQL Server 2019 Extensibility Framework &amp; Java - Null Values</title>
-      <link>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</link>
-      <pubDate>Wed, 19 Dec 2018 17:12:39 +0200</pubDate>
-      
-      <guid>/2018/12/19/sql-server-2019-extensibility-framework--java---null-values/</guid>
-      <description>&lt;p&gt;This post is the third post in a series where I look at the Java extension in SQL Server, i.e. the ability to execute Java code from inside SQL Server.&lt;/p&gt;
-
-&lt;p&gt;To see what other posts there are in the series, go to &lt;a href=&#34;/s2k19_ext_framework_java&#34;&gt;&lt;strong&gt;SQL Server 2019 Extensibility Framework &amp;amp; Java&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In this post we look at something related to the &lt;a href=&#34;/2018/12/08/sql-server-2019-extensibility-framework--java---passing-data/&#34;&gt;data passing post&lt;/a&gt;; how to handle null values.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

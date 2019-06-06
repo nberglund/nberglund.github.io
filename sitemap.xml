@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</loc>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/06/03/interesting-stuff---week-22-2019/</loc>
     <lastmod>2019-06-03T18:29:57+02:00</lastmod>
   </url>
@@ -1615,7 +1620,7 @@
   
   <url>
     <loc>/tags/java/</loc>
-    <lastmod>2019-06-03T18:29:57+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1867,7 +1872,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-06-03T18:29:57+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1939,7 +1944,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-06-03T18:29:57+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1981,7 +1986,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2019-05-26T07:20:09+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2005,7 +2010,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2019-05-26T07:20:09+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2223,13 +2228,13 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2019-05-26T10:02:45+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-2019/</loc>
-    <lastmod>2019-05-26T07:20:09+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2289,13 +2294,19 @@
   
   <url>
     <loc>/tags/sql-server-extensibility-framework/</loc>
-    <lastmod>2019-05-26T10:02:45+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sql-server-extensibility-framework/</loc>
-    <lastmod>2019-05-26T07:20:09+02:00</lastmod>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sql-server-language-extensions/</loc>
+    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
     <priority>0</priority>
   </url>
   
