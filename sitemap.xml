@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/06/09/interesting-stuff---week-23-2019/</loc>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/06/06/sql-server-2019-extensibility-framework--external-languages/</loc>
     <lastmod>2019-06-06T05:37:52+02:00</lastmod>
   </url>
@@ -1188,7 +1193,7 @@
   
   <url>
     <loc>/tags/azure-data-studio/</loc>
-    <lastmod>2019-04-21T16:36:40+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1420,7 +1425,7 @@
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-06-03T18:29:57+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1872,7 +1877,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1944,7 +1949,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2070,7 +2075,7 @@
   
   <url>
     <loc>/categories/roundup/</loc>
-    <lastmod>2019-06-03T18:29:57+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2228,7 +2233,7 @@
   
   <url>
     <loc>/tags/sql-server-2019/</loc>
-    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -2294,7 +2299,7 @@
   
   <url>
     <loc>/tags/sql-server-extensibility-framework/</loc>
-    <lastmod>2019-06-06T05:37:52+02:00</lastmod>
+    <lastmod>2019-06-09T06:38:03+02:00</lastmod>
     <priority>0</priority>
   </url>
   
