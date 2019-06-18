@@ -367,7 +367,7 @@
 <p>In <em>Figure 3</em> we see two areas outlined in red, and those two areas have to do with what ports the Kafka broker listens on. In a non-Docker Kafka installation, the port Kafka exposes is typically 9092, and clients, as well as internal components, can connect without any issues. However, in a Docker environment, things are somewhat different, as you have both a Docker internal network, as well as an external network (host machine to Docker containers, for example). That&rsquo;s why we define two <code>ports</code>, (29092 and 9092), and set up two listeners. The <code>broker:29092</code> is for the internal Docker network, and the <code>localhost:9092</code> is for external connections.</p>
 
 <blockquote>
-<p><strong>NOTE:</strong> [Robin Moffat][rmoff], who is a Kafka guru, has written a blog post about port addresses and listeners: <a href="https://rmoff.net/2018/08/02/kafka-listeners-explained/">Kafka Listeners - Explained</a>. If you are interested in Kafka, you should read that post, and whatever else Robin publishes. He knows his stuff!</p>
+<p><strong>NOTE:</strong> <a href="https://twitter.com/rmoff">Robin Moffat</a>, who is a Kafka guru, has written a blog post about port addresses and listeners: <a href="https://rmoff.net/2018/08/02/kafka-listeners-explained/">Kafka Listeners - Explained</a>. If you are interested in Kafka, you should read that post, and whatever else Robin publishes. He knows his stuff!</p>
 </blockquote>
 
 <p>A final word before we install the Docker containers; please do not forget to increase memory for Docker to at least 8Gb:</p>
