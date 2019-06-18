@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>.Net and Kafka</title>
+      <link>/categories/.net-and-kafka/</link>
+      <pubDate>Tue, 18 Jun 2019 04:49:36 +0200</pubDate>
+      
+      <guid>/categories/.net-and-kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Azure Data Studio</title>
       <link>/categories/azure-data-studio/</link>
       <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
@@ -60,7 +69,7 @@
     <item>
       <title>Confluent Platform</title>
       <link>/categories/confluent-platform/</link>
-      <pubDate>Tue, 10 Jul 2018 18:43:48 +0200</pubDate>
+      <pubDate>Tue, 18 Jun 2019 04:49:36 +0200</pubDate>
       
       <guid>/categories/confluent-platform/</guid>
       <description></description>
@@ -87,18 +96,9 @@
     <item>
       <title>Kafka</title>
       <link>/categories/kafka/</link>
-      <pubDate>Tue, 10 Jul 2018 18:43:48 +0200</pubDate>
+      <pubDate>Tue, 18 Jun 2019 04:49:36 +0200</pubDate>
       
       <guid>/categories/kafka/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microsoft Machine Learning Server</title>
-      <link>/categories/microsoft-machine-learning-server/</link>
-      <pubDate>Sat, 29 Sep 2018 12:06:09 +0200</pubDate>
-      
-      <guid>/categories/microsoft-machine-learning-server/</guid>
       <description></description>
     </item>
     
