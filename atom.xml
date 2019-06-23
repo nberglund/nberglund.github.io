@@ -3,10 +3,66 @@
   <title>Niels Berglund</title>
   <link href="http://nielsberglund.com/atom.xml" rel="self"/>
   <link href="http://nielsberglund.com"/>
-  <updated>2019-06-18T04:49:36+02:00</updated>
+  <updated>2019-06-23T16:19:22+02:00</updated>
   <id>http://nielsberglund.com/</id>
   <generator uri="http://gohugo.io/">Hugo</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interesting Stuff - Week 25, 2019]]></title>
+    <link href="http://nielsberglund.com/2019/06/23/interesting-stuff---week-25-2019/" rel="alternate" type="text/html"/>
+    <updated>2019-06-23T16:19:22+02:00</updated>
+    <id>http://nielsberglund.com/2019/06/23/interesting-stuff---week-25-2019/</id>
+    <content type="html"><![CDATA[<p>Throughout the week, I read a lot of blog-posts, articles, and so forth, that has to do with things that interest me:</p>
+
+<ul>
+<li>data science</li>
+<li>data in general</li>
+<li>distributed computing</li>
+<li>SQL Server</li>
+<li>transactions (both db as well as non db)</li>
+<li>and other &ldquo;stuff&rdquo;</li>
+</ul>
+
+<p>This blog-post is the &ldquo;roundup&rdquo; of the things that have been most interesting to me, for the week just ending.</p>
+
+<p></p>
+
+<h2 id="distributed-computing">Distributed Computing</h2>
+
+<ul>
+<li><a href="https://azure.microsoft.com/mediahandler/files/resourcefiles/kubernetes-learning-path/Kubernetes%20Learning%20Path%20version1.0.pdf">50 days from zero to hero with Kubernetes</a>. If you want to get to know Kubernetes this guide is for you! It will help you to get to know the basics of Kubernetes, and you also get hands-on experience with its various components, capabilities, and solutions.</li>
+</ul>
+
+<h2 id="misc">Misc.</h2>
+
+<ul>
+<li><a href="https://www.tbray.org/ongoing/When/201x/2019/06/12/Go-Creeping-In">Go Creeping In</a>. In this post, <a href="https://twitter.com/timbray">Tim Bray</a>, discusses the <a href="https://golang.org/">Go</a> language, and some of its features. Very interesting!</li>
+</ul>
+
+<h2 id="net">.NET</h2>
+
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/the-evolving-infrastructure-of-net-core/">The Evolving Infrastructure of .NET Core</a>. This blog post gives an interesting insight into the infrastructure history behind .NET Core.</li>
+</ul>
+
+<h2 id="streaming">Streaming</h2>
+
+<ul>
+<li><a href="https://www.lightbend.com/blog/managing-streaming-and-queryable-state-in-spark-akka-streams-kafka-streams-flink">Managing Streaming And Queryable State In Spark, Akka Streams, Kafka Streams, And Flink</a>. This post takes a look at the built-in support for state management and queryable state, when available, or how they can be implemented in Apache Spark, Apache Flink, Kafka Streams, and Akka Streams.</li>
+<li><a href="https://medium.com/thousandeyes-engineering/kafka-topics-pitfalls-and-insights-38bafc791a83">Kafka Topics: Pitfalls and Insights</a>. In this post, there are quite a few useful insights about Kafka topics. If you use Kafka in production, you should read this post.</li>
+<li><a href="https://databricks.com/blog/2019/06/18/simplifying-streaming-stock-analysis-using-delta-lake-and-apache-spark-on-demand-webinar-and-faq-now-available.html">Simplifying Streaming Stock Analysis using Delta Lake and Apache Spark</a>. A blog post further expanding on a webinar on how to build streaming systems to analyze stock data in real-time, by using Databricks Delta Lake and Apache Spark.</li>
+<li><a href="/2019/06/18/confluent-platform--kafka-for-a-.net-developer-on-windows/">Confluent Platform &amp; Kafka for a .NET Developer on Windows</a>. This is a blog post by yours truly, where I look at how to run Confluent Kafka in Docker on a Windows machine and how we write .NET Code against it.</li>
+</ul>
+
+<h2 id="finally">~ Finally</h2>
+
+<p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
+    <author>
+      <name>Niels Berglund</name>
+
+    </author>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Confluent Platform &amp; Kafka for a .NET Developer on Windows]]></title>
@@ -3171,374 +3227,6 @@ conn.commit()
 <h2 id="finally">~ Finally</h2>
 
 <p>That&rsquo;s all for this week. I hope you enjoy what I did put together. If you have ideas for what to cover, please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
-    <author>
-      <name>Niels Berglund</name>
-
-    </author>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SQL Server 2019, Java &amp; External Libraries - II]]></title>
-    <link href="http://nielsberglund.com/2019/03/17/sql-server-2019-java--external-libraries---ii/" rel="alternate" type="text/html"/>
-    <updated>2019-03-17T17:13:45+02:00</updated>
-    <id>http://nielsberglund.com/2019/03/17/sql-server-2019-java--external-libraries---ii/</id>
-    <content type="html"><![CDATA[<p>This post is part of the <a href="/s2k19_ext_framework_java"><strong>SQL Server 2019 Extensibility Framework &amp; Java</strong></a> series of posts, and it is the second post discussing SQL Server 2019, Java and the creation and use of external libraries.</p>
-
-<p>In the previous post about external libraries, we said that they were beneficial as they reduced complexities when deploying code, but there were still some caveats. So, in this post, we look at how to overcome those caveats</p>
-
-<p></p>
-
-<h2 id="recap">Recap</h2>
-
-<p>Let us start with a recap of what we covered in the previous post.</p>
-
-<p>In the last post we saw how we can make the use of Java in SQL Server somewhat less complex (permissions, code paths, etc.), by using external libraries.</p>
-
-<p>We create the external library using the DDL statement <code>CREATE EXTERNAL LIBRARY</code>, and we saw in the post that the signature, somewhat simplified, looks like so:</p>
-
-<pre><code class="language-sql">CREATE EXTERNAL LIBRARY library_name  
-[ AUTHORIZATION owner_name ]  
-FROM &lt;file_spec&gt; [ ,...2 ]  
-WITH ( LANGUAGE = &lt;language&gt; )  
-[ ; ]
-</code></pre>
-
-<p><strong>Code Snippet 1:</strong> <em>Signature CREATE EXTERNAL LIBRARY</em></p>
-
-<p>To be able to use external libraries for your Java code, the code need be packaged either in a <code>.jar</code> file or your class files need to be archived into a <code>.zip</code> file. We give the external library a name, in the <code>file_spec</code> we point to where the file resides, and finally, we set the <code>LANGUAGE</code> parameter to <code>Java</code>:</p>
-
-<pre><code class="language-sql">USE JavaTest;
-GO
-
-CREATE EXTERNAL LIBRARY myCalc
-FROM (CONTENT = 'W:\javacodepath\MyCalcJar.jar')
-WITH (LANGUAGE = 'Java');
-</code></pre>
-
-<p><strong>Code Snippet 2:</strong> <em>Create External Library</em></p>
-
-<p>The code we see in <em>Code Snippet 2</em> is fairly self-explanatory, where we name the external library <code>myCalc</code> and the code is at <code>W:\javacodepath\MyCalcJar.jar</code>. What is interesting when creating external libraries for Java is that the name does not matter (apart from that it has to be unique).</p>
-
-<p>To see that it has worked we use catalog views to investigate:</p>
-
-<pre><code class="language-sql">SELECT el.name, el.[language], ef.content
-FROM sys.external_libraries el
-JOIN sys.external_library_files ef
-  ON el.external_library_id = ef.external_library_id
-</code></pre>
-
-<p><strong>Code Snippet 3:</strong> <em>View External Libraries</em></p>
-
-<p>In <em>Code Snippet 3</em> we do a <code>SELECT</code> against <code>sys.external_libraries</code> and <code>sys.external_library_files</code>, and when we execute the result looks like so:</p>
-
-<p><img src="/images/posts/sql_2k19_java_view_ext_lib.png" alt="" /></p>
-
-<p><strong>Figure 1:</strong> <em>External Libraries View</em></p>
-
-<p>We see in <em>Figure 1</em> some information about the external library. The <code>content</code> column outlined in red is interesting in that it contains the binary representation of the external library. This is like assemblies in SQLCLR. They are persisted to system tables and, when needed, loaded from the tables based on the binary representation. External libraries are the same, persisted to system tables, and when needed they are loaded from those tables.</p>
-
-<p>So by loading the code from the database, we no longer need to worry about permissions and where to load the code from. An additional benefit is that the external libraries are database bound. If you backup and restore the database to another machine, the external libraries are there, as opposed to if you load them from a file location.</p>
-
-<p>As good as this is, there is a problem or rather a caveat. What we have done so far requires the code for the external library to be in a location SQL Server can read. I as a developer may not have access to the file system of the SQL box. So in the rest of this post, we look at some options how we can create an external library on a remote SQL Server, where we do not have access to the file system, but we can access the SQL Server instance via SSMS or in my case, <a href="https://github.com/Microsoft/azuredatastudio">Azure Data Studio</a>.</p>
-
-<h2 id="demo-code">Demo Code</h2>
-
-<p>Before diving into what we want to do, let us look at the code we use today (it looks very similar to the code in the previous post):</p>
-
-<pre><code class="language-sql">USE master
-GO
-
-DROP DATABASE IF EXISTS JavaTest;
-GO
-
-DROP DATABASE IF EXISTS JavaTestLocal;
-GO
-
-DROP DATABASE IF EXISTS JavaTestRemote;
-GO
-
-CREATE DATABASE JavaTestLocal;
-GO
-
-CREATE DATABASE JavaTestRemote;
-GO
-</code></pre>
-
-<p><strong>Code Snippet 4:</strong> <em>Create Databases</em></p>
-
-<p>We see in <em>Code Snippet 4</em> how we create a couple of databases. Since I do not have access to a remote SQL Server right now, I emulate the remote SQL by the <code>JavaTestRemote</code> database. Oh, and the first database I drop, that is the one we used in the previous post. We also need some Java code. We assume the code below is in a source file named <code>Calculator.java</code>:</p>
-
-<pre><code class="language-java">public class Calculator {
-    public static short numberOfOutputCols;
-    public static int x;
-    public static int y;
-
-    static public int[] outputDataCol1;
-    static public boolean[][] outputNullMap;
-
-    public static void adder() {
-        numberOfOutputCols = 1;
-        outputDataCol1 = new int[1];
-        outputDataCol1[0] = x + y;
-        outputNullMap = new boolean[1][1];
-    }
-}
-</code></pre>
-
-<p><strong>Code Snippet 5:</strong> <em>Java Calculator</em></p>
-
-<p>The code in <em>Code Snippet 5</em> is the same we used in <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">SQL Server 2019, Java &amp; External Libraries - I</a>. As I mentioned in the <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">last post</a> that if you wonder about the variables in the code, the other posts in the Java <a href="/s2k19_ext_framework_java">series</a> discuss them in detail.</p>
-
-<p>The last thing to do before we can talk about how to solve the issue with having to have access to the file system of the box SQL Server is on is to compile the code in <em>Code Snippet 5</em> and create a <code>.jar</code> for it:</p>
-
-<pre><code class="language-java">$ javac .\Calculator.java
-$ jar -cf MyCalcJar.jar .\Calculator.class
-</code></pre>
-
-<p><strong>Code Snippet 6:</strong> <em>Compile and Create a jar File</em></p>
-
-<p>After running the code in <em>Code Snippet 6</em> we have a <code>.jar</code> file which we use to create the external library.</p>
-
-<h2 id="external-library">External Library</h2>
-
-<p>The question is now how to create the external library on a remote SQL Server instance if we do not have access to the file system on that server? Let us look at <code>CREATE EXTERNAL LIBRARY</code>&rsquo;s signature again (we saw it in the previous <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">post</a>):</p>
-
-<pre><code class="language-sql">CREATE EXTERNAL LIBRARY library_name  
-[ AUTHORIZATION owner_name ]  
-FROM &lt;file_spec&gt; [ ,...2 ]  
-WITH ( LANGUAGE = &lt;language&gt; )  
-[ ; ]  
-</code></pre>
-
-<p><strong>Code Snippet 7:</strong> <em>Signature CREATE EXTERNAL LIBRARY</em></p>
-
-<p>Remember how we said in <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">SQL Server 2019, Java &amp; External Libraries - I</a>, that <code>file_spec</code> points to the content of the package/code, and we saw in <em>Code Snippet 2</em> how we set <code>file_spec</code> to the path of the file.</p>
-
-<p>However, we also said in the last <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">post</a> that <code>file_spec</code> can be a hex literal, similar to what we do when we create assemblies in SQLCLR. The hex literal is the actual binary representation of the package, and if we can get hold of the binary somehow we are &ldquo;golden&rdquo;. So, let us look at a couple of ways we can get hold of the binary package representation:</p>
-
-<ul>
-<li>From a local database.</li>
-<li>Generate binary from code.</li>
-</ul>
-
-<h4 id="local-database">Local Database</h4>
-
-<p>Let us start with a way to get the binary from a local database.</p>
-
-<blockquote>
-<p><strong>NOTE:</strong> This is similar to what we do at <a href="/derivco">Derivco</a> when we generate SQL statements to deploy SQLCLR assemblies.</p>
-</blockquote>
-
-<p>We see in <em>Figure 1</em> the <code>content</code> column, which we said before contains the binary representation of the package. What we do is to log on to the local database <code>JavaTestLocal</code>, and create the external library from the <code>.jar</code> file we created in <em>Code Snippet 6</em>:</p>
-
-<pre><code class="language-sql">USE JavaTestLocal;
-GO
-
-CREATE EXTERNAL LIBRARY myCalc
-FROM (CONTENT = 'W:\javacodepath\MyCalcJar.jar')
-WITH (LANGUAGE = 'Java');
-</code></pre>
-
-<p><strong>Code Snippet 8:</strong> <em>Create Local External Library</em></p>
-
-<p>As SQL Server is installed on my local dev-machine, and SQL Server has access to the <code>W:\javacodepath</code> path, the code in <em>Code Snippet 8</em> executes ok.</p>
-
-<p>We know from <a href="/2019/03/10/sql-server-2019-java--external-libraries---i/">SQL Server 2019, Java &amp; External Libraries - I</a> and from the summary above how the binary representation of the package is stored in the <code>content</code> column of the <code>sys.external_library_files</code> catalog view. Let us grab the content of the <code>content</code> column:</p>
-
-<pre><code class="language-sql">USE JavaTestLocal;
-GO
-
-DECLARE @binrep varbinary(max);
-
-SELECT @binrep = lf.content
-FROM sys.external_library_files lf
-JOIN sys.external_libraries l
-  ON lf.external_library_id = l.external_library_id
-WHERE l.name = 'myCalc';
-
-PRINT @binrep;
-</code></pre>
-
-<p><strong>Code Snippet 9:</strong> <em>Retrieve the Binary Representation</em></p>
-
-<p>We see in <em>Code Snippet 9</em> how we <code>DECLARE</code> a variable <code>@binrep</code> which is a <code>varbinary</code>, and then we <code>SELECT</code> the value of the <code>content</code> column into the variable. We finally <code>PRINT</code> the content of the variable and we get something like so when we execute:</p>
-
-<blockquote>
-<p><strong>EDIT (2019-04-10):</strong> The above method works only with packages with a size less than 8k. See <a href="/2019/04/10/installing-r-packages-in-sql-server-machine-learning-services---iii/">Installing R Packages in SQL Server Machine Learning Services - III</a> for an explanation, and a way around it.</p>
-</blockquote>
-
-<p><img src="/images/posts/sql_2k19_java_ext_lib2_binrep.png" alt="" /></p>
-
-<p><strong>Figure 2:</strong> <em>Binary Representation</em></p>
-
-<p>In <em>Figure 2</em> we see part of the binary value of the package. We copy that into a new query window connected to the remote server and database, and we do a new <code>CREATE EXTERNAL LIBRARY</code>, but instead of a file-path for the <code>CONTENT</code> parameter we paste in the binary representation:</p>
-
-<pre><code class="language-sql">USE JavaTestRemote;
-GO
-
-CREATE EXTERNAL LIBRARY myCalcRemote
-FROM (CONTENT = 0x504B03041400080808007B34684E...)
-WITH (LANGUAGE = 'Java');
-</code></pre>
-
-<p><strong>Code Snippet 10:</strong> <em>Use Binary as CONTENT</em></p>
-
-<p>We see how the <code>CONTENT</code> parameter in <em>Code Snippet 10</em> now contains the binary value of the external library. After we execute the code in <em>Code Snippet 10</em> we test to see that it has worked by executing on the remote SQL Server:</p>
-
-<pre><code class="language-sql">USE JavaTestRemote;
-GO
-
-EXECUTE sp_execute_external_script
-@language = N'Java',
-@script = N'Calculator.adder',
-@params = N'@x int, @y int',
-@x = 21,
-@y = 21;
-</code></pre>
-
-<p><strong>Code Snippet 11:</strong> <em>Execute Against Calculator.adder</em></p>
-
-<p>The result of running the code in <em>Code Snippet 11</em> is:</p>
-
-<p><img src="/images/posts/sql_2k19_java_ext_lib2_queryres1.png" alt="" /></p>
-
-<p><strong>Figure 3:</strong> <em>Result</em></p>
-
-<p>From what we see in <em>Figure 3</em>, everything has worked.</p>
-
-<p>We used the binary representation of an external library on our local SQL Server instance to create an external library on a remote instance. We do this without having access to the remote file system.</p>
-
-<p>That is all well and good, but what if we do not have access to a local SQL Server?</p>
-
-<h4 id="generate-binary-from-code">Generate Binary from Code</h4>
-
-<p>The second way we can get the binary representation is to generate it from code. When I started looking into this post and how to generate the binary representation I first started with C# as I am a .NET guy. However, boy, that was a lot of code (slight exaggeration), and wouldn&rsquo;t it be &ldquo;cool&rdquo; if I could just run a script, and send in a file-path to the package? Everyone told me that Python is what all the &ldquo;cool kids&rdquo; use, so I decided to go with Python, and this is the code I started with:</p>
-
-<pre><code class="language-python">import binascii
-
-filePath = &quot;W:\\javacodepath\\MyCalcJar.jar&quot;
-
-with open(filePath, &quot;rb&quot;) as binaryfile :
-    myArr = binaryfile.read()
-    hex_bytes = '0x' + binascii.hexlify( \
-                       bytearray(myArr)).decode('utf-8')
-
-print(hex_bytes)
-</code></pre>
-
-<p><strong>Code Snippet 12:</strong> <em>Generate Binary from Python</em></p>
-
-<p>When we look at the code in <em>Code Snippet 12</em> we see how:</p>
-
-<ul>
-<li>I <code>import</code> the <code>binascii</code> module which contains a number of methods to convert between binary and various ASCII-encoded binary representations.</li>
-<li>I hardcode (for now) the file-path to where the <code>.jar</code> file is.</li>
-<li>I open the file in binary mode. The <code>&quot;rb&quot;</code> in the <code>open(filePath, &quot;rb&quot;)</code> indicates I want the file as binary.</li>
-<li>I read the file into a byte array (<code>myArr</code>).</li>
-<li>I turn the byte-array into hex representation, and then I print the hex representation.</li>
-</ul>
-
-<p>The code is in a source file named <code>outputBinary.py</code>, and when I execute it from a command prompt I see the following:</p>
-
-<p><img src="/images/posts/sql_2k19_java_ext_lib2_python1.png" alt="" /></p>
-
-<p><strong>Figure 4:</strong> <em>Python Output</em></p>
-
-<p>The (cropped) binary output in <em>Figure 4</em> is the same as we used in <em>Code Snippet 10</em>. We can now copy the output as we see in <em>Figure 4</em> and do exactly what we did before.</p>
-
-<p>However, why do copy and paste when we can connect directly from Python to the remote database and execute <code>CREATE EXTERNAL LIBRARY</code>:</p>
-
-<pre><code class="language-python">import pyodbc
-import binascii
-
-filePath = &quot;W:\\javacodepath\\MyCalcJar.jar&quot;
-extLibName = 'myCalcRemote'
-
-with open(filePath, &quot;rb&quot;) as binaryfile :
-    myArr = binaryfile.read()
-    hex_bytes = '0x' + binascii.hexlify(bytearray(myArr)).decode('utf-8')
-
-# connect to db
-
-dbServer = 'localhost\s2k19_ctp23_1'
-dataBase = 'JavaTestRemote'
-userName = '&lt;some_user_name'
-password = '&lt;some_pwd&gt;'
-
-drvr = '{ODBC Driver 17 for SQL Server}'
-connStr = f'DRIVER={drvr};SERVER={dbServer};DATABASE={dataBase};UID={userName};PWD={password}'
-conn = pyodbc.connect(connStr)
-cursor = conn.cursor()
-
-execStmt = f'CREATE EXTERNAL LIBRARY {extLibName}\n'
-execStmt = execStmt + f'FROM (CONTENT = {hex_bytes})\n'
-execStmt = execStmt + f&quot;WITH (LANGUAGE = 'Java');\n&quot;
-
-cursor.execute(execStmt)
-conn.commit()
-</code></pre>
-
-<p><strong>Code Snippet 13:</strong> <em>Create External Library from Python Code</em></p>
-
-<p>Before we look at the code in <em>Code Snippet 13</em> let us drop the external library we just created in the remote SQL Server instance: <code>DROP EXTERNAL LIBRARY myCalcRemote</code>. This to ensure we are back in a state with no external libraries installed.</p>
-
-<p>So, what do we do in <em>Code Snippet 13</em>? Well, we use the same code as in <em>Code Snippet 12</em> to generate the binary representation, but we do not do a <code>PRINT</code> of it. Instead, we connect to the database using the <code>pyodbc</code> module, and the latest SQL Server ODBC driver. The <code>hex_bytes</code> variable is now a parameter in the <code>CREATE EXTERNAL LIBRARY</code> statement, and we have a hardcoded variable for the name of the external library.</p>
-
-<p>As the code is just sample code, the connection details for the database is also hardcoded. In a real-world scenario, the script should prompt for the various details; file path, name, connection details etc., and assign the inputs to the variables:</p>
-
-<pre><code class="language-python">extLibName = input(&quot;Provide a unique name for \
-                   the external library you want to create: &quot;)
-filePath = input(&quot;Provide full path to the JAR \
-                  file you want to use - \
-                  Example: 'W:\\javacodepath\\myJarFile.jar': &quot;)
-dbServer = input(&quot;Provide name/ip address of your \
-                  database server. If instance also instance name \ 
-                  - Example: 'mydbServer\myInstance: &quot;)
-dataBase = input(&quot;Provide name of the database where you \
-                  want to create the external library: &quot;)
-userName = input(&quot;Provide the user name with which you \
-                   want to connect to the server: &quot;)
-password = input(&quot;Provide password with which to \
-                  connect to the database: &quot;)
-</code></pre>
-
-<p><strong>Code Snippet 14:</strong> <em>Input Variables</em></p>
-
-<p>It is worth noting that the way the script captures the password variable is not particularly secure. Instead of <code>input</code>, we should use <code>getpass</code> or something similar.</p>
-
-<blockquote>
-<p><strong>NOTE:</strong> Unless the user with which you connect is part of <code>db_owner</code>, the user needs explicit permissions to execute <code>CREATE EXTERNAL LIBRARY</code>.</p>
-</blockquote>
-
-<p>To test this, you replace the variables in <em>Code Snippet 13</em> with relevant values for your environment and run the code. The code should run OK, and you have now created an external library in a database in a remote SQL Server (well, in my case an emulated remote SQL Server).</p>
-
-<h2 id="summary">Summary</h2>
-
-<p>In this post, we set out to solve the issue of how to create an external library of some Java code without having access to the filesystem of the SQL Server where we want to create the external library.</p>
-
-<p>We have seen two ways of doing it:</p>
-
-<h4 id="local-datbase">Local Datbase</h4>
-
-<ol>
-<li>Create the external assembly from a file-path in a local SQL Server where we have access to the filesystem (like <code>localhost</code>).</li>
-<li>Copy the binary representation from the <code>content</code> column in <code>sys.external_library_files</code>.</li>
-<li>Assign the copied value to the <code>CONTENT</code> parameter in <code>CREATE EXTERNAL LIBRARY</code>.</li>
-<li>Execute <code>CREATE EXTERNAL LIBRARY</code>.</li>
-</ol>
-
-<h4 id="generate-from-code">Generate from Code</h4>
-
-<ol>
-<li>Write script code which generates the binary representation.</li>
-<li>Follow from step 2 above (local database).</li>
-</ol>
-
-<p>Alternatively, you in addition to generate the binary in the script, connect to the database from inside the script and call <code>CREATE EXTERNAL LIBRARY</code> from the script.</p>
-
-<h2 id="finally">~ Finally</h2>
-
-<p>If you have comments, questions etc., please comment on this post or <a href="mailto:niels.it.berglund@gmail.com">ping</a> me.</p>]]></content>
     <author>
       <name>Niels Berglund</name>
 
